@@ -1,0 +1,48 @@
+import javafx.scene.canvas.Canvas;
+import javafx.scene.canvas.GraphicsContext;
+import javafx.scene.image.Image;;
+
+public class GameThread extends Thread {
+	
+	private GameScene gameScene;
+	private GraphicsContext graphicsContext;
+	private Image image;
+	private boolean running;
+	
+	
+	public GameThread(GameScene gameScene,GraphicsContext graphicsContext,Image sprite) {
+		
+		this.gameScene = gameScene;
+		this.graphicsContext = graphicsContext;
+		this.image = image;
+		this.running = false;
+		
+		
+	}
+	
+	
+	@Override
+	public void run()  {
+
+	        while (this.running) {
+
+	        	graphicsContext.clearRect(0, 0, 1440, 900);
+
+	       
+	            	
+	    			value++;
+	    			
+	    			graphicsContext.drawImage( pacman, value, value );
+	    		    mainStage.setScene(scene);
+
+	          
+	            }
+	            
+	        }
+	    }
+
+	    public void setRunning(boolean running)  {
+
+	        this.running= running;
+	    }
+	}
