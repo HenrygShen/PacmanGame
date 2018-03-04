@@ -1,0 +1,14 @@
+public class Game {
+	
+	
+	public Game() {
+		
+		Image mainCharacter = new Image("")
+		
+	}
+	
+	public void update() {
+		
+		
+	}
+}

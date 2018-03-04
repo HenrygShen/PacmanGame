@@ -7,17 +7,17 @@ public class GameThread extends Thread {
 	
 	private Stage stage;
 	private Scene scene;
-	private GameActivity gameActivity;
+	private GameScene gameScene;
 	private GraphicsContext graphicsContext;
 	private Image sprite;
 	private boolean running;
 
 	int value;
 
-	public GameThread(GameActivity gameActivity,Stage stage,GraphicsContext graphicsContext,Scene scene,Image sprite) {
+	public GameThread(GameScene gameScene,Stage stage,GraphicsContext graphicsContext,Scene scene,Image sprite) {
 		
 		/* Set these variables to reference */
-		this.gameActivity = gameActivity;
+		this.gameScene = gameScene;
 		this.graphicsContext = graphicsContext;
 		this.sprite = sprite;
 		this.stage = stage;

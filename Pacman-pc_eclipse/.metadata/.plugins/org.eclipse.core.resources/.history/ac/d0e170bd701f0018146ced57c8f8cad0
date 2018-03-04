@@ -1,0 +1,9 @@
+import java.util.*;
+
+public interface GameObject {
+	
+    public Rectangle getHitBox();
+
+    public int getX();
+    public int getY();
+}

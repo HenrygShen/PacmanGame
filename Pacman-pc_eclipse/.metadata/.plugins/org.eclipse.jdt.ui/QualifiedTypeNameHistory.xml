@@ -6,8 +6,10 @@
 <fullyQualifiedTypeName name="javafx.scene.text.Font"/>
 <fullyQualifiedTypeName name="javafx.scene.text.FontWeight"/>
 <fullyQualifiedTypeName name="javafx.scene.canvas.GraphicsContext"/>
-<fullyQualifiedTypeName name="javafx.scene.image.Image"/>
 <fullyQualifiedTypeName name="javafx.stage.Stage"/>
 <fullyQualifiedTypeName name="javafx.scene.Scene"/>
 <fullyQualifiedTypeName name="javafx.animation.AnimationTimer"/>
+<fullyQualifiedTypeName name="javafx.application.Platform"/>
+<fullyQualifiedTypeName name="java.util.Random"/>
+<fullyQualifiedTypeName name="javafx.scene.image.Image"/>
 </qualifiedTypeNameHistroy>
