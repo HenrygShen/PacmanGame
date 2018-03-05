@@ -19,7 +19,6 @@ public class Animation {
     }
 
     public boolean isPlaying(){
-    	
         return this.isPlaying;
     }
 

@@ -74,36 +74,28 @@ public class Pacman implements GameObject{
 		}
 		/* UP */
 		if (this.vector == 1) {
-			if (!outOfBounds()) {
-				this.hitBox.setY((int)hitBox.getY() - SPEED);
-			}
+			this.hitBox.setY((int)hitBox.getY() - SPEED);
 			animationManager.playAction(2);
 		}
 		/* DOWN */
 		else if (this.vector == 2) {
-			if (!outOfBounds()) {
-				this.hitBox.setY((int)hitBox.getY() + SPEED);
-			}
+			this.hitBox.setY((int)hitBox.getY() + SPEED);
 			animationManager.playAction(3);
 		}
 		/* LEFT */
 		else if (this.vector == 3) {
-			if (!outOfBounds()) {
-				this.hitBox.setX((int)hitBox.getX() - SPEED);
-			}
+			this.hitBox.setX((int)hitBox.getX() - SPEED);
 			animationManager.playAction(0);
 		}
 		/* RIGHT */
 		else if (this.vector == 4) {
-			if (!outOfBounds()) {
-				this.hitBox.setX((int)hitBox.getX() + SPEED);
-			}
+			this.hitBox.setX((int)hitBox.getX() + SPEED);
 			animationManager.playAction(1);
 		}
 
 	}
 	
-	public boolean outOfBounds() {
+	public boolean checkOutOfBounds() {
 		if (hitBox.getX() >= 1368-50 && getDirection()== 4) {
 			return true;
 		}

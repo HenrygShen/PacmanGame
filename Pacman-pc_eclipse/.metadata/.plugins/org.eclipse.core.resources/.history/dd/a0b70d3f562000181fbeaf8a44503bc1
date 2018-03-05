@@ -1,3 +1,11 @@
+import java.awt.Graphics2D;
+import java.awt.image.BufferedImage;
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.IOException;
+
+import javax.imageio.ImageIO;
+
 import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.image.Image;
 
@@ -6,6 +14,8 @@ public class Pacman implements GameObject{
 	
 	private static final int SPRITE_HEIGHT = 50;
 	private static final int SPRITE_WIDTH = 50;
+	private static final int SPRITE_SHEET_COLS = 2;
+	private static final int SPRITE_SHEET_ROWS = 4;
 	private static final int SPEED = 3;
 	private Rectangle hitBox;
 	private Image sprite;
@@ -17,14 +27,15 @@ public class Pacman implements GameObject{
 
 
 		/* Set up the frame animation for the main character */
-		Image leftC = new Image("leftClosed.png",SPRITE_WIDTH,SPRITE_HEIGHT,false,false);
-		Image leftO = new Image("leftOpen.png",SPRITE_WIDTH,SPRITE_HEIGHT,false,false);
-		Image rightC = new Image("rightClosed.png",SPRITE_WIDTH,SPRITE_HEIGHT,false,false);
-		Image rightO = new Image("rightOpen.png",SPRITE_WIDTH,SPRITE_HEIGHT,false,false);
-		Image upC = new Image("upClosed.png",SPRITE_WIDTH,SPRITE_HEIGHT,false,false);
-		Image upO = new Image("upOpen.png",SPRITE_WIDTH,SPRITE_HEIGHT,false,false);
-		Image downC = new Image("downClosed.png",SPRITE_WIDTH,SPRITE_HEIGHT,false,false);
-		Image downO = new Image("downOpen.png",SPRITE_WIDTH,SPRITE_HEIGHT,false,false);
+		
+		Image leftC = new Image("leftClosed.png",50,50,false,false);
+		Image leftO = new Image("leftOpen.png",50,50,false,false);
+		Image rightC = new Image("rightClosed.png",50,50,false,false);
+		Image rightO = new Image("rightOpen.png",50,50,false,false);
+		Image upC = new Image("upClosed.png",50,50,false,false);
+		Image upO = new Image("upOpen.png",50,50,false,false);
+		Image downC = new Image("downClosed.png",50,50,false,false);
+		Image downO = new Image("downOpen.png",50,50,false,false);
 		
 		Image[] leftMove = new Image[2];
 		leftMove[0] = leftC;
@@ -55,7 +66,8 @@ public class Pacman implements GameObject{
 		
 		animationManager = new AnimationManager(movementAnimations);
 		
-
+		
+		
 		/* Sets up the main character's hit-box */
 		hitBox = new Rectangle();
 		hitBox.setHeight(SPRITE_HEIGHT);
@@ -69,59 +81,34 @@ public class Pacman implements GameObject{
 	public void update() {
 		
 		animationManager.update();
-		if (this.vector == 0) {
-			animationManager.playAction(1);
-		}
+		
 		/* UP */
 		if (this.vector == 1) {
-			if (!outOfBounds()) {
-				this.hitBox.setY((int)hitBox.getY() - SPEED);
-			}
+			this.hitBox.setY((int)hitBox.getY() - SPEED);
 			animationManager.playAction(2);
 		}
 		/* DOWN */
 		else if (this.vector == 2) {
-			if (!outOfBounds()) {
-				this.hitBox.setY((int)hitBox.getY() + SPEED);
-			}
+			this.hitBox.setY((int)hitBox.getY() + SPEED);
 			animationManager.playAction(3);
 		}
 		/* LEFT */
 		else if (this.vector == 3) {
-			if (!outOfBounds()) {
-				this.hitBox.setX((int)hitBox.getX() - SPEED);
-			}
+			this.hitBox.setX((int)hitBox.getX() - SPEED);
 			animationManager.playAction(0);
 		}
 		/* RIGHT */
 		else if (this.vector == 4) {
-			if (!outOfBounds()) {
-				this.hitBox.setX((int)hitBox.getX() + SPEED);
-			}
+			this.hitBox.setX((int)hitBox.getX() + SPEED);
 			animationManager.playAction(1);
 		}
 
 	}
 	
-	public boolean outOfBounds() {
-		if (hitBox.getX() >= 1368-50 && getDirection()== 4) {
-			return true;
-		}
-		else if (hitBox.getX() <=0 && getDirection()== 3) {
-			return true;
-		}
-		else if (hitBox.getY() >=768-50 && getDirection()==2) {
-			return true;
-		}
-		else if (hitBox.getY()  <=0 && getDirection()==1) {
-			return true;
-		}
-		else return false;
-	}
-	
 	public void draw(GraphicsContext graphicsContext) {
 		
 		animationManager.draw(graphicsContext,this.hitBox.getX(),this.hitBox.getY());
+		
 	}
 	
     public Rectangle getHitBox(){

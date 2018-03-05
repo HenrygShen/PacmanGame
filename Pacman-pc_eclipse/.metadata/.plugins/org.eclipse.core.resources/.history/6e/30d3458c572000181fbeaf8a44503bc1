@@ -74,9 +74,7 @@ public class Pacman implements GameObject{
 		}
 		/* UP */
 		if (this.vector == 1) {
-			if (!outOfBounds()) {
-				this.hitBox.setY((int)hitBox.getY() - SPEED);
-			}
+			this.hitBox.setY((int)hitBox.getY() - SPEED);
 			animationManager.playAction(2);
 		}
 		/* DOWN */

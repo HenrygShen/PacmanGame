@@ -29,10 +29,6 @@ public class Animation {
         lastFrame = System.currentTimeMillis();
     }
 
-    public void stopAnimation(){
-       //isPlaying = false;
-    }
-
     public void update(){
         if (!isPlaying){
             return;
