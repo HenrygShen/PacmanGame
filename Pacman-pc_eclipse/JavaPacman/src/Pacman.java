@@ -9,6 +9,7 @@ public class Pacman implements GameObject{
 	private double x;
 	private double y;
 	private Image sprite;
+	private int vector;
 	
 	public Pacman(Image sprite,int x,int y) {
 		
@@ -20,18 +21,29 @@ public class Pacman implements GameObject{
 		hitBox.setY(y);
 		this.x = x;
 		this.y = y;
-		
+		this.vector = 0;
 	
 	}
 	
 	public void update() {
 		
-		this.x += 10;
-		this.y += 10;
-		if (this.y == 900) {
-			this.x = 100;
-			this.y = 100;
+		/* UP */
+		if (this.vector == 1) {
+			this.y -=5;
 		}
+		/* DOWN */
+		else if (this.vector == 2) {
+			this.y +=5;
+		}
+		/* LEFT */
+		else if (this.vector == 3) {
+			this.x -=5;
+		}
+		/* RIGHT */
+		else if (this.vector == 4) {
+			this.x +=5;
+		}
+
 	}
 	
     public Rectangle getHitBox(){
@@ -46,6 +58,30 @@ public class Pacman implements GameObject{
     public double getY() {
     	
     	return this.y;
+    }
+    
+    public void setDirection(int vector) {
+    	
+    	if (this.y >= 768 -100 && vector == 1) {
+    		
+    	}
+    	else if (this.y <=0 && vector == 0) {
+    		
+    	}
+    	else if (this.x >= 1368 -100 && vector == 3) {
+    		
+    	}
+    	else if (this.x <= 100 && vector ==2 ) {
+    		
+    	}
+    	else {
+    		this.vector =vector;
+    	}
+    }
+    
+    public int getDirection() {
+    	
+    	return this.vector;
     }
     
     public Image getImage() {

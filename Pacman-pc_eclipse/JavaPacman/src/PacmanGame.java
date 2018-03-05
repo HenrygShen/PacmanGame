@@ -49,7 +49,7 @@ public class PacmanGame extends Application{
 		
 		/* Open up the platform */
 		gameWindow.setTitle("Pacman");
-		gameWindow.setScene(new Scene(pane, 1440, 900)); 
+		gameWindow.setScene(new Scene(pane, 1366, 768)); 
 		gameWindow.show(); 
 		
 		}

@@ -1,0 +1,52 @@
+import java.util.ArrayList;
+
+import javafx.scene.image.Image;
+
+public class Wall {
+	
+	private ArrayList<Rectangle> wallHitBox;
+	private Image sprite;
+	private int x;
+	private int y;
+	private int direction;
+	private int length;
+	
+	public Wall(Image sprite,int x, int y,int direction,int length) {
+		
+		this.sprite = sprite;
+		this.x = x;
+		this.y = y;
+		this.direction = direction;
+		this.length = length;
+		
+		
+		
+	}
+	
+	public Image getImage() {
+		
+		return this.sprite;
+	}
+	
+	public int getX() {
+		
+		return this.x;
+	}
+	
+	public int getY() {
+		
+		return this.y;
+	}
+	
+	public int getDirection() {
+		
+		return this.direction;
+	}
+	
+	public int getLength() {
+		
+		return this.length;
+	}
+	
+	
+}
