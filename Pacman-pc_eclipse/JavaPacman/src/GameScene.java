@@ -34,7 +34,7 @@ public class GameScene {
 		root = new Group();
 		scene = new Scene(root);
 	    canvas = new Canvas( 1366, 768 );
-	    ImageView iv = new ImageView(new Image("background-main.png"));
+	    ImageView iv = new ImageView(new Image("mapOne.png"));
 	    root.getChildren().add(iv);
 	    root.getChildren().add(canvas);
 	    game = new Game();
@@ -54,6 +54,7 @@ public class GameScene {
 	    	@Override
 	    	public void handle(KeyEvent e) {
 	    	/* switch to switch statements later */
+	    	
 		    	if (e.getCode() == KeyCode.UP) {
 		    		game.getPacman().setDirection(1);
 		    	}
@@ -89,17 +90,19 @@ public class GameScene {
 		
 		 new AnimationTimer() {
 			 	
-		        public void handle(long currentNanoTime)
-		        {
+		        public void handle(long currentNanoTime) {
 		        	
-		        	gc.clearRect(0, 0, 1440, 900);
-
+		        	gc.clearRect(0, 0, 1366, 768);
 		        	game.update();
-		            gc.drawImage(game.getPacman().getImage() , game.getPacman().getX(), game.getPacman().getY() );
+		        	draw(gc);
 
 		        }
 		    }.start();
 		
+	}
+	
+	public void draw(GraphicsContext gc) {
+		game.getPacman().draw(gc);
 	}
 	
 

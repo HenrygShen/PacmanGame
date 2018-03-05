@@ -39,7 +39,7 @@ public class PacmanGame extends Application{
 				
 				/* Starts the game if play is clicked */
 				GameScene gs = new GameScene(gameWindow);
-				gs.setGameMode(1);
+				//gs.setGameMode(1);
 				gs.start();
 				
 				} 

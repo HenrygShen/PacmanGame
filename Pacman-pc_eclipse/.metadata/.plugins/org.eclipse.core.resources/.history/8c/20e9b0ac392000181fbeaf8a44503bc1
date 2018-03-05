@@ -1,0 +1,77 @@
+import javafx.scene.image.Image;
+
+public class Pacman implements GameObject{
+	
+	
+	private static final int SPRITE_HEIGHT = 50;
+	private static final int SPRITE_WIDTH = 50;
+	private static final int SPEED = 3;
+	private Rectangle hitBox;
+	private double x;
+	private double y;
+	private Image sprite;
+	private int vector;
+	
+	public Pacman(Image sprite,int x,int y) {
+		
+		this.sprite = sprite;
+		hitBox = new Rectangle();
+		hitBox.setHeight(SPRITE_HEIGHT);
+		hitBox.setWidth(SPRITE_WIDTH);
+		hitBox.setX(x);
+		hitBox.setY(y);
+		this.x = x;
+		this.y = y;
+		this.vector = 0;
+	
+	}
+	
+	public void update() {
+		
+		/* UP */
+		if (this.vector == 1) {
+			this.hitBox.setY((int)hitBox.getY() - SPEED);
+		}
+		/* DOWN */
+		else if (this.vector == 2) {
+			this.hitBox.setY((int)hitBox.getY() + SPEED);
+		}
+		/* LEFT */
+		else if (this.vector == 3) {
+			this.hitBox.setX((int)hitBox.getX() - SPEED);
+		}
+		/* RIGHT */
+		else if (this.vector == 4) {
+			this.hitBox.setX((int)hitBox.getX() + SPEED);
+		}
+	}
+	
+    public Rectangle getHitBox(){
+    	return this.hitBox;
+    }
+
+    public double getX() {
+    	
+    	return this.hitBox.getX();
+    }
+    
+    public double getY() {
+    	
+    	return this.hitBox.getY();
+    }
+    
+    public void setDirection(int vector) {
+
+    	this.vector = vector;	
+    }
+    
+    public int getDirection() {
+    	
+    	return this.vector;
+    }
+    
+    public Image getImage() {
+    	
+    	return this.sprite;
+    }
+}

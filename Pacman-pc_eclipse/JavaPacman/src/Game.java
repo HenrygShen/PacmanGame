@@ -15,16 +15,17 @@ public class Game {
 	
 	public Game() {
 		
-		Image mainCharacter = new Image("pacman.png");
-		pacman = new Pacman(mainCharacter,30,30);
+		pacman = new Pacman(30,30);
 		walls = new ArrayList<Wall>();
 		FileReader fileReader;
 		try {
-			File folder = new File(".");
+			
+			/* Check what the directory is */
+			/*File folder = new File(".");
 			File[] files = folder.listFiles();
 			for (File file : files) {
 				System.out.println(file.getName());
-			}
+			}*/
 			fileReader = new FileReader("map.txt");
 			BufferedReader bufferedReader = new BufferedReader(fileReader);
 			String line;
@@ -33,7 +34,6 @@ public class Game {
 			//while ((line=bufferedReader.readLine())!=null) {
 			for (int i =0;i<2;i++) {
 				line = bufferedReader.readLine();
-				System.out.println("line" + line);
 				args = line.split(",");
 				x = Integer.parseInt(args[0]);
 				y = Integer.parseInt(args[1]);
