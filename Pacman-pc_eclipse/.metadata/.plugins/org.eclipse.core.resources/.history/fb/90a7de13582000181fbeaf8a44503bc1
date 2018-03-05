@@ -16,25 +16,18 @@ public class AnimationManager {
         if (!animations[animationIndex].isPlaying()){
         	animations[animationIndex].playAnimation();
         }
-        /* Never want to stop animation for now.
-        else {
-        	animations[animationIndex].stopAnimation();
-        }*/
+        
         animationIndex = index;
     }
 
     public void draw(GraphicsContext graphicsContext,double x,double y){
 
-        if (animations[animationIndex].isPlaying()){
         	animations[animationIndex].draw(graphicsContext,x,y);
-        }
     }
 
     public void update(){
 
-        if (animations[animationIndex].isPlaying()){
-        	animations[animationIndex].update();
-        }
+        animations[animationIndex].update();
     }
 
 }

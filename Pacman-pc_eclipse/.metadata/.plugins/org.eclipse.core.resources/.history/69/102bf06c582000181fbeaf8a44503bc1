@@ -22,8 +22,10 @@ public class GameScene {
 	private Group root;
     private Scene scene;
     private Canvas canvas;
-    private GraphicsContext graphicsContext;
+    private GraphicsContext gc;
     private Game game;
+    private ArrayList<Wall> walls;
+    private Rectangle rect;
 
 	public GameScene(Stage mainStage) {
 		
@@ -35,7 +37,16 @@ public class GameScene {
 	    ImageView iv = new ImageView(new Image("mapOne.png"));
 	    root.getChildren().add(iv);
 	    root.getChildren().add(canvas);
-	    graphicsContext = canvas.getGraphicsContext2D();
+	    game = new Game();
+		walls = game.getWalls();
+	    for (Wall w :walls) {
+	    	
+	    	rect = new Rectangle(w.getX(),w.getY(),w.getWidth(),w.getHeight());
+	    	rect.setFill(Color.WHITE);
+	    	
+	    	root.getChildren().add(rect);
+	    }
+	    gc = canvas.getGraphicsContext2D();
 	    
 	    
 
@@ -67,7 +78,8 @@ public class GameScene {
 	public void setGameMode(int gameType) {
 		
 		if (gameType == 1) {
-			game = new Game();
+			/*game = new Game();
+			walls = game.getWalls();*/
 		}
 		
 		
@@ -80,17 +92,17 @@ public class GameScene {
 			 	
 		        public void handle(long currentNanoTime) {
 		        	
-		        	graphicsContext.clearRect(0, 0, 1366, 768);
+		        	gc.clearRect(0, 0, 1366, 768);
 		        	game.update();
-		        	draw(graphicsContext);
+		        	draw(gc);
 
 		        }
 		    }.start();
 		
 	}
 	
-	public void draw(GraphicsContext graphicsContext) {
-		game.getPacman().draw(graphicsContext);
+	public void draw(GraphicsContext gc) {
+		game.getPacman().draw(gc);
 	}
 	
 

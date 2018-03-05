@@ -30,7 +30,7 @@ public class Animation {
     }
 
     public void stopAnimation(){
-       isPlaying = false;
+       //isPlaying = false;
     }
 
     public void update(){

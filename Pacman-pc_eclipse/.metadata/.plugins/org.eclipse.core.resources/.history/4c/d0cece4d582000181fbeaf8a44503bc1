@@ -16,7 +16,7 @@ public class AnimationManager {
         if (!animations[animationIndex].isPlaying()){
         	animations[animationIndex].playAnimation();
         }
-        /* Never want to stop animation for now.
+        /* Never want to stop 
         else {
         	animations[animationIndex].stopAnimation();
         }*/

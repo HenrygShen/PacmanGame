@@ -102,11 +102,6 @@ public class Pacman implements GameObject{
 
 	}
 	
-	public void draw(GraphicsContext graphicsContext) {
-		
-		animationManager.draw(graphicsContext,this.hitBox.getX(),this.hitBox.getY());
-	}
-	
 	public boolean outOfBounds() {
 		if (hitBox.getX() >= 1368-50 && getDirection()== 4) {
 			return true;
@@ -123,7 +118,10 @@ public class Pacman implements GameObject{
 		else return false;
 	}
 	
-
+	public void draw(GraphicsContext graphicsContext) {
+		
+		animationManager.draw(graphicsContext,this.hitBox.getX(),this.hitBox.getY());
+	}
 	
     public Rectangle getHitBox(){
     	
@@ -150,4 +148,8 @@ public class Pacman implements GameObject{
     	return this.vector;
     }
     
+    public Image getImage() {
+    	
+    	return this.sprite;
+    }
 }

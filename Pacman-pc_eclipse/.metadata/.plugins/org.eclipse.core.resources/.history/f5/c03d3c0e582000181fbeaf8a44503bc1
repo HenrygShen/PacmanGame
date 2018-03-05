@@ -18,25 +18,14 @@ public class Animation {
 
     }
 
-    public boolean isPlaying(){
-    	
-        return this.isPlaying;
-    }
-
     public void playAnimation(){
         isPlaying = true;
         frameIndex = 0;
         lastFrame = System.currentTimeMillis();
     }
 
-    public void stopAnimation(){
-       isPlaying = false;
-    }
-
     public void update(){
-        if (!isPlaying){
-            return;
-        }
+
         if  (System.currentTimeMillis() - lastFrame > frameTime * 1000) {
             frameIndex++;
             frameIndex = (frameIndex >= frames.length) ? 0 : frameIndex;
@@ -45,12 +34,8 @@ public class Animation {
     }
 
     public void draw(GraphicsContext graphicsContext,double x, double y){
-        if (!isPlaying){
-            return;
-        }
-        else {
-        	graphicsContext.drawImage(frames[frameIndex],x,y);
-        }
+
+        graphicsContext.drawImage(frames[frameIndex],x,y);
     }
 
 

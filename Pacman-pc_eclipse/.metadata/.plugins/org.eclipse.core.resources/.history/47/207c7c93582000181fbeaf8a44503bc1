@@ -1,6 +1,10 @@
+import java.util.ArrayList;
+
 public class Game {
 	
+	
 	private Pacman pacman;
+	private ArrayList<Wall> walls;
 	
 	public Game() {
 		

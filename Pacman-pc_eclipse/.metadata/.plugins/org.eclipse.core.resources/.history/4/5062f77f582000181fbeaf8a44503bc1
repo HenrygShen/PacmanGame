@@ -38,9 +38,9 @@ public class PacmanGame extends Application{
 			public void handle(ActionEvent event) { 
 				
 				/* Starts the game if play is clicked */
-				GameScene gameScene = new GameScene(gameWindow);
-				gameScene.setGameMode(1);
-				gameScene.start();
+				GameScene gs = new GameScene(gameWindow);
+				gs.setGameMode(1);
+				gs.start();
 				
 				} 
 			}); 

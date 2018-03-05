@@ -30,13 +30,11 @@ public class Animation {
     }
 
     public void stopAnimation(){
-       isPlaying = false;
+       //isPlaying = false;
     }
 
     public void update(){
-        if (!isPlaying){
-            return;
-        }
+
         if  (System.currentTimeMillis() - lastFrame > frameTime * 1000) {
             frameIndex++;
             frameIndex = (frameIndex >= frames.length) ? 0 : frameIndex;

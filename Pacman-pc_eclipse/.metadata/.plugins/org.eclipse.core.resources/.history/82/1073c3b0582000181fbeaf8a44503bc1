@@ -35,7 +35,7 @@ public class GameScene {
 	    ImageView iv = new ImageView(new Image("mapOne.png"));
 	    root.getChildren().add(iv);
 	    root.getChildren().add(canvas);
-	    graphicsContext = canvas.getGraphicsContext2D();
+	    gc = canvas.getGraphicsContext2D();
 	    
 	    
 
@@ -80,17 +80,17 @@ public class GameScene {
 			 	
 		        public void handle(long currentNanoTime) {
 		        	
-		        	graphicsContext.clearRect(0, 0, 1366, 768);
+		        	gc.clearRect(0, 0, 1366, 768);
 		        	game.update();
-		        	draw(graphicsContext);
+		        	draw(gc);
 
 		        }
 		    }.start();
 		
 	}
 	
-	public void draw(GraphicsContext graphicsContext) {
-		game.getPacman().draw(graphicsContext);
+	public void draw(GraphicsContext gc) {
+		game.getPacman().draw(gc);
 	}
 	
 

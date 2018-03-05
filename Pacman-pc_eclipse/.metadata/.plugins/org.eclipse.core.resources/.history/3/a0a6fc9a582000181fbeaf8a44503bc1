@@ -8,6 +8,7 @@ public class Pacman implements GameObject{
 	private static final int SPRITE_WIDTH = 50;
 	private static final int SPEED = 3;
 	private Rectangle hitBox;
+	private Image sprite;
 	private int vector;
 	private AnimationManager animationManager;
 	
@@ -102,11 +103,6 @@ public class Pacman implements GameObject{
 
 	}
 	
-	public void draw(GraphicsContext graphicsContext) {
-		
-		animationManager.draw(graphicsContext,this.hitBox.getX(),this.hitBox.getY());
-	}
-	
 	public boolean outOfBounds() {
 		if (hitBox.getX() >= 1368-50 && getDirection()== 4) {
 			return true;
@@ -123,7 +119,10 @@ public class Pacman implements GameObject{
 		else return false;
 	}
 	
-
+	public void draw(GraphicsContext graphicsContext) {
+		
+		animationManager.draw(graphicsContext,this.hitBox.getX(),this.hitBox.getY());
+	}
 	
     public Rectangle getHitBox(){
     	
@@ -150,4 +149,8 @@ public class Pacman implements GameObject{
     	return this.vector;
     }
     
+    public Image getImage() {
+    	
+    	return this.sprite;
+    }
 }
