@@ -2,36 +2,37 @@ import javafx.scene.canvas.GraphicsContext;
 
 public class AnimationManager {
 
-    private Animation animations;
+    private Animation animations[];
     private int animationIndex;
 
-    public AnimationManager(Animation animations){
+    public AnimationManager(Animation[] animations){
 
         this.animations = animations;
+        
     }
 
     public void playAction(int index){
 
-        if (!animations.isPlaying()){
-            animations.playAnimation();
+        if (!animations[animationIndex].isPlaying()){
+        	animations[animationIndex].playAnimation();
         }
         else {
-            animations.stopAnimation();
+        	animations[animationIndex].stopAnimation();
         }
         animationIndex = index;
     }
 
     public void draw(GraphicsContext graphicsContext,double x,double y){
 
-        if (animations.isPlaying()){
-            animations.draw(graphicsContext,x,y);
+        if (animations[animationIndex].isPlaying()){
+        	animations[animationIndex].draw(graphicsContext,x,y);
         }
     }
 
     public void update(){
 
-        if (animations.isPlaying()){
-            animations.update();
+        if (animations[animationIndex].isPlaying()){
+        	animations[animationIndex].update();
         }
     }
 

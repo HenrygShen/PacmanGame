@@ -15,7 +15,7 @@ public class Game {
 	
 	public Game() {
 		
-		pacman = new Pacman(30,30);
+		pacman = new Pacman(30,334);
 		walls = new ArrayList<Wall>();
 		FileReader fileReader;
 		try {
@@ -70,13 +70,13 @@ public class Game {
 	}
 	
 	private void tempCheck() {
-		if (pacman.getX() >= 1368-100 && pacman.getDirection()== 4) {
+		if (pacman.getX() >= 1368-50 && pacman.getDirection()== 4) {
 			pacman.setDirection(0);
 		}
 		else if (pacman.getX()<=0 && pacman.getDirection()== 3) {
 			pacman.setDirection(0);
 		}
-		else if (pacman.getY()>=768-100 && pacman.getDirection()==2) {
+		else if (pacman.getY()>=768-50 && pacman.getDirection()==2) {
 			pacman.setDirection(0);
 		}
 		else if (pacman.getY() <=0 && pacman.getDirection()==1) {
