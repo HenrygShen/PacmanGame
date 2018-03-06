@@ -1,0 +1,7 @@
+public abstract class GameObject {
+	
+    public Rectangle getHitBox();
+
+    public double getX();
+    public double getY();
+}

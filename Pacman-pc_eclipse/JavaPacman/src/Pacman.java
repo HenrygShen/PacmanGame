@@ -1,13 +1,12 @@
 import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.image.Image;
 
-public class Pacman implements GameObject{
+public class Pacman extends GameObject{
 	
 	
-	private static final int SPRITE_HEIGHT = 50;
-	private static final int SPRITE_WIDTH = 50;
+	private static final int SPRITE_HEIGHT = 30;
+	private static final int SPRITE_WIDTH = 30;
 	private static final int SPEED = 3;
-	private Rectangle hitBox;
 	private int vector;
 	private AnimationManager animationManager;
 	
@@ -123,22 +122,6 @@ public class Pacman implements GameObject{
 		else return false;
 	}
 	
-
-	
-    public Rectangle getHitBox(){
-    	
-    	return this.hitBox;
-    }
-
-    public double getX() {
-    	
-    	return this.hitBox.getX();
-    }
-    
-    public double getY() {
-    	
-    	return this.hitBox.getY();
-    }
     
     public void setDirection(int vector) {
 
@@ -148,6 +131,13 @@ public class Pacman implements GameObject{
     public int getDirection() {
     	
     	return this.vector;
+    }
+    
+    public boolean collidedWith(GameObject object) {
+    	
+    	Rectangle hitBox = object.getHitBox();
+    	
+    	return this.hitBox.intersects(hitBox);
     }
     
 }

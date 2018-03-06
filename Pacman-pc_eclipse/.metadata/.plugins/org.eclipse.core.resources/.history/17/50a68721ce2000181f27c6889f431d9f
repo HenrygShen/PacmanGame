@@ -1,0 +1,22 @@
+public abstract class GameObject {
+	
+	private static final int SPRITE_HEIGHT = 50;
+	private static final int SPRITE_WIDTH = 50;
+	protected Rectangle hitBox;
+	
+	
+    protected Rectangle getHitBox() {
+    	
+    	return this.hitBox;
+    }
+
+    protected double getX() {
+    	
+    	return this.hitBox.getX();
+    }
+    
+    protected double getY() {
+    	
+    	return this.hitBox.getY();
+    }
+}

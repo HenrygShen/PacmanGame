@@ -4,7 +4,6 @@
 <fullyQualifiedTypeName name="javafx.scene.canvas.Canvas"/>
 <fullyQualifiedTypeName name="javafx.scene.text.Font"/>
 <fullyQualifiedTypeName name="javafx.scene.text.FontWeight"/>
-<fullyQualifiedTypeName name="javafx.scene.canvas.GraphicsContext"/>
 <fullyQualifiedTypeName name="javafx.stage.Stage"/>
 <fullyQualifiedTypeName name="javafx.scene.Scene"/>
 <fullyQualifiedTypeName name="javafx.animation.AnimationTimer"/>
@@ -13,12 +12,14 @@
 <fullyQualifiedTypeName name="javafx.scene.input.KeyEvent"/>
 <fullyQualifiedTypeName name="javafx.scene.input.KeyCode"/>
 <fullyQualifiedTypeName name="javafx.event.EventHandler"/>
-<fullyQualifiedTypeName name="javafx.scene.image.Image"/>
 <fullyQualifiedTypeName name="java.io.FileReader"/>
 <fullyQualifiedTypeName name="java.io.BufferedReader"/>
 <fullyQualifiedTypeName name="java.io.IOException"/>
-<fullyQualifiedTypeName name="java.util.ArrayList"/>
 <fullyQualifiedTypeName name="javafx.scene.paint.Paint"/>
 <fullyQualifiedTypeName name="javafx.scene.paint.Color"/>
 <fullyQualifiedTypeName name="java.io.File"/>
+<fullyQualifiedTypeName name="Animation"/>
+<fullyQualifiedTypeName name="javafx.scene.image.Image"/>
+<fullyQualifiedTypeName name="java.util.ArrayList"/>
+<fullyQualifiedTypeName name="javafx.scene.canvas.GraphicsContext"/>
 </qualifiedTypeNameHistroy>

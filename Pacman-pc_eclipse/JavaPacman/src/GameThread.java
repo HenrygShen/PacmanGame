@@ -20,8 +20,6 @@ public class GameThread extends Thread {
 		this.gameScene = gameScene;
 		this.graphicsContext = graphicsContext;
 		this.sprite = sprite;
-		this.stage = stage;
-		value = 50;	
 		this.running = false;
 
 	}
@@ -32,16 +30,7 @@ public class GameThread extends Thread {
 
 		while (this.running) {
 
-			graphicsContext.clearRect(0, 0, 1440, 900);
-
-	    	value++;
-	    	if (value>=1400) {
-	    		value = 100;
-	    	}
-
-	    	graphicsContext.drawImage( sprite, value, value );
-	    	stage.setScene(scene);
-	    	
+			
 	    	}
 	}
 	    

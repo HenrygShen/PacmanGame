@@ -1,9 +1,29 @@
-import java.util.*;
-
-public interface GameObject {
+public abstract class GameObject {
 	
-    public Rectangle getHitBox();
+	protected Rectangle hitBox;
+	
+	
+    protected Rectangle getHitBox() {
+    	
+    	return this.hitBox;
+    }
 
-    public double getX();
-    public double getY();
+    protected double getX() {
+    	
+    	return this.hitBox.getX();
+    }
+    
+    protected double getY() {
+    	
+    	return this.hitBox.getY();
+    }
+    
+    protected void setInvisible() {
+    	
+    }
+    
+    
+    protected int getType() {
+    	return -1;
+    }
 }

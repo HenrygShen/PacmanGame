@@ -1,0 +1,9 @@
+
+public class Pellet extends GameObject {
+	
+	
+	public Pellet(int x,int y) {
+		
+	}
+
+}
