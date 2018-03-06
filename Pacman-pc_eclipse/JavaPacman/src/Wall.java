@@ -31,7 +31,6 @@ public class Wall {
 		wallHitBox.setY(y);
 		
 		
-		
 	}
 
 	
