@@ -19,7 +19,7 @@ public class Game {
 	
 	public Game() {
 		
-		pacman = new Pacman(30,300);
+		pacman = new Pacman(800,300);
 		ghost = new Ghost(300,334);
 		pellets = new ArrayList<Pellet>();
 		objects = new ArrayList<GameObject>();
@@ -33,25 +33,35 @@ public class Game {
 		try {
 			
 			// Always wrap FileReader in BufferedReader.
-			FileReader fileReader = new FileReader("map1.txt");
+			FileReader fileReader = new FileReader("testMap.txt");
 			BufferedReader bufferedReader = new BufferedReader(fileReader);
 			int row =0;
+			int position = 0;
 			while ((line = bufferedReader.readLine()) != null ) {
+				position = 0;
 				for (int i =0;i< line.length();i++) {
-					if (line.charAt(i)==('w')) {
+					if (line.charAt(i)==('0')) {
 						Rectangle rect = new Rectangle();
-						rect.setX(i*TILE_SIZE );
-						rect.setY(row*TILE_SIZE );
-						rect.setWidth(TILE_SIZE);
+						rect.setX(position*TILE_SIZE + 33);
+						rect.setY(row*TILE_SIZE + 34);
+						rect.setWidth(TILE_SIZE );
 						rect.setHeight(TILE_SIZE);
 						Wall wall = new Wall(rect);
 						walls.add(wall);
 						objects.add(wall);
+						position++;
 					}
-					else if (line.charAt(i) == 'p') {
-						Pellet pellet = new Pellet(i*TILE_SIZE,row*TILE_SIZE);
+					else if (line.charAt(i) == 'P') {
+						Pellet pellet = new Pellet(position*TILE_SIZE + 33,row*TILE_SIZE + 34);
 						pellets.add(pellet);
 						objects.add(pellet);
+						position++;
+					}
+					else if (line.charAt(i) == '1' ) {
+						position++;
+					}
+					else {
+						
 					}
 				}
 				row++;

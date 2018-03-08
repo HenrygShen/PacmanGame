@@ -4,8 +4,8 @@ import javafx.scene.image.Image;
 public class Pacman extends GameObject{
 	
 	
-	private static final int SPRITE_HEIGHT = 30;
-	private static final int SPRITE_WIDTH = 30;
+	private static final int SPRITE_HEIGHT = 25;
+	private static final int SPRITE_WIDTH = 25;
 	private static final int SPEED = 3;
 	private int vector;
 	private AnimationManager animationManager;
@@ -16,14 +16,14 @@ public class Pacman extends GameObject{
 
 
 		/* Set up the frame animation for the main character */
-		Image leftC = new Image("leftClosed.png",SPRITE_WIDTH,SPRITE_HEIGHT,false,false);
-		Image leftO = new Image("leftOpen.png",SPRITE_WIDTH,SPRITE_HEIGHT,false,false);
-		Image rightC = new Image("rightClosed.png",SPRITE_WIDTH,SPRITE_HEIGHT,false,false);
-		Image rightO = new Image("rightOpen.png",SPRITE_WIDTH,SPRITE_HEIGHT,false,false);
-		Image upC = new Image("upClosed.png",SPRITE_WIDTH,SPRITE_HEIGHT,false,false);
-		Image upO = new Image("upOpen.png",SPRITE_WIDTH,SPRITE_HEIGHT,false,false);
-		Image downC = new Image("downClosed.png",SPRITE_WIDTH,SPRITE_HEIGHT,false,false);
-		Image downO = new Image("downOpen.png",SPRITE_WIDTH,SPRITE_HEIGHT,false,false);
+		Image leftC = new Image("assets\\Pacman\\leftClosed.png",SPRITE_WIDTH,SPRITE_HEIGHT,false,false);
+		Image leftO = new Image("assets\\Pacman\\leftOpen.png",SPRITE_WIDTH,SPRITE_HEIGHT,false,false);
+		Image rightC = new Image("assets\\Pacman\\rightClosed.png",SPRITE_WIDTH,SPRITE_HEIGHT,false,false);
+		Image rightO = new Image("assets\\Pacman\\rightOpen.png",SPRITE_WIDTH,SPRITE_HEIGHT,false,false);
+		Image upC = new Image("assets\\Pacman\\upClosed.png",SPRITE_WIDTH,SPRITE_HEIGHT,false,false);
+		Image upO = new Image("assets\\Pacman\\upOpen.png",SPRITE_WIDTH,SPRITE_HEIGHT,false,false);
+		Image downC = new Image("assets\\Pacman\\downClosed.png",SPRITE_WIDTH,SPRITE_HEIGHT,false,false);
+		Image downO = new Image("assets\\Pacman\\downOpen.png",SPRITE_WIDTH,SPRITE_HEIGHT,false,false);
 		
 		Image[] leftMove = new Image[2];
 		leftMove[0] = leftC;

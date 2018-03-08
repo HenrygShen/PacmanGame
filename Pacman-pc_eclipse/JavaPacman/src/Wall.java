@@ -10,7 +10,7 @@ public class Wall extends GameObject{
 	public Wall(Rectangle rectangle) {
 		
 		this.wallHitBox = rectangle;
-		this.mapBlock = new Image("mapBlock.png",10,10,false,false);
+		this.mapBlock = new Image("assets\\mapBlock.png",10,10,false,false);
 		this.type = GameObject.TYPE.WALL;
 		this.x = wallHitBox.getX();
 		this.y = wallHitBox.getY();
