@@ -28,6 +28,7 @@ public class Ghost extends GameObject {
 		this.hitBox.setY(y);
 		this.hitBox.setHeight(SPRITE_HEIGHT);
 		this.hitBox.setWidth(SPRITE_WIDTH);
+		this.type = GameObject.TYPE.GHOST;
 		
 	}
 	
@@ -44,11 +45,6 @@ public class Ghost extends GameObject {
 		//graphicsContext.drawImage(image, this.getHitBox().getX(), this.getHitBox().getY());
 	}
 	
-	@Override
-	public int getType() {
-		
-		return 2;
-	}
 	
 	
 }

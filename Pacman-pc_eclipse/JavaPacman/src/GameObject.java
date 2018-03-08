@@ -1,5 +1,14 @@
 public abstract class GameObject {
 	
+	
+	enum TYPE{
+		PELLET,
+		WALL,
+		GHOST
+	}
+	
+	
+	protected TYPE type;
 	protected Rectangle hitBox;
 	
 	
@@ -23,7 +32,8 @@ public abstract class GameObject {
     }
     
     
-    protected int getType() {
-    	return -1;
+    protected TYPE getType() {
+    	
+    	return this.type;
     }
 }

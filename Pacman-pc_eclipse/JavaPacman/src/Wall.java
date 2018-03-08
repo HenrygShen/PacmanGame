@@ -1,71 +1,43 @@
-public class Wall {
+import javafx.scene.canvas.GraphicsContext;
+import javafx.scene.image.Image;
+
+public class Wall extends GameObject{
 	
-	private static final int WALL_THICKNESS = 5;
 	private Rectangle wallHitBox;
-	//private Image sprite;
-	private int x;
-	private int y;
-	private int direction;
-	private int length;
-	
-	public Wall(int x, int y,int direction,int length) {
+	private Image mapBlock;
+	private double x;
+	private double y;
+	public Wall(Rectangle rectangle) {
 		
-		//this.sprite = sprite;
-		this.x = x;
-		this.y = y;
-		this.direction = direction;
-		this.length = length;
-		wallHitBox = new Rectangle();
-		/* Direction = 1 means the wall is vertical
-		 * Direction = 2 means the wall is horizontal 
-		 */
-		if (direction == 1) {
-			wallHitBox.setWidth(WALL_THICKNESS);
-			wallHitBox.setHeight(length);
-		}
-		else {
-			wallHitBox.setWidth(length);
-			wallHitBox.setHeight(WALL_THICKNESS);	
-		}
-		wallHitBox.setX(x);
-		wallHitBox.setY(y);
-		
-		
+		this.wallHitBox = rectangle;
+		this.mapBlock = new Image("mapBlock.png",10,10,false,false);
+		this.type = GameObject.TYPE.WALL;
+		this.x = wallHitBox.getX();
+		this.y = wallHitBox.getY();
+
 	}
 
 	
-	public int getX() {
+	public double getX() {
 		
-		return this.x;
+		return this.wallHitBox.getX();
 	}
 	
-	public int getY() {
+	public double getY() {
 		
-		return this.y;
+		return this.wallHitBox.getY();
 	}
 	
-	
-	public int getHeight() {
-		if (direction == 1) {
-			return length;
-		}
-		else {
-			return WALL_THICKNESS;
-		}
-	}
-	
-	public int getWidth() {
-		if (direction == 1) {
-			return WALL_THICKNESS;
-		}
-		else {
-			return length;
-		}
-	}
 	
 	public Rectangle getHitBox() {
-		
+		 
 		return this.wallHitBox;
+	}
+	
+	public void draw(GraphicsContext graphicsContext) {
+		
+		graphicsContext.drawImage(mapBlock,x,y);
+
 	}
 	
 	

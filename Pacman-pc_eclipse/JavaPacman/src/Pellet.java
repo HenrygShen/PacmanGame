@@ -25,6 +25,7 @@ public class Pellet extends GameObject {
 		hitBox.setY(y);
 		this.x = x;
 		this.y = y;
+		this.type = GameObject.TYPE.PELLET;
 		shouldDraw = true;
 		
 		
@@ -38,11 +39,6 @@ public class Pellet extends GameObject {
 	
 	public void setInvisible() {
 		this.shouldDraw = false;
-	}
-	
-	public int getType() {
-		
-		return 1;
 	}
 
 }

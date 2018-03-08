@@ -1,9 +1,3 @@
-import java.io.BufferedReader;
-import java.io.FileNotFoundException;
-import java.io.FileReader;
-import java.io.IOException;
-import java.util.ArrayList;
-
 import javafx.animation.AnimationTimer;
 import javafx.event.EventHandler;
 import javafx.scene.Group;
@@ -25,7 +19,6 @@ public class GameScene {
     private Canvas canvas;
     private GraphicsContext graphicsContext;
     private Game game;
-    private ArrayList<Rectangle> walls;
 
 	public GameScene(Stage mainStage) {
 		
@@ -33,44 +26,12 @@ public class GameScene {
         
 		root = new Group();
 		scene = new Scene(root);
-	    canvas = new Canvas( 1366, 768 );
-	    ImageView iv = new ImageView(new Image("mapOne.png"));
+	    canvas = new Canvas(1366, 768);
+	    ImageView iv = new ImageView(new Image("background-common_game.png"));
 	    root.getChildren().add(iv);
 	    root.getChildren().add(canvas);
 	    graphicsContext = canvas.getGraphicsContext2D();
-	    
-	    String line = null;
-	    String[] array;
-	    Rectangle rect = new Rectangle();
-	    walls = new ArrayList<Rectangle>();
-	    
-		try {
-			
-			// Always wrap FileReader in BufferedReader.
-			FileReader fileReader = new FileReader("map.txt");
-			BufferedReader bufferedReader = new BufferedReader(fileReader);
-			
-			while ((line = bufferedReader.readLine()) != null ) {
-				array = line.split(",");
-				rect.setX(Integer.parseInt(array[0]));
-				rect.setY(Integer.parseInt(array[1]));
-				rect.setWidth(Integer.parseInt(array[2]));
-				rect.setHeight(Integer.parseInt(array[3]));
-				walls.add(rect);
-			}
-
-			// Always close files.
-			bufferedReader.close();
-		} 
 		
-		catch (FileNotFoundException ex) {
-			System.out.println("Unable to open file '");
-		}
-
-		catch (IOException ex) {
-			System.out.println("Error reading file '");
-		}
-	
 
 	    scene.setOnKeyPressed(new EventHandler<KeyEvent> (){
 	    	@Override
@@ -103,7 +64,6 @@ public class GameScene {
 			game = new Game();
 		}
 		
-		
 	}
 	
 	
@@ -127,6 +87,7 @@ public class GameScene {
 		game.getPacman().draw(graphicsContext);
 		game.getGhost().draw(graphicsContext);
 		game.drawPellets(graphicsContext);
+		game.drawWalls(graphicsContext);
 	}
 	
 

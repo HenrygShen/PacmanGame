@@ -9,6 +9,7 @@ public class Pacman extends GameObject{
 	private static final int SPEED = 3;
 	private int vector;
 	private AnimationManager animationManager;
+	private boolean moving;
 	
 	public Pacman(int x,int y) {
 		
@@ -61,44 +62,17 @@ public class Pacman extends GameObject{
 		hitBox.setX(x);
 		hitBox.setY(y);
 		this.vector = 0;
+		
+		moving = true;
+		
 	
 	}
 	
-	public void update() {
+	public void update() {	
 		
 		animationManager.update();
-		if (this.vector == 0) {
-			animationManager.playAction(1);
-		}
-		/* UP */
-		if (this.vector == 1) {
-			if (!outOfBounds()) {
-				this.hitBox.setY((int)hitBox.getY() - SPEED);
-			}
-			animationManager.playAction(2);
-		}
-		/* DOWN */
-		else if (this.vector == 2) {
-			if (!outOfBounds()) {
-				this.hitBox.setY((int)hitBox.getY() + SPEED);
-			}
-			animationManager.playAction(3);
-		}
-		/* LEFT */
-		else if (this.vector == 3) {
-			if (!outOfBounds()) {
-				this.hitBox.setX((int)hitBox.getX() - SPEED);
-			}
-			animationManager.playAction(0);
-		}
-		/* RIGHT */
-		else if (this.vector == 4) {
-			if (!outOfBounds()) {
-				this.hitBox.setX((int)hitBox.getX() + SPEED);
-			}
-			animationManager.playAction(1);
-		}
-
+		changeMovement();
+		playAnimation();
 	}
 	
 	public void draw(GraphicsContext graphicsContext) {
@@ -135,9 +109,90 @@ public class Pacman extends GameObject{
     
     public boolean collidedWith(GameObject object) {
     	
+    	
     	Rectangle hitBox = object.getHitBox();
     	
     	return this.hitBox.intersects(hitBox);
     }
     
+    public boolean collidedWithWall(Rectangle rect) {
+    	
+    	return this.hitBox.intersects(rect);
+    }
+    
+    public void setMoving(boolean movement) {
+    	
+    	moving = movement;
+    }
+    
+    public void changeMovement() {
+    	
+    	if (moving == true) {
+    		/* UP */
+    		if (this.vector == 1) {
+				if (!outOfBounds()) {
+					this.hitBox.setY((int)hitBox.getY() - SPEED);
+				}
+			}
+			/* DOWN */
+			else if (this.vector == 2) {
+				if (!outOfBounds()) {
+					this.hitBox.setY((int)hitBox.getY() + SPEED);
+				}
+			}
+			/* LEFT */
+			else if (this.vector == 3) {
+				if (!outOfBounds()) {
+					this.hitBox.setX((int)hitBox.getX() - SPEED);
+				}
+			}
+			/* RIGHT */
+			else if (this.vector == 4) {
+				if (!outOfBounds()) {
+					this.hitBox.setX((int)hitBox.getX() + SPEED);
+				}
+			}
+    	}
+    }
+    
+    public void playAnimation() {
+    	if (this.vector == 0) {
+			animationManager.playAction(1);
+		}
+		/* UP */
+		if (this.vector == 1) {
+			animationManager.playAction(2);
+		}
+		/* DOWN */
+		else if (this.vector == 2) {
+			animationManager.playAction(3);
+		}
+		/* LEFT */
+		else if (this.vector == 3) {
+			animationManager.playAction(0);
+		}
+		/* RIGHT */
+		else if (this.vector == 4) {
+			animationManager.playAction(1);
+		}
+    }
+    
+   public void resetPosition() {
+		/* UP */
+		if (this.vector == 1) {
+			this.hitBox.setY((int)hitBox.getY() + SPEED);
+		}
+		/* DOWN */
+		else if (this.vector == 2) {
+			this.hitBox.setY((int)hitBox.getY() - SPEED);
+		}
+		/* LEFT */
+		else if (this.vector == 3) {
+			this.hitBox.setX((int)hitBox.getX() + SPEED);
+		}
+		/* RIGHT */
+		else if (this.vector == 4) {
+			this.hitBox.setX((int)hitBox.getX() - SPEED);
+		}
+    }
 }
