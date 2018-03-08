@@ -1,3 +1,5 @@
+import javafx.scene.canvas.GraphicsContext;
+
 public abstract class GameObject {
 	
 	
@@ -31,6 +33,9 @@ public abstract class GameObject {
     	
     }
     
+    protected void draw(GraphicsContext graphicsContext) {
+    	
+    }
     
     protected TYPE getType() {
     	

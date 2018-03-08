@@ -12,8 +12,6 @@ public class Game {
 	private Pacman pacman;
 	private Ghost ghost;
 	
-	private ArrayList<Pellet> pellets;
-	private ArrayList<Wall> walls;
 	private ArrayList<GameObject> objects;
 	
 	
@@ -21,19 +19,15 @@ public class Game {
 		
 		pacman = new Pacman(800,300);
 		ghost = new Ghost(300,334);
-		pellets = new ArrayList<Pellet>();
 		objects = new ArrayList<GameObject>();
 		
 		String line = null;
 
-	    walls = new ArrayList<Wall>();
-		
-	    
-		
+	
 		try {
 			
 			// Always wrap FileReader in BufferedReader.
-			FileReader fileReader = new FileReader("testMap.txt");
+			FileReader fileReader = new FileReader("testmap.txt");
 			BufferedReader bufferedReader = new BufferedReader(fileReader);
 			int row =0;
 			int position = 0;
@@ -47,13 +41,11 @@ public class Game {
 						rect.setWidth(TILE_SIZE );
 						rect.setHeight(TILE_SIZE);
 						Wall wall = new Wall(rect);
-						walls.add(wall);
 						objects.add(wall);
 						position++;
 					}
 					else if (line.charAt(i) == 'P') {
 						Pellet pellet = new Pellet(position*TILE_SIZE + 33,row*TILE_SIZE + 34);
-						pellets.add(pellet);
 						objects.add(pellet);
 						position++;
 					}
@@ -82,31 +74,37 @@ public class Game {
 	}
 	
 	public void update() {
-
+		
+		
 		pacman.update();
+		pacman.checkforQueuedAction();
+		ghost.update();
 		checkCollisions();
+		
 	}
 	
 	private void checkCollisions() {
 		
-		int count = 0;
+		boolean crashed = false;
 		
 		for (GameObject object : objects) {
 		
 			if (pacman.collidedWith(object)) {
 				if (object.getType() == GameObject.TYPE.PELLET) {
-					object.setInvisible();
+					objects.remove(object);
+					break;
 				}
 				else if (object.getType() == GameObject.TYPE.WALL) {
 					pacman.setMoving(false);
 					pacman.resetPosition();
-					count++;
+					crashed = true;
+					break;
 				}
 			}
 
 		}
 		
-		if (count == 0) {
+		if (!crashed) {
 			pacman.setMoving(true);
 		}
 	}
@@ -123,18 +121,12 @@ public class Game {
 		return this.ghost;
 	}
 	
-	public void drawWalls(GraphicsContext graphicsContext) {
+	public void drawObjects(GraphicsContext graphicsContext) {
 		
-		for (Wall w : walls) {
-			w.draw(graphicsContext);
+		for (GameObject object : objects) {
+			object.draw(graphicsContext);
 		}
 	}
-	
-	public void drawPellets(GraphicsContext graphicsContext) {
-		
-		for (Pellet p : pellets) {
-			p.draw(graphicsContext);
-		}
-	}
+
 
 }

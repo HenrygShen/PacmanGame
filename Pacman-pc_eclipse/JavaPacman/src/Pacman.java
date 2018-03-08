@@ -10,6 +10,7 @@ public class Pacman extends GameObject{
 	private int vector;
 	private AnimationManager animationManager;
 	private boolean moving;
+	private int queuedDirection;
 	
 	public Pacman(int x,int y) {
 		
@@ -79,26 +80,10 @@ public class Pacman extends GameObject{
 		
 		animationManager.draw(graphicsContext,this.hitBox.getX(),this.hitBox.getY());
 	}
-	
-	public boolean outOfBounds() {
-		if (hitBox.getX() >= 1368-50 && getDirection()== 4) {
-			return true;
-		}
-		else if (hitBox.getX() <=0 && getDirection()== 3) {
-			return true;
-		}
-		else if (hitBox.getY() >=768-50 && getDirection()==2) {
-			return true;
-		}
-		else if (hitBox.getY()  <=0 && getDirection()==1) {
-			return true;
-		}
-		else return false;
-	}
-	
     
     public void setDirection(int vector) {
-
+    	
+    	this.queuedDirection = vector;
     	this.vector = vector;	
     }
     
@@ -125,32 +110,31 @@ public class Pacman extends GameObject{
     	moving = movement;
     }
     
+    public void checkforQueuedAction() {
+    	
+    	
+    }
+    
+    
     public void changeMovement() {
     	
     	if (moving == true) {
+    		
     		/* UP */
     		if (this.vector == 1) {
-				if (!outOfBounds()) {
-					this.hitBox.setY((int)hitBox.getY() - SPEED);
-				}
+				this.hitBox.setY((int)hitBox.getY() - SPEED);
 			}
 			/* DOWN */
 			else if (this.vector == 2) {
-				if (!outOfBounds()) {
-					this.hitBox.setY((int)hitBox.getY() + SPEED);
-				}
+				this.hitBox.setY((int)hitBox.getY() + SPEED);
 			}
 			/* LEFT */
 			else if (this.vector == 3) {
-				if (!outOfBounds()) {
-					this.hitBox.setX((int)hitBox.getX() - SPEED);
-				}
+				this.hitBox.setX((int)hitBox.getX() - SPEED);
 			}
 			/* RIGHT */
 			else if (this.vector == 4) {
-				if (!outOfBounds()) {
-					this.hitBox.setX((int)hitBox.getX() + SPEED);
-				}
+				this.hitBox.setX((int)hitBox.getX() + SPEED);
 			}
     	}
     }

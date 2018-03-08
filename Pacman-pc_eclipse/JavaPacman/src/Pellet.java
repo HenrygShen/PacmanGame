@@ -8,7 +8,7 @@ public class Pellet extends GameObject {
 	
 	
 	private Image image;
-	private boolean shouldDraw;
+
 	int x;
 	int y;
 	
@@ -26,19 +26,13 @@ public class Pellet extends GameObject {
 		this.x = x;
 		this.y = y;
 		this.type = GameObject.TYPE.PELLET;
-		shouldDraw = true;
-		
 		
 	}
 	
 	public void draw(GraphicsContext graphicsContext) {
-		if (shouldDraw) {
-			graphicsContext.drawImage(image, x,y);
-		}
+		
+		graphicsContext.drawImage(image, x,y);
 	}
 	
-	public void setInvisible() {
-		this.shouldDraw = false;
-	}
-
+	
 }

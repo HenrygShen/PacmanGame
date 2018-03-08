@@ -27,7 +27,7 @@ public class GameScene {
 		root = new Group();
 		scene = new Scene(root);
 	    canvas = new Canvas(1366, 768);
-	    ImageView iv = new ImageView(new Image("background-common_game.png"));
+	    ImageView iv = new ImageView(new Image("bg\\background-common_game.png"));
 	    root.getChildren().add(iv);
 	    root.getChildren().add(canvas);
 	    graphicsContext = canvas.getGraphicsContext2D();
@@ -86,8 +86,7 @@ public class GameScene {
 		
 		game.getPacman().draw(graphicsContext);
 		game.getGhost().draw(graphicsContext);
-		game.drawPellets(graphicsContext);
-		game.drawWalls(graphicsContext);
+		game.drawObjects(graphicsContext);
 	}
 	
 

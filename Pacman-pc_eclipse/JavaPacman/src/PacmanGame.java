@@ -24,12 +24,12 @@ public class PacmanGame extends Application{
 		StackPane pane = new StackPane();
 		
 		/* Load the main menu background */
-		Image mainMenuBackground = new Image("background-main.png");
+		Image mainMenuBackground = new Image("bg\\background-main.png");
 		ImageView iv = new ImageView(mainMenuBackground);
 		pane.getChildren().add(iv);
 		
 		/* Set up the play button image and make it listen to click events */
-		Image playImage = new Image("button-play.png",150,100,false,false);
+		Image playImage = new Image("assets\\button-play.png",150,100,false,false);
 		Button playBtn = new Button("",new ImageView(playImage));
 		
 		playBtn.setOnAction(new EventHandler<ActionEvent>() { 
