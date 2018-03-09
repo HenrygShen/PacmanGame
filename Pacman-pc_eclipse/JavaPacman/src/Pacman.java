@@ -6,7 +6,7 @@ public class Pacman extends GameObject{
 	
 	private static final int SPRITE_HEIGHT = 25;
 	private static final int SPRITE_WIDTH = 25;
-	private static final int SPEED = 3;
+	private static final int SPEED = 2;
 	private int vector;
 	private AnimationManager animationManager;
 	private boolean moving;

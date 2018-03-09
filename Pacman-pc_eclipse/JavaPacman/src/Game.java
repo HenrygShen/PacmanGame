@@ -1,16 +1,21 @@
 import java.io.BufferedReader;
+import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.IOException;
 import java.util.ArrayList;
 
 import javafx.scene.canvas.GraphicsContext;
+import javafx.scene.media.Media;
+import javafx.scene.media.MediaPlayer;
 
 public class Game {
 	
 	private static final int TILE_SIZE = 10;
 	private Pacman pacman;
 	private Ghost ghost;
+	private Media chompNoise;
+	private MediaPlayer mediaPlayer;
 	
 	private ArrayList<GameObject> objects;
 	
@@ -20,6 +25,7 @@ public class Game {
 		pacman = new Pacman(800,300);
 		ghost = new Ghost(300,334);
 		objects = new ArrayList<GameObject>();
+		chompNoise = new Media(new File("bin\\assets\\sfx\\chompNoise.mp3").toURI().toString());
 		
 		String line = null;
 
@@ -91,6 +97,7 @@ public class Game {
 		
 			if (pacman.collidedWith(object)) {
 				if (object.getType() == GameObject.TYPE.PELLET) {
+					playSfx(chompNoise);
 					objects.remove(object);
 					break;
 				}
@@ -126,6 +133,12 @@ public class Game {
 		for (GameObject object : objects) {
 			object.draw(graphicsContext);
 		}
+	}
+	
+	public void playSfx(Media sfx) {
+		mediaPlayer = new MediaPlayer(sfx);
+		mediaPlayer.setVolume(0.3);
+		mediaPlayer.play();
 	}
 
 
