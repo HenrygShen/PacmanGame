@@ -15,7 +15,7 @@ public class Game {
 	private Pacman pacman;
 	private Ghost ghost;
 	private Media chompNoise;
-	private MediaPlayer mediaPlayer; 
+	private MediaPlayer mediaPlayer;
 	
 	private ArrayList<GameObject> objects;
 	
@@ -26,13 +26,14 @@ public class Game {
 		ghost = new Ghost(300,334);
 		objects = new ArrayList<GameObject>();
 		chompNoise = new Media(new File("assets/sfx/chompNoise.mp3").toURI().toString());
+		
 		String line = null;
 
 	
 		try {
 			
 			// Always wrap FileReader in BufferedReader.
-			FileReader fileReader = new FileReader("assets/testmap.txt");
+			FileReader fileReader = new FileReader("testmap.txt");
 			BufferedReader bufferedReader = new BufferedReader(fileReader);
 			int row =0;
 			int position = 0;
@@ -63,28 +64,26 @@ public class Game {
 				}
 				row++;
 			}
-
-			// Always close files.
 			bufferedReader.close();
 		} 
 		
 		catch (FileNotFoundException ex) {
-			System.out.println("Unable to open file '");
+			System.out.println("Unable to open file ");
 		}
 
 		catch (IOException ex) {
-			System.out.println("Error reading file '");
+			System.out.println("Error reading file ");
 		}
 		
 	}
 	
 	public void update() {
 		
-		
-		pacman.update();
-		pacman.checkforQueuedAction();
-		ghost.update();
+		pacman.changeMovement();
 		checkCollisions();
+		pacman.update();
+		//pacman.checkforQueuedAction(objects);
+		ghost.update();
 		
 	}
 	
@@ -93,7 +92,20 @@ public class Game {
 		boolean crashed = false;
 		
 		for (GameObject object : objects) {
+			if (pacman.checkforQueuedAction() && (object.getType() == GameObject.TYPE.WALL)) {
+				pacman.checkQueuedMovement(object);
+			}
+		}
 		
+		if((pacman.getCrashCount() == 0) && (pacman.checkforQueuedAction())) {
+			pacman.setNewMove();
+			pacman.setCrashCount();
+			return;
+		}
+		pacman.setCrashCount();
+		
+		for (GameObject object : objects) {
+
 			if (pacman.collidedWith(object)) {
 				if (object.getType() == GameObject.TYPE.PELLET) {
 					playSfx(chompNoise);
@@ -107,7 +119,6 @@ public class Game {
 					break;
 				}
 			}
-
 		}
 		
 		if (!crashed) {
@@ -134,7 +145,7 @@ public class Game {
 		}
 	}
 	
-	public void playSfx(Media sfx) {	
+	public void playSfx(Media sfx) {
 		mediaPlayer = new MediaPlayer(sfx);
 		mediaPlayer.setVolume(0.3);
 		mediaPlayer.play();
