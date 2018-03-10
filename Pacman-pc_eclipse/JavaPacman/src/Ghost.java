@@ -11,11 +11,10 @@ public class Ghost extends GameObject {
 	public Ghost(int x,int y) {
 		
 		
-		Image eyesOpen = new Image("assets\\tempGhost-eyesopen.png",SPRITE_WIDTH,SPRITE_HEIGHT,false,false);
-		Image eyesClosed = new Image("assets\\tempGhost.png",SPRITE_WIDTH,SPRITE_HEIGHT,false,false);
+		Image ghost = new Image("assets\\ghost.png",SPRITE_WIDTH,SPRITE_HEIGHT,false,false);
 		Image[] frames = new Image[2];
-		frames[0] = eyesOpen;
-		frames[1] = eyesClosed;
+		frames[0] = ghost;
+		frames[1] = ghost;
 		
 		
 		Animation animation = new Animation(frames,0.3f);

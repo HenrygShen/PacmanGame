@@ -64,28 +64,26 @@ public class Game {
 				}
 				row++;
 			}
-
-			// Always close files.
 			bufferedReader.close();
 		} 
 		
 		catch (FileNotFoundException ex) {
-			System.out.println("Unable to open file '");
+			System.out.println("Unable to open file ");
 		}
 
 		catch (IOException ex) {
-			System.out.println("Error reading file '");
+			System.out.println("Error reading file ");
 		}
 		
 	}
 	
 	public void update() {
 		
-		
-		pacman.update();
-		pacman.checkforQueuedAction();
-		ghost.update();
+		pacman.changeMovement();
 		checkCollisions();
+		pacman.update();
+		//pacman.checkforQueuedAction(objects);
+		ghost.update();
 		
 	}
 	
@@ -94,7 +92,20 @@ public class Game {
 		boolean crashed = false;
 		
 		for (GameObject object : objects) {
+			if (pacman.checkforQueuedAction() && (object.getType() == GameObject.TYPE.WALL)) {
+				pacman.checkQueuedMovement(object);
+			}
+		}
 		
+		if((pacman.getCrashCount() == 0) && (pacman.checkforQueuedAction())) {
+			pacman.setNewMove();
+			pacman.setCrashCount();
+			return;
+		}
+		pacman.setCrashCount();
+		
+		for (GameObject object : objects) {
+
 			if (pacman.collidedWith(object)) {
 				if (object.getType() == GameObject.TYPE.PELLET) {
 					playSfx(chompNoise);
@@ -108,7 +119,6 @@ public class Game {
 					break;
 				}
 			}
-
 		}
 		
 		if (!crashed) {

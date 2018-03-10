@@ -1,17 +1,24 @@
+import java.util.ArrayList;
+
 import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.image.Image;
 
 public class Pacman extends GameObject{
 	
 	
-	private static final int SPRITE_HEIGHT = 25;
-	private static final int SPRITE_WIDTH = 25;
-	private static final int SPEED = 2;
+	private static final int SPRITE_HEIGHT = 30;
+	private static final int SPRITE_WIDTH = 30;
+	private static final int SPEED = 3
+			;
 	private int vector;
 	private AnimationManager animationManager;
 	private boolean moving;
+	private int crashCount;
+	
 	private int queuedDirection;
 	
+	//private Controls controller;
+	private Rectangle theoreticalHitBox;
 	public Pacman(int x,int y) {
 		
 
@@ -62,9 +69,16 @@ public class Pacman extends GameObject{
 		hitBox.setWidth(SPRITE_WIDTH);
 		hitBox.setX(x);
 		hitBox.setY(y);
+		theoreticalHitBox = new Rectangle();
+		theoreticalHitBox.setHeight(SPRITE_HEIGHT);
+		theoreticalHitBox.setWidth(SPRITE_WIDTH);
+		theoreticalHitBox.setX(x);
+		theoreticalHitBox.setY(y);
+		
 		this.vector = 0;
 		
 		moving = true;
+		crashCount = 0;
 		
 	
 	}
@@ -72,8 +86,13 @@ public class Pacman extends GameObject{
 	public void update() {	
 		
 		animationManager.update();
-		changeMovement();
+		//changeMovement();
 		playAnimation();
+	}
+	
+	public void queueMovement(int queuedDirection) {
+		
+		this.queuedDirection = queuedDirection;
 	}
 	
 	public void draw(GraphicsContext graphicsContext) {
@@ -83,7 +102,6 @@ public class Pacman extends GameObject{
     
     public void setDirection(int vector) {
     	
-    	this.queuedDirection = vector;
     	this.vector = vector;	
     }
     
@@ -100,23 +118,60 @@ public class Pacman extends GameObject{
     	return this.hitBox.intersects(hitBox);
     }
     
-    public boolean collidedWithWall(Rectangle rect) {
-    	
-    	return this.hitBox.intersects(rect);
-    }
-    
     public void setMoving(boolean movement) {
     	
     	moving = movement;
     }
     
-    public void checkforQueuedAction() {
+    public boolean checkforQueuedAction() {
     	
-    	
+    	if (queuedDirection != vector) {
+    		return true;
+    	}
+    	return false;
     }
     
+    public void checkQueuedMovement(GameObject object) {
+    	
+    	if (this.theoreticalHitBox.intersects(object.getHitBox())) {
+    		//CHANGE LATER
+    		crashCount++;
+    	}
+    }
+    
+    public int getCrashCount() {
+    	return this.crashCount;
+    }
+    
+    public void setCrashCount() {
+    	this.crashCount = 0;
+    }
+    
+    public void setNewMove() {
+    	this.hitBox.setY((int)theoreticalHitBox.getY());
+    	this.hitBox.setX((int)theoreticalHitBox.getX());
+    	setDirection(queuedDirection);
+    }
     
     public void changeMovement() {
+    	
+    	this.theoreticalHitBox.setY((int)hitBox.getY());
+    	this.theoreticalHitBox.setX((int)hitBox.getX());
+    		
+    		switch (queuedDirection) {
+    			/* UP */
+    			case 1:
+    				this.theoreticalHitBox.setY((int)theoreticalHitBox.getY() - 3 );
+    			/* DOWN */
+    			case 2:
+    				this.theoreticalHitBox.setY((int)theoreticalHitBox.getY() + 3);
+    			/* LEFT */
+    			case 3:
+    				this.theoreticalHitBox.setX((int)theoreticalHitBox.getX() - 3 );
+    			/* RIGHT */
+    			case 4:
+    				this.theoreticalHitBox.setX((int)theoreticalHitBox.getX() + 3);
+    		}
     	
     	if (moving == true) {
     		
