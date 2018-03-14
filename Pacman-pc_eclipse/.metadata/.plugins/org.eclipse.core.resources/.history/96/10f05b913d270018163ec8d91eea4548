@@ -9,12 +9,12 @@ public class Pacman extends GameObject{
 	private static final int SPRITE_HEIGHT = 30;
 	private static final int SPRITE_WIDTH = 30;
 	private static final int SPEED = 1;
-	private char vector;
+	private int vector;
 	private AnimationManager animationManager;
 	private boolean moving;
 	private int crashCount;
 	
-	private char queuedDirection;
+	private int queuedDirection;
 	
 	//private Controls controller;
 	private Rectangle theoreticalHitBox;
@@ -74,7 +74,7 @@ public class Pacman extends GameObject{
 		theoreticalHitBox.setX(x);
 		theoreticalHitBox.setY(y);
 		
-		this.vector = 'S';
+		this.vector = 0;
 		
 		moving = true;
 		crashCount = 0;
@@ -89,7 +89,7 @@ public class Pacman extends GameObject{
 		playAnimation();
 	}
 	
-	public void queueMovement(char queuedDirection) {
+	public void queueMovement(int queuedDirection) {
 		
 		this.queuedDirection = queuedDirection;
 	}
@@ -170,15 +170,19 @@ public class Pacman extends GameObject{
     	
     	if (moving == true) {
     		
+    		/* UP */
     		if (this.vector == 'U') {
 				this.hitBox.setY((int)hitBox.getY() - SPEED);
 			}
+			/* DOWN */
 			else if (this.vector == 'D') {
 				this.hitBox.setY((int)hitBox.getY() + SPEED);
 			}
+			/* LEFT */
 			else if (this.vector == 'L') {
 				this.hitBox.setX((int)hitBox.getX() - SPEED);
 			}
+			/* RIGHT */
 			else if (this.vector == 'R') {
 				this.hitBox.setX((int)hitBox.getX() + SPEED);
 			}
@@ -189,31 +193,38 @@ public class Pacman extends GameObject{
     	if (this.vector == 'S') {
 			animationManager.playAction(1);
 		}
+		/* UP */
 		if (this.vector == 'U') {
 			animationManager.playAction(2);
 		}
+		/* DOWN */
 		else if (this.vector == 'D') {
 			animationManager.playAction(3);
 		}
+		/* LEFT */
 		else if (this.vector == 'L') {
 			animationManager.playAction(0);
 		}
+		/* RIGHT */
 		else if (this.vector == 'R') {
 			animationManager.playAction(1);
 		}
     }
     
    public void resetPosition() {
-	   
+		/* UP */
 		if (this.vector == 'U') {
 			this.hitBox.setY((int)hitBox.getY() + SPEED);
 		}
+		/* DOWN */
 		else if (this.vector == 'D') {
 			this.hitBox.setY((int)hitBox.getY() - SPEED);
 		}
+		/* LEFT */
 		else if (this.vector == 'L') {
 			this.hitBox.setX((int)hitBox.getX() + SPEED);
 		}
+		/* RIGHT */
 		else if (this.vector == 'R') {
 			this.hitBox.setX((int)hitBox.getX() - SPEED);
 		}

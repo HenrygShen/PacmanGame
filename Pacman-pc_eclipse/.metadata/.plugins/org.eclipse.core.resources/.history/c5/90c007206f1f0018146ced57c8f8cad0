@@ -1,9 +1,0 @@
-import java.util.*;
-
-public interface GameObject {
-	
-    public ArrayList<Rectangle> getHitBox();
-
-    public int getX();
-    public int getY();
-}
