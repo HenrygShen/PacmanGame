@@ -83,7 +83,6 @@ public class Board {
 	}
 	
 	public ArrayList<GameObject> getObjects() {
-		
 		return this.objects;
 	}
 	

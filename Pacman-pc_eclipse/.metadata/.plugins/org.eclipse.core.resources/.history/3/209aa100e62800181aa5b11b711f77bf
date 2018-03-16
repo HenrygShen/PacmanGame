@@ -1,5 +1,10 @@
+import java.io.BufferedReader;
 import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.FileReader;
+import java.io.IOException;
 import java.util.ArrayList;
+
 import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.media.Media;
 import javafx.scene.media.MediaPlayer;
@@ -35,6 +40,8 @@ public class Game {
 	
 	private void checkCollisions() {
 		
+		//boolean crashed = false;
+		//pacman.resetCrashCount();
 		
 		if (pacman.checkforQueuedAction() && board.canTurn((int) pacman.getX(), (int) pacman.getY())) {
 			if (board.testNextMove(pacman.getQDirection(), (int) pacman.getX(), (int) pacman.getY())){
@@ -47,8 +54,19 @@ public class Game {
 			pacman.changeMovement();
 		}
 		
+		/*for (GameObject object : objects) {
+			if (pacman.checkforQueuedAction() && (object.getType() == GameObject.TYPE.WALL)) {
+				pacman.checkQueuedMovement(object);
+			}
+		}
 		
-	
+		if((pacman.getCrashCount() == 0) && (pacman.checkforQueuedAction())) {
+			pacman.setNewMove();
+			return;
+		}*/
+		
+		
+		
 		
 		for (GameObject object : objects) {
 
@@ -58,9 +76,18 @@ public class Game {
 					objects.remove(object);
 					break;
 				}
-		
+				/*else if (object.getType() == GameObject.TYPE.WALL) {
+					pacman.setMoving(false);
+					pacman.resetPosition(object.getX(),object.getY());
+					crashed = true;
+					break;
+				}*/
 			}
 		}
+		
+		/*if (!crashed) {
+			pacman.setMoving(true);
+		}*/
 	}
 	
 	

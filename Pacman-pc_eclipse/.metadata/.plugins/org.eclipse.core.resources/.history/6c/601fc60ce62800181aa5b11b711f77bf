@@ -7,10 +7,12 @@ public class Pacman extends GameObject{
 	
 	private static final int SPRITE_HEIGHT = 30;
 	private static final int SPRITE_WIDTH = 30;
-	private static final int SPEED = 2;
+	private static final int SPEED = 3;
 	private char vector;
 	private AnimationManager animationManager;
-
+	private boolean moving;
+	private int crashCount;
+	
 	private char queuedDirection;
 	
 	//private Controls controller;
@@ -74,6 +76,8 @@ public class Pacman extends GameObject{
 		this.vector = 'S';
 		this.queuedDirection = 'S';
 		
+		moving = true;
+		crashCount = 0;
 		
 	
 	}
@@ -81,6 +85,7 @@ public class Pacman extends GameObject{
 	public void update() {	
 		
 		animationManager.update();
+		//changeMovement();
 		playAnimation();
 	}
 	
@@ -116,11 +121,18 @@ public class Pacman extends GameObject{
     	
     	return this.hitBox.intersects(hitBox);
     }
-
+    
+    public void setMoving(boolean movement) {
+    	
+    	moving = movement;
+    }
     
     public boolean checkforQueuedAction() {
-    		
-	    return (queuedDirection != vector);
+    	
+    	if (queuedDirection != vector) {
+    		return true;
+    	}
+    	return false;
     }
     
     public boolean oppositeDirection() {
@@ -146,10 +158,24 @@ public class Pacman extends GameObject{
     	}
     	return false;
     }
-        
-
-    public void setNewMove() {
+    
+    public void checkQueuedMovement(GameObject object) {
     	
+    	if (this.theoreticalHitBox.intersects(object.getHitBox())) {
+    		//CHANGE LATER
+    		crashCount++;
+    	}
+    }
+    
+    public int getCrashCount() {
+    	return this.crashCount;
+    }
+    
+    public void resetCrashCount() {
+    	this.crashCount = 0;
+    }
+    
+    public void setNewMove() {
     	this.hitBox.setY((int)theoreticalHitBox.getY());
     	this.hitBox.setX((int)theoreticalHitBox.getX());
     	setDirection(queuedDirection);
@@ -174,7 +200,6 @@ public class Pacman extends GameObject{
 
     
     public void playAnimation() {
-    	
     	if (this.vector == 'S') {
 			animationManager.playAction(1);
 		}

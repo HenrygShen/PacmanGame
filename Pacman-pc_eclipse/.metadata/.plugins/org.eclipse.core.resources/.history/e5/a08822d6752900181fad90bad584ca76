@@ -74,6 +74,8 @@ public class Pacman extends GameObject{
 		this.vector = 'S';
 		this.queuedDirection = 'S';
 		
+		moving = true;
+		crashCount = 0;
 		
 	
 	}

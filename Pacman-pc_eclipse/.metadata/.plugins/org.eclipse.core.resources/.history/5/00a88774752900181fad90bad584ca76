@@ -14,6 +14,13 @@ public class Rectangle {
     
     public boolean intersects(Rectangle other){
     	
+    	/*if (this.x > (other.x + other.width) || (this.x + this.width) < other.x) {
+    		return false;
+    	}
+    	else if (this.y > (other.y + other.height) || (this.y + this.height) < other.y) {
+    		return false;
+    	}
+    	return true;*/
         return (this.x < (other.x + other.width) && (this.x + this.width) > other.x && this.y < (other.y  + other.height) && (this.y +  this.height) > other.y );
     }
 

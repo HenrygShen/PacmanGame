@@ -7,7 +7,7 @@ import java.util.ArrayList;
 public class Board {
 	
 	private static final int TILE_SIZE = 10;
-	private static final int HELP = 1;
+	private static final int help = 1;
 	
 	private ArrayList<GameObject> objects;
 	private boolean[][] status;
@@ -22,6 +22,7 @@ public class Board {
 		
 		try {
 			
+			// Always wrap FileReader in BufferedReader.
 			FileReader fileReader = new FileReader("testmap1.txt");
 			BufferedReader bufferedReader = new BufferedReader(fileReader);
 			int row =0;
@@ -83,12 +84,10 @@ public class Board {
 	}
 	
 	public ArrayList<GameObject> getObjects() {
-		
 		return this.objects;
 	}
 	
 	public boolean canTurn(int x, int y) {
-		
 		if (((x - 33)%10 == 0) && ((y - 34)%10 == 0)){
 			return this.status[(x - 33)/10][(y - 34)/10 ];
 		}
@@ -98,14 +97,13 @@ public class Board {
 	}
 	
 	public boolean testNextMove(char direction, int x, int y) {
-		
     	switch (direction) {
 			case 'U':
-				return this.status[(x - 33)/10][(y - HELP - 34)/10];
+				return this.status[(x - 33)/10][(y - help - 34)/10];
 			case 'D':
 				return this.status[(x - 33)/10][(y + TILE_SIZE - 34)/10];
 			case 'L':
-				return this.status[(x - HELP - 33)/10][(y - 34)/10];
+				return this.status[(x - help - 33)/10][(y - 34)/10];
 			case 'R':
 				return this.status[(x + TILE_SIZE - 33)/10][(y - 34)/10];
     	}
