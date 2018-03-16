@@ -1,4 +1,3 @@
-import java.util.ArrayList;
 
 import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.image.Image;
@@ -8,7 +7,7 @@ public class Pacman extends GameObject{
 	
 	private static final int SPRITE_HEIGHT = 30;
 	private static final int SPRITE_WIDTH = 30;
-	private static final int SPEED = 1;
+	private static final int SPEED = 2;
 	private char vector;
 	private AnimationManager animationManager;
 	private boolean moving;
@@ -75,6 +74,7 @@ public class Pacman extends GameObject{
 		theoreticalHitBox.setY(y);
 		
 		this.vector = 'S';
+		this.queuedDirection = 'S';
 		
 		moving = true;
 		crashCount = 0;
@@ -104,9 +104,14 @@ public class Pacman extends GameObject{
     	this.vector = vector;	
     }
     
-    public int getDirection() {
+    public char getDirection() {
     	
     	return this.vector;
+    }
+    
+    public char getQDirection() {
+    	
+    	return this.queuedDirection;
     }
     
     public boolean collidedWith(GameObject object) {
@@ -130,6 +135,30 @@ public class Pacman extends GameObject{
     	return false;
     }
     
+    public boolean oppositeDirection() {
+    	switch (vector) {
+    		case 'S':
+    			return true;
+			case 'U':
+				if (queuedDirection == 'D') {
+					return true;
+				}
+			case 'D':
+				if (queuedDirection == 'U') {
+					return true;
+				}
+			case 'L':
+				if (queuedDirection == 'R') {
+					return true;
+				}
+			case 'R':
+				if (queuedDirection == 'L') {
+					return true;
+				}
+    	}
+    	return false;
+    }
+    
     public void checkQueuedMovement(GameObject object) {
     	
     	if (this.theoreticalHitBox.intersects(object.getHitBox())) {
@@ -142,7 +171,7 @@ public class Pacman extends GameObject{
     	return this.crashCount;
     }
     
-    public void setCrashCount() {
+    public void resetCrashCount() {
     	this.crashCount = 0;
     }
     
@@ -154,21 +183,7 @@ public class Pacman extends GameObject{
     
     public void changeMovement() {
     	
-    	this.theoreticalHitBox.setY((int)hitBox.getY());
-    	this.theoreticalHitBox.setX((int)hitBox.getX());
-    		
-    		switch (queuedDirection) {
-    			case 'U':
-    				this.theoreticalHitBox.setY((int)theoreticalHitBox.getY() - 3 );
-    			case 'D':
-    				this.theoreticalHitBox.setY((int)theoreticalHitBox.getY() + 3);
-    			case 'L':
-    				this.theoreticalHitBox.setX((int)theoreticalHitBox.getX() - 3 );
-    			case 'R':
-    				this.theoreticalHitBox.setX((int)theoreticalHitBox.getX() + 3);
-    		}
-    	
-    	if (moving == true) {
+    	//if (moving == true) {
     		
     		if (this.vector == 'U') {
 				this.hitBox.setY((int)hitBox.getY() - SPEED);
@@ -183,7 +198,7 @@ public class Pacman extends GameObject{
 				this.hitBox.setX((int)hitBox.getX() + SPEED);
 			}
     	}
-    }
+    	//}
     
     public void playAnimation() {
     	if (this.vector == 'S') {
@@ -203,19 +218,19 @@ public class Pacman extends GameObject{
 		}
     }
     
-   public void resetPosition() {
+   public void resetPosition(double x, double y) {
 	   
 		if (this.vector == 'U') {
-			this.hitBox.setY((int)hitBox.getY() + SPEED);
+			this.hitBox.setY((int)y + 10);
 		}
 		else if (this.vector == 'D') {
-			this.hitBox.setY((int)hitBox.getY() - SPEED);
+			this.hitBox.setY((int)y - SPRITE_HEIGHT);
 		}
 		else if (this.vector == 'L') {
-			this.hitBox.setX((int)hitBox.getX() + SPEED);
+			this.hitBox.setX((int)x + 10);
 		}
 		else if (this.vector == 'R') {
-			this.hitBox.setX((int)hitBox.getX() - SPEED);
+			this.hitBox.setX((int)x - SPRITE_WIDTH);
 		}
     }
 }

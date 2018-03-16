@@ -6,7 +6,6 @@
 /GameScene$1.class
 /GameScene$2.class
 /GameScene.class
-/GameThread.class
 /Ghost.class
 /Pacman.class
 /PacmanGame$1.class
@@ -14,3 +13,4 @@
 /Pellet.class
 /Rectangle.class
 /Wall.class
+/Board.class
