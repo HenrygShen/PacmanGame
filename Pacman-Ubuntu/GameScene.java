@@ -39,16 +39,16 @@ public class GameScene {
 	    	/* switch to switch statements later */
 	    	
 		    	if (e.getCode() == KeyCode.UP) {
-		    		game.getPacman().queueMovement(1);
+		    		game.getPacman().queueMovement('U');
 		    	}
 		    	else if (e.getCode() == KeyCode.DOWN) {
-		    		game.getPacman().queueMovement(2);
+		    		game.getPacman().queueMovement('D');
 		    	}
 		    	else if (e.getCode() == KeyCode.LEFT) {
-		    		game.getPacman().queueMovement(3);
+		    		game.getPacman().queueMovement('L');
 		    	}
 		    	else if (e.getCode() == KeyCode.RIGHT) {
-		    		game.getPacman().queueMovement(4);
+		    		game.getPacman().queueMovement('R');
 		    	}
 	    	}
 	    });

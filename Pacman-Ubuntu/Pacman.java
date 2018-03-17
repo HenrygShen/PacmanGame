@@ -1,4 +1,3 @@
-import java.util.ArrayList;
 
 import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.image.Image;
@@ -8,14 +7,11 @@ public class Pacman extends GameObject{
 	
 	private static final int SPRITE_HEIGHT = 30;
 	private static final int SPRITE_WIDTH = 30;
-	private static final int SPEED = 3
-			;
-	private int vector;
+	private static final int SPEED = 2;
+	private char vector;
 	private AnimationManager animationManager;
-	private boolean moving;
-	private int crashCount;
-	
-	private int queuedDirection;
+
+	private char queuedDirection;
 	
 	//private Controls controller;
 	private Rectangle theoreticalHitBox;
@@ -75,10 +71,9 @@ public class Pacman extends GameObject{
 		theoreticalHitBox.setX(x);
 		theoreticalHitBox.setY(y);
 		
-		this.vector = 0;
+		this.vector = 'S';
+		this.queuedDirection = 'S';
 		
-		moving = true;
-		crashCount = 0;
 		
 	
 	}
@@ -86,11 +81,10 @@ public class Pacman extends GameObject{
 	public void update() {	
 		
 		animationManager.update();
-		//changeMovement();
 		playAnimation();
 	}
 	
-	public void queueMovement(int queuedDirection) {
+	public void queueMovement(char queuedDirection) {
 		
 		this.queuedDirection = queuedDirection;
 	}
@@ -100,14 +94,19 @@ public class Pacman extends GameObject{
 		animationManager.draw(graphicsContext,this.hitBox.getX(),this.hitBox.getY());
 	}
     
-    public void setDirection(int vector) {
+    public void setDirection(char vector) {
     	
     	this.vector = vector;	
     }
     
-    public int getDirection() {
+    public char getDirection() {
     	
     	return this.vector;
+    }
+    
+    public char getQDirection() {
+    	
+    	return this.queuedDirection;
     }
     
     public boolean collidedWith(GameObject object) {
@@ -117,121 +116,95 @@ public class Pacman extends GameObject{
     	
     	return this.hitBox.intersects(hitBox);
     }
-    
-    public void setMoving(boolean movement) {
-    	
-    	moving = movement;
-    }
+
     
     public boolean checkforQueuedAction() {
-    	
-    	if (queuedDirection != vector) {
-    		return true;
+    		
+	    return (queuedDirection != vector);
+    }
+    
+    public boolean oppositeDirection() {
+    	switch (vector) {
+    		case 'S':
+    			return true;
+			case 'U':
+				if (queuedDirection == 'D') {
+					return true;
+				}
+			case 'D':
+				if (queuedDirection == 'U') {
+					return true;
+				}
+			case 'L':
+				if (queuedDirection == 'R') {
+					return true;
+				}
+			case 'R':
+				if (queuedDirection == 'L') {
+					return true;
+				}
     	}
     	return false;
     }
-    
-    public void checkQueuedMovement(GameObject object) {
-    	
-    	if (this.theoreticalHitBox.intersects(object.getHitBox())) {
-    		//CHANGE LATER
-    		crashCount++;
-    	}
-    }
-    
-    public int getCrashCount() {
-    	return this.crashCount;
-    }
-    
-    public void setCrashCount() {
-    	this.crashCount = 0;
-    }
-    
+        
+
     public void setNewMove() {
+    	
     	this.hitBox.setY((int)theoreticalHitBox.getY());
     	this.hitBox.setX((int)theoreticalHitBox.getX());
     	setDirection(queuedDirection);
     }
     
     public void changeMovement() {
-    	
-    	this.theoreticalHitBox.setY((int)hitBox.getY());
-    	this.theoreticalHitBox.setX((int)hitBox.getX());
-    		
-    		switch (queuedDirection) {
-    			/* UP */
-    			case 1:
-    				this.theoreticalHitBox.setY((int)theoreticalHitBox.getY() - 3 );
-    			/* DOWN */
-    			case 2:
-    				this.theoreticalHitBox.setY((int)theoreticalHitBox.getY() + 3);
-    			/* LEFT */
-    			case 3:
-    				this.theoreticalHitBox.setX((int)theoreticalHitBox.getX() - 3 );
-    			/* RIGHT */
-    			case 4:
-    				this.theoreticalHitBox.setX((int)theoreticalHitBox.getX() + 3);
-    		}
-    	
-    	if (moving == true) {
-    		
-    		/* UP */
-    		if (this.vector == 1) {
-				this.hitBox.setY((int)hitBox.getY() - SPEED);
-			}
-			/* DOWN */
-			else if (this.vector == 2) {
-				this.hitBox.setY((int)hitBox.getY() + SPEED);
-			}
-			/* LEFT */
-			else if (this.vector == 3) {
-				this.hitBox.setX((int)hitBox.getX() - SPEED);
-			}
-			/* RIGHT */
-			else if (this.vector == 4) {
-				this.hitBox.setX((int)hitBox.getX() + SPEED);
-			}
-    	}
-    }
     
-    public void playAnimation() {
-    	if (this.vector == 0) {
-			animationManager.playAction(1);
-		}
-		/* UP */
-		if (this.vector == 1) {
-			animationManager.playAction(2);
-		}
-		/* DOWN */
-		else if (this.vector == 2) {
-			animationManager.playAction(3);
-		}
-		/* LEFT */
-		else if (this.vector == 3) {
-			animationManager.playAction(0);
-		}
-		/* RIGHT */
-		else if (this.vector == 4) {
-			animationManager.playAction(1);
-		}
-    }
-    
-   public void resetPosition() {
-		/* UP */
-		if (this.vector == 1) {
-			this.hitBox.setY((int)hitBox.getY() + SPEED);
-		}
-		/* DOWN */
-		else if (this.vector == 2) {
+    		
+    	if (this.vector == 'U') {
 			this.hitBox.setY((int)hitBox.getY() - SPEED);
 		}
-		/* LEFT */
-		else if (this.vector == 3) {
+		else if (this.vector == 'D') {
+			this.hitBox.setY((int)hitBox.getY() + SPEED);
+		}
+		else if (this.vector == 'L') {
+			this.hitBox.setX((int)hitBox.getX() - SPEED);
+		}
+		else if (this.vector == 'R') {
 			this.hitBox.setX((int)hitBox.getX() + SPEED);
 		}
-		/* RIGHT */
-		else if (this.vector == 4) {
-			this.hitBox.setX((int)hitBox.getX() - SPEED);
+    }
+
+    
+    public void playAnimation() {
+    	
+    	if (this.vector == 'S') {
+			animationManager.playAction(1);
+		}
+		if (this.vector == 'U') {
+			animationManager.playAction(2);
+		}
+		else if (this.vector == 'D') {
+			animationManager.playAction(3);
+		}
+		else if (this.vector == 'L') {
+			animationManager.playAction(0);
+		}
+		else if (this.vector == 'R') {
+			animationManager.playAction(1);
+		}
+    }
+    
+   public void resetPosition(double x, double y) {
+	   
+		if (this.vector == 'U') {
+			this.hitBox.setY((int)y + 10);
+		}
+		else if (this.vector == 'D') {
+			this.hitBox.setY((int)y - SPRITE_HEIGHT);
+		}
+		else if (this.vector == 'L') {
+			this.hitBox.setX((int)x + 10);
+		}
+		else if (this.vector == 'R') {
+			this.hitBox.setX((int)x - SPRITE_WIDTH);
 		}
     }
 }
