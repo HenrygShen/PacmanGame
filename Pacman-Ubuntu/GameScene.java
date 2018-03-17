@@ -19,15 +19,27 @@ public class GameScene {
     private Canvas canvas;
     private GraphicsContext graphicsContext;
     private Game game;
+    private boolean running;
 
-	public GameScene(Stage mainStage) {
+	public GameScene(Stage mainStage,char level) {
 		
 		this.mainStage = mainStage;
-        
+        this.running = true;
 		root = new Group();
 		scene = new Scene(root);
 	    canvas = new Canvas(1366, 768);
-	    ImageView iv = new ImageView(new Image("bg/background-common_game.png"));
+	    
+	    String backgroundImage;
+	    switch (level) {
+	    	case 's' :
+	    		backgroundImage = "bg\\background-sea_game.png";
+	    	default :
+	    		backgroundImage = "bg\\background-sea_game.png";
+	    }
+	   
+	    ImageView iv = new ImageView(new Image(backgroundImage));
+	    
+	    
 	    root.getChildren().add(iv);
 	    root.getChildren().add(canvas);
 	    graphicsContext = canvas.getGraphicsContext2D();
@@ -50,6 +62,9 @@ public class GameScene {
 		    	else if (e.getCode() == KeyCode.RIGHT) {
 		    		game.getPacman().queueMovement('R');
 		    	}
+		    	else if (e.getCode() == KeyCode.P) {
+		    		changeState();
+		    	}
 	    	}
 	    });
 	    
@@ -58,34 +73,44 @@ public class GameScene {
 
 	}
 	
-	public void setGameMode(int gameType) {
+	/* Pauses/starts the game */
+	protected void changeState() {
 		
-		if (gameType == 1) {
-			game = new Game();
-		}
-		
+		this.running = !this.running;
 	}
 	
-	
 	public void start() {
+
 		
 		 new AnimationTimer() {
 			 	
-		        public void handle(long time) {
-		        	
-		        	graphicsContext.clearRect(0, 0, 1366, 768);
-		        	game.update();
-		        	draw(graphicsContext);
+
+				public void handle(long time) {
+						
+					if (running == true) {
+			        	graphicsContext.clearRect(0, 0, 1366, 768);
+			        	game.update();
+			        	draw(graphicsContext);
+					}
 
 		        }
 		    }.start();
 		
 	}
 	
+	public void setGameMode(int gameType) {
+		
+		/* Game has single player, multi-player game modes */
+		if (gameType == 1) {
+			game = new Game();
+		}
+		
+	}
+	
 	public void draw(GraphicsContext graphicsContext) {
 		
 		game.getPacman().draw(graphicsContext);
-		game.getGhost().draw(graphicsContext);
+		//game.getGhost().draw(graphicsContext);
 		game.drawObjects(graphicsContext);
 	}
 	

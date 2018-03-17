@@ -15,7 +15,7 @@ public class Pellet extends GameObject {
 	
 	public Pellet(int x,int y) {
 		
-		image = new Image("assets/tempPellet.png",SPRITE_WIDTH,SPRITE_HEIGHT,false,false);
+		image = new Image("assets\\tempPellet.png",SPRITE_WIDTH,SPRITE_HEIGHT,false,false);
 		
 		
 		hitBox = new Rectangle();
