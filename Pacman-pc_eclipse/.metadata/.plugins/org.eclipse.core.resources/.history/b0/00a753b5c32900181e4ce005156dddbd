@@ -27,7 +27,7 @@ public class Game {
 		objects = board.getObjects();
 		pacman = new Pacman(43,44);
 		ghost = new Ghost(300,334);
-		chompNoise = new Media(new File("bin/assets/sfx/chompNoise.mp3").toURI().toString());
+		chompNoise = new Media(new File("bin\\assets\\sfx\\chompNoise.mp3").toURI().toString());
 	
 	}
 	

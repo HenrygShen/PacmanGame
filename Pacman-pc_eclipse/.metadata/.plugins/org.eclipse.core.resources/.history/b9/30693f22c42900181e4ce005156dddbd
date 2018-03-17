@@ -1,3 +1,5 @@
+package group23.pacman.view;
+import group23.pacman.controller.Game;
 import javafx.animation.AnimationTimer;
 import javafx.event.EventHandler;
 import javafx.scene.Group;
@@ -19,7 +21,7 @@ public class GameScene {
     private Canvas canvas;
     private GraphicsContext graphicsContext;
     private Game game;
-    private boolean gameRunning;
+    private boolean running;
 
 	public GameScene(Stage mainStage,char level) {
 		
@@ -73,24 +75,25 @@ public class GameScene {
 
 	}
 	
-	private void changeState() {
+	/* Pauses/starts the game */
+	protected void changeState() {
 		
-		this.gameRunning = !this.gameRunning;
+		this.running = !this.running;
 	}
 	
 	public void start() {
+
 		
 		 new AnimationTimer() {
 			 	
-		        private boolean running ;
 
 				public void handle(long time) {
-		        	
-		        	if (this.running == true) {
+						
+					if (running == true) {
 			        	graphicsContext.clearRect(0, 0, 1366, 768);
 			        	game.update();
 			        	draw(graphicsContext);
-		        	}
+					}
 
 		        }
 		    }.start();
