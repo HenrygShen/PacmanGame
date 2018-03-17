@@ -25,7 +25,7 @@ public class Board {
 		
 		try {
 			
-			FileReader fileReader = new FileReader("testmap1.txt");
+			FileReader fileReader = new FileReader("assets/testmap1.txt");
 			BufferedReader bufferedReader = new BufferedReader(fileReader);
 			int row =0;
 			int position = 0;

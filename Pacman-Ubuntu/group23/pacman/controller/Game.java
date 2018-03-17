@@ -26,7 +26,7 @@ public class Game {
 		objects = board.getObjects();
 		pacman = new Pacman(43,44);
 		ghost = new Ghost(300,334);
-		chompNoise = new Media(new File("bin\\assets\\sfx\\chompNoise.mp3").toURI().toString());
+		//chompNoise = new Media(new File("assets/sfx/chompNoise.mp3").toURI().toString());
 	
 	}
 	
@@ -60,7 +60,7 @@ public class Game {
 
 			if (pacman.collidedWith(object)) {
 				if (object.getType() == GameObject.TYPE.PELLET) {
-					playSfx(chompNoise);
+					//playSfx(chompNoise);
 					objects.remove(object);
 					break;
 				}
