@@ -34,9 +34,9 @@ public class GameScene {
 	    String backgroundImage;
 	    switch (level) {
 	    	case 's' :
-	    		backgroundImage = "bg\\background-sea_game.png";
+	    		backgroundImage = "bg/background-sea_game.png";
 	    	default :
-	    		backgroundImage = "bg\\background-sea_game.png";
+	    		backgroundImage = "bg/background-sea_game.png";
 	    }
 	   
 	    ImageView iv = new ImageView(new Image(backgroundImage));
