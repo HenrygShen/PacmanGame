@@ -38,7 +38,9 @@ public class PacmanGame extends Application{
 			public void handle(ActionEvent event) { 
 				
 				/* Starts the game if play is clicked */
-				GameScene gameScene = new GameScene(gameWindow);
+				/* For sea level */
+				char level = 's';
+				GameScene gameScene = new GameScene(gameWindow,level);
 				gameScene.setGameMode(1);
 				gameScene.start();
 				

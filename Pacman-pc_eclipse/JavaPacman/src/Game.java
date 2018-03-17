@@ -25,25 +25,26 @@ public class Game {
 	
 	}
 	
-	public void update() {
+	public void update( ) {
 		
 		checkCollisions();
 		pacman.update();
-		ghost.update();
-		
+		ghost.update();	
 	}
 	
 	private void checkCollisions() {
 		
-		
-		if (pacman.checkforQueuedAction() && board.canTurn((int) pacman.getX(), (int) pacman.getY())) {
-			if (board.testNextMove(pacman.getQDirection(), (int) pacman.getX(), (int) pacman.getY())){
+		/* If the currently queued direction is not equal to the current direction we are moving in, and it is possible 
+		   for us to turn in our current (x,y) position, test if turn is valid (not into a wall), then set the queued direction
+		   if valid. */
+		if (pacman.checkforQueuedAction() && board.validTurningPoint((int) pacman.getX(), (int) pacman.getY())) {
+			if (board.isValidDestination(pacman.getQDirection(), (int) pacman.getX(), (int) pacman.getY())){
 				pacman.setDirection(pacman.getQDirection());
 				pacman.changeMovement();
 				return;
 			}
 		}
-		if (board.testNextMove(pacman.getDirection(), (int) pacman.getX(), (int) pacman.getY())) {
+		if (board.isValidDestination(pacman.getDirection(), (int) pacman.getX(), (int) pacman.getY())) {
 			pacman.changeMovement();
 		}
 		

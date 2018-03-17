@@ -87,7 +87,7 @@ public class Board {
 		return this.objects;
 	}
 	
-	public boolean canTurn(int x, int y) {
+	public boolean validTurningPoint(int x, int y) {
 		
 		if (((x - 33)%10 == 0) && ((y - 34)%10 == 0)){
 			return this.status[(x - 33)/10][(y - 34)/10 ];
@@ -97,7 +97,7 @@ public class Board {
 		}
 	}
 	
-	public boolean testNextMove(char direction, int x, int y) {
+	public boolean isValidDestination(char direction, int x, int y) {
 		
     	switch (direction) {
 			case 'U':

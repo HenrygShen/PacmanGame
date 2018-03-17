@@ -124,6 +124,7 @@ public class Pacman extends GameObject{
     }
     
     public boolean oppositeDirection() {
+    	
     	switch (vector) {
     		case 'S':
     			return true;
