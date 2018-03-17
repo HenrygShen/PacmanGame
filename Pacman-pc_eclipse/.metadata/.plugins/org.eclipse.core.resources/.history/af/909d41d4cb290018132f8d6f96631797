@@ -32,7 +32,7 @@ public class PacmanGame extends Application{
 		pane.getChildren().add(iv);
 		
 		/* Set up the play button image and make it listen to click events */
-		Image playImage = new Image("assets/button-play.png",150,100,false,false);
+		Image playImage = new Image("assets\\button-play.png",150,100,false,false);
 		Button playBtn = new Button("",new ImageView(playImage));
 		
 		playBtn.setOnAction(new EventHandler<ActionEvent>() { 
