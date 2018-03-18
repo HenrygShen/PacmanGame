@@ -10,6 +10,9 @@ import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.media.Media;
 import javafx.scene.media.MediaPlayer;
 
+/**
+	This is the class that handles all the game logics - collisions, level handling, and creation of the map.
+ */
 public class Game {
 	
 	

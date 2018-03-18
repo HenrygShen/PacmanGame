@@ -13,30 +13,54 @@ public class Board {
 	
 	private static final int TILE_SIZE = 10;
 	private static final int HELP = 1;
-	private Game game;
 	
+	
+	private Game game;
 	private ArrayList<GameObject> objects;
+	
 	private boolean[][] status;
 	private boolean[][] turn;
+	
+	private char map;
 
 	public Board() {
 		
+		/* Create the list and arrays of objects/states to be placed on the map */
+		status = new boolean[101][71];
+		turn = new boolean[101][71];
+		objects = new ArrayList<GameObject>();
 	}
 	
 	public void createBoard() {
 		
-		objects = new ArrayList<GameObject>();
-		String line;
-		char map = game.getMap();
-		status = new boolean[101][71];
-		turn = new boolean[101][71];
+		map = game.getMap();
+		String line,mapTxt;
 		
+		/* Parse the map.txt file, loads the map into the game */
 		try {
+			switch (map) {
+				case 's' :
+					mapTxt = "mapOne.txt";
+					break;
+				case 'd' :
+					mapTxt = "mapOne.txt";
+					break;
+				default :
+					mapTxt = "mapOne.txt";
+					break;
+				
+			}
 			
-			FileReader fileReader = new FileReader("mapOne.txt");
+			FileReader fileReader = new FileReader(mapTxt);
 			BufferedReader bufferedReader = new BufferedReader(fileReader);
-			int row =0;
-			int position = 0;
+			int row = 0;
+			int position;
+			/* Creates objects on the map based on their value in the text file
+			 * 0 creates a wall
+			 * P creates a pellet
+			 * 1 is an empty position
+			 * R is a position that the character can be in but cannot turn
+			 * T is a position that the character can be in and can also turn */
 			while ((line = bufferedReader.readLine()) != null ) {
 				position = 0;
 				for (int i =0;i< line.length();i++) {
@@ -44,8 +68,8 @@ public class Board {
 						Rectangle rect = new Rectangle();
 						rect.setX(position*TILE_SIZE + 33);
 						rect.setY(row*TILE_SIZE + 34);
-						rect.setWidth(TILE_SIZE - 1);
-						rect.setHeight(TILE_SIZE - 1);
+						rect.setWidth(TILE_SIZE);
+						rect.setHeight(TILE_SIZE);
 						Wall wall = new Wall(rect,map);
 						status[position][row] = false;
 						turn[position][row] = false;
@@ -92,11 +116,19 @@ public class Board {
 		}
 	}
 	
+	/* Public setter to reference the game object */
+	public void setGame(Game game) {
+		
+		this.game = game;
+	}
+	
+	/* Passes objects back to the game class - to check for collisions */
 	public ArrayList<GameObject> getObjects() {
 		
 		return this.objects;
 	}
 	
+	/* Checks if the resulting location of a turn will be a valid destination, i.e on a square that is valid(not inside a wall) */
 	public boolean validTurningPoint(int x, int y) {
 		
 		if (((x - 33)%10 == 0) && ((y - 34)%10 == 0)){
@@ -107,6 +139,7 @@ public class Board {
 		}
 	}
 	
+	/* Checks if a location is valid when the character is moving in a certain direction */
 	public boolean isValidDestination(char direction, int x, int y) {
 		
     	switch (direction) {
@@ -122,8 +155,4 @@ public class Board {
     	return false;
     }
 	
-	public void setGame(Game game) {
-		
-		this.game = game;
-	}
 }

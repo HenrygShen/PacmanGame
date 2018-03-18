@@ -2,6 +2,9 @@ package group23.pacman.model;
 import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.image.Image;
 
+/**
+	This class contains the information of a wall which is 10x10 pixels.
+ */
 public class Wall extends GameObject{
 	
 	private Rectangle wallHitBox;

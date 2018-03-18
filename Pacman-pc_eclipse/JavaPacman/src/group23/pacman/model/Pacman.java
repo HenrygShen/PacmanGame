@@ -14,9 +14,10 @@ public class Pacman extends GameObject{
 	private AnimationManager animationManager;
 
 	private char queuedDirection;
-	
-	//private Controls controller;
+
 	private Rectangle theoreticalHitBox;
+	
+	
 	public Pacman(int x,int y) {
 		
 
@@ -73,10 +74,9 @@ public class Pacman extends GameObject{
 		theoreticalHitBox.setX(x);
 		theoreticalHitBox.setY(y);
 		
+		/* Character does not initially move */
 		this.vector = 'S';
 		this.queuedDirection = 'S';
-		
-		
 	
 	}
 	
@@ -90,11 +90,7 @@ public class Pacman extends GameObject{
 		
 		this.queuedDirection = queuedDirection;
 	}
-	
-	public void draw(GraphicsContext graphicsContext) {
-		
-		animationManager.draw(graphicsContext,this.hitBox.getX(),this.hitBox.getY());
-	}
+
     
     public void setDirection(char vector) {
     	
@@ -195,19 +191,10 @@ public class Pacman extends GameObject{
 		}
     }
     
-   public void resetPosition(double x, double y) {
-	   
-		if (this.vector == 'U') {
-			this.hitBox.setY((int)y + 10);
-		}
-		else if (this.vector == 'D') {
-			this.hitBox.setY((int)y - SPRITE_HEIGHT);
-		}
-		else if (this.vector == 'L') {
-			this.hitBox.setX((int)x + 10);
-		}
-		else if (this.vector == 'R') {
-			this.hitBox.setX((int)x - SPRITE_WIDTH);
-		}
-    }
+	public void draw(GraphicsContext graphicsContext) {
+		
+		animationManager.draw(graphicsContext,this.hitBox.getX(),this.hitBox.getY());
+	}
+    
+
 }
