@@ -29,7 +29,7 @@
 		<item value="2" key="pageIndex"/>
 	</section>
 	<section name="NewPackageWizardPage">
-		<item value="false" key="create_package_info_java"/>
+		<item value="true" key="create_package_info_java"/>
 	</section>
 	<section name="completion_proposal_size">
 		<item value="253" key="size.y"/>

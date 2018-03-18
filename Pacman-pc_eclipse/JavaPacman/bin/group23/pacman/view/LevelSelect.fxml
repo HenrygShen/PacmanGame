@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.*?>
+<?import javafx.scene.image.*?>
+<?import java.lang.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.layout.AnchorPane?>
+
+<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" onKeyPressed="#handleImageScroll" onMouseClicked="#handleImageScroll" prefHeight="768.0" prefWidth="1366.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="group23.pacman.view.LevelSelectController">
+   <children>
+      <ImageView fx:id="levelImage" fitHeight="600.0" fitWidth="1000.0" layoutX="183.0" layoutY="14.0" pickOnBounds="true" preserveRatio="true" />
+      <ImageView fx:id="leftArrow" fitHeight="100.0" fitWidth="150.0" layoutX="299.0" layoutY="638.0" pickOnBounds="true" preserveRatio="true" />
+      <ImageView fx:id="rightArrow" fitHeight="100.0" fitWidth="150.0" layoutX="807.0" layoutY="638.0" pickOnBounds="true" preserveRatio="true" />
+   </children>
+</AnchorPane>
