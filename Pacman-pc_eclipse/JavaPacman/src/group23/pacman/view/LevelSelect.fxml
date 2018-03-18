@@ -6,10 +6,11 @@
 <?import javafx.scene.layout.*?>
 <?import javafx.scene.layout.AnchorPane?>
 
-<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" onKeyPressed="#handleImageScroll" onMouseClicked="#handleImageScroll" prefHeight="768.0" prefWidth="1366.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="group23.pacman.view.LevelSelectController">
+<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="768.0" prefWidth="1366.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="group23.pacman.view.LevelSelectController">
    <children>
+      <Button fx:id="invisBtn" layoutX="400.0" layoutY="253.0" mnemonicParsing="false" onKeyPressed="#handleImageScroll" text="Button" />
       <ImageView fx:id="levelImage" fitHeight="600.0" fitWidth="1000.0" layoutX="183.0" layoutY="14.0" pickOnBounds="true" preserveRatio="true" />
-      <ImageView fx:id="leftArrow" fitHeight="100.0" fitWidth="150.0" layoutX="299.0" layoutY="638.0" pickOnBounds="true" preserveRatio="true" />
-      <ImageView fx:id="rightArrow" fitHeight="100.0" fitWidth="150.0" layoutX="807.0" layoutY="638.0" pickOnBounds="true" preserveRatio="true" />
+      <ImageView fx:id="leftArrow" fitHeight="100.0" fitWidth="150.0" layoutX="200.0" layoutY="650.0" pickOnBounds="true" preserveRatio="true" />
+      <ImageView fx:id="rightArrow" fitHeight="100.0" fitWidth="150.0" layoutX="900.0" layoutY="650.0" pickOnBounds="true" preserveRatio="true" />
    </children>
 </AnchorPane>
