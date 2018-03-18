@@ -32,13 +32,19 @@ public class GameScene {
 	    canvas = new Canvas(1366, 768);
 	    
 	    String backgroundImage;
+	    
 	    switch (level) {
-	    	case 's' :
-	    		backgroundImage = "bg/background-sea_game.png";
-	    	default :
-	    		backgroundImage = "bg/background-sea_game.png";
+		    case 's' :
+		    	backgroundImage = "bg/background-sea_game.png";
+		    	break;
+		    case 'd' :
+		    	backgroundImage = "bg/background-desert_game.png";
+		    	break;
+		    default :
+		    	backgroundImage = "bg/background-sea_game.png";
+		    	break;
 	    }
-	   
+
 	    ImageView iv = new ImageView(new Image(backgroundImage));
 	    
 	    

@@ -69,6 +69,28 @@ public class LevelSelectController {
 			index--;
 			index = (index < 0) ? MAX_BACKGROUND_INDEX : index;
 		}
+		else if (event.getCode() == KeyCode.ENTER) {
+			
+			char level;
+
+			switch (index) {
+				case 0 :
+					level = 's';
+					break;
+				case 1 :
+					level = 'd';
+					break;
+				default :
+					level = 's';
+					break;
+			}
+			
+			GameScene gameScene = new GameScene(mainApp.getStage(),level);
+			gameScene.setGameMode(1);
+			gameScene.start();
+			
+			
+		}
 		
 		levelImage.setImage(backgrounds[index]);
 	}
