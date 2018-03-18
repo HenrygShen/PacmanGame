@@ -86,6 +86,7 @@ public class LevelSelectController {
 			}
 			
 			GameScene gameScene = new GameScene(mainApp.getStage(),level);
+			gameScene.setMap(level);
 			gameScene.setGameMode(1);
 			gameScene.start();
 			

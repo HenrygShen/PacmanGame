@@ -1,0 +1,66 @@
+package group23.pacman.model;
+
+import java.io.BufferedReader;
+import java.io.FileNotFoundException;
+import java.io.FileReader;
+import java.io.IOException;
+import java.util.ArrayList;
+
+import group23.pacman.controller.Game;
+
+
+public class Board {
+	
+	private static final int TILE_SIZE = 10;
+	private static final int HELP = 1;
+	private Game game;
+	
+	private ArrayList<GameObject> objects;
+	private boolean[][] status;
+	private boolean[][] turn;
+
+	public Board(Game game) {
+		
+
+		
+	}
+	
+	public void createBoard() {
+		
+	}
+	
+	public ArrayList<GameObject> getObjects() {
+		
+		return this.objects;
+	}
+	
+	public boolean validTurningPoint(int x, int y) {
+		
+		if (((x - 33)%10 == 0) && ((y - 34)%10 == 0)){
+			return this.status[(x - 33)/10][(y - 34)/10 ];
+		}
+		else {
+			return false;
+		}
+	}
+	
+	public boolean isValidDestination(char direction, int x, int y) {
+		
+    	switch (direction) {
+			case 'U':
+				return this.status[(x - 33)/10][(y - HELP - 34)/10];
+			case 'D':
+				return this.status[(x - 33)/10][(y + TILE_SIZE - 34)/10];
+			case 'L':
+				return this.status[(x - HELP - 33)/10][(y - 34)/10];
+			case 'R':
+				return this.status[(x + TILE_SIZE - 33)/10][(y - 34)/10];
+    	}
+    	return false;
+    }
+	
+	public void setGame(Game game) {
+		
+		this.game = game;
+	}
+}

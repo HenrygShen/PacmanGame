@@ -35,9 +35,8 @@ public class WelcomeScreenController {
 		
 	}
 	
-
-	
 	public void setMainApp(MainApp mainApp) {
+		
 		this.mainApp = mainApp;
 	}
 	

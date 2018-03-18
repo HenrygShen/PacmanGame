@@ -19,17 +19,22 @@ public class Game {
 	private MediaPlayer mediaPlayer;
 	private ArrayList<GameObject> objects;
 	private Board board;
+	private char map;
 	
 	
-	public Game() {
+	public Game(char map) {
 		
+		this.map = map;
 		board = new Board();
+		board.setGame(this);
+		board.createBoard();
 		objects = board.getObjects();
 		pacman = new Pacman(43,44);
 		ghost = new Ghost(300,334);
 		chompNoise = new Media(new File("bin/assets/sfx/chompNoise.mp3").toURI().toString());
 	
 	}
+	
 	
 	public void update( ) {
 		
@@ -95,5 +100,9 @@ public class Game {
 		mediaPlayer.play();
 	}
 
+	public char getMap() {
+		
+		return this.map;
+	}
 
 }

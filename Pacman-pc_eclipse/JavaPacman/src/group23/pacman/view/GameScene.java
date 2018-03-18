@@ -22,18 +22,21 @@ public class GameScene {
     private GraphicsContext graphicsContext;
     private Game game;
     private boolean running;
+    private char map;
 
-	public GameScene(Stage mainStage,char level) {
+	public GameScene(Stage mainStage,char map) {
 		
 		this.mainStage = mainStage;
         this.running = true;
+        this.map = map;
 		root = new Group();
 		scene = new Scene(root);
 	    canvas = new Canvas(1366, 768);
 	    
+	    
 	    String backgroundImage;
 	    
-	    switch (level) {
+	    switch (map) {
 		    case 's' :
 		    	backgroundImage = "bg/background-sea_game.png";
 		    	break;
@@ -81,6 +84,8 @@ public class GameScene {
 
 	}
 	
+	
+	
 	/* Pauses/starts the game */
 	protected void changeState() {
 		
@@ -106,11 +111,16 @@ public class GameScene {
 		
 	}
 	
+	public void setMap(char map) {
+		
+		this.map = map;
+	}
 	public void setGameMode(int gameType) {
 		
 		/* Game has single player, multi-player game modes */
 		if (gameType == 1) {
-			game = new Game();
+			game = new Game(map);
+
 		}
 		
 	}
