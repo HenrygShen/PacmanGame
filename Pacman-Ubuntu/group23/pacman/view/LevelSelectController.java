@@ -1,11 +1,10 @@
 package group23.pacman.view;
 
-import java.util.Timer;
-import java.util.TimerTask;
-import java.util.concurrent.TimeUnit;
 
 import group23.pacman.MainApp;
+import javafx.event.EventHandler;
 import javafx.fxml.FXML;
+import javafx.scene.Scene;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.KeyCode;
@@ -35,10 +34,63 @@ public class LevelSelectController {
 	private Image desertBackground;
 	private Image[] backgrounds;
 	
+	private Scene scene;
+	
+	/* This boolean stops the enter key press that was used before from instantly starting a game */
+	private boolean firstPress;
+	
 	
 	public LevelSelectController() {
+		
+		firstPress = true;
+		
 	}
 	
+	public void start() {
+		
+		scene.setOnKeyPressed(new EventHandler<KeyEvent>(){
+		    @Override
+		    public void handle(KeyEvent event) {
+		    	/* switch to switch statements later */
+		    	if (event.getCode() == KeyCode.ENTER) {	
+		    		if (!firstPress) {
+			    		char level;
+			    		switch (index) {
+			    			case 0 :
+			    				level = 's';
+			    				break;
+			    			case 1 :
+			   					level = 'd';
+			   					break;
+		    				default :
+			    				level = 's';
+			    				break;
+			    		}	
+				    	GameScene gameScene = new GameScene(mainApp.getStage(),level);
+				    	gameScene.setMap(level);
+				   		gameScene.setGameMode(1);
+				   		gameScene.start();
+		    		}
+		    		else {
+		    			firstPress = false;
+		    		}
+		    	}
+		    	else if (event.getCode() == KeyCode.LEFT) {
+					animateLeft();
+					index--;
+					index = (index < 0) ? MAX_BACKGROUND_INDEX : index;
+				}
+				
+				else if (event.getCode() == KeyCode.RIGHT) {
+					animateRight();
+					index++;
+					index = (index > MAX_BACKGROUND_INDEX) ? 0 : index;
+				}
+				
+				levelImage.setImage(backgrounds[index]);
+		    }	    
+		});
+	}
 	
 	@FXML
 	private void initialize() {
@@ -64,75 +116,33 @@ public class LevelSelectController {
 		
 		
 	}
-
 	
-	@FXML
-	private void handleImageScroll(KeyEvent event) {
-		
-		if (event.getCode() == KeyCode.ENTER) {
-			
-			char level;
-
-			switch (index) {
-				case 0 :
-					level = 's';
-					break;
-				case 1 :
-					level = 'd';
-					break;
-				default :
-					level = 's';
-					break;
-			}
-			
-			GameScene gameScene = new GameScene(mainApp.getStage(),level);
-			gameScene.setMap(level);
-			gameScene.setGameMode(1);
-			gameScene.start();
-			
-			
-		}
-		
-		else if (event.getCode() == KeyCode.LEFT) {
-			animateLeft();
-			index--;
-			index = (index < 0) ? MAX_BACKGROUND_INDEX : index;
-		}
-		
-		else if (event.getCode() == KeyCode.RIGHT) {
-			animateRight();
-			index++;
-			index = (index > MAX_BACKGROUND_INDEX) ? 0 : index;
-		}
-		
-		levelImage.setImage(backgrounds[index]);
-	}
 	
 	private void animateLeft() {
-
-		leftArrow.setX(leftArrow.getX() - 40);
-        leftArrow.setY(leftArrow.getY() - 40);
+		
+		leftArrow.setX(- 40);
+        leftArrow.setY(- 40);
 		leftArrow.setFitHeight(150);
 		leftArrow.setFitWidth(150);
         leftArrow.setImage(new Image("assets/buttons/leftArrow.png",150,150,false,false));
 
-
-        
 	
 	}
 	
 	private void animateRight() {
 		
-		leftArrow.setFitHeight(110);
-		leftArrow.setFitWidth(110);
-		 leftArrow.setX(leftArrow.getX() + 50);
-	        leftArrow.setY(leftArrow.getY() + 50);
-	        leftArrow.setImage(new Image("assets/buttons/leftArrow.png",110,110,false,false));
+
+		rightArrow.setX(0);
+		rightArrow.setY(-40);
+		rightArrow.setFitHeight(150);
+		rightArrow.setFitWidth(150);
+		rightArrow.setImage(new Image("assets/buttons/rightArrow.png",150,150,false,false));
 
 	
 	}
 	public void setMainApp(MainApp mainApp) {
 		
 		this.mainApp = mainApp;
+		this.scene = mainApp.getScene();
 	}
 }
