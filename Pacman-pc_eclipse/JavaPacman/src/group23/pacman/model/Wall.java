@@ -18,13 +18,13 @@ public class Wall extends GameObject{
 		String mapBlock;
 		switch (map) {
 			case 's' :
-				mapBlock = "assets/mapBlock-sea.png";
+				mapBlock = "assets/tiles/mapBlock-sea.png";
 				break;
 			case 'd' :
-				mapBlock = "assets/mapBlock-desert.png";
+				mapBlock = "assets/tiles/mapBlock-desert.png";
 				break;
 			default :
-				mapBlock = "assets/mapBlock-default.png";
+				mapBlock = "assets/tiles/mapBlock-default.png";
 				break;
 		}
 		this.mapBlock = new Image(mapBlock,10,10,false,false);

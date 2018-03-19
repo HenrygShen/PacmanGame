@@ -1,8 +1,10 @@
 package group23.pacman.view;
 
+
 import group23.pacman.MainApp;
+import javafx.event.EventHandler;
 import javafx.fxml.FXML;
-import javafx.scene.control.Button;
+import javafx.scene.Scene;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.KeyCode;
@@ -12,6 +14,10 @@ public class LevelSelectController {
 	
 	private MainApp mainApp;
 	private static final int MAX_BACKGROUND_INDEX = 1;
+	
+	@FXML
+	private ImageView background;
+	
 	
 	@FXML
 	private ImageView levelImage;
@@ -28,15 +34,70 @@ public class LevelSelectController {
 	private Image desertBackground;
 	private Image[] backgrounds;
 	
+	private Scene scene;
+	
+	/* This boolean stops the enter key press that was used before from instantly starting a game */
+	private boolean firstPress;
+	
 	
 	public LevelSelectController() {
-	
-
+		
+		firstPress = true;
+		
 	}
 	
+	public void start() {
+		
+		scene.setOnKeyPressed(new EventHandler<KeyEvent>(){
+		    @Override
+		    public void handle(KeyEvent event) {
+		    	/* switch to switch statements later */
+		    	if (event.getCode() == KeyCode.ENTER) {	
+		    		if (!firstPress) {
+			    		char level;
+			    		switch (index) {
+			    			case 0 :
+			    				level = 's';
+			    				break;
+			    			case 1 :
+			   					level = 'd';
+			   					break;
+		    				default :
+			    				level = 's';
+			    				break;
+			    		}	
+				    	GameScene gameScene = new GameScene(mainApp.getStage(),level);
+				    	gameScene.setMap(level);
+				   		gameScene.setGameMode(1);
+				   		gameScene.start();
+		    		}
+		    		else {
+		    			firstPress = false;
+		    		}
+		    	}
+		    	else if (event.getCode() == KeyCode.LEFT) {
+					animateLeft();
+					index--;
+					index = (index < 0) ? MAX_BACKGROUND_INDEX : index;
+				}
+				
+				else if (event.getCode() == KeyCode.RIGHT) {
+					animateRight();
+					index++;
+					index = (index > MAX_BACKGROUND_INDEX) ? 0 : index;
+				}
+				
+				levelImage.setImage(backgrounds[index]);
+		    }	    
+		});
+	}
 	
 	@FXML
 	private void initialize() {
+		
+		/* Set up background of this view */
+		Image backgroundImage = new Image("bg/background-levelSelect.png");
+		background.setImage(backgroundImage);
 		
 		/* Set up level backgrounds to scroll through */
 		seaBackground = new Image("bg/background-sea_game.png");
@@ -48,56 +109,40 @@ public class LevelSelectController {
 		levelImage.setImage(backgrounds[index]);
 		
 		/* Load the arrows */
-		Image leftArrowImage = new Image("assets/leftArrow.png");
-		Image rightArrowImage = new Image("assets/rightArrow.png");		
+		Image leftArrowImage = new Image("assets/buttons/leftArrow.png",110,110,false,false);
+		Image rightArrowImage = new Image("assets/buttons/rightArrow.png",110,110,false,false);		
 		leftArrow.setImage(leftArrowImage);
 		rightArrow.setImage(rightArrowImage);
 		
 		
 	}
+	
+	
+	private void animateLeft() {
+		
+		leftArrow.setX(- 40);
+        leftArrow.setY(- 40);
+		leftArrow.setFitHeight(150);
+		leftArrow.setFitWidth(150);
+        leftArrow.setImage(new Image("assets/buttons/leftArrow.png",150,150,false,false));
 
 	
-	@FXML
-	private void handleImageScroll(KeyEvent event) {
-		
-		if (event.getCode() == KeyCode.RIGHT) {
-			index++;
-			index = (index > MAX_BACKGROUND_INDEX) ? 0 : index;
-		}
-		
-		else if (event.getCode() == KeyCode.LEFT) {
-			index--;
-			index = (index < 0) ? MAX_BACKGROUND_INDEX : index;
-		}
-		else if (event.getCode() == KeyCode.ENTER) {
-			
-			char level;
-
-			switch (index) {
-				case 0 :
-					level = 's';
-					break;
-				case 1 :
-					level = 'd';
-					break;
-				default :
-					level = 's';
-					break;
-			}
-			
-			GameScene gameScene = new GameScene(mainApp.getStage(),level);
-			gameScene.setMap(level);
-			gameScene.setGameMode(1);
-			gameScene.start();
-			
-			
-		}
-		
-		levelImage.setImage(backgrounds[index]);
 	}
 	
+	private void animateRight() {
+		
+
+		rightArrow.setX(0);
+		rightArrow.setY(-40);
+		rightArrow.setFitHeight(150);
+		rightArrow.setFitWidth(150);
+		rightArrow.setImage(new Image("assets/buttons/rightArrow.png",150,150,false,false));
+
 	
+	}
 	public void setMainApp(MainApp mainApp) {
+		
 		this.mainApp = mainApp;
+		this.scene = mainApp.getScene();
 	}
 }

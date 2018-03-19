@@ -96,21 +96,15 @@ public class GameScene {
 	
 	public void start() {
 
-		
-		 new AnimationTimer() {
-			 	
-
-				public void handle(long time) {
-						
-					if (running == true) {
-			        	graphicsContext.clearRect(0, 0, 1366, 768);
-			        	game.update();
-			        	draw(graphicsContext);
-					}
-
-		        }
-		    }.start();
-		
+		new AnimationTimer() {
+			public void handle(long time) {	
+				if (running == true) {
+					graphicsContext.clearRect(0, 0, 1366, 768);
+					game.update();
+					draw(graphicsContext);
+				}
+			}
+		}.start();
 	}
 	
 	public void setMap(char map) {
@@ -130,7 +124,7 @@ public class GameScene {
 	public void draw(GraphicsContext graphicsContext) {
 		
 		game.getPacman().draw(graphicsContext);
-		//game.getGhost().draw(graphicsContext);
+		game.getGhost().draw(graphicsContext);
 		game.drawObjects(graphicsContext);
 	}
 	

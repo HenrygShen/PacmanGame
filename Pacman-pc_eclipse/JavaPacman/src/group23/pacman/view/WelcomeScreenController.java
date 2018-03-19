@@ -96,24 +96,25 @@ public class WelcomeScreenController {
 		else if (event.getCode() == KeyCode.RIGHT) {
 			/* Maybe play a sound effect here */
 		}
+		
 
 	}
 	
 	private void highlightButton(int button) {
 		if (button == 1) {
-			playBtnImage.setImage(new Image("assets/button-play-highlighted.png",200,100,false,false));
-			optionBtnImage.setImage(new Image("assets/button-options.png",200,100,false,false));
-			exitBtnImage.setImage(new Image("assets/button-exit.png",200,100,false,false));
+			playBtnImage.setImage(new Image("assets/buttons/button-play-highlighted.png",200,100,false,false));
+			optionBtnImage.setImage(new Image("assets/buttons/button-options.png",200,100,false,false));
+			exitBtnImage.setImage(new Image("assets/buttons/button-exit.png",200,100,false,false));
 		}
 		else if (button == 2) {
-			playBtnImage.setImage(new Image("assets/button-play.png",200,100,false,false));
-			optionBtnImage.setImage(new Image("assets/button-options-highlighted.png",200,100,false,false));
-			exitBtnImage.setImage(new Image("assets/button-exit.png",200,100,false,false));
+			playBtnImage.setImage(new Image("assets/buttons/button-play.png",200,100,false,false));
+			optionBtnImage.setImage(new Image("assets/buttons/button-options-highlighted.png",200,100,false,false));
+			exitBtnImage.setImage(new Image("assets/buttons/button-exit.png",200,100,false,false));
 		}
 		else if (button == 3) {
-			playBtnImage.setImage(new Image("assets/button-play.png",200,100,false,false));
-			optionBtnImage.setImage(new Image("assets/button-options.png",200,100,false,false));
-			exitBtnImage.setImage(new Image("assets/button-exit-highlighted.png",200,100,false,false));
+			playBtnImage.setImage(new Image("assets/buttons/button-play.png",200,100,false,false));
+			optionBtnImage.setImage(new Image("assets/buttons/button-options.png",200,100,false,false));
+			exitBtnImage.setImage(new Image("assets/buttons/button-exit-highlighted.png",200,100,false,false));
 		}
 	}
 	
@@ -123,13 +124,13 @@ public class WelcomeScreenController {
 		Image mainMenuBackground = new Image("bg/background-main.png");
 		background.setImage(mainMenuBackground);
 
-		Image playImage = new Image("assets/button-play.png",200,100,false,false);
+		Image playImage = new Image("assets/buttons/button-play-highlighted.png",200,100,false,false);
 		playBtnImage.setImage(playImage);
 		
-		Image optionImage = new Image("assets/button-options.png",200,100,false,false);
+		Image optionImage = new Image("assets/buttons/button-options.png",200,100,false,false);
 		optionBtnImage.setImage(optionImage);
 		
-		Image exitImage = new Image("assets/button-exit.png",200,100,false,false);
+		Image exitImage = new Image("assets/buttons/button-exit.png",200,100,false,false);
 		exitBtnImage.setImage(exitImage);
 	}
 

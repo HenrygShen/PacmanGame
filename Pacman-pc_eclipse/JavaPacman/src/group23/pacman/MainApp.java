@@ -17,6 +17,7 @@ public class MainApp extends Application{
 	
 	private Stage gameWindow;
 	private BorderPane rootLayout;
+	private Scene scene;
 	
 	public static void main(String[] args) {
 		
@@ -26,20 +27,21 @@ public class MainApp extends Application{
 	
 	public void initRootLayout() {
 		
-		 try {
-	            // Load root layout from fxml file.
-	            FXMLLoader loader = new FXMLLoader();
-	            loader.setLocation(MainApp.class.getResource("view/RootLayout.fxml"));
-	            rootLayout = (BorderPane) loader.load();
+		try {
+			 /* Load root layout from fxml file */
+			 FXMLLoader loader = new FXMLLoader();
+			 loader.setLocation(MainApp.class.getResource("view/RootLayout.fxml"));
+			 rootLayout = (BorderPane) loader.load();
 
-	            // Show the scene containing the root layout.
-	            Scene scene = new Scene(rootLayout);
-	            gameWindow.setScene(scene);
-	            gameWindow.show();
-	        } 
+			 /* Show the scene containing the root layout */
+			 scene = new Scene(rootLayout);
+			 gameWindow.setScene(scene);
+			 gameWindow.show();
+			 
+		 } 
 		 catch (IOException e) {
-	            e.printStackTrace();
-	        }
+			 e.printStackTrace();
+		 }
 	}
 	
 	
@@ -64,7 +66,7 @@ public class MainApp extends Application{
 			loader.setLocation(MainApp.class.getResource("view/WelcomeScreen.fxml"));
 			AnchorPane welcomeScreen = (AnchorPane) loader.load();
 			rootLayout.setCenter(welcomeScreen);
-			
+
             /* Get the controller to manipulate this class */
 			WelcomeScreenController controller = loader.getController();
 			controller.setMainApp(this);
@@ -81,16 +83,16 @@ public class MainApp extends Application{
 		try {
 			
 			/* Load/show the level select layout */
-	        FXMLLoader loader = new FXMLLoader();
-            loader.setLocation(MainApp.class.getResource("view/LevelSelect.fxml"));
-            AnchorPane levelSelectScreen = (AnchorPane) loader.load();
-            rootLayout.setCenter(levelSelectScreen);
-            
+			FXMLLoader loader = new FXMLLoader();
+			loader.setLocation(MainApp.class.getResource("view/LevelSelect.fxml"));
+			AnchorPane levelSelectScreen = (AnchorPane) loader.load();
+			rootLayout.setCenter(levelSelectScreen);
+
             /* Get the controller to manipulate this class */
 			LevelSelectController controller = loader.getController();
 			controller.setMainApp(this);
+			controller.start();
 
-			
 		}
 		catch (IOException e) {
 			e.printStackTrace();
@@ -100,6 +102,11 @@ public class MainApp extends Application{
 	public Stage getStage() {
 		
 		return this.gameWindow;
+	}
+	
+	public Scene getScene() {
+		
+		return this.scene;
 	}
 	
 
