@@ -9,6 +9,10 @@ import group23.pacman.model.Pacman;
 import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.media.Media;
 import javafx.scene.media.MediaPlayer;
+
+/**
+	This is the class that handles all the game logics - collisions, level handling, and creation of the map.
+ */
 public class Game {
 	
 	
@@ -18,17 +22,22 @@ public class Game {
 	private MediaPlayer mediaPlayer;
 	private ArrayList<GameObject> objects;
 	private Board board;
+	private char map;
 	
 	
-	public Game() {
+	public Game(char map) {
 		
+		this.map = map;
 		board = new Board();
+		board.setGame(this);
+		board.createBoard();
 		objects = board.getObjects();
 		pacman = new Pacman(43,44);
 		ghost = new Ghost(300,334);
-		//chompNoise = new Media(new File("assets/sfx/chompNoise.mp3").toURI().toString());
+		chompNoise = new Media(new File("bin/assets/sfx/chompNoise.mp3").toURI().toString());
 	
 	}
+	
 	
 	public void update( ) {
 		
@@ -60,7 +69,7 @@ public class Game {
 
 			if (pacman.collidedWith(object)) {
 				if (object.getType() == GameObject.TYPE.PELLET) {
-					//playSfx(chompNoise);
+					playSfx(chompNoise);
 					objects.remove(object);
 					break;
 				}
@@ -94,5 +103,9 @@ public class Game {
 		mediaPlayer.play();
 	}
 
+	public char getMap() {
+		
+		return this.map;
+	}
 
 }

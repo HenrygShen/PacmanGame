@@ -1,6 +1,9 @@
 package group23.pacman.view;
 import javafx.scene.canvas.GraphicsContext;
 
+/**
+	This class handles an array of animations, each of which has its own array of images(frames).
+ */
 public class AnimationManager {
 
     private Animation animations[];
@@ -15,6 +18,7 @@ public class AnimationManager {
 
     public void playAction(int index){
     	
+    	/* If the current animation isn't already playing, start playing it, then move onto the next animation */
         if (!animations[animationIndex].isPlaying()){
         	animations[animationIndex].playAnimation();
         }

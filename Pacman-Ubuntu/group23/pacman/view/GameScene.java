@@ -11,8 +11,10 @@ import javafx.scene.image.*;
 import javafx.scene.input.KeyCode;
 import javafx.scene.input.KeyEvent;
 
+/** 
+	The view class that handles user input and drawing to the canvas.
+ */
 public class GameScene {
-	
 	
 	Stage mainStage;
 	
@@ -22,23 +24,32 @@ public class GameScene {
     private GraphicsContext graphicsContext;
     private Game game;
     private boolean running;
+    private char map;
 
-	public GameScene(Stage mainStage,char level) {
+	public GameScene(Stage mainStage,char map) {
 		
 		this.mainStage = mainStage;
         this.running = true;
+        this.map = map;
 		root = new Group();
 		scene = new Scene(root);
 	    canvas = new Canvas(1366, 768);
 	    
+	    
 	    String backgroundImage;
-	    switch (level) {
-	    	case 's' :
-	    		backgroundImage = "bg/background-sea_game.png";
-	    	default :
-	    		backgroundImage = "bg/background-sea_game.png";
+	    
+	    switch (map) {
+		    case 's' :
+		    	backgroundImage = "bg/background-sea_game.png";
+		    	break;
+		    case 'd' :
+		    	backgroundImage = "bg/background-desert_game.png";
+		    	break;
+		    default :
+		    	backgroundImage = "bg/background-sea_game.png";
+		    	break;
 	    }
-	   
+
 	    ImageView iv = new ImageView(new Image(backgroundImage));
 	    
 	    
@@ -75,6 +86,8 @@ public class GameScene {
 
 	}
 	
+	
+	
 	/* Pauses/starts the game */
 	protected void changeState() {
 		
@@ -83,28 +96,27 @@ public class GameScene {
 	
 	public void start() {
 
-		
-		 new AnimationTimer() {
-			 	
-
-				public void handle(long time) {
-						
-					if (running == true) {
-			        	graphicsContext.clearRect(0, 0, 1366, 768);
-			        	game.update();
-			        	draw(graphicsContext);
-					}
-
-		        }
-		    }.start();
-		
+		new AnimationTimer() {
+			public void handle(long time) {	
+				if (running == true) {
+					graphicsContext.clearRect(0, 0, 1366, 768);
+					game.update();
+					draw(graphicsContext);
+				}
+			}
+		}.start();
 	}
 	
+	public void setMap(char map) {
+		
+		this.map = map;
+	}
 	public void setGameMode(int gameType) {
 		
 		/* Game has single player, multi-player game modes */
 		if (gameType == 1) {
-			game = new Game();
+			game = new Game(map);
+
 		}
 		
 	}
@@ -112,7 +124,7 @@ public class GameScene {
 	public void draw(GraphicsContext graphicsContext) {
 		
 		game.getPacman().draw(graphicsContext);
-		//game.getGhost().draw(graphicsContext);
+		game.getGhost().draw(graphicsContext);
 		game.drawObjects(graphicsContext);
 	}
 	
