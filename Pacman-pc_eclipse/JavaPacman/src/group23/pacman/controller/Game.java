@@ -64,7 +64,8 @@ public class Game {
 		
 		
 	
-		
+		/* Loops through the game objects to check if the player has collided with a pellet. Pellet is removed on collision
+		 * and TODO: Score will increase */
 		for (GameObject object : objects) {
 
 			if (pacman.collidedWith(object)) {

@@ -12,14 +12,13 @@ import group23.pacman.controller.Game;
 public class Board {
 	
 	private static final int TILE_SIZE = 10;
-	private static final int HELP = 1;
+	private static final int OFFSET = 1;
 	
 	
 	private Game game;
 	private ArrayList<GameObject> objects;
 	
 	private boolean[][] status;
-	private boolean[][] turn;
 	
 	private char map;
 
@@ -27,7 +26,6 @@ public class Board {
 		
 		/* Create the list and arrays of objects/states to be placed on the map */
 		status = new boolean[101][71];
-		turn = new boolean[101][71];
 		objects = new ArrayList<GameObject>();
 	}
 	
@@ -59,8 +57,7 @@ public class Board {
 			 * 0 creates a wall
 			 * P creates a pellet
 			 * 1 is an empty position
-			 * R is a position that the character can be in but cannot turn
-			 * T is a position that the character can be in and can also turn */
+			 * R is a position that the character can be in but cannot turn */
 			while ((line = bufferedReader.readLine()) != null ) {
 				position = 0;
 				for (int i =0;i< line.length();i++) {
@@ -72,7 +69,6 @@ public class Board {
 						rect.setHeight(TILE_SIZE);
 						Wall wall = new Wall(rect,map);
 						status[position][row] = false;
-						turn[position][row] = false;
 						objects.add(wall);
 						position++;
 					}
@@ -80,22 +76,14 @@ public class Board {
 						Pellet pellet = new Pellet(position*TILE_SIZE + 33,row*TILE_SIZE + 34);
 						objects.add(pellet);
 						status[position][row] = false;
-						turn[position][row] = false;
 						position++;
 					}
 					else if (line.charAt(i) == '1' ) {
 						status[position][row] = false;
-						turn[position][row] = false;
 						position++;
 					}
 					else if (line.charAt(i) == 'R' ) {
 						status[position][row] = true;
-						turn[position][row] = false;
-						position++;
-					}
-					else if (line.charAt(i) == 'T' ) {
-						status[position][row] = true;
-						turn[position][row] = true;
 						position++;
 					}
 					else {
@@ -128,7 +116,7 @@ public class Board {
 		return this.objects;
 	}
 	
-	/* Checks if the resulting location of a turn will be a valid destination, i.e on a square that is valid(not inside a wall) */
+	/* Checks if Player is in the exact x,y position to do a 90 degree turn */
 	public boolean validTurningPoint(int x, int y) {
 		
 		if (((x - 33)%10 == 0) && ((y - 34)%10 == 0)){
@@ -144,11 +132,11 @@ public class Board {
 		
     	switch (direction) {
 			case 'U':
-				return this.status[(x - 33)/10][(y - HELP - 34)/10];
+				return this.status[(x - 33)/10][(y - OFFSET - 34)/10];
 			case 'D':
 				return this.status[(x - 33)/10][(y + TILE_SIZE - 34)/10];
 			case 'L':
-				return this.status[(x - HELP - 33)/10][(y - 34)/10];
+				return this.status[(x - OFFSET - 33)/10][(y - 34)/10];
 			case 'R':
 				return this.status[(x + TILE_SIZE - 33)/10][(y - 34)/10];
     	}

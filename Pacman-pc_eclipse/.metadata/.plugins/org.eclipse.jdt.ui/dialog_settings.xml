@@ -3,7 +3,7 @@
 	<item value="false" key="TypeHierarchyViewPart.qualifiednames"/>
 	<item value="3" key="TypeHierarchyViewPart.orientation"/>
 	<item value="false" key="TypeHierarchyViewPart.linkeditors"/>
-	<item value="C:\Program Files\Java\jre1.8.0_151\lib" key="org.eclipse.jdt.ui.lastextjar"/>
+	<item value="C:\Program Files\Java\jre1.8.0_162\lib" key="org.eclipse.jdt.ui.lastextjar"/>
 	<item value="2" key="TypeHierarchyViewPart.hierarchyview"/>
 	<item value="C:\Users\Lincoln\Desktop" key="org.eclipse.jdt.ui.last.external.project"/>
 	<section name="FatJarPackageWizard">
@@ -32,7 +32,7 @@
 		<item value="true" key="create_unimplemented"/>
 	</section>
 	<section name="ClasspathContainerSelectionPage">
-		<item value="3" key="index"/>
+		<item value="6" key="index"/>
 	</section>
 	<section name="OptionalMessageDialog.hide.">
 		<item value="true" key="org.eclipse.jdt.ui.typecomment.deprecated"/>
