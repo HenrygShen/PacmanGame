@@ -7,18 +7,19 @@ import javafx.scene.image.Image;
 
 public class Ghost extends GameObject {
 	
-	private static final int SPRITE_HEIGHT = 25;
-	private static final int SPRITE_WIDTH = 25;
+	private static final int SPRITE_HEIGHT = 30;
+	private static final int SPRITE_WIDTH = 30;
 	private AnimationManager animationManager;
 	
 	
 	public Ghost(int x,int y) {
 		
 		
-		Image ghost = new Image("assets/ghost.png",SPRITE_WIDTH,SPRITE_HEIGHT,false,false);
+		Image ghostOpen = new Image("assets/Ghost/tempGhostOpen.png",SPRITE_WIDTH,SPRITE_HEIGHT,false,false);
+		Image ghostClosed = new Image("assets/Ghost/tempGhostClosed.png",SPRITE_WIDTH,SPRITE_HEIGHT,false,false);
 		Image[] frames = new Image[2];
-		frames[0] = ghost;
-		frames[1] = ghost;
+		frames[0] = ghostOpen;
+		frames[1] = ghostClosed;
 		
 		
 		Animation animation = new Animation(frames,0.3f);

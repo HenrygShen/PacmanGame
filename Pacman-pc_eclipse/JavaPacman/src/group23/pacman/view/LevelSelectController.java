@@ -1,6 +1,5 @@
 package group23.pacman.view;
 
-
 import group23.pacman.MainApp;
 import javafx.event.EventHandler;
 import javafx.fxml.FXML;
@@ -12,38 +11,44 @@ import javafx.scene.input.KeyEvent;
 
 public class LevelSelectController {
 	
-	private MainApp mainApp;
+	/* Number of available levels subtract 1 */
 	private static final int MAX_BACKGROUND_INDEX = 1;
 	
+	/* FXML elements in LevelSelect.fxml */
 	@FXML
 	private ImageView background;
-	
-	
 	@FXML
 	private ImageView levelImage;
-	
-
 	@FXML
 	private ImageView leftArrow;
-	
 	@FXML
 	private ImageView rightArrow;
 	
+	
+	/* Main app copy kept to use when referencing to get its stage, and scene. */
+	private MainApp mainApp;
+	private Scene scene;
+
+	
+	/* Variables for showing which background/level/map will be set */
 	private int index;
 	private Image seaBackground;
 	private Image desertBackground;
 	private Image[] backgrounds;
-	
-	private Scene scene;
-	
+
+	/* Variable to control scroll speed */
+	private long lastTime;
+
 	/* This boolean stops the enter key press that was used before from instantly starting a game */
 	private boolean firstPress;
 	
+	private boolean animated;
 	
 	public LevelSelectController() {
 		
+		lastTime = 0;
 		firstPress = true;
-		
+		animated = false;
 	}
 	
 	public void start() {
@@ -51,7 +56,7 @@ public class LevelSelectController {
 		scene.setOnKeyPressed(new EventHandler<KeyEvent>(){
 		    @Override
 		    public void handle(KeyEvent event) {
-		    	/* switch to switch statements later */
+		    	/* Selects the currently shown map/level */
 		    	if (event.getCode() == KeyCode.ENTER) {	
 		    		if (!firstPress) {
 			    		char level;
@@ -76,18 +81,53 @@ public class LevelSelectController {
 		    		}
 		    	}
 		    	else if (event.getCode() == KeyCode.LEFT) {
-					animateLeft();
-					index--;
-					index = (index < 0) ? MAX_BACKGROUND_INDEX : index;
+		    		
+		    		/* Prevents background from scrolling too fast if key is held down
+		    		 * Only changes every half second */
+					if (System.currentTimeMillis() - lastTime > 500) {
+						lastTime = System.currentTimeMillis();
+						setLeftBackground();
+					}
+					if (!animated) {
+						animateLeft();
+						animated = true;
+					}
+
 				}
 				
 				else if (event.getCode() == KeyCode.RIGHT) {
-					animateRight();
-					index++;
-					index = (index > MAX_BACKGROUND_INDEX) ? 0 : index;
+					
+					/* Prevents background from scrolling too fast if key is held down
+		    		 * Only changes every half second */
+					if (System.currentTimeMillis() - lastTime > 500) {
+						lastTime = System.currentTimeMillis();
+						setRightBackground();
+					}
+					if (!animated) {
+						animateRight();
+						animated = true;
+					}
 				}
 				
-				levelImage.setImage(backgrounds[index]);
+		    }	    
+		});
+		
+		
+		scene.setOnKeyReleased(new EventHandler<KeyEvent>(){
+		    @Override
+		    public void handle(KeyEvent event) {
+		    	/* switch to switch statements later */
+		    	if (event.getCode() == KeyCode.LEFT) {
+		    		resetLArrow();
+		    		lastTime = 0;
+		    		animated = false;
+				}
+				
+				else if (event.getCode() == KeyCode.RIGHT) {
+					resetRArrow();
+		    		lastTime = 0;
+		    		animated = false;
+				}
 		    }	    
 		});
 	}
@@ -117,7 +157,31 @@ public class LevelSelectController {
 		
 	}
 	
+	/* Public setter for this class to reference the main application */
+	public void setMainApp(MainApp mainApp) {
+		
+		this.mainApp = mainApp;
+		this.scene = mainApp.getScene();
+	}
 	
+	/* Set background functions - 
+	 * Help scroll the background to the left or the right
+	 */
+	private void setLeftBackground() {
+		index--;
+		index = (index < 0) ? MAX_BACKGROUND_INDEX : index;
+		levelImage.setImage(backgrounds[index]);
+	}
+	
+	private void setRightBackground() {
+		index--;
+		index = (index < 0) ? MAX_BACKGROUND_INDEX : index;
+		levelImage.setImage(backgrounds[index]);
+	}
+	
+	/* Animate functions help "animate" the arrow keys, by
+	 * enlarging them as the respective key is held down.
+	 * This gives the user feedback on the key press and is a nice little feature for the UI*/
 	private void animateLeft() {
 		
 		leftArrow.setX(- 40);
@@ -125,24 +189,37 @@ public class LevelSelectController {
 		leftArrow.setFitHeight(150);
 		leftArrow.setFitWidth(150);
         leftArrow.setImage(new Image("assets/buttons/leftArrow.png",150,150,false,false));
+        
 
-	
 	}
 	
 	private void animateRight() {
 		
-
 		rightArrow.setX(0);
 		rightArrow.setY(-40);
 		rightArrow.setFitHeight(150);
 		rightArrow.setFitWidth(150);
 		rightArrow.setImage(new Image("assets/buttons/rightArrow.png",150,150,false,false));
 
+	}
 	
+	/* Reset functions help reset the arrows to their original size to let the 
+	 * user know when the key is released.
+	 */
+	private void resetLArrow() {
+		leftArrow.setX(0);
+        leftArrow.setY(0);
+		leftArrow.setFitHeight(110);
+		leftArrow.setFitWidth(110);
+        leftArrow.setImage(new Image("assets/buttons/leftArrow.png",110,110,false,false));
 	}
-	public void setMainApp(MainApp mainApp) {
-		
-		this.mainApp = mainApp;
-		this.scene = mainApp.getScene();
+	
+	private void resetRArrow() {
+		rightArrow.setX(0);
+		rightArrow.setY(0);
+		rightArrow.setFitHeight(110);
+		rightArrow.setFitWidth(110);
+		rightArrow.setImage(new Image("assets/buttons/rightArrow.png",110,110,false,false));
 	}
+
 }

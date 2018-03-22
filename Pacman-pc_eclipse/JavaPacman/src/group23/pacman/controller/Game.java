@@ -32,8 +32,8 @@ public class Game {
 		board.setGame(this);
 		board.createBoard();
 		objects = board.getObjects();
-		pacman = new Pacman(43,44);
-		ghost = new Ghost(300,334);
+		pacman = new Pacman(board.getPacman()[0],board.getPacman()[1]);
+		ghost = new Ghost(board.getGhost()[0],board.getGhost()[1]);
 		chompNoise = new Media(new File("bin/assets/sfx/chompNoise.mp3").toURI().toString());
 	
 	}

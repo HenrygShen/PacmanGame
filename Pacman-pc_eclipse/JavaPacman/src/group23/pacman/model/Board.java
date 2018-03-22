@@ -19,12 +19,15 @@ public class Board {
 	private ArrayList<GameObject> objects;
 	
 	private boolean[][] status;
-	
+	private int[] ghostCoords;
+	private int[] pacmanCoords;
 	private char map;
 
 	public Board() {
 		
 		/* Create the list and arrays of objects/states to be placed on the map */
+		pacmanCoords = new int[2];
+		ghostCoords = new int[2];
 		status = new boolean[101][71];
 		objects = new ArrayList<GameObject>();
 	}
@@ -86,10 +89,20 @@ public class Board {
 						status[position][row] = true;
 						position++;
 					}
-					else {
-						
+					else if (line.charAt(i) == 'S'){
+						pacmanCoords[0] = (position-2)*TILE_SIZE + 33;
+						pacmanCoords[1] = (row-2)*TILE_SIZE + 34;
+						position++;
 					}
+					else if (line.charAt(i) == 'G'){
+						ghostCoords[0] = (position-2)*TILE_SIZE + 33;
+						ghostCoords[1] = (row-2)*TILE_SIZE + 34;
+						position++;
+					}
+				
 				}
+							
+				
 				row++;
 			}
 			bufferedReader.close();
@@ -142,5 +155,14 @@ public class Board {
     	}
     	return false;
     }
+	
+	public int[] getPacman() {
+		
+		return pacmanCoords;
+	}
+	public int[] getGhost() {
+		
+		return ghostCoords;
+	}
 	
 }
