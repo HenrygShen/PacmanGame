@@ -1,0 +1,44 @@
+package group23.pacman.view;
+
+import group23.pacman.controller.Game;
+import javafx.event.EventHandler;
+import javafx.scene.Scene;
+import javafx.scene.input.KeyCode;
+import javafx.scene.input.KeyEvent;
+
+public class GameController {
+	
+	private Scene scene;
+	
+	private Game game;
+	
+	public GameController() {
+		
+		
+	}
+	
+	public void listen() {
+		
+		 scene.setOnKeyPressed(new EventHandler<KeyEvent> (){
+		    	@Override
+		    	public void handle(KeyEvent e) {
+			    	if (e.getCode() == KeyCode.UP) {
+			    		game.getPacman().queueMovement('U');
+			    	}
+			    	else if (e.getCode() == KeyCode.DOWN) {
+			    		game.getPacman().queueMovement('D');
+			    	}
+			    	else if (e.getCode() == KeyCode.LEFT) {
+			    		game.getPacman().queueMovement('L');
+			    	}
+			    	else if (e.getCode() == KeyCode.RIGHT) {
+			    		game.getPacman().queueMovement('R');
+			    	}
+			    	else if (e.getCode() == KeyCode.P) {
+			    		changeState();
+			    	}
+		    	}
+		    });
+	}
+
+}

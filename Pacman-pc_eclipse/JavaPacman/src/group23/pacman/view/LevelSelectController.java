@@ -1,18 +1,25 @@
 package group23.pacman.view;
 
+import java.io.IOException;
+
 import group23.pacman.MainApp;
+import group23.pacman.controller.GameStateController;
+import group23.pacman.model.Game;
 import javafx.event.EventHandler;
 import javafx.fxml.FXML;
+import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
+import javafx.scene.canvas.Canvas;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.KeyCode;
 import javafx.scene.input.KeyEvent;
+import javafx.scene.layout.AnchorPane;
 
 public class LevelSelectController {
 	
 	/* Number of available levels subtract 1 */
-	private static final int MAX_BACKGROUND_INDEX = 1;
+	private static final int MAX_BACKGROUND_INDEX = 2;
 	
 	/* FXML elements in LevelSelect.fxml */
 	@FXML
@@ -34,6 +41,8 @@ public class LevelSelectController {
 	private int index;
 	private Image seaBackground;
 	private Image desertBackground;
+	private Image classicBackground;
+	
 	private Image[] backgrounds;
 
 	/* Variable to control scroll speed */
@@ -62,19 +71,21 @@ public class LevelSelectController {
 			    		char level;
 			    		switch (index) {
 			    			case 0 :
-			    				level = 's';
+			    				level = 'c';
 			    				break;
 			    			case 1 :
-			   					level = 'd';
+			   					level = 's';
 			   					break;
-		    				default :
-			    				level = 's';
+			    			case 2 :
+			    				level = 'd';
 			    				break;
-			    		}	
-				    	GameScene gameScene = new GameScene(mainApp.getStage(),level);
-				    	gameScene.setMap(level);
-				   		gameScene.setGameMode(1);
-				   		gameScene.start();
+		    				default :
+			    				level = 'c';
+			    				break;
+			    		}
+			    		
+			    		startGame(level);
+
 		    		}
 		    		else {
 		    			firstPress = false;
@@ -116,7 +127,6 @@ public class LevelSelectController {
 		scene.setOnKeyReleased(new EventHandler<KeyEvent>(){
 		    @Override
 		    public void handle(KeyEvent event) {
-		    	/* switch to switch statements later */
 		    	if (event.getCode() == KeyCode.LEFT) {
 		    		resetLArrow();
 		    		lastTime = 0;
@@ -132,6 +142,31 @@ public class LevelSelectController {
 		});
 	}
 	
+	
+	private void startGame(char map) {
+		
+		try {
+			
+			/* Load/show the game view layout */
+			FXMLLoader loader = new FXMLLoader();
+			loader.setLocation(MainApp.class.getResource("view/GameView.fxml"));
+			AnchorPane gameView = (AnchorPane) loader.load();
+			mainApp.getPane().setCenter(gameView);
+			
+			/* Get the controller to manipulate this class */
+			GameViewController controller = loader.getController();
+			controller.setMainApp(mainApp);
+			
+			/* Create game and pass to controller */
+			Game game = new Game(map);
+			controller.setGame(game);
+			controller.start();
+			
+		}
+		catch (IOException e) {
+			
+		}
+	}
 	@FXML
 	private void initialize() {
 		
@@ -142,9 +177,11 @@ public class LevelSelectController {
 		/* Set up level backgrounds to scroll through */
 		seaBackground = new Image("bg/background-sea_game.png");
 		desertBackground = new Image("bg/background-desert_game.png");
-		backgrounds = new Image[2];
-		backgrounds[0] = seaBackground;
-		backgrounds[1] = desertBackground;
+		classicBackground = new Image("bg/background-classic_game.png");
+		backgrounds = new Image[3];
+		backgrounds[0] = classicBackground;
+		backgrounds[1] = seaBackground;
+		backgrounds[2] = desertBackground;
 		index = 0;
 		levelImage.setImage(backgrounds[index]);
 		
@@ -156,6 +193,8 @@ public class LevelSelectController {
 		
 		
 	}
+	
+	
 	
 	/* Public setter for this class to reference the main application */
 	public void setMainApp(MainApp mainApp) {

@@ -1,0 +1,144 @@
+package group23.pacman.model;
+
+import group23.pacman.view.Animation;
+import group23.pacman.view.AnimationManager;
+import javafx.scene.canvas.GraphicsContext;
+import javafx.scene.image.Image;
+
+public class Ghost extends GameObject {
+	
+	private static final int SPRITE_HEIGHT = 30;
+	private static final int SPRITE_WIDTH = 30;
+	/* Pixels moved per update */
+	private static final int SPEED = 2;
+	private AnimationManager animationManager;
+	
+	/* Direction to move and planned direction */
+	private char vector;
+	private char queuedDirection;
+	
+	/* Hit-box used to check queued movements */
+	private Rectangle theoreticalHitBox;
+	
+	
+	private boolean turned;
+	public Ghost(int x,int y) {
+		
+		
+		Image ghostOpen = new Image("assets/Ghost/tempGhostOpen.png",SPRITE_WIDTH,SPRITE_HEIGHT,false,false);
+		Image ghostClosed = new Image("assets/Ghost/tempGhostClosed.png",SPRITE_WIDTH,SPRITE_HEIGHT,false,false);
+		Image[] frames = new Image[2];
+		frames[0] = ghostOpen;
+		frames[1] = ghostClosed;
+		
+		
+		Animation animation = new Animation(frames,0.3f);
+		Animation[] animations = new Animation[1];
+		animations[0] = animation;
+		
+		animationManager = new AnimationManager(animations);
+		
+		hitBox = new Rectangle();
+		this.hitBox.setX(x);
+		this.hitBox.setY(y);
+		this.hitBox.setHeight(SPRITE_HEIGHT);
+		this.hitBox.setWidth(SPRITE_WIDTH);
+		this.type = GameObject.TYPE.GHOST;
+		
+	}
+	
+	public void update() {
+		
+		animationManager.update();
+		animationManager.playAction(0);
+		
+	}
+	
+	public void queueMovement(char queuedDirection) {
+		
+		if (turned == false) {
+			this.queuedDirection = queuedDirection;
+		}
+	}
+
+    
+    public void setDirection(char vector) {
+    	
+    	this.vector = vector;	
+    }
+    
+    public char getDirection() {
+    	
+    	return this.vector;
+    }
+    
+    public char getQDirection() {
+    	
+    	return this.queuedDirection;
+    }
+    
+    
+    public boolean checkforQueuedAction() {
+		
+	    return (queuedDirection != vector);
+    }
+    
+    public boolean oppositeDirection() {
+    	
+    	switch (vector) {
+    		case 'S':
+    			return true;
+			case 'U':
+				if (queuedDirection == 'D') {
+					return true;
+				}
+			case 'D':
+				if (queuedDirection == 'U') {
+					return true;
+				}
+			case 'L':
+				if (queuedDirection == 'R') {
+					return true;
+				}
+			case 'R':
+				if (queuedDirection == 'L') {
+					return true;
+				}
+    	}
+    	return false;
+    }
+        
+
+    public void setNewMove() {
+    	
+    	this.hitBox.setY((int)theoreticalHitBox.getY());
+    	this.hitBox.setX((int)theoreticalHitBox.getX());
+    	setDirection(queuedDirection);
+    }
+    
+    public void changeMovement() {
+    
+    		
+    	if (this.vector == 'U') {
+			this.hitBox.setY((int)hitBox.getY() - SPEED);
+		}
+		else if (this.vector == 'D') {
+			this.hitBox.setY((int)hitBox.getY() + SPEED);
+		}
+		else if (this.vector == 'L') {
+			this.hitBox.setX((int)hitBox.getX() - SPEED);
+		}
+		else if (this.vector == 'R') {
+			this.hitBox.setX((int)hitBox.getX() + SPEED);
+		}
+    }
+
+	
+	public void draw(GraphicsContext graphicsContext) {
+		
+		animationManager.draw(graphicsContext,this.getHitBox().getX(),this.hitBox.getY());
+	}
+	
+	
+	
+}

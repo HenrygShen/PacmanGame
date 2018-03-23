@@ -1,0 +1,18 @@
+package group23.pacman.view;
+
+import group23.pacman.controller.Game;
+import javafx.animation.AnimationTimer;
+import javafx.event.EventHandler;
+import javafx.scene.Group;
+import javafx.scene.Scene;
+import javafx.scene.canvas.Canvas;
+import javafx.scene.canvas.GraphicsContext;
+import javafx.stage.Stage; 
+import javafx.scene.image.*;
+import javafx.scene.input.KeyCode;
+import javafx.scene.input.KeyEvent;
+
+public class GameUI {
+
+	
+}

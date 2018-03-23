@@ -19,10 +19,10 @@ public class MainApp extends Application{
 	private BorderPane rootLayout;
 	private Scene scene;
 	
+	
 	public static void main(String[] args) {
 		
 		launch(args);
-		
 	} 
 	
 	public void initRootLayout() {
@@ -97,6 +97,12 @@ public class MainApp extends Application{
 		catch (IOException e) {
 			e.printStackTrace();
 		}
+	}
+	
+	public BorderPane getPane() {
+		
+		return this.rootLayout;
+		
 	}
 	
 	public Stage getStage() {

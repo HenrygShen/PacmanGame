@@ -1,0 +1,173 @@
+package group23.pacman.model;
+import group23.pacman.view.Animation;
+import group23.pacman.view.AnimationManager;
+import javafx.scene.canvas.GraphicsContext;
+import javafx.scene.image.Image;
+
+public class Pacman extends GameObject{
+	
+	
+	/* Pacman's size */
+	private static final int SPRITE_HEIGHT = 30;
+	private static final int SPRITE_WIDTH = 30;
+	
+	/* Pixels moved per update */
+	private static final int SPEED = 2;
+	
+	/* Direction to move and planned direction */
+	private char vector;
+	private char queuedDirection;
+	
+	/* Hit-box used to check queued movements */
+	private Rectangle theoreticalHitBox;
+	
+	/* Handles the animations */
+	private AnimationManager animationManager;
+	
+	
+	
+	public Pacman(int x,int y) {
+
+		setUpAnimations();
+		
+
+		/* Sets up the main character's hit-box */
+		hitBox = new Rectangle();
+		hitBox.setHeight(SPRITE_HEIGHT);
+		hitBox.setWidth(SPRITE_WIDTH);
+		hitBox.setX(x);
+		hitBox.setY(y);
+		theoreticalHitBox = new Rectangle();
+		theoreticalHitBox.setHeight(SPRITE_HEIGHT);
+		theoreticalHitBox.setWidth(SPRITE_WIDTH);
+		theoreticalHitBox.setX(x);
+		theoreticalHitBox.setY(y);
+		
+		/* Character does not initially move */
+		this.vector = 'S';
+		this.queuedDirection = 'S';
+	
+	}
+	
+	private void setUpAnimations() {
+		
+	}
+	
+	public void update() {	
+		
+		animationManager.update();
+		playAnimation();
+	}
+	
+	public void queueMovement(char queuedDirection) {
+		
+		this.queuedDirection = queuedDirection;
+	}
+
+    
+    public void setDirection(char vector) {
+    	
+    	this.vector = vector;	
+    }
+    
+    public char getDirection() {
+    	
+    	return this.vector;
+    }
+    
+    public char getQDirection() {
+    	
+    	return this.queuedDirection;
+    }
+    
+    public boolean collidedWith(GameObject object) {
+    	
+    	
+    	Rectangle hitBox = object.getHitBox();
+    	
+    	return this.hitBox.intersects(hitBox);
+    }
+
+    
+    public boolean checkforQueuedAction() {
+    		
+	    return (queuedDirection != vector);
+    }
+    
+    public boolean oppositeDirection() {
+    	
+    	switch (vector) {
+    		case 'S':
+    			return true;
+			case 'U':
+				if (queuedDirection == 'D') {
+					return true;
+				}
+			case 'D':
+				if (queuedDirection == 'U') {
+					return true;
+				}
+			case 'L':
+				if (queuedDirection == 'R') {
+					return true;
+				}
+			case 'R':
+				if (queuedDirection == 'L') {
+					return true;
+				}
+    	}
+    	return false;
+    }
+        
+
+    public void setNewMove() {
+    	
+    	this.hitBox.setY((int)theoreticalHitBox.getY());
+    	this.hitBox.setX((int)theoreticalHitBox.getX());
+    	setDirection(queuedDirection);
+    }
+    
+    public void changeMovement() {
+    
+    		
+    	if (this.vector == 'U') {
+			this.hitBox.setY((int)hitBox.getY() - SPEED);
+		}
+		else if (this.vector == 'D') {
+			this.hitBox.setY((int)hitBox.getY() + SPEED);
+		}
+		else if (this.vector == 'L') {
+			this.hitBox.setX((int)hitBox.getX() - SPEED);
+		}
+		else if (this.vector == 'R') {
+			this.hitBox.setX((int)hitBox.getX() + SPEED);
+		}
+    }
+
+    
+    public void playAnimation() {
+    	
+    	if (this.vector == 'S') {
+			animationManager.playAction(1);
+		}
+		if (this.vector == 'U') {
+			animationManager.playAction(2);
+		}
+		else if (this.vector == 'D') {
+			animationManager.playAction(3);
+		}
+		else if (this.vector == 'L') {
+			animationManager.playAction(0);
+		}
+		else if (this.vector == 'R') {
+			animationManager.playAction(1);
+		}
+    }
+    
+	public void draw(GraphicsContext graphicsContext) {
+		
+		animationManager.draw(graphicsContext,this.hitBox.getX(),this.hitBox.getY());
+	}
+    
+
+}

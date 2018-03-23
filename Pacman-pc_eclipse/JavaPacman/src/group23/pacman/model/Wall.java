@@ -17,6 +17,9 @@ public class Wall extends GameObject{
 		/* Choose which tile block to load into the map */
 		String mapBlock;
 		switch (map) {
+			case 'c' :
+				mapBlock = "assets/tiles/mapBlock-classic.png";
+				break;
 			case 's' :
 				mapBlock = "assets/tiles/mapBlock-sea.png";
 				break;

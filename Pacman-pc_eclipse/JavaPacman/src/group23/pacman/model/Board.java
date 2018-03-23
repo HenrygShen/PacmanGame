@@ -6,8 +6,6 @@ import java.io.FileReader;
 import java.io.IOException;
 import java.util.ArrayList;
 
-import group23.pacman.controller.Game;
-
 
 public class Board {
 	
@@ -60,7 +58,10 @@ public class Board {
 			 * 0 creates a wall
 			 * P creates a pellet
 			 * 1 is an empty position
-			 * R is a position that the character can be in but cannot turn */
+			 * R is a position that the character can be in but cannot turn *
+			 * S is the spawn point of the main character
+			 * G is the spawn point of a ghost
+			 */
 			while ((line = bufferedReader.readLine()) != null ) {
 				position = 0;
 				for (int i =0;i< line.length();i++) {
