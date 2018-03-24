@@ -16,6 +16,16 @@ public class GameViewController {
 	private GraphicsContext graphicsContext;
 	@FXML
 	private ImageView background_map;
+	@FXML
+	private ImageView digit_ones;
+	@FXML
+	private ImageView digit_tens;
+	@FXML
+	private ImageView digit_hunds;
+	@FXML
+	private ImageView digit_thous;
+	@FXML
+	private ImageView score_image;
 	
 	private MainApp mainApp;
 	
@@ -34,6 +44,7 @@ public class GameViewController {
 		
 		map = game.getMap();
 		
+		/* Initializing Images*/
 		String backgroundImage;
 		switch (map) {
     	case 'c' :
@@ -49,6 +60,15 @@ public class GameViewController {
 	    	backgroundImage = "bg/background-sea_game.png";
 	    	break;
 		}
+		
+		String digitimage = "assets/numbers/0.png";
+		digit_ones.setImage(new Image(digitimage));
+		digit_tens.setImage(new Image(digitimage));
+		digit_hunds.setImage(new Image(digitimage));
+		digit_thous.setImage(new Image(digitimage));
+		
+		/*String scoreimage = "assets/misc/score.png";
+		score_image.setImage(new Image(scoreimage));*/
 		
 		background_map.setImage(new Image(backgroundImage));
 		
@@ -85,6 +105,23 @@ public class GameViewController {
 	public void changeState() {
 		
 		this.running = !this.running;
+	}
+	
+	public void setImage(String image, int digit) {
+		switch (digit) {
+			case 0 :
+				digit_ones.setImage(new Image(image));
+				break;
+			case 1 :
+				digit_tens.setImage(new Image(image));
+				break;
+			case 2 :
+				digit_hunds.setImage(new Image(image));
+				break;
+			case 3 :
+				digit_thous.setImage(new Image(image));
+				break;
+		}
 	}
 	
 	public Scene getScene() {

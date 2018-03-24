@@ -19,6 +19,7 @@ public class Game {
 	private ArrayList<GameObject> objects;
 	private Board board;
 	private char map;
+	private int score;
 	
 	
 	public Game(char map) {
@@ -31,6 +32,8 @@ public class Game {
 		pacman = new Pacman(board.getPacman()[0],board.getPacman()[1]);
 		ghost = new Ghost(board.getGhost()[0],board.getGhost()[1]);
 		chompNoise = new Media(new File("bin/assets/sfx/chompNoise.mp3").toURI().toString());
+		
+		score = 0;
 	
 	}
 	
@@ -83,6 +86,7 @@ public class Game {
 				if (object.getType() == GameObject.TYPE.PELLET) {
 					playSfx(chompNoise);
 					objects.remove(object);
+					score++;
 					break;
 				}
 		
@@ -102,6 +106,11 @@ public class Game {
 		return this.ghost;
 	}
 	
+	public char getMap() {
+		
+		return this.map;
+	}	
+	
 	public void drawObjects(GraphicsContext graphicsContext) {
 		
 		for (GameObject object : objects) {
@@ -114,10 +123,15 @@ public class Game {
 		mediaPlayer.setVolume(0.3);
 		mediaPlayer.play();
 	}
-
-	public char getMap() {
-		
-		return this.map;
+	
+	public String getScore() {
+		String tempScore = Integer.toString(this.score);
+		tempScore = new StringBuilder(tempScore).reverse().toString();
+        while (tempScore.length() < 4){
+           	tempScore = tempScore + "x";
+        }
+        return tempScore;
 	}
+
 
 }

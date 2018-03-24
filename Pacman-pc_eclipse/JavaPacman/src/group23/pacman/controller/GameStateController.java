@@ -50,8 +50,39 @@ public class GameStateController {
 	public void update() {
 		
 		game.update();
+		for (int i = 0; i < 4 ; i++) {
+			gameViewController.setImage(getDigit(game.getScore().charAt(i)), i);
+		}
+		
 	}
 	
+	private String getDigit(char digit){
+
+        switch (digit){
+            case '0' :
+                return "assets/numbers/0.png";
+            case '1' :
+                return "assets/numbers/1.png";
+            case '2' :
+                return "assets/numbers/2.png";
+            case '3' :
+                return "assets/numbers/3.png";
+            case '4' :
+                return "assets/numbers/4.png";
+            case '5' :
+                return "assets/numbers/5.png";
+            case '6' :
+                return "assets/numbers/6.png";
+            case '7' :
+                return "assets/numbers/7.png";
+            case '8' :
+                return "assets/numbers/8.png";
+            case '9' :
+                return "assets/numbers/9.png";
+            default :
+                return "assets/numbers/0.png";
+        }
+    }
 	public Game getGame() {
 		
 		return this.game;
