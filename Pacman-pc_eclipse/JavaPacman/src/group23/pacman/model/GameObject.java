@@ -1,13 +1,18 @@
 package group23.pacman.model;
 import javafx.scene.canvas.GraphicsContext;
 
+/**
+	Game objects are any drawn objects that the characters will have interactions with on the game view */
+
 public abstract class GameObject {
 	
 	
 	public enum TYPE{
+		
 		PELLET,
 		WALL,
-		GHOST
+		GHOST,
+		PACMAN
 	}
 	
 	
@@ -32,10 +37,12 @@ public abstract class GameObject {
     
     public void draw(GraphicsContext graphicsContext) {
     	
+
     }
     
     public TYPE getType() {
     	
     	return this.type;
     }
+
 }

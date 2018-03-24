@@ -1,8 +1,11 @@
 package group23.pacman.view;
 
+import java.util.ArrayList;
+
 import group23.pacman.MainApp;
 import group23.pacman.controller.GameStateController;
 import group23.pacman.model.Game;
+import group23.pacman.model.GameObject;
 import javafx.animation.AnimationTimer;
 import javafx.fxml.FXML;
 import javafx.scene.Scene;
@@ -13,7 +16,7 @@ import javafx.scene.image.*;
 
 public class GameViewController {
 	
-	private GraphicsContext graphicsContext;
+	/* FXML elements in GameView.fxml */
 	@FXML
 	private ImageView background_map;
 	@FXML
@@ -26,25 +29,27 @@ public class GameViewController {
 	private ImageView digit_thous;
 	@FXML
 	private ImageView score_image;
-	
+
 	private MainApp mainApp;
 	
+	/* Paint to canvas */
+	private GraphicsContext graphicsContext;
+	
+	/* Allows user control */
 	private GameStateController gameStateController;
 	
-	private char map;
+	/* Stores game state (paused, running)*/
 	private boolean running = true;
 	
 	public GameViewController() {
 		
-		
 	}
 	
-	
+	/* Creates a game based on user selected map */
 	public void setGame(Game game) {
 		
-		map = game.getMap();
-		
-		/* Initializing Images*/
+		/* First, select map based on user input */
+		char map = game.getMap();
 		String backgroundImage;
 		switch (map) {
     	case 'c' :
@@ -61,30 +66,48 @@ public class GameViewController {
 	    	break;
 		}
 		
+		/*Second, set the map as the background */
+		background_map.setImage(new Image(backgroundImage));
+		
+		/* Create a controller through which the user may play the game */
+		gameStateController = new GameStateController(this,game);
+		gameStateController.listenToKeyEvents();
+		
+	}
+	
+	/* Sets up initial view */
+	@FXML
+	private void initialize() {
+		
+		/* Score starts off as 0 */
 		String digitimage = "assets/numbers/0.png";
 		digit_ones.setImage(new Image(digitimage));
 		digit_tens.setImage(new Image(digitimage));
 		digit_hunds.setImage(new Image(digitimage));
 		digit_thous.setImage(new Image(digitimage));
+
+	}
+	
+	/* Pauses/starts the game */
+	public void toggleState() {
 		
-		/*String scoreimage = "assets/misc/score.png";
-		score_image.setImage(new Image(scoreimage));*/
+		this.running = !this.running;
+	}
+	
+	/* Function called once to kick start the game */
+	public void startGame() {
 		
-		background_map.setImage(new Image(backgroundImage));
-		
-		gameStateController = new GameStateController(this,game);
-		gameStateController.listen();
-		
+		/* Add canvas to layout.
+		 * Create graphics context to draw game to canvas */
 		Canvas canvas = new Canvas(1366,768);
 		mainApp.getPane().getChildren().add(canvas);
 		graphicsContext = canvas.getGraphicsContext2D();
 		
-	}
-	
-	public void start() {
-		
+		/* Animation timer to update frames */
 		new AnimationTimer() {
-			public void handle(long time) {	
+			public void handle(long time) {
+				
+				/* Make sure game isn't in paused state */
 				if (running == true) {
 					graphicsContext.clearRect(0, 0, 1366, 768);
 					gameStateController.update();
@@ -94,19 +117,34 @@ public class GameViewController {
 		}.start();
 	}
 	
+	/* Draws all objects */
 	public void draw(GraphicsContext graphicsContext) {
+		
 		
 		gameStateController.getGame().getPacman().draw(graphicsContext);
 		gameStateController.getGame().getGhost().draw(graphicsContext);
-		gameStateController.getGame().drawObjects(graphicsContext);
-	}
-	
-	/* Pauses/starts the game */
-	public void changeState() {
 		
-		this.running = !this.running;
+		/* Draws other objects ( walls ,pellets) */
+		ArrayList<GameObject> objects = gameStateController.getGame().getOtherGameObjects();
+		for (GameObject object : objects) {
+			object.draw(graphicsContext);
+		}
 	}
 	
+	
+	/* Public getter to pass scene to GameStateController */
+	public Scene getScene() {
+		
+		return this.mainApp.getScene();
+	}
+	
+	/* Public setter to reference main app */
+	public void setMainApp(MainApp mainApp) {
+		
+		this.mainApp = mainApp;
+	}
+	
+	/* Updates the images of score digits to reflect user's score */
 	public void setImage(String image, int digit) {
 		switch (digit) {
 			case 0 :
@@ -122,16 +160,5 @@ public class GameViewController {
 				digit_thous.setImage(new Image(image));
 				break;
 		}
-	}
-	
-	public Scene getScene() {
-		
-		return this.mainApp.getScene();
-	}
-	
-	
-	public void setMainApp(MainApp mainApp) {
-		
-		this.mainApp = mainApp;
 	}
 }

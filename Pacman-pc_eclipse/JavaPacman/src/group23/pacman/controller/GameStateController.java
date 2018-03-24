@@ -9,6 +9,7 @@ import javafx.scene.input.KeyEvent;
 
 public class GameStateController {
 	
+	/* Scene used to add key listener */
 	private Scene scene;
 	
 	private Game game;
@@ -23,7 +24,7 @@ public class GameStateController {
 		
 	}
 	
-	public void listen() {
+	public void listenToKeyEvents() {
 		
 		 scene.setOnKeyPressed(new EventHandler<KeyEvent> (){
 		    	@Override
@@ -40,22 +41,32 @@ public class GameStateController {
 			    	else if (e.getCode() == KeyCode.RIGHT) {
 			    		game.getPacman().queueMovement('R');
 			    	}
+			    	/* Pause button */
 			    	else if (e.getCode() == KeyCode.P) {
-			    		gameViewController.changeState();
+			    		gameViewController.toggleState();
 			    	}
 		    	}
 		    });
 	}
 	
+	/* Update the game state and score */
 	public void update() {
 		
 		game.update();
-		for (int i = 0; i < 4 ; i++) {
-			gameViewController.setImage(getDigit(game.getScore().charAt(i)), i);
-		}
+		updateScore();
 		
 	}
 	
+	
+	private void updateScore() {
+		
+		/* Updates each digit */
+		for (int i = 0; i < 4 ; i++) {
+			gameViewController.setImage(getDigit(game.getScore().charAt(i)), i);
+		}
+	}
+	
+	/* Helper function to break score digits down (to more easily show in UI) */
 	private String getDigit(char digit){
 
         switch (digit){
@@ -83,6 +94,8 @@ public class GameStateController {
                 return "assets/numbers/0.png";
         }
     }
+	
+	/* Public getter to allow GameViewController(the view class) to reference objects(to draw) */
 	public Game getGame() {
 		
 		return this.game;

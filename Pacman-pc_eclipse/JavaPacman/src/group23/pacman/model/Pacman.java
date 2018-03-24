@@ -4,7 +4,7 @@ import group23.pacman.view.AnimationManager;
 import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.image.Image;
 
-public class Pacman extends GameObject{
+public class Pacman extends GameObject implements MovingCharacter {
 	
 	
 	/* Pacman's size */
@@ -110,7 +110,7 @@ public class Pacman extends GameObject{
     }
         
     
-    public void changeMovement() {
+    public void updateDestination() {
     
     		
     	if (this.vector == 'U') {
@@ -127,7 +127,7 @@ public class Pacman extends GameObject{
 		}
     }
 
-    
+    /* Changes character animation depending on the direction it's currently facing */
     public void playAnimation() {
     	
     	if (this.vector == 'S') {

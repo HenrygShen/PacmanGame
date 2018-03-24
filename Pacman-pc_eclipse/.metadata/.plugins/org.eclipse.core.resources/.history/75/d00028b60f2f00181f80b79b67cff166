@@ -1,0 +1,12 @@
+package group23.pacman.model;
+
+public interface MovingCharacter {
+	
+	public boolean checkforQueuedAction();
+	public void setDirection(char qDirection);
+	public char getQDirection();
+	public void changeMovement();
+	public char getDirection();
+	public double getX();
+	public int getY();
+}

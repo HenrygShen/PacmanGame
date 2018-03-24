@@ -7,12 +7,15 @@ import group23.pacman.view.AnimationManager;
 import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.image.Image;
 
-public class Ghost extends GameObject {
+public class Ghost extends GameObject implements MovingCharacter {
 	
 	private static final int SPRITE_HEIGHT = 30;
 	private static final int SPRITE_WIDTH = 30;
+	
 	/* Pixels moved per update */
 	private static final int SPEED = 2;
+	
+	/* Handles character animations */
 	private AnimationManager animationManager;
 	
 	/* Direction to move and planned direction */
@@ -20,7 +23,6 @@ public class Ghost extends GameObject {
 	private char queuedDirection;
 	
 	private Random rand;
-	
 	
 	private boolean turned;
 	
@@ -130,8 +132,9 @@ public class Ghost extends GameObject {
     	}
     	return false;
     }
-        
-    public void changeMovement() {
+     
+    
+    public void updateDestination() {
     
     		
     	if (this.vector == 'U') {
@@ -153,7 +156,5 @@ public class Ghost extends GameObject {
 		
 		animationManager.draw(graphicsContext,this.getHitBox().getX(),this.hitBox.getY());
 	}
-	
-	
 	
 }

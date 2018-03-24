@@ -1,0 +1,16 @@
+package group23.pacman.model;
+
+/**
+	This interface helps differentiate moving character game objects from 
+ *
+ */
+public interface MovingCharacter {
+	
+	public boolean checkforQueuedAction();
+	public void setDirection(char qDirection);
+	public char getQDirection();
+	public void changeMovement();
+	public char getDirection();
+	public double getX();
+	public double getY();
+}

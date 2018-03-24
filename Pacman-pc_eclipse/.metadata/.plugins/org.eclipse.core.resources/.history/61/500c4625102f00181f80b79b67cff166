@@ -1,0 +1,66 @@
+package group23.pacman.model;
+import javafx.scene.canvas.GraphicsContext;
+
+/**
+	Game objects are 
+ *
+ */
+public abstract class GameObject {
+	
+	
+	public enum TYPE{
+		PELLET,
+		WALL,
+		GHOST
+	}
+	
+	
+	protected TYPE type;
+	protected Rectangle hitBox;
+	
+	
+    protected Rectangle getHitBox() {
+    	
+    	return this.hitBox;
+    }
+
+    public double getX() {
+    	
+    	return this.hitBox.getX();
+    }
+    
+    public double getY() {
+    	
+    	return this.hitBox.getY();
+    }
+    
+    public void draw(GraphicsContext graphicsContext) {
+    	
+
+    }
+    
+    public TYPE getType() {
+    	
+    	return this.type;
+    }
+
+	public boolean checkforQueuedAction() {
+		// TODO Auto-generated method stub
+		return false;
+	}
+
+	public void setDirection(char qDirection) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	public char getQDirection() {
+		// TODO Auto-generated method stub
+		return 0;
+	}
+
+	public void changeMovement() {
+		// TODO Auto-generated method stub
+		
+	}
+}

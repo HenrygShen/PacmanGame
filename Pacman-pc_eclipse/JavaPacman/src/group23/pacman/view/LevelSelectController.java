@@ -3,18 +3,19 @@ package group23.pacman.view;
 import java.io.IOException;
 
 import group23.pacman.MainApp;
-import group23.pacman.controller.GameStateController;
 import group23.pacman.model.Game;
 import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
-import javafx.scene.canvas.Canvas;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.KeyCode;
 import javafx.scene.input.KeyEvent;
 import javafx.scene.layout.AnchorPane;
+
+/** 
+ * This class handles the level select screen and creates the game to pass to game controller class **/
 
 public class LevelSelectController {
 	
@@ -36,7 +37,6 @@ public class LevelSelectController {
 	private MainApp mainApp;
 	private Scene scene;
 
-	
 	/* Variables for showing which background/level/map will be set */
 	private int index;
 	private Image seaBackground;
@@ -51,8 +51,11 @@ public class LevelSelectController {
 	/* This boolean stops the enter key press that was used before from instantly starting a game */
 	private boolean firstPress;
 	
+	/* Boolean to prevent animation to happen to already animated image */
 	private boolean animated;
 	
+	
+	/* Constructor */
 	public LevelSelectController() {
 		
 		lastTime = 0;
@@ -60,7 +63,35 @@ public class LevelSelectController {
 		animated = false;
 	}
 	
-	public void start() {
+	/* Sets up images and backgrounds for initial view */
+	@FXML
+	private void initialize() {
+		
+		/* Set up background of this view */
+		Image backgroundImage = new Image("bg/background-levelSelect.png");
+		background.setImage(backgroundImage);
+		
+		/* Set up level backgrounds to scroll through */
+		seaBackground = new Image("bg/background-sea_game.png");
+		desertBackground = new Image("bg/background-desert_game.png");
+		classicBackground = new Image("bg/background-classic_game.png");
+		backgrounds = new Image[3];
+		backgrounds[0] = classicBackground;
+		backgrounds[1] = seaBackground;
+		backgrounds[2] = desertBackground;
+		index = 0;
+		levelImage.setImage(backgrounds[index]);
+		
+		/* Load the arrows */
+		Image leftArrowImage = new Image("assets/buttons/leftArrow.png",110,110,false,false);
+		Image rightArrowImage = new Image("assets/buttons/rightArrow.png",110,110,false,false);		
+		leftArrow.setImage(leftArrowImage);
+		rightArrow.setImage(rightArrowImage);
+		
+	}
+	
+	/* Adds key listener to scene */
+	public void listenToKeyEvents() {
 		
 		scene.setOnKeyPressed(new EventHandler<KeyEvent>(){
 		    @Override
@@ -142,7 +173,7 @@ public class LevelSelectController {
 		});
 	}
 	
-	
+	/* Creates a game view and sets the game */
 	private void startGame(char map) {
 		
 		try {
@@ -160,40 +191,14 @@ public class LevelSelectController {
 			/* Create game and pass to controller */
 			Game game = new Game(map);
 			controller.setGame(game);
-			controller.start();
+			controller.startGame();
 			
 		}
 		catch (IOException e) {
 			
+			e.printStackTrace();
 		}
 	}
-	@FXML
-	private void initialize() {
-		
-		/* Set up background of this view */
-		Image backgroundImage = new Image("bg/background-levelSelect.png");
-		background.setImage(backgroundImage);
-		
-		/* Set up level backgrounds to scroll through */
-		seaBackground = new Image("bg/background-sea_game.png");
-		desertBackground = new Image("bg/background-desert_game.png");
-		classicBackground = new Image("bg/background-classic_game.png");
-		backgrounds = new Image[3];
-		backgrounds[0] = classicBackground;
-		backgrounds[1] = seaBackground;
-		backgrounds[2] = desertBackground;
-		index = 0;
-		levelImage.setImage(backgrounds[index]);
-		
-		/* Load the arrows */
-		Image leftArrowImage = new Image("assets/buttons/leftArrow.png",110,110,false,false);
-		Image rightArrowImage = new Image("assets/buttons/rightArrow.png",110,110,false,false);		
-		leftArrow.setImage(leftArrowImage);
-		rightArrow.setImage(rightArrowImage);
-		
-		
-	}
-	
 	
 	
 	/* Public setter for this class to reference the main application */
@@ -202,6 +207,11 @@ public class LevelSelectController {
 		this.mainApp = mainApp;
 		this.scene = mainApp.getScene();
 	}
+	
+	
+	
+	
+	/** BELOW ARE HELPER FUNCTIONS WHICH HELP WITH THE ANIMATION OF THIS VIEW **/
 	
 	/* Set background functions - 
 	 * Help scroll the background to the left or the right
@@ -229,7 +239,6 @@ public class LevelSelectController {
 		leftArrow.setFitWidth(150);
         leftArrow.setImage(new Image("assets/buttons/leftArrow.png",150,150,false,false));
         
-
 	}
 	
 	private void animateRight() {
@@ -246,6 +255,7 @@ public class LevelSelectController {
 	 * user know when the key is released.
 	 */
 	private void resetLArrow() {
+		
 		leftArrow.setX(0);
         leftArrow.setY(0);
 		leftArrow.setFitHeight(110);
@@ -254,6 +264,7 @@ public class LevelSelectController {
 	}
 	
 	private void resetRArrow() {
+		
 		rightArrow.setX(0);
 		rightArrow.setY(0);
 		rightArrow.setFitHeight(110);

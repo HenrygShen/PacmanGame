@@ -91,7 +91,7 @@ public class MainApp extends Application{
             /* Get the controller to manipulate this class */
 			LevelSelectController controller = loader.getController();
 			controller.setMainApp(this);
-			controller.start();
+			controller.listenToKeyEvents();
 
 		}
 		catch (IOException e) {

@@ -8,23 +8,23 @@
 <AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="group23.pacman.view.GameViewController">
    <children>
       <ImageView fx:id="background_map" fitHeight="768.0" fitWidth="1366.0" pickOnBounds="true" preserveRatio="true" />
-      <ImageView fx:id="digit_thous" fitHeight="54.0" fitWidth="49.0" layoutX="1184.0" layoutY="89.0" pickOnBounds="true" preserveRatio="true">
+      <ImageView fx:id="digit_thous" fitHeight="50.0" fitWidth="50.0" layoutX="1180.0" layoutY="80.0" pickOnBounds="true" preserveRatio="true">
          <image>
             <Image url="@../../../../bin/assets/numbers/0.png" />
          </image></ImageView>
-      <ImageView fx:id="digit_hunds" fitHeight="54.0" fitWidth="49.0" layoutX="1218.0" layoutY="89.0" pickOnBounds="true" preserveRatio="true">
+      <ImageView fx:id="digit_hunds" fitHeight="50.0" fitWidth="50.0" layoutX="1210.0" layoutY="80.0" pickOnBounds="true" preserveRatio="true">
          <image>
             <Image url="@../../../../bin/assets/numbers/0.png" />
          </image></ImageView>
-      <ImageView fx:id="digit_tens" fitHeight="54.0" fitWidth="49.0" layoutX="1251.0" layoutY="89.0" pickOnBounds="true" preserveRatio="true">
+      <ImageView fx:id="digit_tens" fitHeight="50.0" fitWidth="50.0" layoutX="1240.0" layoutY="80.0" pickOnBounds="true" preserveRatio="true">
          <image>
             <Image url="@../../../../bin/assets/numbers/0.png" />
          </image></ImageView>
-      <ImageView fx:id="digit_ones" fitHeight="54.0" fitWidth="49.0" layoutX="1284.0" layoutY="89.0" pickOnBounds="true" preserveRatio="true">
+      <ImageView fx:id="digit_ones" fitHeight="50.0" fitWidth="50.0" layoutX="1270.0" layoutY="80.0" pickOnBounds="true" preserveRatio="true">
          <image>
             <Image url="@../../../../bin/assets/numbers/0.png" />
          </image></ImageView>
-      <ImageView fx:id="score_image" fitHeight="50.0" fitWidth="250.0" layoutX="1050.0" layoutY="31.0" pickOnBounds="true" preserveRatio="true">
+      <ImageView fx:id="score_image" fitHeight="50.0" fitWidth="250.0" layoutX="1050.0" layoutY="30.0" pickOnBounds="true" preserveRatio="true">
          <image>
             <Image url="@../../../../bin/assets/misc/score.png" />
          </image>

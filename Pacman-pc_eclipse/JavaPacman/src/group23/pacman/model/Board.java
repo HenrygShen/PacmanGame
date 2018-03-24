@@ -13,13 +13,12 @@ public class Board {
 	private static final int OFFSET = 1;
 	
 	
-	private Game game;
 	private ArrayList<GameObject> objects;
 	
 	private boolean[][] status;
+	
 	private int[] ghostCoords;
 	private int[] pacmanCoords;
-	private char map;
 
 	public Board() {
 		
@@ -30,9 +29,8 @@ public class Board {
 		objects = new ArrayList<GameObject>();
 	}
 	
-	public void createBoard() {
+	public void createBoard(char map) {
 		
-		map = game.getMap();
 		String line,mapTxt;
 		
 		/* Parse the map.txt file, loads the map into the game */
@@ -118,11 +116,6 @@ public class Board {
 		}
 	}
 	
-	/* Public setter to reference the game object */
-	public void setGame(Game game) {
-		
-		this.game = game;
-	}
 	
 	/* Passes objects back to the game class - to check for collisions */
 	public ArrayList<GameObject> getObjects() {
@@ -130,7 +123,7 @@ public class Board {
 		return this.objects;
 	}
 	
-	/* Checks if Player is in the exact x,y position to do a 90 degree turn */
+	/* Checks if character is in the exact x,y position to do a 90 degree turn */
 	public boolean validTurningPoint(int x, int y) {
 		
 		if (((x - 33)%10 == 0) && ((y - 34)%10 == 0)){
@@ -157,6 +150,7 @@ public class Board {
     	return false;
     }
 	
+	/* Pass coordinates of characters to spawn on map */
 	public int[] getPacman() {
 		
 		return pacmanCoords;
