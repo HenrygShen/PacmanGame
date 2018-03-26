@@ -41,6 +41,9 @@ public class GameStateController {
 			    	else if (e.getCode() == KeyCode.RIGHT) {
 			    		game.getPacman().queueMovement('R');
 			    	}
+			    	else if (e.getCode() == KeyCode.SPACE) {
+			    		game.getPacman().whip();
+			    	}
 			    	/* Pause button */
 			    	else if (e.getCode() == KeyCode.P) {
 			    		gameViewController.toggleState();
@@ -54,7 +57,7 @@ public class GameStateController {
 		
 		game.update();
 		updateScore();
-		
+		updateLives();
 	}
 	
 	
@@ -62,7 +65,15 @@ public class GameStateController {
 		
 		/* Updates each digit */
 		for (int i = 0; i < 4 ; i++) {
-			gameViewController.setImage(getDigit(game.getScore().charAt(i)), i);
+			gameViewController.setDigitImage(getDigit(game.getScore().charAt(i)), i);
+		}
+	}
+	
+	private void updateLives() {
+		
+		/* Updates lives image only if lives have been lost */
+		for (int i = game.getPacman().getLives(); i < 3; i++) {
+			gameViewController.setLivesImage("assets/misc/empty.png", i);
 		}
 	}
 	

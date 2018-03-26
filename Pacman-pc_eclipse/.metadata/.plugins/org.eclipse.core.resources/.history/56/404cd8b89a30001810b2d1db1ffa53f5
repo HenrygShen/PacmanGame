@@ -1,0 +1,9 @@
+package group23.pacman.model;
+
+public class SpecialPellet extends Pellet{
+	
+	public SpecialPellet(int x, int y) {
+		super
+	}
+
+}

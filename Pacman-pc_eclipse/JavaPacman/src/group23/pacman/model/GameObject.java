@@ -10,6 +10,7 @@ public abstract class GameObject {
 	public enum TYPE{
 		
 		PELLET,
+		SPECIAL_PELLET,
 		WALL,
 		GHOST,
 		PACMAN

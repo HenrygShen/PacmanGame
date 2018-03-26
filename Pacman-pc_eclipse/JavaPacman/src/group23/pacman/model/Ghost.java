@@ -2,12 +2,20 @@ package group23.pacman.model;
 
 import java.util.Random;
 
+import group23.pacman.model.Pacman.STATE;
 import group23.pacman.view.Animation;
 import group23.pacman.view.AnimationManager;
 import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.image.Image;
 
 public class Ghost extends GameObject implements MovingCharacter {
+	
+	public enum STATE {
+		
+		DEAD,
+		ALIVE
+	
+	}
 	
 	private static final int SPRITE_HEIGHT = 30;
 	private static final int SPRITE_WIDTH = 30;
@@ -23,6 +31,8 @@ public class Ghost extends GameObject implements MovingCharacter {
 	private char queuedDirection;
 	
 	private Random rand;
+	
+	private STATE state;
 	
 	private boolean turned;
 	
@@ -49,6 +59,7 @@ public class Ghost extends GameObject implements MovingCharacter {
 		this.hitBox.setHeight(SPRITE_HEIGHT);
 		this.hitBox.setWidth(SPRITE_WIDTH);
 		this.type = GameObject.TYPE.GHOST;
+		this.state = Ghost.STATE.ALIVE;
 		
 	}
 	
@@ -92,6 +103,11 @@ public class Ghost extends GameObject implements MovingCharacter {
     	turned = false;
     }
     
+    public void setState(STATE state) {
+    	
+    	this.state = state;
+    }
+    
     public char getDirection() {
     	
     	return this.vector;
@@ -100,6 +116,11 @@ public class Ghost extends GameObject implements MovingCharacter {
     public char getQDirection() {
     	
     	return this.queuedDirection;
+    }
+    
+    public STATE getState() {
+    	
+    	return this.state;
     }
     
     
@@ -156,5 +177,16 @@ public class Ghost extends GameObject implements MovingCharacter {
 		
 		animationManager.draw(graphicsContext,this.getHitBox().getX(),this.hitBox.getY());
 	}
+
+	/* Reset Position when Ghost or Pacman dies and Pacman still has lives left. */
+	public void reset(int x, int y) {
+		
+		this.hitBox.setX(x);
+		this.hitBox.setY(y);
+		setDirection('S');
+		setState(Ghost.STATE.ALIVE);
+	}
+	
+	
 	
 }

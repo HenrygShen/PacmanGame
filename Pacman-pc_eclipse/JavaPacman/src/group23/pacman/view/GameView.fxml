@@ -29,5 +29,25 @@
             <Image url="@../../../../bin/assets/misc/score.png" />
          </image>
       </ImageView>
+      <ImageView fx:id="life_1" fitHeight="30.0" fitWidth="30.0" layoutX="1240.0" layoutY="182.0" pickOnBounds="true" preserveRatio="true">
+         <image>
+            <Image url="@../../../../bin/assets/Pacman/rightOpen.png" />
+         </image>
+      </ImageView>
+      <ImageView fx:id="life_2" fitHeight="30.0" fitWidth="30.0" layoutX="1278.0" layoutY="182.0" pickOnBounds="true" preserveRatio="true">
+         <image>
+            <Image url="@../../../../bin/assets/Pacman/rightOpen.png" />
+         </image>
+      </ImageView>
+      <ImageView fx:id="life_3" fitHeight="30.0" fitWidth="30.0" layoutX="1315.0" layoutY="182.0" pickOnBounds="true" preserveRatio="true">
+         <image>
+            <Image url="@../../../../bin/assets/Pacman/rightOpen.png" />
+         </image>
+      </ImageView>
+      <ImageView fx:id="lives_image" fitHeight="50.0" fitWidth="250.0" layoutX="1026.0" layoutY="172.0" pickOnBounds="true" preserveRatio="true">
+         <image>
+            <Image url="@../../../../bin/assets/misc/lives.png" />
+         </image>
+      </ImageView>
    </children>
 </AnchorPane>

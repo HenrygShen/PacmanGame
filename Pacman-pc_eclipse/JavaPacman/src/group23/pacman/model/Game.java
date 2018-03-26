@@ -63,9 +63,12 @@ public class Game {
 	
 	public void update( ) {
 		
-		checkCollisions();
-		pacman.update();
-		ghost.update();	
+		if (pacman.getState() != Pacman.STATE.DEAD) {
+			checkCollisions();
+			checkState();
+			pacman.update();
+			ghost.update();
+		}
 	}
 	
 	/* Checks character movement collisions and player pellet collisions */
@@ -74,6 +77,17 @@ public class Game {
 		ghost.queueMovement();
 		
 		for (MovingCharacter character : characters) {
+			
+			/* Checks for collision with a ghost. TODO : Lose a life when you collide. */
+			if (character.getType() == GameObject.TYPE.GHOST) {
+				if (pacman.collidedWith((GameObject) character)) {
+					/* temporary code to test if collision works */
+					pacman.died();
+					pacman.setState(Pacman.STATE.DEAD);
+					return;
+				}
+			}
+			
 			
 			/* If the currently queued direction is not equal to the current direction we are moving in, and it is possible 
 			   for us to turn in our current (x,y) position, test if turn is valid (not into a wall), then set the queued direction
@@ -97,7 +111,10 @@ public class Game {
 		for (GameObject object : objects) {
 
 			if (pacman.collidedWith(object)) {
-				if (object.getType() == GameObject.TYPE.PELLET) {
+				if (object.getType() == GameObject.TYPE.PELLET || object.getType() == GameObject.TYPE.SPECIAL_PELLET ) {
+					if (object.getType() == GameObject.TYPE.SPECIAL_PELLET) {
+						pacman.setState(Pacman.STATE.POWER_UP);
+					}
 					playSfx(chompNoise);
 					objects.remove(object);
 					score++;
@@ -107,6 +124,32 @@ public class Game {
 			}
 		}
 	}
+	
+	/* Checks if Pacman has died and resets all moving objects*/
+	public void checkState() {
+		if (pacman.getState() == Pacman.STATE.DEAD && pacman.getLives() > 0) {
+			for (MovingCharacter character: characters) {
+				if (character.getType() == GameObject.TYPE.PACMAN) {
+					character.reset(board.getPacman()[0],board.getPacman()[1]);
+				}
+				else if (character.getType() == GameObject.TYPE.GHOST) {
+					character.reset(board.getGhost()[0],board.getGhost()[1]);
+				}
+			}
+		}
+	}
+	
+	/* Plays pacman munching sound effect */
+	public void playSfx(Media sfx) {
+		mediaPlayer = new MediaPlayer(sfx);
+		mediaPlayer.setVolume(0.3);
+		mediaPlayer.play();
+	}
+	
+	
+	
+	
+	/** ALL PUBLIC GETTERS **/
 	
 	
 	/* Public getter to reference pacman object */
@@ -133,13 +176,6 @@ public class Game {
 		return this.map;
 	}	
 
-	
-	/* Plays pacman munching sound effect */
-	public void playSfx(Media sfx) {
-		mediaPlayer = new MediaPlayer(sfx);
-		mediaPlayer.setVolume(0.3);
-		mediaPlayer.play();
-	}
 	
 	/* Returns the user's score in string format */
 	public String getScore() {

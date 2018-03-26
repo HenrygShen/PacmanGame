@@ -1,0 +1,25 @@
+package group23.pacman.model;
+
+import group23.pacman.model.GameObject.TYPE;
+
+/**
+	This interface helps differentiate moving character game objects from non moving game objects */
+
+public interface MovingCharacter {
+	
+	public enum TYPE{
+		
+		PACMAN,
+		GHOST
+
+	}
+	
+	public boolean checkforQueuedAction();
+	public void setDirection(char qDirection);
+	public char getQDirection();
+	public void updateDestination();
+	public char getDirection();
+	public double getX();
+	public double getY();
+	public TYPE getType();
+}

@@ -55,6 +55,7 @@ public class Board {
 			/* Creates objects on the map based on their value in the text file
 			 * 0 creates a wall
 			 * P creates a pellet
+			 * W creates a special pellet
 			 * 1 is an empty position
 			 * R is a position that the character can be in but cannot turn *
 			 * S is the spawn point of the main character
@@ -80,6 +81,12 @@ public class Board {
 						status[position][row] = false;
 						position++;
 					}
+					else if (line.charAt(i) == 'W') {
+						SpecialPellet sPellet = new SpecialPellet(position*TILE_SIZE + 33,row*TILE_SIZE + 34);
+						objects.add(sPellet);
+						status[position][row] = false;
+						position++;
+					}
 					else if (line.charAt(i) == '1' ) {
 						status[position][row] = false;
 						position++;
@@ -98,6 +105,7 @@ public class Board {
 						ghostCoords[1] = (row-2)*TILE_SIZE + 34;
 						position++;
 					}
+					
 				
 				}
 							

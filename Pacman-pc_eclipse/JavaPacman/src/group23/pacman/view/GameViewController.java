@@ -29,6 +29,14 @@ public class GameViewController {
 	private ImageView digit_thous;
 	@FXML
 	private ImageView score_image;
+	@FXML
+	private ImageView life_1;
+	@FXML
+	private ImageView life_2;
+	@FXML
+	private ImageView life_3;
+	@FXML
+	private ImageView lives_image;
 
 	private MainApp mainApp;
 	
@@ -145,7 +153,7 @@ public class GameViewController {
 	}
 	
 	/* Updates the images of score digits to reflect user's score */
-	public void setImage(String image, int digit) {
+	public void setDigitImage(String image, int digit) {
 		switch (digit) {
 			case 0 :
 				digit_ones.setImage(new Image(image));
@@ -159,6 +167,21 @@ public class GameViewController {
 			case 3 :
 				digit_thous.setImage(new Image(image));
 				break;
+		}
+	}
+	
+	/* Updates the images of the lives to reflect remaining lives */
+	public void setLivesImage(String image, int number) {
+		switch (number) {
+		case 0 :
+			life_1.setImage(new Image(image));
+			break;
+		case 1 :
+			life_2.setImage(new Image(image));
+			break;
+		case 2 :
+			life_3.setImage(new Image(image));
+			break;
 		}
 	}
 }

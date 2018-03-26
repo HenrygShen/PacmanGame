@@ -39,4 +39,6 @@
 <fullyQualifiedTypeName name="java.util.TimerTask"/>
 <fullyQualifiedTypeName name="group23.pacman.view.LevelSelectController"/>
 <fullyQualifiedTypeName name="java.util.concurrent.TimeUnit"/>
+<fullyQualifiedTypeName name="group23.pacman.model.GameObject.TYPE"/>
+<fullyQualifiedTypeName name="group23.pacman.model.Pacman.STATE"/>
 </qualifiedTypeNameHistroy>

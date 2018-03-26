@@ -6,6 +6,13 @@ import javafx.scene.image.Image;
 
 public class Pacman extends GameObject implements MovingCharacter {
 	
+	public enum STATE {
+		
+		POWER_UP,
+		DEAD,
+		ALIVE
+	
+	}
 	
 	/* Pacman's size */
 	private static final int SPRITE_HEIGHT = 30;
@@ -18,8 +25,19 @@ public class Pacman extends GameObject implements MovingCharacter {
 	private char vector;
 	private char queuedDirection;
 	
+	
 	/* Handles the animations */
 	private AnimationManager animationManager;
+	
+	/* Pacman's state */
+	private STATE state;
+	
+	/* Pacman's Whip */
+	private Whip whip;
+	
+	private boolean whipping;
+	
+	private int lives;
 	
 	
 	
@@ -33,22 +51,46 @@ public class Pacman extends GameObject implements MovingCharacter {
 		hitBox.setWidth(SPRITE_WIDTH);
 		hitBox.setX(x);
 		hitBox.setY(y);
-
 		
-		/* Character does not initially move */
+		type = GameObject.TYPE.PACMAN;
+		state = STATE.ALIVE;
+		lives = 3;
+		
+		/* Character does not initially move or whip*/
+		this.whipping = false;
 		this.vector = 'S';
 		this.queuedDirection = 'S';
 	
 	}
-	
-	
-	
+
+	public void whip() {
+		
+		this.whipping = true;
+	}
+
 	public void update() {	
 		
+		if (whipping == true) {
+			whip.getHitBox().setX(this.hitBox.getX());
+			whip.getHitBox().setY(this.hitBox.getY());
+			
+		}
 		animationManager.update();
 		playAnimation();
 	}
-	
+
+    public boolean collidedWith(GameObject object) {
+    	
+    	
+    	Rectangle hitBox = object.getHitBox();
+    	
+    	return this.hitBox.intersects(hitBox);
+    }
+    
+    public void died() {
+    	lives--;
+    }
+    
 	public void queueMovement(char queuedDirection) {
 		
 		this.queuedDirection = queuedDirection;
@@ -60,24 +102,11 @@ public class Pacman extends GameObject implements MovingCharacter {
     	this.vector = vector;	
     }
     
-    public char getDirection() {
+    /* Public setter for state */
+    public void setState(STATE state) {
     	
-    	return this.vector;
+    	this.state = state;
     }
-    
-    public char getQDirection() {
-    	
-    	return this.queuedDirection;
-    }
-    
-    public boolean collidedWith(GameObject object) {
-    	
-    	
-    	Rectangle hitBox = object.getHitBox();
-    	
-    	return this.hitBox.intersects(hitBox);
-    }
-
     
     public boolean checkforQueuedAction() {
     		
@@ -109,7 +138,6 @@ public class Pacman extends GameObject implements MovingCharacter {
     	return false;
     }
         
-    
     public void updateDestination() {
     
     		
@@ -127,6 +155,38 @@ public class Pacman extends GameObject implements MovingCharacter {
 		}
     }
 
+    public char getDirection() {
+    	
+    	return this.vector;
+    }
+    
+    public char getQDirection() {
+    	
+    	return this.queuedDirection;
+    }
+    
+    public STATE getState() {
+    	return this.state;
+    }
+    
+    public int getLives() {
+    	return this.lives;
+    }
+    
+    /* Resets Pacman's position when Pacman dies and still has lives left. */
+	public void reset(int x, int y) {
+		
+		this.hitBox.setX(x);
+		this.hitBox.setY(y);
+		setDirection('S');
+		setState(Pacman.STATE.ALIVE);
+	}
+
+	public void draw(GraphicsContext graphicsContext) {
+		
+		animationManager.draw(graphicsContext,this.hitBox.getX(),this.hitBox.getY());
+	}
+	
     /* Changes character animation depending on the direction it's currently facing */
     public void playAnimation() {
     	
@@ -147,11 +207,6 @@ public class Pacman extends GameObject implements MovingCharacter {
 		}
     }
     
-	public void draw(GraphicsContext graphicsContext) {
-		
-		animationManager.draw(graphicsContext,this.hitBox.getX(),this.hitBox.getY());
-	}
-	
 	/* Set up the frame animation for the main character */
 	private void setUpAnimations() {
 
@@ -194,6 +249,5 @@ public class Pacman extends GameObject implements MovingCharacter {
 		animationManager = new AnimationManager(movementAnimations);
 		
 	}
-    
 
 }
