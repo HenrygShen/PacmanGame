@@ -2,6 +2,7 @@ package group23.pacman.controller;
 
 import group23.pacman.model.Game;
 import group23.pacman.view.GameViewController;
+import javafx.application.Platform;
 import javafx.event.EventHandler;
 import javafx.scene.Scene;
 import javafx.scene.input.KeyCode;
@@ -48,63 +49,45 @@ public class GameStateController {
 			    	else if (e.getCode() == KeyCode.P) {
 			    		gameViewController.toggleState();
 			    	}
+			    	else if (e.getCode() == KeyCode.PAGE_DOWN) {
+			    		gameViewController.getTimer().endTimer();
+			    		gameViewController.setTimerImage();
+			    	}
+			    	else if (e.getCode() == KeyCode.ESCAPE) {
+			    		Platform.exit();
+			    	}
 		    	}
 		    });
 	}
 	
 	/* Update the game state and score */
 	public void update() {
-		
-		game.update();
-		updateScore();
-		updateLives();
-	}
-	
-	
-	private void updateScore() {
-		
-		/* Updates each digit */
-		for (int i = 0; i < 4 ; i++) {
-			gameViewController.setDigitImage(getDigit(game.getScore().charAt(i)), i);
-		}
-	}
-	
-	private void updateLives() {
-		
-		/* Updates lives image only if lives have been lost */
-		for (int i = game.getPacman().getLives(); i < 3; i++) {
-			gameViewController.setLivesImage("assets/misc/empty.png", i);
-		}
-	}
-	
-	/* Helper function to break score digits down (to more easily show in UI) */
-	private String getDigit(char digit){
 
-        switch (digit){
-            case '0' :
-                return "assets/numbers/0.png";
-            case '1' :
-                return "assets/numbers/1.png";
-            case '2' :
-                return "assets/numbers/2.png";
-            case '3' :
-                return "assets/numbers/3.png";
-            case '4' :
-                return "assets/numbers/4.png";
-            case '5' :
-                return "assets/numbers/5.png";
-            case '6' :
-                return "assets/numbers/6.png";
-            case '7' :
-                return "assets/numbers/7.png";
-            case '8' :
-                return "assets/numbers/8.png";
-            case '9' :
-                return "assets/numbers/9.png";
-            default :
-                return "assets/numbers/0.png";
-        }
-    }
+		game.update();
+		gameViewController.updateLives();
+		checkTimer();
+	}
+	
+	private void checkTimer() {
+		
+		if (gameViewController.getTimer().timedOut()) {
+			game.getPacman().died();
+			gameViewController.toggleState();
+			if (game.getPacman().getLives() > 0) {
+				gameViewController.getTimer().resetCounter();
+				gameViewController.setTimerImage();
+				//gameViewController.startGame();
+				gameViewController.startCountdown();
+			}
+		}
+		
+	}
+	
+	public boolean notZeroLives() {
+		
+		return (game.getPacman().getLives() > 0);
+	}
+	
 	
 	/* Public getter to allow GameViewController(the view class) to reference objects(to draw) */
 	public Game getGame() {

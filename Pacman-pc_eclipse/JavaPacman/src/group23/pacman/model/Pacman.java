@@ -89,6 +89,7 @@ public class Pacman extends GameObject implements MovingCharacter {
     
     public void died() {
     	lives--;
+    	this.state = STATE.DEAD;
     }
     
 	public void queueMovement(char queuedDirection) {
@@ -179,6 +180,7 @@ public class Pacman extends GameObject implements MovingCharacter {
 		this.hitBox.setX(x);
 		this.hitBox.setY(y);
 		setDirection('S');
+		queueMovement('S');
 		setState(Pacman.STATE.ALIVE);
 	}
 

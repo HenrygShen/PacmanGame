@@ -74,7 +74,7 @@ public class Ghost extends GameObject implements MovingCharacter {
 		
 		if (turned == false) {
 			int nextDir = rand.nextInt(3);
-			//turned = true;
+			turned = true;
 			switch (nextDir) {
 				case 0 :
 					this.queuedDirection = 'U';

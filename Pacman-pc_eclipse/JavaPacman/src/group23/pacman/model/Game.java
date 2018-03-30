@@ -16,6 +16,9 @@ public class Game {
 	
 	/* Currently only one ghost, intend to change this to arraylist later */
 	private Ghost ghost;
+	private Ghost ghost2;
+	private Ghost ghost3;
+	private Ghost ghost4;
 	
 	/* Media variables for sound effects */
 	private Media chompNoise;
@@ -51,8 +54,14 @@ public class Game {
 		characters = new ArrayList<MovingCharacter>();
 		pacman = new Pacman(board.getPacman()[0],board.getPacman()[1]);
 		ghost = new Ghost(board.getGhost()[0],board.getGhost()[1]);
+		ghost2 = new Ghost(board.getGhost()[0],board.getGhost()[1]);
+		ghost3 = new Ghost(board.getGhost()[0],board.getGhost()[1]);
+		ghost4= new Ghost(board.getGhost()[0],board.getGhost()[1]);
 		characters.add(pacman);
 		characters.add(ghost);
+		characters.add(ghost2);
+		characters.add(ghost3);
+		characters.add(ghost4);
 		
 		chompNoise = new Media(new File("bin/assets/sfx/chompNoise.mp3").toURI().toString());
 		
@@ -63,27 +72,30 @@ public class Game {
 	
 	public void update( ) {
 		
-		if (pacman.getState() != Pacman.STATE.DEAD) {
-			checkCollisions();
-			checkState();
-			pacman.update();
-			ghost.update();
-		}
+		checkCollisions();
+		checkState();
+		pacman.update();
+		ghost.update();
+		ghost2.update();
+		ghost3.update();
+		ghost4.update();
+		
 	}
 	
 	/* Checks character movement collisions and player pellet collisions */
 	private void checkCollisions() {
 		
 		ghost.queueMovement();
+		ghost2.queueMovement();
+		ghost3.queueMovement();
+		ghost4.queueMovement();
 		
 		for (MovingCharacter character : characters) {
 			
-			/* Checks for collision with a ghost. TODO : Lose a life when you collide. */
+			/* Checks for collision with a ghost. Lose a life when you collide. */
 			if (character.getType() == GameObject.TYPE.GHOST) {
 				if (pacman.collidedWith((GameObject) character)) {
-					/* temporary code to test if collision works */
 					pacman.died();
-					pacman.setState(Pacman.STATE.DEAD);
 					return;
 				}
 			}
@@ -163,6 +175,23 @@ public class Game {
 		
 		return this.ghost;
 	}
+	
+	public Ghost getGhost2() {
+		
+		return this.ghost2;
+	}
+	
+	public Ghost getGhost3() {
+		
+		return this.ghost3;
+	}
+	
+	public Ghost getGhost4() {
+		
+		return this.ghost4;
+	}
+	
+	
 	
 	/* Public getter to reference other game objects (i.e walls, pellets ) */
 	public ArrayList<GameObject> getOtherGameObjects() {

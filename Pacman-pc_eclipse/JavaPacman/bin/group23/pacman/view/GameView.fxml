@@ -49,5 +49,11 @@
             <Image url="@../../../../bin/assets/misc/lives.png" />
          </image>
       </ImageView>
+      <ImageView fx:id="time_remaining" fitHeight="60.0" fitWidth="300.0" layoutX="1060.0" layoutY="232.0" pickOnBounds="true" preserveRatio="true" />
+      <ImageView fx:id="min_ones" fitHeight="50.0" fitWidth="50.0" layoutX="1180.0" layoutY="300.0" pickOnBounds="true" preserveRatio="true" />
+      <ImageView fx:id="colon" fitHeight="50.0" fitWidth="50.0" layoutX="1210.0" layoutY="300.0" pickOnBounds="true" preserveRatio="true" />
+      <ImageView fx:id="sec_tens" fitHeight="50.0" fitWidth="50.0" layoutX="1240.0" layoutY="300.0" pickOnBounds="true" preserveRatio="true" />
+      <ImageView fx:id="sec_ones" fitHeight="50.0" fitWidth="50.0" layoutX="1270.0" layoutY="300.0" pickOnBounds="true" preserveRatio="true" />
+      <ImageView fx:id="start_timer" fitHeight="50.0" fitWidth="50.0" layoutX="516.0" layoutY="283.0" pickOnBounds="true" preserveRatio="true" />
    </children>
 </AnchorPane>

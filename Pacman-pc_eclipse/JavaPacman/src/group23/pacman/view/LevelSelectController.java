@@ -191,7 +191,8 @@ public class LevelSelectController {
 			/* Create game and pass to controller */
 			Game game = new Game(map);
 			controller.setGame(game);
-			controller.startGame();
+			controller.initialDraw();
+			controller.startGame();	
 			
 		}
 		catch (IOException e) {
