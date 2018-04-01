@@ -1,0 +1,40 @@
+package group23.pacman.model;
+
+import java.util.Random;
+
+public class AI {
+	
+	private Board board;
+	
+	private Random rand;
+	
+	public AI(Board board) {
+		
+		this.board = board;
+		rand = new Random();
+	}
+	
+	public char chooseMovement(char oppositeDirection, int x, int y) {
+		char direction = randomMove();
+		while (!board.isValidDestination(direction, x, y) && (oppositeDirection == direction)) {
+			direction = randomMove();
+		}
+		return direction;
+	}
+	
+	private char randomMove() {
+		int nextDir = rand.nextInt(3);
+		switch (nextDir) {
+			case 0 :
+				return 'U';
+			case 1 :
+				return 'D';
+			case 2 :
+				return 'L';
+			case 3 :
+				return 'R';
+			default : 
+				return 'D';
+		}
+	}
+}

@@ -1,0 +1,15 @@
+package group23.pacman.model;
+
+public class AI {
+	
+	private Board board;
+	
+	public AI(Board board) {
+		this.board = board;
+	}
+	
+	public char chooseMovement(int x, int y) {
+		while (isValidDestination(char direction, x, y))
+		return '1';
+	}
+}

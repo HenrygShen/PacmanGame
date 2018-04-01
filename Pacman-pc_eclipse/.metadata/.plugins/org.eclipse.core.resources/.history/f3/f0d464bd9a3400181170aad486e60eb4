@@ -1,0 +1,91 @@
+package group23.pacman.model;
+
+import java.util.Random;
+
+public class AI {
+	
+	private Board board;
+	
+	private Random rand;
+	
+	private int count;
+	
+	public AI(Board board) {
+		
+		this.board = board;
+		rand = new Random();
+		count = 0;
+	}
+	
+	public char chooseMovement(char currentDirection, int x, int y) {
+		char direction = randomMove(currentDirection);
+		while (!board.isValidDestination(direction, x, y)/* && (direction != currentDirection)*/) {
+			direction = randomMove(currentDirection);
+		}
+		//System.out.println(direction);
+		return direction;
+	}
+	
+	private char randomMove(char currentDirection) {
+		int nextDir = rand.nextInt(4);
+		switch (nextDir) {
+			case 0 :
+				if (currentDirection == 'D') {
+					if (count%2 == 0) {
+						return currentDirection;
+					}
+					count++;
+				}
+				return 'U';
+			case 1 :
+				if (currentDirection == 'U') {
+					if (count%2 == 0) {
+						return currentDirection;
+					}
+					count++;
+				}
+				return 'D';
+			case 2 :
+				if (currentDirection == 'R') {
+					if (count%2 == 0) {
+						return currentDirection;
+					}
+					count++;
+				}
+				return 'L';
+			case 3 :
+				if (currentDirection == 'L') {
+					if (count%2 == 0) {
+						return currentDirection;
+					}
+					count++;
+				}
+				return 'R';
+			default : 
+				return currentDirection;
+		}
+	}
+	private char randomMove() {
+		int nextDir = rand.nextInt(4);
+		switch (nextDir) {
+			case 0 :
+
+				return 'U';
+			case 1 :
+
+				return 'D';
+			case 2 :
+		
+				return 'L';
+			case 3 :
+
+				return 'R';
+			default : 
+				return 'D';
+		}
+	}
+	
+	public boolean canTurn(int x, int y) {
+		return board.atNode(x, y);
+	}
+}

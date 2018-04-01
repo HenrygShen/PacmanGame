@@ -1,8 +1,5 @@
 package group23.pacman.model;
 
-import java.util.Random;
-
-import group23.pacman.model.Pacman.STATE;
 import group23.pacman.view.Animation;
 import group23.pacman.view.AnimationManager;
 import javafx.scene.canvas.GraphicsContext;
@@ -26,20 +23,20 @@ public class Ghost extends GameObject implements MovingCharacter {
 	/* Handles character animations */
 	private AnimationManager animationManager;
 	
+	/* AI for ghost, and the type of AI*/
+	
+	private AI ai;
+	private boolean isAI;
+	
 	/* Direction to move and planned direction */
 	private char vector;
 	private char queuedDirection;
 	
-	private Random rand;
-	
 	private STATE state;
 	
-	private boolean turned;
 	
-	public Ghost(int x,int y) {
+	public Ghost(int x,int y,Board board, int type) {
 		
-		rand = new Random();
-		turned = false;
 		Image ghostOpen = new Image("assets/Ghost/tempGhostOpen.png",SPRITE_WIDTH,SPRITE_HEIGHT,false,false);
 		Image ghostClosed = new Image("assets/Ghost/tempGhostClosed.png",SPRITE_WIDTH,SPRITE_HEIGHT,false,false);
 		Image[] frames = new Image[2];
@@ -61,46 +58,45 @@ public class Ghost extends GameObject implements MovingCharacter {
 		this.type = GameObject.TYPE.GHOST;
 		this.state = Ghost.STATE.ALIVE;
 		
+		this.vector = 'S';
+		this.queuedDirection = 'S';
+		
+		/* A Ghost can be player controlled or computer controlled.
+		 * 0 is a player, and so no AI is created.
+		 * 1 is a random movement type AI. 
+		 * 2 is an AI which prioritizes shortening the distance between the ghost and pacman. */
+		if (type != 0) {
+			ai = new AI(board, type);
+			isAI = true;
+		}
+		else {
+			isAI = false;
+		}
 	}
 	
-	public void update() {
+	public void update(int pacmanX, int pacmanY) {
+		
+		/**/
+		if (isAI) {
+			if (ai.canTurn((int)this.hitBox.getX(), (int)this.hitBox.getY())) {
+				queueMovement(ai.chooseMovement(vector, (int)this.hitBox.getX(), (int)this.hitBox.getY(), pacmanX, pacmanY));
+			}
+		}
 		
 		animationManager.update();
 		animationManager.playAction(0);
 		
 	}
 	
-	public void queueMovement() {
+	public void queueMovement(char queuedDirection) {
 		
-		if (turned == false) {
-			int nextDir = rand.nextInt(3);
-			turned = true;
-			switch (nextDir) {
-				case 0 :
-					this.queuedDirection = 'U';
-					break;
-				case 1 :
-					this.queuedDirection = 'D';
-					break;
-				case 2 :
-					this.queuedDirection = 'L';
-					break;
-				case 3 :
-					this.queuedDirection = 'R';
-					break;
-				default : 
-					queuedDirection = 'D';
-					break;
-					
-			}
-		}
+		this.queuedDirection = queuedDirection;
 	}
 
     
     public void setDirection(char vector) {
     	
     	this.vector = vector;	
-    	turned = false;
     }
     
     public void setState(STATE state) {

@@ -10,12 +10,15 @@ import java.util.ArrayList;
 public class Board {
 	
 	private static final int TILE_SIZE = 10;
+	private static final int X_OFFSET = 158;
+	private static final int Y_OFFSET = 7;
 	private static final int OFFSET = 1;
 	
 	
 	private ArrayList<GameObject> objects;
 	
 	private boolean[][] status;
+	private boolean[][] node;
 	
 	private int[] ghostCoords;
 	private int[] pacmanCoords;
@@ -25,7 +28,8 @@ public class Board {
 		/* Create the list and arrays of objects/states to be placed on the map */
 		pacmanCoords = new int[2];
 		ghostCoords = new int[2];
-		status = new boolean[101][71];
+		status = new boolean[75][75];
+		node = new boolean[75][75];
 		objects = new ArrayList<GameObject>();
 	}
 	
@@ -57,7 +61,8 @@ public class Board {
 			 * P creates a pellet
 			 * W creates a special pellet
 			 * 1 is an empty position
-			 * R is a position that the character can be in but cannot turn *
+			 * R is a position that the character can be in but cannot turn 
+			 * T is a turn node
 			 * S is the spawn point of the main character
 			 * G is the spawn point of a ghost
 			 */
@@ -66,47 +71,53 @@ public class Board {
 				for (int i =0;i< line.length();i++) {
 					if (line.charAt(i)==('0')) {
 						Rectangle rect = new Rectangle();
-						rect.setX(position*TILE_SIZE + 33);
-						rect.setY(row*TILE_SIZE + 34);
+						rect.setX(position*TILE_SIZE + X_OFFSET);
+						rect.setY(row*TILE_SIZE + Y_OFFSET);
 						rect.setWidth(TILE_SIZE);
 						rect.setHeight(TILE_SIZE);
 						Wall wall = new Wall(rect,map);
 						status[position][row] = false;
+						node[position][row] = false;
 						objects.add(wall);
 						position++;
 					}
 					else if (line.charAt(i) == 'P') {
-						Pellet pellet = new Pellet(position*TILE_SIZE + 33,row*TILE_SIZE + 34);
+						Pellet pellet = new Pellet(position*TILE_SIZE + X_OFFSET,row*TILE_SIZE + Y_OFFSET);
 						objects.add(pellet);
 						status[position][row] = false;
+						node[position][row] = false;
 						position++;
 					}
 					else if (line.charAt(i) == 'W') {
-						SpecialPellet sPellet = new SpecialPellet(position*TILE_SIZE + 33,row*TILE_SIZE + 34);
+						SpecialPellet sPellet = new SpecialPellet(position*TILE_SIZE + X_OFFSET,row*TILE_SIZE + Y_OFFSET);
 						objects.add(sPellet);
 						status[position][row] = false;
+						node[position][row] = false;
 						position++;
 					}
 					else if (line.charAt(i) == '1' ) {
 						status[position][row] = false;
+						node[position][row] = false;
 						position++;
 					}
 					else if (line.charAt(i) == 'R' ) {
 						status[position][row] = true;
+						node[position][row] = false;
 						position++;
 					}
 					else if (line.charAt(i) == 'T' ) {
 						status[position][row] = true;
+						node[position][row] = true;
 						position++;
 					}
 					else if (line.charAt(i) == 'S'){
-						pacmanCoords[0] = (position-2)*TILE_SIZE + 33;
-						pacmanCoords[1] = (row-2)*TILE_SIZE + 34;
+						pacmanCoords[0] = (position-2)*TILE_SIZE + X_OFFSET;
+						pacmanCoords[1] = (row-2)*TILE_SIZE + Y_OFFSET;
 						position++;
 					}
 					else if (line.charAt(i) == 'G'){
-						ghostCoords[0] = (position-2)*TILE_SIZE + 33;
-						ghostCoords[1] = (row-2)*TILE_SIZE + 34;
+						ghostCoords[0] = (position-2)*TILE_SIZE + X_OFFSET;
+						ghostCoords[1] = (row-2)*TILE_SIZE + Y_OFFSET;
 						position++;
 					}
 					
@@ -138,8 +149,19 @@ public class Board {
 	/* Checks if character is in the exact x,y position to do a 90 degree turn */
 	public boolean validTurningPoint(int x, int y) {
 		
-		if (((x - 33)%10 == 0) && ((y - 34)%10 == 0)){
-			return this.status[(x - 33)/10][(y - 34)/10 ];
+		if (((x - X_OFFSET)%TILE_SIZE == 0) && ((y - Y_OFFSET)%TILE_SIZE == 0)){
+			return this.status[(x - X_OFFSET)/TILE_SIZE][(y - Y_OFFSET)/TILE_SIZE ];
+		}
+		else {
+			return false;
+		}
+	}
+	
+	/* Checks if character is at the intersection nodes. */
+	public boolean atNode(int x, int y) {
+		
+		if (((x - X_OFFSET)%TILE_SIZE == 0) && ((y - Y_OFFSET)%TILE_SIZE == 0)){
+			return this.node[(x - X_OFFSET)/TILE_SIZE][(y - Y_OFFSET)/TILE_SIZE ];
 		}
 		else {
 			return false;
@@ -151,13 +173,13 @@ public class Board {
 		
     	switch (direction) {
 			case 'U':
-				return this.status[(x - 33)/10][(y - OFFSET - 34)/10];
+				return this.status[(x - X_OFFSET)/TILE_SIZE][(y - OFFSET - Y_OFFSET)/TILE_SIZE];
 			case 'D':
-				return this.status[(x - 33)/10][(y + TILE_SIZE - 34)/10];
+				return this.status[(x - X_OFFSET)/TILE_SIZE][(y + TILE_SIZE - Y_OFFSET)/TILE_SIZE];
 			case 'L':
-				return this.status[(x - OFFSET - 33)/10][(y - 34)/10];
+				return this.status[(x - OFFSET - X_OFFSET)/TILE_SIZE][(y - Y_OFFSET)/TILE_SIZE];
 			case 'R':
-				return this.status[(x + TILE_SIZE - 33)/10][(y - 34)/10];
+				return this.status[(x + TILE_SIZE - X_OFFSET)/TILE_SIZE][(y - Y_OFFSET)/TILE_SIZE];
     	}
     	return false;
     }

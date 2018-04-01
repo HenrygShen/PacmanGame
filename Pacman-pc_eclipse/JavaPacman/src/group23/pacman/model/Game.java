@@ -52,11 +52,11 @@ public class Game {
 		
 		/* Add character objects to ArrayList of MovingCharacter interface */
 		characters = new ArrayList<MovingCharacter>();
-		pacman = new Pacman(board.getPacman()[0],board.getPacman()[1]);
-		ghost = new Ghost(board.getGhost()[0],board.getGhost()[1]);
-		ghost2 = new Ghost(board.getGhost()[0],board.getGhost()[1]);
-		ghost3 = new Ghost(board.getGhost()[0],board.getGhost()[1]);
-		ghost4= new Ghost(board.getGhost()[0],board.getGhost()[1]);
+		pacman = new Pacman(board.getPacman()[0],board.getPacman()[1], board);
+		ghost = new Ghost(board.getGhost()[0],board.getGhost()[1], board, 1);
+		ghost2 = new Ghost(board.getGhost()[0],board.getGhost()[1], board, 1);
+		ghost3 = new Ghost(board.getGhost()[0],board.getGhost()[1], board, 2);
+		ghost4= new Ghost(board.getGhost()[0],board.getGhost()[1], board, 2);
 		characters.add(pacman);
 		characters.add(ghost);
 		characters.add(ghost2);
@@ -75,20 +75,15 @@ public class Game {
 		checkCollisions();
 		checkState();
 		pacman.update();
-		ghost.update();
-		ghost2.update();
-		ghost3.update();
-		ghost4.update();
+		ghost.update((int)pacman.getX(), (int)pacman.getY());
+		ghost2.update((int)pacman.getX(), (int)pacman.getY());
+		ghost3.update((int)pacman.getX(), (int)pacman.getY());
+		ghost4.update((int)pacman.getX(), (int)pacman.getY());
 		
 	}
 	
 	/* Checks character movement collisions and player pellet collisions */
 	private void checkCollisions() {
-		
-		ghost.queueMovement();
-		ghost2.queueMovement();
-		ghost3.queueMovement();
-		ghost4.queueMovement();
 		
 		for (MovingCharacter character : characters) {
 			
