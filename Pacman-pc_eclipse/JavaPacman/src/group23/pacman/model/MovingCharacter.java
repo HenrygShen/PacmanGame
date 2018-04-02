@@ -2,8 +2,7 @@ package group23.pacman.model;
 
 import group23.pacman.model.GameObject.TYPE;
 
-/**
-	This interface helps differentiate moving character game objects from non moving game objects */
+/** This interface helps differentiate moving character game objects from non moving game objects */
 
 public interface MovingCharacter {
 	

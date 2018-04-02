@@ -1,5 +1,6 @@
 package group23.pacman.model;
 
+/** The class that we use to classify hit boxes for all game objects */
 public class Rectangle {
 
     private double x;

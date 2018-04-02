@@ -5,15 +5,17 @@ import group23.pacman.view.AnimationManager;
 import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.image.Image;
 
+/** The class which handles the Ghost object, the antagonist(s) of the main character in this game
+ */
 public class Ghost extends GameObject implements MovingCharacter {
 	
+	
 	public enum STATE {
-		
 		DEAD,
 		ALIVE
-	
 	}
 	
+	/* Constants */
 	private static final int SPRITE_HEIGHT = 30;
 	private static final int SPRITE_WIDTH = 30;
 	private static final int OFFSET = 10;
@@ -25,7 +27,6 @@ public class Ghost extends GameObject implements MovingCharacter {
 	private AnimationManager animationManager;
 	
 	/* AI for ghost, and the type of AI*/
-	
 	private AI ai;
 	private boolean isAI;
 	
@@ -45,18 +46,8 @@ public class Ghost extends GameObject implements MovingCharacter {
 	
 	public Ghost(int x,int y,Board board, int type) {
 		
-		Image ghostOpen = new Image("assets/Ghost/tempGhostOpen.png",SPRITE_WIDTH,SPRITE_HEIGHT,false,false);
-		Image ghostClosed = new Image("assets/Ghost/tempGhostClosed.png",SPRITE_WIDTH,SPRITE_HEIGHT,false,false);
-		Image[] frames = new Image[2];
-		frames[0] = ghostOpen;
-		frames[1] = ghostClosed;
-		
-		
-		Animation animation = new Animation(frames,0.3f);
-		Animation[] animations = new Animation[1];
-		animations[0] = animation;
-		
-		animationManager = new AnimationManager(animations);
+		setUpAnimations();
+
 		
 		hitBox = new Rectangle();
 		this.hitBox.setX(x + OFFSET/2);
@@ -87,15 +78,17 @@ public class Ghost extends GameObject implements MovingCharacter {
 		}
 	}
 	
+	
 	public void update(int pacmanX, int pacmanY) {
 		
-		/**/
+		/* If this character is meant to be an AI, generate movement using the AI object created in this class */
 		if (isAI) {
 			if (ai.canTurn((int)getX(), (int)getY())) {
 				queueMovement(ai.chooseMovement(hasLeftSpawn, vector, (int)getX(), (int)getY(), pacmanX, pacmanY));
 			}
 		}
 		
+		/* Play the animation for this character */
 		animationManager.update();
 		animationManager.playAction(0);
 		
@@ -130,32 +123,22 @@ public class Ghost extends GameObject implements MovingCharacter {
     	
     	return this.queuedDirection;
     }
+   
     
-    public STATE getState() {
-    	
-    	return this.state;
-    }
-    
-    public double getX() {
-    	
-    	return this.x;
-    }
-    
-    public double getY() {
-    	
-    	return this.y;
-    }
-    
+    /* Determines if the ghost has left the spawn point */
     public boolean getHasLeftSpawn() {
     	return this.hasLeftSpawn;
     }
     
     
+    /* Determines if the current direction is the same as the queued direction */
     public boolean checkforQueuedAction() {
 		
 	    return (queuedDirection != vector);
     }
     
+    
+    /* Determines if the current direction is the opposite direction of the queued direction */
     public boolean oppositeDirection() {
     	
     	switch (vector) {
@@ -182,6 +165,7 @@ public class Ghost extends GameObject implements MovingCharacter {
     }
      
     
+    /* Updates (x,y) coordinates of character */
     public void updateDestination() {
     
     		
@@ -222,5 +206,38 @@ public class Ghost extends GameObject implements MovingCharacter {
 	}
 	
 	
+	private void setUpAnimations() {
+		
+		Image ghostOpen = new Image("assets/Ghost/tempGhostOpen.png",SPRITE_WIDTH,SPRITE_HEIGHT,false,false);
+		Image ghostClosed = new Image("assets/Ghost/tempGhostClosed.png",SPRITE_WIDTH,SPRITE_HEIGHT,false,false);
+		Image[] frames = new Image[2];
+		frames[0] = ghostOpen;
+		frames[1] = ghostClosed;
+		
+		
+		Animation animation = new Animation(frames,0.3f);
+		Animation[] animations = new Animation[1];
+		animations[0] = animation;
+		
+		animationManager = new AnimationManager(animations);
+	}
+	
+	
+	/* Public getters */
+	
+    public STATE getState() {
+    	
+    	return this.state;
+    }
+    
+    public double getX() {
+    	
+    	return this.x;
+    }
+    
+    public double getY() {
+    	
+    	return this.y;
+    }
 	
 }

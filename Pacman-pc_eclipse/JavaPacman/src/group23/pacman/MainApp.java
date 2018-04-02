@@ -14,16 +14,24 @@ import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.BorderPane;
 import javafx.stage.Stage; 
 
-/**
- * The class that creates the platform and shows the main menu */
+/**The class that creates the platform and shows the main menu.
+ * Also has the methods for showing other screens.
+*/
 
 public class MainApp extends Application{ 
 	
+	/* The window for showing the game/application */
 	private Stage gameWindow;
+	
+	/* Layout to draw UI onto */
 	private BorderPane rootLayout;
+	
 	private Scene scene;
 	
+	/* Stores the player mode selected from GameModeSelect */
 	private int players;
+	
+	/* Stores the map selected from LevelSelect */
 	private char map;
 	
 	
@@ -31,6 +39,7 @@ public class MainApp extends Application{
 		
 		launch(args);
 	} 
+	
 	
 	public void initRootLayout() {
 		
@@ -60,10 +69,11 @@ public class MainApp extends Application{
 		
 		initRootLayout();
 		showWelcomeScreen();
-
 		
 	}
 	
+	
+	/* The screen that greets the user */
 	private void showWelcomeScreen() {
 		
 		try {
@@ -85,6 +95,31 @@ public class MainApp extends Application{
 		
 	}
 	
+	
+	/* The screen that allows the user to choose between single,two and three player modes */
+	public void showGameModeSelect() {
+		
+		try {
+			
+			/* Load/show the mode select layout */
+			FXMLLoader loader = new FXMLLoader();
+			loader.setLocation(MainApp.class.getResource("view/GameModeSelect.fxml"));
+			AnchorPane levelSelectScreen = (AnchorPane) loader.load();
+			rootLayout.setCenter(levelSelectScreen);
+
+            /* Get the controller to manipulate this class */
+			GameModeSelectController controller = loader.getController();
+			controller.setMainApp(this);
+
+
+		}
+		catch (IOException e) {
+			e.printStackTrace();
+		}
+	}
+	
+	
+	/* The screen that allows the user to select a map */
 	public void showLevelSelect() {
 		
 		try {
@@ -107,27 +142,7 @@ public class MainApp extends Application{
 	}
 	
 	
-	public void showGameModeSelect() {
-		
-		try {
-			
-			/* Load/show the level select layout */
-			FXMLLoader loader = new FXMLLoader();
-			loader.setLocation(MainApp.class.getResource("view/GameModeSelect.fxml"));
-			AnchorPane levelSelectScreen = (AnchorPane) loader.load();
-			rootLayout.setCenter(levelSelectScreen);
-
-            /* Get the controller to manipulate this class */
-			GameModeSelectController controller = loader.getController();
-			controller.setMainApp(this);
-
-
-		}
-		catch (IOException e) {
-			e.printStackTrace();
-		}
-	}
-	
+	/* The game screen which will be showing the actual game play */
 	public void showGameView() {
 		
 		try {
@@ -155,28 +170,26 @@ public class MainApp extends Application{
 		}
 	}
 	
+	/* Public setter to pass game mode back to this class from GameModeSelectController */
 	public void setPlayers(int players) {
 		
 		this.players = players;
 	}
 	
+	/* Public setter to pass map back to this class from LevelSelectController */
 	public void setMap(char map) {
 		
 		this.map = map;
 	}
 	
-	
+	/* Public getter to add elements to the layout (Currently only used by GameViewController) */
 	public BorderPane getPane() {
 		
 		return this.rootLayout;
 		
 	}
-	
-	public Stage getStage() {
-		
-		return this.gameWindow;
-	}
-	
+
+	/* Public getter for scene (mainly used to add key listeners) */
 	public Scene getScene() {
 		
 		return this.scene;

@@ -1,9 +1,7 @@
 package group23.pacman.view;
 import javafx.scene.canvas.GraphicsContext;
 
-/**
-	This class handles an array of animations, each of which has its own array of images(frames).
- */
+/** This class handles an array of animations, each of which has its own array of images(frames).*/
 public class AnimationManager {
 
     private Animation animations[];

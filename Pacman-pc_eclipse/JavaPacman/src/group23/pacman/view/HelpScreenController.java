@@ -7,6 +7,8 @@ import javafx.scene.image.ImageView;
 import javafx.scene.input.KeyCode;
 import javafx.scene.input.KeyEvent;
 
+/** Controller class for the HelpScreen view */
+
 public class HelpScreenController {
 	
 	@FXML

@@ -8,6 +8,10 @@ import javafx.scene.Scene;
 import javafx.scene.input.KeyCode;
 import javafx.scene.input.KeyEvent;
 
+/** The class that handles the state of the game and the player input.
+ * Contains a GameViewController object to update graphics if necessary.
+ */
+
 public class GameStateController {
 	
 	/* Scene used to add key listener */
@@ -22,6 +26,9 @@ public class GameStateController {
 	/* Keep track of pacman's lives */
 	private int pacmanLives;
 	
+	
+	
+	/* Public constructor */
 	public GameStateController(GameViewController gameViewController,Game game) {
 		
 		this.gameViewController = gameViewController;
@@ -31,7 +38,70 @@ public class GameStateController {
 		
 		
 	}
+		
 	
+	/* Updates the game state and score */
+	public void update() {
+		
+		/* Updates object coordinates and checks collisions */
+		game.update();
+		
+		/* Check if player has died */
+		game.checkState();
+		
+		/* Check to make sure we're not out of time */
+		checkTimer();
+		
+		/* If pacman lost a life, show this to the screen */
+		if (pacmanLives != game.getPacman().getLives()) {
+			
+			/* If all lives lost, stop the game */
+			if (game.getPacman().getLives() == 0) {
+				
+				gameViewController.showLivesLeft();
+				gameViewController.stopGame();
+				
+			}
+			
+			/* Otherwise, just show number of lives to the screen and reset the timer */
+			else {
+				
+				gameViewController.showLivesLeft();
+				pacmanLives = game.getPacman().getLives();
+				gameViewController.getTimer().resetCounter();
+				gameViewController.setTimerImage();
+				gameViewController.startCountdown();
+			}
+		}
+
+	}
+	
+	/* Checks if the player is losing on time */
+	private void checkTimer() {
+		
+		/* If player ran out of time, player loses a life */
+		if (gameViewController.getTimer().timedOut()) {
+		
+			/* Lose life and reset timer */
+			game.getPacman().loseLife();
+			gameViewController.getTimer().resetCounter();
+			gameViewController.setTimerImage();
+			gameViewController.finalUpdate();
+		}
+		
+	}
+	
+	
+	/* Public getter to allow GameViewController(the view class) to reference objects(to draw) */
+	public Game getGame() {
+		
+		return this.game;
+	}
+	
+	
+	/**
+	 * KEY LISTENERS FOR DIFFERENT GAME MODES 
+	 */
 	public void listenSinglePlayer() {
 		
 		 scene.setOnKeyPressed(new EventHandler<KeyEvent> (){
@@ -174,58 +244,5 @@ public class GameStateController {
 		    });
 	}
 	
-	/* Update the game state and score */
-	public void update() {
-		
-		/* Updates object coordinates and checks collisions */
-		game.update();
-		
-		/* Check to make sure we're not out of time */
-		checkTimer();
-		
-		/* If pacman lost a life, show this to the screen */
-		if (pacmanLives != game.getPacman().getLives()) {
-			
-			/* If all lives lost, stop the game */
-			if (game.getPacman().getLives() == 0) {
-				
-				gameViewController.showLivesLeft();
-				gameViewController.stopGame();
-				
-			}
-			
-			/* Otherwise, just show number of lives to the screen and reset the timer */
-			else {
-				
-				gameViewController.showLivesLeft();
-				pacmanLives = game.getPacman().getLives();
-				gameViewController.getTimer().resetCounter();
-				gameViewController.setTimerImage();
-				gameViewController.startCountdown();
-			}
-		}
-
-	}
-	
-	private void checkTimer() {
-		
-		/* If player ran out of time, player loses a life */
-		if (gameViewController.getTimer().timedOut()) {
-		
-			/* Lose life and reset timer */
-			game.getPacman().loseLife();
-			gameViewController.getTimer().resetCounter();
-			gameViewController.setTimerImage();
-			gameViewController.finalUpdate();
-		}
-		
-	}
-	
-	
-	/* Public getter to allow GameViewController(the view class) to reference objects(to draw) */
-	public Game getGame() {
-		
-		return this.game;
-	}
 
 }

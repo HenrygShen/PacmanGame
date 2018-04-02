@@ -7,11 +7,9 @@ import javafx.scene.image.Image;
 public class Pacman extends GameObject implements MovingCharacter {
 	
 	public enum STATE {
-		
 		POWER_UP,
 		DEAD,
 		ALIVE
-	
 	}
 	
 	/* Pacman's size */
@@ -47,7 +45,6 @@ public class Pacman extends GameObject implements MovingCharacter {
 	private int y;
 	
 	
-	
 	public Pacman(int x,int y,Board board) {
 
 		setUpAnimations();
@@ -76,11 +73,13 @@ public class Pacman extends GameObject implements MovingCharacter {
 	
 	}
 
+	
 	public void whip() {
 		
 		this.whipping = true;
 	}
 
+	
 	public void update() {	
 		
 		if (whipping == true) {
@@ -92,6 +91,7 @@ public class Pacman extends GameObject implements MovingCharacter {
 		playAnimation();
 	}
 
+	
     public boolean collidedWith(GameObject object) {
     	
     	
@@ -100,10 +100,12 @@ public class Pacman extends GameObject implements MovingCharacter {
     	return this.hitBox.intersects(hitBox);
     }
     
+    
     public void loseLife() {
     	lives--;
     	this.state = STATE.DEAD;
     }
+    
     
 	public void queueMovement(char queuedDirection) {
 		
@@ -116,21 +118,27 @@ public class Pacman extends GameObject implements MovingCharacter {
     	this.vector = vector;	
     }
     
+    
     /* Public setter for state */
     public void setState(STATE state) {
     	
     	this.state = state;
     }
     
+    
     public void setHasLeftSpawn() {
     	this.hasLeftSpawn = true;
     }
     
+    
+    /* Determines if the current direction is the same as the queued direction */
     public boolean checkforQueuedAction() {
     		
 	    return (queuedDirection != vector);
     }
     
+    
+    /* Determines if the current direction is the opposite direction of the queued direction */
     public boolean oppositeDirection() {
     	
     	switch (vector) {

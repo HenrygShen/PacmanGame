@@ -1,21 +1,16 @@
 package group23.pacman.view;
 
-import java.io.IOException;
 
 import group23.pacman.MainApp;
-import group23.pacman.model.Game;
 import javafx.event.EventHandler;
 import javafx.fxml.FXML;
-import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.KeyCode;
 import javafx.scene.input.KeyEvent;
-import javafx.scene.layout.AnchorPane;
 
-/** 
- * This class handles the level select screen and creates the game to pass to game controller class **/
+/** Controller class for the LevelSelect screen */
 
 public class LevelSelectController {
 	

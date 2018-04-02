@@ -2,6 +2,8 @@ package group23.pacman.model;
 
 import javafx.scene.image.Image;
 
+/** Special pellet which gives power up to Pacman object */
+
 public class SpecialPellet extends Pellet{
 	
 	public SpecialPellet(int x, int y) {

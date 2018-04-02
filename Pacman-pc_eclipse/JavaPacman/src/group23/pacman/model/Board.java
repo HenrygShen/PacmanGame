@@ -6,6 +6,9 @@ import java.io.FileReader;
 import java.io.IOException;
 import java.util.ArrayList;
 
+/**The class that deals with objects pertaining to the map. Has methods which determine
+ * whether a moving character can traverse in a certain direction or along a certain path.
+ */
 
 public class Board {
 	

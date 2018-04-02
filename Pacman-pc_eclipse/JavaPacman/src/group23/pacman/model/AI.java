@@ -2,16 +2,26 @@ package group23.pacman.model;
 
 import java.util.Random;
 
+/** The class which deals with the AI movement of moving character objects.
+*/
+
 public class AI {
 	
+	/* Board object to help determine whether a move is valid */
 	private Board board;
 	
+	/* There are currently 3 types of AI
+	 * 1) Type == 0, is not an AI, it is a player controlled object
+	 * 2) Type == 1, is an AI with completely random movements
+	 * 3) Type == 2, is an AI which chases the main character */
 	private int type;
 	
+	/* Random number generator for picking directions */
 	private Random rand;
 	
-	/* Count value to prevent excessive bouncing between 2 nodes*/
+	/* Count value to prevent excessive bouncing between 2 nodes */
 	private int count;
+	
 	
 	public AI(Board board, int type) {
 		
@@ -21,6 +31,8 @@ public class AI {
 		count = 0;
 	}
 	
+	
+	/* Chooses a direction using the private move generator method,while checking if the direction is a valid move on the board */
 	public char chooseMovement(boolean hasLeftSpawn, char currentDirection, int ghostX, int ghostY, int pacmanX, int pacmanY) {
 		char direction;
 		if (type == 1) {
@@ -40,6 +52,8 @@ public class AI {
 		return 'S';
 	}
 	
+	
+	/* Computes a move which depends on how close pacman is in a certain x/y direction */
 	private char posCompMove(int ghostX, int ghostY, int pacmanX, int pacmanY) {
 		if (Math.abs(ghostX - pacmanX) >= Math.abs(ghostY - pacmanY)){
 			if (ghostX >= pacmanX) {
@@ -60,8 +74,12 @@ public class AI {
 		}
 	}
 	
+	
+	/* Generates a random direction for the AI to move in */
 	private char randomMove(boolean hasLeftSpawn, char currentDirection) {
+		
 		int nextDir = rand.nextInt(4);
+		
 		if (!hasLeftSpawn) {
 			count = 1;
 		}
@@ -103,7 +121,10 @@ public class AI {
 		}
 	}
 	
+	
+	/* Checks the board object if we are able to turn at a certain (x,y) position */
 	public boolean canTurn(int x, int y) {
+		
 		return board.atNode(x, y);
 	}
 }

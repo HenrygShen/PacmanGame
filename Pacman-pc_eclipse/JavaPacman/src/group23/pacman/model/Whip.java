@@ -1,5 +1,7 @@
 package group23.pacman.model;
 
+/** Whip class is the weapon that the Pacman object uses when it picks up the SpecialPellet object */
+
 public class Whip extends GameObject implements MovingCharacter {
 	
 	/* Pixels moved per update */

@@ -6,8 +6,7 @@ import java.util.ArrayList;
 import javafx.scene.media.Media;
 import javafx.scene.media.MediaPlayer;
 
-/**
-	This is the class that handles all the game logics - collisions, level handling, and creation of the map.
+/**The class that handles all the game logics - collisions, level handling, and creation of the map.
  */
 public class Game {
 	
@@ -49,6 +48,14 @@ public class Game {
 		this.map = map;
 		this.players = players;
 		
+		/* Initial score is 0 */
+		score = 0;
+		
+		
+		/* Set up sound effect for pacman eating the pellet */
+		chompNoise = new Media(new File("bin/assets/sfx/chompNoise.mp3").toURI().toString());
+		
+		
 		/* Create new board (with user selected map) to define valid coordinates */
 		board = new Board();
 		board.createBoard(map);
@@ -56,8 +63,11 @@ public class Game {
 		/* Get reference to objects created on the board */
 		objects = board.getObjects();
 		
-		/* Add character objects to ArrayList of MovingCharacter interface */
+		
+		/* Set up character objects to add to ArrayList of MovingCharacter interface */
 		characters = new ArrayList<MovingCharacter>();
+		
+		/* Only one pacman object will be created */
 		pacman = new Pacman(board.getPacman()[0],board.getPacman()[1], board);
 		
 		/* Set up ghosts according to game mode */
@@ -74,35 +84,34 @@ public class Game {
 			ghost2 = new Ghost(board.getGhost()[0],board.getGhost()[1], board, 0);
 		}
 		
-		
+		/* The remaining 2 ghosts will have a random AI(1) and a chasing AI(2) */
 		ghost3 = new Ghost(board.getGhost()[0],board.getGhost()[1], board, 1);
 		ghost4= new Ghost(board.getGhost()[0],board.getGhost()[1], board, 2);
+		
+		/* Add all these moving characters to the array list */
 		characters.add(pacman);
 		characters.add(ghost);
 		characters.add(ghost2);
 		characters.add(ghost3);
 		characters.add(ghost4);
 		
-		chompNoise = new Media(new File("bin/assets/sfx/chompNoise.mp3").toURI().toString());
-		
-		score = 0;
 	
 	}
 	
 	
+	/* When updating the game state, we need to check for collisions before updating moving characters
+	 * due to the nature of how we implemented the MovingCharacter interface */
 	public void update( ) {
 		
 		checkCollisions();
-		checkState();
-		
 		pacman.update();
 		ghost.update((int)pacman.getX(), (int)pacman.getY());
 		ghost2.update((int)pacman.getX(), (int)pacman.getY());
 		ghost3.update((int)pacman.getX(), (int)pacman.getY());
 		ghost4.update((int)pacman.getX(), (int)pacman.getY());
 		
-		
 	}
+	
 	
 	/* Checks character movement collisions and player pellet collisions */
 	private void checkCollisions() {
@@ -138,8 +147,6 @@ public class Game {
 			
 		}
 		
-		
-	
 		/* Loops through the game objects to check if the player has collided with a pellet. Pellet is removed on collision */
 		for (GameObject object : objects) {
 
@@ -159,7 +166,8 @@ public class Game {
 		}
 	}
 	
-	/* Checks if Pacman has died and resets all moving objects*/
+	
+	/* Checks if pacman has died and resets all moving objects*/
 	public void checkState() {
 		if (pacman.getState() == Pacman.STATE.DEAD && pacman.getLives() > 0) {
 			for (MovingCharacter character: characters) {
@@ -172,6 +180,7 @@ public class Game {
 			}
 		}
 	}
+	
 	
 	/* Plays pacman munching sound effect */
 	public void playSfx(Media sfx) {

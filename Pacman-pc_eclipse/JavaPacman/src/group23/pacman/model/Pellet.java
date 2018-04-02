@@ -2,11 +2,12 @@ package group23.pacman.model;
 import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.image.Image;
 
+/** The object that pacman will be eating */
+
 public class Pellet extends GameObject {
 	
 	protected static final int SPRITE_HEIGHT = 10;
 	protected static final int SPRITE_WIDTH = 10;
-	
 	
 	protected Image image;
 
@@ -14,8 +15,6 @@ public class Pellet extends GameObject {
 	protected int y;
 	
 	public Pellet(int x, int y) {
-		
-		
 		
 		hitBox = new Rectangle();
 		hitBox.setHeight(SPRITE_HEIGHT);

@@ -1,8 +1,7 @@
 package group23.pacman.model;
 import javafx.scene.canvas.GraphicsContext;
 
-/**
-	Game objects are any drawn objects that the characters will have interactions with on the game view */
+/** Game objects are any drawn objects that the characters will have interactions with */
 
 public abstract class GameObject {
 	
