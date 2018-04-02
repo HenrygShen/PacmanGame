@@ -64,7 +64,6 @@ public class Board {
 			 * W creates a special pellet
 			 * 1 is an empty position
 			 * R is a position that the character can be in but cannot turn 
-			 * O is a position that the ghost can be in, but only if it has not left the spawn point.
 			 * T is a turn node
 			 * S is the spawn point of the main character
 			 * G is the spawn point of a ghost

@@ -117,18 +117,22 @@ public class Game {
 				}
 			}
 			
+			/* Restricts the character from moving into the spawn point after it has left the spawn point */
+			if (character.getX() == 518 && character.getY() == 307) {
+				character.setHasLeftSpawn();
+			}
 			
 			/* If the currently queued direction is not equal to the current direction we are moving in, and it is possible 
 			   for us to turn in our current (x,y) position, test if turn is valid (not into a wall), then set the queued direction
 			   if valid. */
 			if (character.checkforQueuedAction() && board.validTurningPoint((int) character.getX(), (int) character.getY())) {
-				if (board.isValidDestination(character.getQDirection(), (int) character.getX(), (int) character.getY())){
+				if (board.isValidDestination(character.getHasLeftSpawn(), character.getQDirection(), (int) character.getX(), (int) character.getY())){
 					character.setDirection(character.getQDirection());
 					character.updateDestination();
 					return;
 				}
 			}
-			if (board.isValidDestination(character.getDirection(), (int) character.getX(), (int) character.getY())) {
+			if (board.isValidDestination(character.getHasLeftSpawn(), character.getDirection(), (int) character.getX(), (int) character.getY())) {
 				character.updateDestination();
 			}
 			

@@ -24,16 +24,16 @@ public class AI {
 	public char chooseMovement(boolean hasLeftSpawn, char currentDirection, int ghostX, int ghostY, int pacmanX, int pacmanY) {
 		char direction;
 		if (type == 1) {
-			direction = randomMove(hasLeftSpawn, currentDirection);
+			direction = randomMove(currentDirection);
 			while (!board.isValidDestination(hasLeftSpawn, direction, ghostX, ghostY)) {
-				direction = randomMove(hasLeftSpawn, currentDirection);
+				direction = randomMove(currentDirection);
 			}
 			return direction;
 		}
 		else if (type == 2) {
 			direction = posCompMove(ghostX, ghostY, pacmanX, pacmanY);
 			while (!board.isValidDestination(hasLeftSpawn, direction, ghostX, ghostY)) {
-				direction = randomMove(hasLeftSpawn, currentDirection);
+				direction = randomMove(currentDirection);
 			}
 			return direction;
 		}
@@ -60,11 +60,8 @@ public class AI {
 		}
 	}
 	
-	private char randomMove(boolean hasLeftSpawn, char currentDirection) {
+	private char randomMove(char currentDirection) {
 		int nextDir = rand.nextInt(4);
-		if (!hasLeftSpawn) {
-			count = 1;
-		}
 		switch (nextDir) {
 			case 0 :
 				if (currentDirection == 'D') {

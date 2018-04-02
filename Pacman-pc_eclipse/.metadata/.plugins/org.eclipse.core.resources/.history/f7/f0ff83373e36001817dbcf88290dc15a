@@ -19,7 +19,6 @@ public class Board {
 	
 	private boolean[][] status;
 	private boolean[][] node;
-	private boolean[][] ghostOnlyPath;
 	
 	private int[] ghostCoords;
 	private int[] pacmanCoords;
@@ -31,7 +30,6 @@ public class Board {
 		ghostCoords = new int[2];
 		status = new boolean[75][75];
 		node = new boolean[75][75];
-		ghostOnlyPath = new boolean[75][75];
 		objects = new ArrayList<GameObject>();
 	}
 	
@@ -64,7 +62,6 @@ public class Board {
 			 * W creates a special pellet
 			 * 1 is an empty position
 			 * R is a position that the character can be in but cannot turn 
-			 * O is a position that the ghost can be in, but only if it has not left the spawn point.
 			 * T is a turn node
 			 * S is the spawn point of the main character
 			 * G is the spawn point of a ghost
@@ -81,7 +78,6 @@ public class Board {
 						Wall wall = new Wall(rect,map);
 						status[position][row] = false;
 						node[position][row] = false;
-						ghostOnlyPath[position][row] = false;
 						objects.add(wall);
 						position++;
 					}
@@ -90,7 +86,6 @@ public class Board {
 						objects.add(pellet);
 						status[position][row] = false;
 						node[position][row] = false;
-						ghostOnlyPath[position][row] = false;
 						position++;
 					}
 					else if (line.charAt(i) == 'W') {
@@ -98,31 +93,21 @@ public class Board {
 						objects.add(sPellet);
 						status[position][row] = false;
 						node[position][row] = false;
-						ghostOnlyPath[position][row] = false;
 						position++;
 					}
 					else if (line.charAt(i) == '1' ) {
 						status[position][row] = false;
 						node[position][row] = false;
-						ghostOnlyPath[position][row] = false;
 						position++;
 					}
 					else if (line.charAt(i) == 'R' ) {
 						status[position][row] = true;
 						node[position][row] = false;
-						ghostOnlyPath[position][row] = true;
 						position++;
 					}
 					else if (line.charAt(i) == 'T' ) {
 						status[position][row] = true;
 						node[position][row] = true;
-						ghostOnlyPath[position][row] = true;
-						position++;
-					}
-					else if (line.charAt(i) == 'O'){
-						status[position][row] = false;
-						node[position][row] = false;
-						ghostOnlyPath[position][row] = true;
 						position++;
 					}
 					else if (line.charAt(i) == 'S'){
@@ -184,32 +169,18 @@ public class Board {
 	}
 	
 	/* Checks if a location is valid when the character is moving in a certain direction */
-	public boolean isValidDestination(boolean hasLeftSpawn, char direction, int x, int y) {
+	public boolean isValidDestination(char direction, int x, int y) {
 		
-		if (hasLeftSpawn) {
-	    	switch (direction) {
-				case 'U':
-					return this.status[(x - X_OFFSET)/TILE_SIZE][(y - OFFSET - Y_OFFSET)/TILE_SIZE];
-				case 'D':
-					return this.status[(x - X_OFFSET)/TILE_SIZE][(y + TILE_SIZE - Y_OFFSET)/TILE_SIZE];
-				case 'L':
-					return this.status[(x - OFFSET - X_OFFSET)/TILE_SIZE][(y - Y_OFFSET)/TILE_SIZE];
-				case 'R':
-					return this.status[(x + TILE_SIZE - X_OFFSET)/TILE_SIZE][(y - Y_OFFSET)/TILE_SIZE];
-	    	}
-		}
-		else {
-			switch (direction) {
+    	switch (direction) {
 			case 'U':
-				return this.ghostOnlyPath[(x - X_OFFSET)/TILE_SIZE][(y - OFFSET - Y_OFFSET)/TILE_SIZE];
+				return this.status[(x - X_OFFSET)/TILE_SIZE][(y - OFFSET - Y_OFFSET)/TILE_SIZE];
 			case 'D':
-				return this.ghostOnlyPath[(x - X_OFFSET)/TILE_SIZE][(y + TILE_SIZE - Y_OFFSET)/TILE_SIZE];
+				return this.status[(x - X_OFFSET)/TILE_SIZE][(y + TILE_SIZE - Y_OFFSET)/TILE_SIZE];
 			case 'L':
-				return this.ghostOnlyPath[(x - OFFSET - X_OFFSET)/TILE_SIZE][(y - Y_OFFSET)/TILE_SIZE];
+				return this.status[(x - OFFSET - X_OFFSET)/TILE_SIZE][(y - Y_OFFSET)/TILE_SIZE];
 			case 'R':
-				return this.ghostOnlyPath[(x + TILE_SIZE - X_OFFSET)/TILE_SIZE][(y - Y_OFFSET)/TILE_SIZE];
-			}
-		}
+				return this.status[(x + TILE_SIZE - X_OFFSET)/TILE_SIZE][(y - Y_OFFSET)/TILE_SIZE];
+    	}
     	return false;
     }
 	

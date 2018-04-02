@@ -33,6 +33,9 @@ public class Pacman extends GameObject implements MovingCharacter {
 	/* Pacman's state */
 	private STATE state;
 	
+	/* Condition for moving in the ghost spawn point */
+	private boolean hasLeftSpawn;
+	
 	/* Pacman's Whip */
 	private Whip whip;
 	
@@ -55,6 +58,8 @@ public class Pacman extends GameObject implements MovingCharacter {
 		hitBox.setWidth(SPRITE_WIDTH - OFFSET);
 		hitBox.setX(x + OFFSET/2);
 		hitBox.setY(y + OFFSET/2);
+		
+		hasLeftSpawn = true;
 		
 		/* Set up main character's position */
 		this.x = x;
@@ -115,6 +120,10 @@ public class Pacman extends GameObject implements MovingCharacter {
     public void setState(STATE state) {
     	
     	this.state = state;
+    }
+    
+    public void setHasLeftSpawn() {
+    	this.hasLeftSpawn = true;
     }
     
     public boolean checkforQueuedAction() {
@@ -194,6 +203,10 @@ public class Pacman extends GameObject implements MovingCharacter {
     	return this.y;
     }
     
+    public boolean getHasLeftSpawn() {
+    	return this.hasLeftSpawn;
+    }
+    
     /* Resets Pacman's position when Pacman dies and still has lives left. */
 	public void reset(int x, int y) {
 		
@@ -201,6 +214,7 @@ public class Pacman extends GameObject implements MovingCharacter {
 		this.hitBox.setY(y + OFFSET/2);
 		this.x = x;
 		this.y = y;
+		this.hasLeftSpawn = true;
 		setDirection('S');
 		queueMovement('S');
 		setState(Pacman.STATE.ALIVE);

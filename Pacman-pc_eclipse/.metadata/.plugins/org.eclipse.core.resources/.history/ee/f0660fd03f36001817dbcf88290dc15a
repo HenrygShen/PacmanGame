@@ -16,6 +16,4 @@ public interface MovingCharacter {
 	public double getX();
 	public double getY();
 	public TYPE getType();
-	public void setHasLeftSpawn();
-	public boolean getHasLeftSpawn();
 }

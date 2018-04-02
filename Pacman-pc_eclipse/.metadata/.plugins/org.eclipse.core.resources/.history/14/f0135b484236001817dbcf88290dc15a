@@ -35,7 +35,6 @@ public class Ghost extends GameObject implements MovingCharacter {
 	
 	private STATE state;
 	
-	/* Condition for moving in the ghost spawn point */
 	private boolean hasLeftSpawn;
 	
 	/* Ghost position */

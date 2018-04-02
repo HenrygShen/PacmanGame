@@ -35,9 +35,6 @@ public class Ghost extends GameObject implements MovingCharacter {
 	
 	private STATE state;
 	
-	/* Condition for moving in the ghost spawn point */
-	private boolean hasLeftSpawn;
-	
 	/* Ghost position */
 	private int x;
 	private int y;
@@ -72,8 +69,6 @@ public class Ghost extends GameObject implements MovingCharacter {
 		this.vector = 'S';
 		this.queuedDirection = 'S';
 		
-		hasLeftSpawn = false;
-		
 		/* A Ghost can be player controlled or computer controlled.
 		 * 0 is a player, and so no AI is created.
 		 * 1 is a random movement type AI. 
@@ -92,7 +87,7 @@ public class Ghost extends GameObject implements MovingCharacter {
 		/**/
 		if (isAI) {
 			if (ai.canTurn((int)getX(), (int)getY())) {
-				queueMovement(ai.chooseMovement(hasLeftSpawn, vector, (int)getX(), (int)getY(), pacmanX, pacmanY));
+				queueMovement(ai.chooseMovement(vector, (int)getX(), (int)getY(), pacmanX, pacmanY));
 			}
 		}
 		
@@ -115,10 +110,6 @@ public class Ghost extends GameObject implements MovingCharacter {
     public void setState(STATE state) {
     	
     	this.state = state;
-    }
-    
-    public void setHasLeftSpawn() {
-    	this.hasLeftSpawn = true;
     }
     
     public char getDirection() {
@@ -144,10 +135,6 @@ public class Ghost extends GameObject implements MovingCharacter {
     public double getY() {
     	
     	return this.y;
-    }
-    
-    public boolean getHasLeftSpawn() {
-    	return this.hasLeftSpawn;
     }
     
     
@@ -216,7 +203,6 @@ public class Ghost extends GameObject implements MovingCharacter {
 		this.hitBox.setY(y + OFFSET/2);
 		this.x = x;
 		this.y = y;
-		this.hasLeftSpawn = false;
 		setDirection('S');
 		setState(Ghost.STATE.ALIVE);
 	}

@@ -63,7 +63,7 @@ public class AI {
 	private char randomMove(boolean hasLeftSpawn, char currentDirection) {
 		int nextDir = rand.nextInt(4);
 		if (!hasLeftSpawn) {
-			count = 1;
+			count = 0;
 		}
 		switch (nextDir) {
 			case 0 :

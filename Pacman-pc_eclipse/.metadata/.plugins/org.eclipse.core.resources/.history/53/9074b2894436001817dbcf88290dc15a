@@ -36,12 +36,18 @@ public class Game {
 	/* Each game has a unique map */
 	private char map;
 	
+	/* Keep track of number of players/game mode */
+	private int players;
+	
 	/* Game has array list of moving objects */
 	private ArrayList<MovingCharacter> characters;
 	
-	public Game(char map) {
+	
+	
+	public Game(char map,int players) {
 		
 		this.map = map;
+		this.players = players;
 		
 		/* Create new board (with user selected map) to define valid coordinates */
 		board = new Board();
@@ -54,10 +60,23 @@ public class Game {
 		characters = new ArrayList<MovingCharacter>();
 		pacman = new Pacman(board.getPacman()[0],board.getPacman()[1], board);
 		
-		ghost = new Ghost(board.getGhost()[0],board.getGhost()[1], board, 0);
-		ghost2 = new Ghost(board.getGhost()[0],board.getGhost()[1], board, 1);
-		ghost3 = new Ghost(board.getGhost()[0],board.getGhost()[1], board, 2);
-		ghost4= new Ghost(board.getGhost()[0],board.getGhost()[1], board, 2);
+		/* Set up ghosts according to game mode */
+		if (players == 1) {
+			ghost = new Ghost(board.getGhost()[0],board.getGhost()[1], board, 1);
+			ghost2 = new Ghost(board.getGhost()[0],board.getGhost()[1], board, 2);
+		}
+		else if (players == 2) {
+			ghost = new Ghost(board.getGhost()[0],board.getGhost()[1], board, 0);
+			ghost2 = new Ghost(board.getGhost()[0],board.getGhost()[1], board, 2);
+		}
+		else if (players == 3) {
+			ghost = new Ghost(board.getGhost()[0],board.getGhost()[1], board, 0);
+			ghost2 = new Ghost(board.getGhost()[0],board.getGhost()[1], board, 0);
+		}
+		
+		
+		ghost3 = new Ghost(board.getGhost()[0],board.getGhost()[1], board, 0);
+		ghost4= new Ghost(board.getGhost()[0],board.getGhost()[1], board, 0);
 		characters.add(pacman);
 		characters.add(ghost);
 		characters.add(ghost2);
@@ -98,18 +117,21 @@ public class Game {
 				}
 			}
 			
+			if (character.getX() == 518 && character.getY() == 307) {
+				character.setHasLeftSpawn();
+			}
 			
 			/* If the currently queued direction is not equal to the current direction we are moving in, and it is possible 
 			   for us to turn in our current (x,y) position, test if turn is valid (not into a wall), then set the queued direction
 			   if valid. */
 			if (character.checkforQueuedAction() && board.validTurningPoint((int) character.getX(), (int) character.getY())) {
-				if (board.isValidDestination(character.getQDirection(), (int) character.getX(), (int) character.getY())){
+				if (board.isValidDestination(character.getHasLeftSpawn(), character.getQDirection(), (int) character.getX(), (int) character.getY())){
 					character.setDirection(character.getQDirection());
 					character.updateDestination();
 					return;
 				}
 			}
-			if (board.isValidDestination(character.getDirection(), (int) character.getX(), (int) character.getY())) {
+			if (board.isValidDestination(character.getHasLeftSpawn(), character.getDirection(), (int) character.getX(), (int) character.getY())) {
 				character.updateDestination();
 			}
 			
@@ -125,8 +147,7 @@ public class Game {
 					if (object.getType() == GameObject.TYPE.SPECIAL_PELLET) {
 						pacman.setState(Pacman.STATE.POWER_UP);
 					}
-					
-					
+
 					playSfx(chompNoise);
 					objects.remove(object);
 					score++;
@@ -204,6 +225,12 @@ public class Game {
 		
 		return this.map;
 	}	
+	
+	/* Public getter to reference game mode */
+	public int getPlayers() {
+		
+		return this.players;
+	}
 
 	
 	/* Returns the user's score in string format */

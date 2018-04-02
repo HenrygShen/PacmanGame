@@ -44,16 +44,4 @@ public class Whip extends GameObject implements MovingCharacter {
 		// TODO Auto-generated method stub
 		
 	}
-
-	@Override
-	public void setHasLeftSpawn() {
-		// TODO Auto-generated method stub
-		
-	}
-
-	@Override
-	public boolean getHasLeftSpawn() {
-		// TODO Auto-generated method stub
-		return false;
-	}
 }
