@@ -65,6 +65,8 @@ public class GameViewController {
 	/* Stores game state (paused, running)*/
 	private boolean running = false;
 	
+	private AnimationTimer animationLoop;
+	
 	/* Time */
 	private long time = 0;
 	
@@ -73,6 +75,7 @@ public class GameViewController {
 	
 	
 	public GameViewController() {
+		
 	}
 	
 	/* Creates a game based on user selected map */
@@ -98,7 +101,8 @@ public class GameViewController {
 		
 		/*Second, set the map as the background */
 		background_map.setImage(new Image(backgroundImage));
-		
+
+		System.out.println("Time is initially "+ getTimer().getMinOnes() + ":" + getTimer().getSecTens() + getTimer().getSecOnes());
 		/* Create a controller through which the user may play the game */
 		gameStateController = new GameStateController(this,game);
 		gameStateController.listenToKeyEvents();
@@ -151,33 +155,51 @@ public class GameViewController {
 		time = System.currentTimeMillis();
 
 		/* Animation timer to update frames */
-		new AnimationTimer() {
+		animationLoop = new AnimationTimer() {
 			public void handle(long now) {
 				
 				/* Make sure game isn't in paused state */
 				if (running == true) {
-					if (gameStateController.notZeroLives()) {
-						graphicsContext.clearRect(0, 0, 1366, 768);
-						gameStateController.update();
-						draw(graphicsContext);
-						updateTimer();
-					}
-					else {
-						//Display game over
-					}
+					graphicsContext.clearRect(0, 0, 1366, 768);
+					gameStateController.update();
+					draw(graphicsContext);
+					updateTimer();
 				}
 				else {
 					time = System.currentTimeMillis();
 				}
 			}
-		}.start();
+		};
+		animationLoop.start();
+	}
+	
+	
+	public void stopGame() {
+		
+		animationLoop.stop();
+	}
+	
+	/* Update after timer times out */
+	public void finalUpdate() {
+		
+		graphicsContext.clearRect(0, 0, 1366, 768);
+		gameStateController.update();
+		draw(graphicsContext);
 	}
 	
 	/* Count-down that shows at the start of every new round/game */
 	public void startCountdown() {
 		
-		Timer timerStart = new Timer(4);
+		/* Countdown timer starts at 3 seconds */
+		Timer timerStart = new Timer(3);
+		
+		/* The game is paused while counting down */
 		running = false;
+		
+		start_timer.setImage(new Image(getDigit((char)timerStart.getSecOnes())));
+		
+		countDownTime = System.currentTimeMillis();
+		
 		new AnimationTimer() {
 			
 			public void handle(long now) {
@@ -201,6 +223,8 @@ public class GameViewController {
 		
 	}
 	
+	
+	/* Updates time remaining */
 	private void updateTimer() {
 		
 		if (System.currentTimeMillis() - time >= 1000) {
@@ -279,8 +303,18 @@ public class GameViewController {
 		}
 	}
 	
-	/* Updates the images of the lives to reflect remaining lives */
+	
+	/* Draws to the screen how many lives the player has left */
+	public void showLivesLeft() {
+		
+		for (int i = gameStateController.getGame().getPacman().getLives(); i < 3; i++) {
+			setLivesImage("assets/misc/empty.png", i);
+		}
+	}
+	
+	/* Helper function for  */
 	public void setLivesImage(String image, int number) {
+		
 		switch (number) {
 		case 0 :
 			life_1.setImage(new Image(image));
@@ -291,14 +325,6 @@ public class GameViewController {
 		case 2 :
 			life_3.setImage(new Image(image));
 			break;
-		}
-	}
-	
-	public void updateLives() {
-		
-		/* Updates lives image only if lives have been lost */
-		for (int i = gameStateController.getGame().getPacman().getLives(); i < 3; i++) {
-			setLivesImage("assets/misc/empty.png", i);
 		}
 	}
 	

@@ -14,7 +14,7 @@ public class Game {
 	/* Each game has a main character */
 	private Pacman pacman;
 	
-	/* Currently only one ghost, intend to change this to arraylist later */
+	/* Currently only one ghost, intend to change this to array list later */
 	private Ghost ghost;
 	private Ghost ghost2;
 	private Ghost ghost3;
@@ -53,7 +53,8 @@ public class Game {
 		/* Add character objects to ArrayList of MovingCharacter interface */
 		characters = new ArrayList<MovingCharacter>();
 		pacman = new Pacman(board.getPacman()[0],board.getPacman()[1], board);
-		ghost = new Ghost(board.getGhost()[0],board.getGhost()[1], board, 1);
+		
+		ghost = new Ghost(board.getGhost()[0],board.getGhost()[1], board, 0);
 		ghost2 = new Ghost(board.getGhost()[0],board.getGhost()[1], board, 1);
 		ghost3 = new Ghost(board.getGhost()[0],board.getGhost()[1], board, 2);
 		ghost4= new Ghost(board.getGhost()[0],board.getGhost()[1], board, 2);
@@ -74,11 +75,13 @@ public class Game {
 		
 		checkCollisions();
 		checkState();
+		
 		pacman.update();
 		ghost.update((int)pacman.getX(), (int)pacman.getY());
 		ghost2.update((int)pacman.getX(), (int)pacman.getY());
 		ghost3.update((int)pacman.getX(), (int)pacman.getY());
 		ghost4.update((int)pacman.getX(), (int)pacman.getY());
+		
 		
 	}
 	
@@ -90,7 +93,7 @@ public class Game {
 			/* Checks for collision with a ghost. Lose a life when you collide. */
 			if (character.getType() == GameObject.TYPE.GHOST) {
 				if (pacman.collidedWith((GameObject) character)) {
-					pacman.died();
+					pacman.loseLife();
 					return;
 				}
 			}
@@ -122,6 +125,7 @@ public class Game {
 					if (object.getType() == GameObject.TYPE.SPECIAL_PELLET) {
 						pacman.setState(Pacman.STATE.POWER_UP);
 					}
+
 					playSfx(chompNoise);
 					objects.remove(object);
 					score++;

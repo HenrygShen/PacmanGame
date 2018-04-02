@@ -174,7 +174,7 @@ public class Ghost extends GameObject implements MovingCharacter {
 		animationManager.draw(graphicsContext,this.getHitBox().getX(),this.hitBox.getY());
 	}
 
-	/* Reset Position when Ghost or Pacman dies and Pacman still has lives left. */
+	/* Reset position when Ghost or Pacman dies and Pacman still has lives left. */
 	public void reset(int x, int y) {
 		
 		this.hitBox.setX(x);

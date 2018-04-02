@@ -87,7 +87,7 @@ public class Pacman extends GameObject implements MovingCharacter {
     	return this.hitBox.intersects(hitBox);
     }
     
-    public void died() {
+    public void loseLife() {
     	lives--;
     	this.state = STATE.DEAD;
     }
