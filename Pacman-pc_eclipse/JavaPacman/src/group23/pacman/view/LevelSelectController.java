@@ -35,8 +35,10 @@ public class LevelSelectController {
 	
 	/* Main app copy kept to use when referencing to get its stage, and scene. */
 	private MainApp mainApp;
+	
 	private Scene scene;
 
+	
 	/* Variables for showing which background/level/map will be set */
 	private int index;
 	private Image seaBackground;
@@ -115,8 +117,8 @@ public class LevelSelectController {
 			    				break;
 			    		}
 			    		
-			    		startGame(level);
-
+			    		mainApp.setMap(level);
+			    		mainApp.showGameView();
 		    		}
 		    		else {
 		    			firstPress = false;
@@ -173,34 +175,6 @@ public class LevelSelectController {
 		});
 	}
 	
-	/* Creates a game view and sets the game */
-	private void startGame(char map) {
-		
-		try {
-			
-			/* Load/show the game view layout */
-			FXMLLoader loader = new FXMLLoader();
-			loader.setLocation(MainApp.class.getResource("view/GameView.fxml"));
-			AnchorPane gameView = (AnchorPane) loader.load();
-			mainApp.getPane().setCenter(gameView);
-			
-			/* Get the controller to manipulate this class */
-			GameViewController controller = loader.getController();
-			controller.setMainApp(mainApp);
-			
-			/* Create game and pass to controller */
-			Game game = new Game(map);
-			controller.setGame(game);
-			controller.initialDraw();
-			controller.startGame();	
-			
-		}
-		catch (IOException e) {
-			
-			e.printStackTrace();
-		}
-	}
-	
 	
 	/* Public setter for this class to reference the main application */
 	public void setMainApp(MainApp mainApp) {
@@ -208,9 +182,7 @@ public class LevelSelectController {
 		this.mainApp = mainApp;
 		this.scene = mainApp.getScene();
 	}
-	
-	
-	
+		
 	
 	/** BELOW ARE HELPER FUNCTIONS WHICH HELP WITH THE ANIMATION OF THIS VIEW **/
 	

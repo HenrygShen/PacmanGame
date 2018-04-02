@@ -36,12 +36,18 @@ public class Game {
 	/* Each game has a unique map */
 	private char map;
 	
+	/* Keep track of number of players/game mode */
+	private int players;
+	
 	/* Game has array list of moving objects */
 	private ArrayList<MovingCharacter> characters;
 	
-	public Game(char map) {
+	
+	
+	public Game(char map,int players) {
 		
 		this.map = map;
+		this.players = players;
 		
 		/* Create new board (with user selected map) to define valid coordinates */
 		board = new Board();
@@ -54,9 +60,22 @@ public class Game {
 		characters = new ArrayList<MovingCharacter>();
 		pacman = new Pacman(board.getPacman()[0],board.getPacman()[1], board);
 		
-		ghost = new Ghost(board.getGhost()[0],board.getGhost()[1], board, 0);
-		ghost2 = new Ghost(board.getGhost()[0],board.getGhost()[1], board, 1);
-		ghost3 = new Ghost(board.getGhost()[0],board.getGhost()[1], board, 2);
+		/* Set up ghosts according to game mode */
+		if (players == 1) {
+			ghost = new Ghost(board.getGhost()[0],board.getGhost()[1], board, 1);
+			ghost2 = new Ghost(board.getGhost()[0],board.getGhost()[1], board, 2);
+		}
+		else if (players == 2) {
+			ghost = new Ghost(board.getGhost()[0],board.getGhost()[1], board, 0);
+			ghost2 = new Ghost(board.getGhost()[0],board.getGhost()[1], board, 2);
+		}
+		else if (players == 3) {
+			ghost = new Ghost(board.getGhost()[0],board.getGhost()[1], board, 0);
+			ghost2 = new Ghost(board.getGhost()[0],board.getGhost()[1], board, 0);
+		}
+		
+		
+		ghost3 = new Ghost(board.getGhost()[0],board.getGhost()[1], board, 1);
 		ghost4= new Ghost(board.getGhost()[0],board.getGhost()[1], board, 2);
 		characters.add(pacman);
 		characters.add(ghost);
@@ -203,6 +222,12 @@ public class Game {
 		
 		return this.map;
 	}	
+	
+	/* Public getter to reference game mode */
+	public int getPlayers() {
+		
+		return this.players;
+	}
 
 	
 	/* Returns the user's score in string format */

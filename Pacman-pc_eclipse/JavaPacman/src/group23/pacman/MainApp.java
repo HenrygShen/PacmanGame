@@ -1,6 +1,10 @@
 package group23.pacman;
 
 import java.io.IOException;
+
+import group23.pacman.model.Game;
+import group23.pacman.view.GameModeSelectController;
+import group23.pacman.view.GameViewController;
 import group23.pacman.view.LevelSelectController;
 import group23.pacman.view.WelcomeScreenController;
 import javafx.application.Application; 
@@ -18,6 +22,9 @@ public class MainApp extends Application{
 	private Stage gameWindow;
 	private BorderPane rootLayout;
 	private Scene scene;
+	
+	private int players;
+	private char map;
 	
 	
 	public static void main(String[] args) {
@@ -98,6 +105,66 @@ public class MainApp extends Application{
 			e.printStackTrace();
 		}
 	}
+	
+	
+	public void showGameModeSelect() {
+		
+		try {
+			
+			/* Load/show the level select layout */
+			FXMLLoader loader = new FXMLLoader();
+			loader.setLocation(MainApp.class.getResource("view/GameModeSelect.fxml"));
+			AnchorPane levelSelectScreen = (AnchorPane) loader.load();
+			rootLayout.setCenter(levelSelectScreen);
+
+            /* Get the controller to manipulate this class */
+			GameModeSelectController controller = loader.getController();
+			controller.setMainApp(this);
+
+
+		}
+		catch (IOException e) {
+			e.printStackTrace();
+		}
+	}
+	
+	public void showGameView() {
+		
+		try {
+			
+			/* Load/show the game view layout */
+			FXMLLoader loader = new FXMLLoader();
+			loader.setLocation(MainApp.class.getResource("view/GameView.fxml"));
+			AnchorPane gameView = (AnchorPane) loader.load();
+			rootLayout.setCenter(gameView);
+			
+			/* Get the controller to manipulate this class */
+			GameViewController controller = loader.getController();
+			controller.setMainApp(this);
+			
+			/* Create game and pass to controller */
+			Game game = new Game(map,players);
+			controller.setGame(game);
+			controller.initialDraw();
+			controller.startGame();	
+			
+		}
+		catch (IOException e) {
+			
+			e.printStackTrace();
+		}
+	}
+	
+	public void setPlayers(int players) {
+		
+		this.players = players;
+	}
+	
+	public void setMap(char map) {
+		
+		this.map = map;
+	}
+	
 	
 	public BorderPane getPane() {
 		

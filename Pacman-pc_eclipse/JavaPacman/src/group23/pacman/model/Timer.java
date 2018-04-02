@@ -50,6 +50,10 @@ public class Timer {
 	
 	public boolean timedOut() {
 		
+		this.min_ones = currentTime/60;
+		this.sec_tens = (currentTime%60)/10;
+		this.sec_ones = (currentTime%10);
+		
 		return (min_ones == 0 && sec_tens == 0 && sec_ones == 0);
 	}
 	

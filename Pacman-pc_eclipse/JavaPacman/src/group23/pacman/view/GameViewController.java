@@ -72,7 +72,7 @@ public class GameViewController {
 	
 	/* Used to manipulate time for showing to screen */
 	private Timer timer;
-	
+
 	
 	public GameViewController() {
 		
@@ -101,11 +101,28 @@ public class GameViewController {
 		
 		/*Second, set the map as the background */
 		background_map.setImage(new Image(backgroundImage));
-
-		System.out.println("Time is initially "+ getTimer().getMinOnes() + ":" + getTimer().getSecTens() + getTimer().getSecOnes());
+		
 		/* Create a controller through which the user may play the game */
 		gameStateController = new GameStateController(this,game);
-		gameStateController.listenToKeyEvents();
+		
+		int numberOfPlayers = game.getPlayers();
+		
+		switch (numberOfPlayers) {
+		
+			case 1:
+				gameStateController.listenSinglePlayer();
+				break;
+			case 2:
+				gameStateController.listenTwoPlayer();
+				break;
+			case 3:
+				gameStateController.listenThreePlayer();
+				break;
+			default:
+				gameStateController.listenSinglePlayer();
+				break;
+			
+		}
 		
 	}
 	
@@ -190,7 +207,7 @@ public class GameViewController {
 	/* Count-down that shows at the start of every new round/game */
 	public void startCountdown() {
 		
-		/* Countdown timer starts at 3 seconds */
+		/* Count down timer starts at 3 seconds */
 		Timer timerStart = new Timer(3);
 		
 		/* The game is paused while counting down */

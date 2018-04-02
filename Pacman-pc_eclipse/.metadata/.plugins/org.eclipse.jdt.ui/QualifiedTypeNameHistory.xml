@@ -21,14 +21,12 @@
 <fullyQualifiedTypeName name="java.io.IOException"/>
 <fullyQualifiedTypeName name="javafx.scene.layout.BorderPane"/>
 <fullyQualifiedTypeName name="group23.pacman.main.PacmanGame"/>
-<fullyQualifiedTypeName name="javafx.fxml.FXML"/>
 <fullyQualifiedTypeName name="javafx.scene.layout.AnchorPane"/>
 <fullyQualifiedTypeName name="group23.pacman.view.WelcomeScreenController"/>
 <fullyQualifiedTypeName name="javafx.scene.image.Image"/>
 <fullyQualifiedTypeName name="javafx.scene.control.TextField"/>
 <fullyQualifiedTypeName name="group23.pacman.MainApp"/>
 <fullyQualifiedTypeName name="javafx.stage.Modality"/>
-<fullyQualifiedTypeName name="javafx.scene.image.ImageView"/>
 <fullyQualifiedTypeName name="javafx.scene.input.KeyEvent"/>
 <fullyQualifiedTypeName name="javafx.scene.input.KeyCode"/>
 <fullyQualifiedTypeName name="javafx.scene.control.Button"/>
@@ -40,7 +38,10 @@
 <fullyQualifiedTypeName name="java.util.concurrent.TimeUnit"/>
 <fullyQualifiedTypeName name="group23.pacman.model.GameObject.TYPE"/>
 <fullyQualifiedTypeName name="group23.pacman.model.Pacman.STATE"/>
-<fullyQualifiedTypeName name="group23.pacman.model.Timer"/>
 <fullyQualifiedTypeName name="javafx.application.Platform"/>
 <fullyQualifiedTypeName name="java.lang.System"/>
+<fullyQualifiedTypeName name="javafx.scene.image.ImageView"/>
+<fullyQualifiedTypeName name="javafx.fxml.FXML"/>
+<fullyQualifiedTypeName name="group23.pacman.view.GameModeSelectController"/>
+<fullyQualifiedTypeName name="group23.pacman.model.Timer"/>
 </qualifiedTypeNameHistroy>

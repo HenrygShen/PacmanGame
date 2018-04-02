@@ -53,7 +53,7 @@ public class WelcomeScreenController {
 		
 		if (event.getCode() == KeyCode.ENTER) {
 			
-			mainApp.showLevelSelect();
+			mainApp.showGameModeSelect();
 		}
 		
 		else if (event.getCode() == KeyCode.LEFT) {
