@@ -16,7 +16,8 @@ public abstract class GameObject {
 		PACMAN
 	}
 	
-	
+	protected int x;
+	protected int y;
 	protected TYPE type;
 	protected Rectangle hitBox;
 	
@@ -28,12 +29,12 @@ public abstract class GameObject {
 
     public double getX() {
     	
-    	return this.hitBox.getX();
+    	return this.x;
     }
     
     public double getY() {
     	
-    	return this.hitBox.getY();
+    	return this.y;
     }
     
     public void draw(GraphicsContext graphicsContext) {

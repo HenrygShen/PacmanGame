@@ -17,6 +17,7 @@ public class Pacman extends GameObject implements MovingCharacter {
 	/* Pacman's size */
 	private static final int SPRITE_HEIGHT = 30;
 	private static final int SPRITE_WIDTH = 30;
+	private static final int OFFSET = 10;
 	
 	/* Pixels moved per update */
 	private static final int SPEED = 2;
@@ -39,6 +40,9 @@ public class Pacman extends GameObject implements MovingCharacter {
 	
 	private int lives;
 	
+	private int x;
+	private int y;
+	
 	
 	
 	public Pacman(int x,int y,Board board) {
@@ -47,10 +51,14 @@ public class Pacman extends GameObject implements MovingCharacter {
 
 		/* Sets up the main character's hit-box */
 		hitBox = new Rectangle();
-		hitBox.setHeight(SPRITE_HEIGHT);
-		hitBox.setWidth(SPRITE_WIDTH);
-		hitBox.setX(x);
-		hitBox.setY(y);
+		hitBox.setHeight(SPRITE_HEIGHT - OFFSET);
+		hitBox.setWidth(SPRITE_WIDTH - OFFSET);
+		hitBox.setX(x + OFFSET/2);
+		hitBox.setY(y + OFFSET/2);
+		
+		/* Set up main character's position */
+		this.x = x;
+		this.y = y;
 		
 		type = GameObject.TYPE.PACMAN;
 		state = STATE.ALIVE;
@@ -144,15 +152,19 @@ public class Pacman extends GameObject implements MovingCharacter {
     		
     	if (this.vector == 'U') {
 			this.hitBox.setY((int)hitBox.getY() - SPEED);
+			this.y = y - SPEED;
 		}
 		else if (this.vector == 'D') {
 			this.hitBox.setY((int)hitBox.getY() + SPEED);
+			this.y = y + SPEED;
 		}
 		else if (this.vector == 'L') {
 			this.hitBox.setX((int)hitBox.getX() - SPEED);
+			this.x = x - SPEED;
 		}
 		else if (this.vector == 'R') {
 			this.hitBox.setX((int)hitBox.getX() + SPEED);
+			this.x = x + SPEED;
 		}
     }
 
@@ -174,11 +186,21 @@ public class Pacman extends GameObject implements MovingCharacter {
     	return this.lives;
     }
     
+    public double getX() {
+    	return this.x;
+    }
+    
+    public double getY() {
+    	return this.y;
+    }
+    
     /* Resets Pacman's position when Pacman dies and still has lives left. */
 	public void reset(int x, int y) {
 		
-		this.hitBox.setX(x);
-		this.hitBox.setY(y);
+		this.hitBox.setX(x + OFFSET/2);
+		this.hitBox.setY(y + OFFSET/2);
+		this.x = x;
+		this.y = y;
 		setDirection('S');
 		queueMovement('S');
 		setState(Pacman.STATE.ALIVE);
@@ -186,7 +208,7 @@ public class Pacman extends GameObject implements MovingCharacter {
 
 	public void draw(GraphicsContext graphicsContext) {
 		
-		animationManager.draw(graphicsContext,this.hitBox.getX(),this.hitBox.getY());
+		animationManager.draw(graphicsContext,this.x,this.y);
 	}
 	
     /* Changes character animation depending on the direction it's currently facing */

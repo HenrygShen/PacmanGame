@@ -16,6 +16,7 @@ public class Ghost extends GameObject implements MovingCharacter {
 	
 	private static final int SPRITE_HEIGHT = 30;
 	private static final int SPRITE_WIDTH = 30;
+	private static final int OFFSET = 10;
 	
 	/* Pixels moved per update */
 	private static final int SPEED = 2;
@@ -34,6 +35,10 @@ public class Ghost extends GameObject implements MovingCharacter {
 	
 	private STATE state;
 	
+	/* Ghost position */
+	private int x;
+	private int y;
+	
 	
 	public Ghost(int x,int y,Board board, int type) {
 		
@@ -51,12 +56,15 @@ public class Ghost extends GameObject implements MovingCharacter {
 		animationManager = new AnimationManager(animations);
 		
 		hitBox = new Rectangle();
-		this.hitBox.setX(x);
-		this.hitBox.setY(y);
-		this.hitBox.setHeight(SPRITE_HEIGHT);
-		this.hitBox.setWidth(SPRITE_WIDTH);
+		this.hitBox.setX(x + OFFSET/2);
+		this.hitBox.setY(y + OFFSET/2);
+		this.hitBox.setHeight(SPRITE_HEIGHT - OFFSET);
+		this.hitBox.setWidth(SPRITE_WIDTH - OFFSET);
 		this.type = GameObject.TYPE.GHOST;
 		this.state = Ghost.STATE.ALIVE;
+		
+		this.x = x;
+		this.y = y;
 		
 		this.vector = 'S';
 		this.queuedDirection = 'S';
@@ -78,8 +86,8 @@ public class Ghost extends GameObject implements MovingCharacter {
 		
 		/**/
 		if (isAI) {
-			if (ai.canTurn((int)this.hitBox.getX(), (int)this.hitBox.getY())) {
-				queueMovement(ai.chooseMovement(vector, (int)this.hitBox.getX(), (int)this.hitBox.getY(), pacmanX, pacmanY));
+			if (ai.canTurn((int)getX(), (int)getY())) {
+				queueMovement(ai.chooseMovement(vector, (int)getX(), (int)getY(), pacmanX, pacmanY));
 			}
 		}
 		
@@ -119,6 +127,16 @@ public class Ghost extends GameObject implements MovingCharacter {
     	return this.state;
     }
     
+    public double getX() {
+    	
+    	return this.x;
+    }
+    
+    public double getY() {
+    	
+    	return this.y;
+    }
+    
     
     public boolean checkforQueuedAction() {
 		
@@ -156,29 +174,35 @@ public class Ghost extends GameObject implements MovingCharacter {
     		
     	if (this.vector == 'U') {
 			this.hitBox.setY((int)hitBox.getY() - SPEED);
+			this.y = y - SPEED;
 		}
 		else if (this.vector == 'D') {
 			this.hitBox.setY((int)hitBox.getY() + SPEED);
+			this.y = y + SPEED;
 		}
 		else if (this.vector == 'L') {
 			this.hitBox.setX((int)hitBox.getX() - SPEED);
+			this.x = x - SPEED;
 		}
 		else if (this.vector == 'R') {
 			this.hitBox.setX((int)hitBox.getX() + SPEED);
+			this.x = x + SPEED;
 		}
     }
 
 	
 	public void draw(GraphicsContext graphicsContext) {
 		
-		animationManager.draw(graphicsContext,this.getHitBox().getX(),this.hitBox.getY());
+		animationManager.draw(graphicsContext, this.x, this.y);
 	}
 
 	/* Reset position when Ghost or Pacman dies and Pacman still has lives left. */
 	public void reset(int x, int y) {
 		
-		this.hitBox.setX(x);
-		this.hitBox.setY(y);
+		this.hitBox.setX(x + OFFSET/2);
+		this.hitBox.setY(y + OFFSET/2);
+		this.x = x;
+		this.y = y;
 		setDirection('S');
 		setState(Ghost.STATE.ALIVE);
 	}
