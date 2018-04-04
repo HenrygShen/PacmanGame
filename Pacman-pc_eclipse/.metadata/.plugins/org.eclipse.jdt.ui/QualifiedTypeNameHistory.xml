@@ -5,7 +5,6 @@
 <fullyQualifiedTypeName name="javafx.scene.text.Font"/>
 <fullyQualifiedTypeName name="javafx.scene.text.FontWeight"/>
 <fullyQualifiedTypeName name="javafx.stage.Stage"/>
-<fullyQualifiedTypeName name="javafx.scene.Scene"/>
 <fullyQualifiedTypeName name="javafx.animation.AnimationTimer"/>
 <fullyQualifiedTypeName name="java.util.Random"/>
 <fullyQualifiedTypeName name="javafx.event.EventHandler"/>
@@ -44,4 +43,6 @@
 <fullyQualifiedTypeName name="javafx.fxml.FXML"/>
 <fullyQualifiedTypeName name="group23.pacman.view.GameModeSelectController"/>
 <fullyQualifiedTypeName name="group23.pacman.model.Timer"/>
+<fullyQualifiedTypeName name="group23.pacman.view.HelpScreenController"/>
+<fullyQualifiedTypeName name="javafx.scene.Scene"/>
 </qualifiedTypeNameHistroy>

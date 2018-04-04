@@ -1,8 +1,13 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
+<?import javafx.scene.image.*?>
+<?import java.lang.*?>
+<?import javafx.scene.layout.*?>
 <?import javafx.scene.layout.AnchorPane?>
 
-<AnchorPane xmlns:fx="http://javafx.com/fxml/1">
-	<!-- TODO Add Nodes -->
+<AnchorPane maxHeight="768.0" maxWidth="1366.0" minHeight="768.0" minWidth="1366.0" prefHeight="768.0" prefWidth="1366.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="group23.pacman.view.HelpScreenController">
+   <children>
+      <ImageView fx:id="backgroundImage" fitHeight="768.0" fitWidth="1366.0" pickOnBounds="true" preserveRatio="true" />
+      <ImageView fx:id="helpPanel" fitHeight="768.0" fitWidth="1000.0" layoutX="192.0" pickOnBounds="true" preserveRatio="true" />
+   </children>
 </AnchorPane>
-

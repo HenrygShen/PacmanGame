@@ -5,6 +5,7 @@ import java.io.IOException;
 import group23.pacman.model.Game;
 import group23.pacman.view.GameModeSelectController;
 import group23.pacman.view.GameViewController;
+import group23.pacman.view.HelpScreenController;
 import group23.pacman.view.LevelSelectController;
 import group23.pacman.view.WelcomeScreenController;
 import javafx.application.Application; 
@@ -74,7 +75,7 @@ public class MainApp extends Application{
 	
 	
 	/* The screen that greets the user */
-	private void showWelcomeScreen() {
+	public void showWelcomeScreen() {
 		
 		try {
 			
@@ -96,6 +97,30 @@ public class MainApp extends Application{
 	}
 	
 	
+	/* 	*/
+	public void showHelp() {
+		
+		try {
+			
+			/* Load/show the help screen layout */
+			FXMLLoader loader = new FXMLLoader();
+			loader.setLocation(MainApp.class.getResource("view/HelpScreen.fxml"));
+			AnchorPane helpScreen = (AnchorPane) loader.load();
+			rootLayout.setCenter(helpScreen);
+            /* Get the controller to manipulate this class */
+			HelpScreenController controller = loader.getController();
+			controller.setMainApp(this);
+			controller.listenToKeyEvents();
+
+
+		}
+		catch (IOException e) {
+			e.printStackTrace();
+		}
+		
+	}
+	
+	
 	/* The screen that allows the user to choose between single,two and three player modes */
 	public void showGameModeSelect() {
 		
@@ -104,8 +129,8 @@ public class MainApp extends Application{
 			/* Load/show the mode select layout */
 			FXMLLoader loader = new FXMLLoader();
 			loader.setLocation(MainApp.class.getResource("view/GameModeSelect.fxml"));
-			AnchorPane levelSelectScreen = (AnchorPane) loader.load();
-			rootLayout.setCenter(levelSelectScreen);
+			AnchorPane gameModeSelectScreen = (AnchorPane) loader.load();
+			rootLayout.setCenter(gameModeSelectScreen);
 
             /* Get the controller to manipulate this class */
 			GameModeSelectController controller = loader.getController();

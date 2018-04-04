@@ -28,7 +28,7 @@ public class LevelSelectController {
 	private ImageView rightArrow;
 	
 	
-	/* Main app copy kept to use when referencing to get its stage, and scene. */
+	/* Main app copy kept to use when referencing to get its scene. */
 	private MainApp mainApp;
 	
 	private Scene scene;
@@ -191,8 +191,8 @@ public class LevelSelectController {
 	}
 	
 	private void setRightBackground() {
-		index--;
-		index = (index < 0) ? MAX_BACKGROUND_INDEX : index;
+		index++;
+		index = (index > MAX_BACKGROUND_INDEX) ? 0 : index;
 		levelImage.setImage(backgrounds[index]);
 	}
 	
