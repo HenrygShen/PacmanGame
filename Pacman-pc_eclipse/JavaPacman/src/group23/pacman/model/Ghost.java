@@ -79,12 +79,12 @@ public class Ghost extends GameObject implements MovingCharacter {
 	}
 	
 	
-	public void update(int pacmanX, int pacmanY) {
+	public void update(int pacmanX, int pacmanY, char direction) {
 		
 		/* If this character is meant to be an AI, generate movement using the AI object created in this class */
 		if (isAI) {
 			if (ai.canTurn((int)getX(), (int)getY())) {
-				queueMovement(ai.chooseMovement(hasLeftSpawn, vector, (int)getX(), (int)getY(), pacmanX, pacmanY));
+				queueMovement(ai.chooseMovement(hasLeftSpawn, vector, (int)getX(), (int)getY(), pacmanX, pacmanY, direction));
 			}
 		}
 		

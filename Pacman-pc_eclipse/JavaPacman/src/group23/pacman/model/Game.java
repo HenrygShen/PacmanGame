@@ -72,21 +72,21 @@ public class Game {
 		
 		/* Set up ghosts according to game mode */
 		if (players == 1) {
-			ghost = new Ghost(board.getGhost()[0],board.getGhost()[1], board, 1);
-			ghost2 = new Ghost(board.getGhost()[0],board.getGhost()[1], board, 2);
+			ghost = new Ghost(board.getGhost()[0],board.getGhost()[1], board, 2);
+			ghost2 = new Ghost(board.getGhost()[0],board.getGhost()[1], board, 3);
 		}
 		else if (players == 2) {
 			ghost = new Ghost(board.getGhost()[0],board.getGhost()[1], board, 0);
-			ghost2 = new Ghost(board.getGhost()[0],board.getGhost()[1], board, 2);
+			ghost2 = new Ghost(board.getGhost()[0],board.getGhost()[1], board, 3);
 		}
 		else if (players == 3) {
 			ghost = new Ghost(board.getGhost()[0],board.getGhost()[1], board, 0);
 			ghost2 = new Ghost(board.getGhost()[0],board.getGhost()[1], board, 0);
 		}
 		
-		/* The remaining 2 ghosts will have a random AI(1) and a chasing AI(2) */
+		/* The remaining 2 ghosts will have a random AI(2) and a chasing AI(3) */
 		ghost3 = new Ghost(board.getGhost()[0],board.getGhost()[1], board, 1);
-		ghost4= new Ghost(board.getGhost()[0],board.getGhost()[1], board, 2);
+		ghost4= new Ghost(board.getGhost()[0],board.getGhost()[1], board, 4);
 		
 		/* Add all these moving characters to the array list */
 		characters.add(pacman);
@@ -105,10 +105,10 @@ public class Game {
 		
 		checkCollisions();
 		pacman.update();
-		ghost.update((int)pacman.getX(), (int)pacman.getY());
-		ghost2.update((int)pacman.getX(), (int)pacman.getY());
-		ghost3.update((int)pacman.getX(), (int)pacman.getY());
-		ghost4.update((int)pacman.getX(), (int)pacman.getY());
+		ghost.update((int)pacman.getX(), (int)pacman.getY(), pacman.getDirection());
+		ghost2.update((int)pacman.getX(), (int)pacman.getY(), pacman.getDirection());
+		ghost3.update((int)pacman.getX(), (int)pacman.getY(), pacman.getDirection());
+		ghost4.update((int)pacman.getX(), (int)pacman.getY(), pacman.getDirection());
 		
 	}
 	

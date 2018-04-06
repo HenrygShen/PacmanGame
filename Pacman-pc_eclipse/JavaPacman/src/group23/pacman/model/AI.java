@@ -13,7 +13,8 @@ public class AI {
 	/* There are currently 3 types of AI
 	 * 1) Type == 0, is not an AI, it is a player controlled object
 	 * 2) Type == 1, is an AI with completely random movements
-	 * 3) Type == 2, is an AI which chases the main character */
+	 * 3) Type == 2, is an AI which chases the main character 
+	 * 4) Type == 3, is an AI which tries to get in front of the main character */
 	private int type;
 	
 	/* Random number generator for picking directions */
@@ -33,7 +34,7 @@ public class AI {
 	
 	
 	/* Chooses a direction using the private move generator method,while checking if the direction is a valid move on the board */
-	public char chooseMovement(boolean hasLeftSpawn, char currentDirection, int ghostX, int ghostY, int pacmanX, int pacmanY) {
+	public char chooseMovement(boolean hasLeftSpawn, char currentDirection, int ghostX, int ghostY, int pacmanX, int pacmanY, char pacmanDirection) {
 		char direction;
 		if (type == 1) {
 			direction = randomMove(hasLeftSpawn, currentDirection);
@@ -43,7 +44,39 @@ public class AI {
 			return direction;
 		}
 		else if (type == 2) {
-			direction = posCompMove(ghostX, ghostY, pacmanX, pacmanY);
+			if (hasLeftSpawn) {
+				direction = posCompMove(ghostX, ghostY, pacmanX, pacmanY);
+			}
+			else {
+				direction = randomMove(hasLeftSpawn, currentDirection);
+			}
+			
+			while (!board.isValidDestination(hasLeftSpawn, direction, ghostX, ghostY)) {
+				direction = randomMove(hasLeftSpawn, currentDirection);
+			}
+			return direction;
+		}
+		else if (type == 3) {
+			if (hasLeftSpawn) {
+				direction = posCompMove2(ghostX, ghostY, pacmanX, pacmanY, pacmanDirection);
+			}
+			else {
+				direction = randomMove(hasLeftSpawn, currentDirection);
+			}
+			
+			while (!board.isValidDestination(hasLeftSpawn, direction, ghostX, ghostY)) {
+				direction = randomMove(hasLeftSpawn, currentDirection);
+			}
+			return direction;
+		}
+		else if (type == 4) {
+			if (hasLeftSpawn) {
+				direction = radiusChase(ghostX, ghostY, pacmanX, pacmanY);
+			}
+			else {
+				direction = randomMove(hasLeftSpawn, currentDirection);
+			}
+			
 			while (!board.isValidDestination(hasLeftSpawn, direction, ghostX, ghostY)) {
 				direction = randomMove(hasLeftSpawn, currentDirection);
 			}
@@ -72,6 +105,74 @@ public class AI {
 				return 'D';
 			}
 		}
+	}
+	
+	private char posCompMove2(int ghostX, int ghostY, int pacmanX, int pacmanY, char pacmanDirection) {
+		
+		int pacmanYDisplaced = pacmanY;
+		int pacmanXDisplaced = pacmanX;
+		if (pacmanDirection == 'U') {
+			pacmanYDisplaced = (pacmanY - 150);
+			pacmanYDisplaced = (pacmanYDisplaced < 37) ? (pacmanY + 150) : pacmanYDisplaced;
+			/*if (pacmanYDisplaced < 37) {
+				pacmanYDisplaced = 37;
+				pacmanXDisplaced = pacmanX - 60;
+				if (pacmanXDisplaced < 188) {
+					pacmanXDisplaced = pacmanX + 60;
+				}
+			}*/
+		}
+		else if (pacmanDirection == 'D') {
+			pacmanYDisplaced = (pacmanY + 150);
+			pacmanYDisplaced = (pacmanYDisplaced > 731) ? (pacmanY - 150) : pacmanYDisplaced;
+			/*if (pacmanYDisplaced > 731) {
+				pacmanYDisplaced = 731;
+				pacmanXDisplaced = pacmanX - 60;
+				if (pacmanXDisplaced < 188) {
+					pacmanXDisplaced = pacmanX + 60;
+				}
+			}*/
+		}
+		else if (pacmanDirection == 'L') {
+			pacmanXDisplaced = (pacmanX - 150);
+			pacmanXDisplaced = (pacmanXDisplaced < 188) ? (pacmanX + 150) : pacmanXDisplaced;
+			/*if (pacmanXDisplaced < 188) {
+				pacmanXDisplaced = 188;
+				pacmanYDisplaced = pacmanY - 60;
+				if (pacmanYDisplaced < 37) {
+					pacmanYDisplaced = pacmanY + 60;
+				}
+			}*/
+		}
+		else if (pacmanDirection == 'R') {
+			pacmanXDisplaced = (pacmanX + 150);
+			pacmanXDisplaced = (pacmanXDisplaced > 878) ? (pacmanX - 150) : pacmanXDisplaced;
+			/*if (pacmanXDisplaced > 878) {
+				pacmanXDisplaced = 878;
+				pacmanYDisplaced = pacmanY - 60;
+				if (pacmanYDisplaced < 37) {
+					pacmanYDisplaced = pacmanY + 60;
+				}
+			}*/
+		}
+		return posCompMove(ghostX, ghostY, pacmanXDisplaced, pacmanYDisplaced);
+	}
+	
+	private char radiusChase(int ghostX, int ghostY, int pacmanX, int pacmanY) {
+		
+		int pacmanXNew = pacmanX;
+		int pacmanYNew = pacmanY;
+		/* If the ghost is within a 8 tile radius of pacman, it will move to the middle bottom tile. */
+		if (Math.sqrt(Math.pow(ghostX - pacmanX, 2) + Math.pow(ghostY - pacmanY, 2)) < 240) {
+			if (pacmanX > 367) {
+				pacmanXNew = 37;
+			}
+			else {
+				pacmanXNew = 518;
+			}
+			pacmanYNew = 731;
+		}
+		return posCompMove(ghostX, ghostY, pacmanXNew, pacmanYNew);
 	}
 	
 	

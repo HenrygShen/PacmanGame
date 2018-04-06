@@ -38,11 +38,12 @@
 <fullyQualifiedTypeName name="group23.pacman.model.GameObject.TYPE"/>
 <fullyQualifiedTypeName name="group23.pacman.model.Pacman.STATE"/>
 <fullyQualifiedTypeName name="javafx.application.Platform"/>
-<fullyQualifiedTypeName name="java.lang.System"/>
 <fullyQualifiedTypeName name="javafx.scene.image.ImageView"/>
 <fullyQualifiedTypeName name="javafx.fxml.FXML"/>
 <fullyQualifiedTypeName name="group23.pacman.view.GameModeSelectController"/>
 <fullyQualifiedTypeName name="group23.pacman.model.Timer"/>
 <fullyQualifiedTypeName name="group23.pacman.view.HelpScreenController"/>
 <fullyQualifiedTypeName name="javafx.scene.Scene"/>
+<fullyQualifiedTypeName name="java.lang.Math"/>
+<fullyQualifiedTypeName name="java.lang.System"/>
 </qualifiedTypeNameHistroy>
