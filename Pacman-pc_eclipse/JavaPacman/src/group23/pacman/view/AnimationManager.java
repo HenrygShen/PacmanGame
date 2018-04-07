@@ -20,10 +20,14 @@ public class AnimationManager {
         if (!animations[animationIndex].isPlaying()){
         	animations[animationIndex].playAnimation();
         }
-        else {
-        	//animations[animationIndex].playAnimation();
-        }
+
         animationIndex = index;
+    }
+    
+    public void stopAction() {
+    	
+    	animations[animationIndex].stopAnimation();
+    	animations[animationIndex].reset();
     }
 
     public void draw(GraphicsContext graphicsContext,double x,double y){
@@ -38,6 +42,11 @@ public class AnimationManager {
         if (animations[animationIndex].isPlaying()){
         	animations[animationIndex].update();
         }
+    }
+    
+    public int getFrameIndex() {
+    	
+    	return this.animations[animationIndex].getIndex();
     }
 
 }

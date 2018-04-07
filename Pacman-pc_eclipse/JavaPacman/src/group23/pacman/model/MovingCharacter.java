@@ -17,4 +17,5 @@ public interface MovingCharacter {
 	public TYPE getType();
 	public void setHasLeftSpawn();
 	public boolean getHasLeftSpawn();
+	public Rectangle getHitBox();
 }

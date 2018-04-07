@@ -65,6 +65,7 @@ public class Pacman extends GameObject implements MovingCharacter {
 		type = GameObject.TYPE.PACMAN;
 		state = STATE.ALIVE;
 		lives = 3;
+		this.whip = new Whip();
 		
 		/* Character does not initially move or whip*/
 		this.whipping = false;
@@ -76,17 +77,15 @@ public class Pacman extends GameObject implements MovingCharacter {
 	
 	public void whip() {
 		
-		this.whipping = true;
+		this.state = STATE.POWER_UP;
+		whip.whip();
 	}
 
 	
 	public void update() {	
 		
-		if (whipping == true) {
-			whip.getHitBox().setX(this.hitBox.getX());
-			whip.getHitBox().setY(this.hitBox.getY());
-			
-		}
+		whip.update(this.vector,this.x,this.y);
+	
 		animationManager.update();
 		playAnimation();
 	}
@@ -211,8 +210,17 @@ public class Pacman extends GameObject implements MovingCharacter {
     	return this.y;
     }
     
+    public Whip getWhip() {
+    	
+    	return this.whip;
+    }
+    
     public boolean getHasLeftSpawn() {
     	return this.hasLeftSpawn;
+    }
+    
+    public Rectangle getHitBox() {
+    	return this.hitBox;
     }
     
     /* Resets Pacman's position when Pacman dies and still has lives left. */
@@ -255,7 +263,7 @@ public class Pacman extends GameObject implements MovingCharacter {
     
 	/* Set up the frame animation for the main character */
 	private void setUpAnimations() {
-
+		
 		Image leftC = new Image("assets/Pacman/leftClosed.png",SPRITE_WIDTH,SPRITE_HEIGHT,false,false);
 		Image leftO = new Image("assets/Pacman/leftOpen.png",SPRITE_WIDTH,SPRITE_HEIGHT,false,false);
 		Image rightC = new Image("assets/Pacman/rightClosed.png",SPRITE_WIDTH,SPRITE_HEIGHT,false,false);

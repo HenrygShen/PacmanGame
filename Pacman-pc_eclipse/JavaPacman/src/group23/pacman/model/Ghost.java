@@ -137,6 +137,9 @@ public class Ghost extends GameObject implements MovingCharacter {
 	    return (queuedDirection != vector);
     }
     
+    public Rectangle getHitBox() {
+    	return this.hitBox;
+    }
     
     /* Determines if the current direction is the opposite direction of the queued direction */
     public boolean oppositeDirection() {

@@ -62,6 +62,15 @@ public class Animation {
         	graphicsContext.drawImage(frames[frameIndex],x,y);
         }
     }
+    
+    public void reset() {
+    	frameIndex = 0;
+    }
+    
+    public int getIndex() {
+    	
+    	return this.frameIndex;
+    }
 
 
 }

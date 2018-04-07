@@ -274,6 +274,7 @@ public class GameViewController {
 		gameStateController.getGame().getGhost2().draw(graphicsContext);
 		gameStateController.getGame().getGhost3().draw(graphicsContext);
 		gameStateController.getGame().getGhost4().draw(graphicsContext);
+		gameStateController.getGame().getPacman().getWhip().draw(graphicsContext);
 		
 		/* Draws other objects ( walls ,pellets) */
 		ArrayList<GameObject> objects = gameStateController.getGame().getOtherGameObjects();

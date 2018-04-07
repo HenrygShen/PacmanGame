@@ -3,6 +3,8 @@ package group23.pacman.model;
 import java.io.File;
 import java.util.ArrayList;
 
+import group23.pacman.model.Pacman.STATE;
+import javafx.scene.input.TouchPoint.State;
 import javafx.scene.media.Media;
 import javafx.scene.media.MediaPlayer;
 
@@ -120,6 +122,12 @@ public class Game {
 			
 			/* Checks for collision with a ghost. Lose a life when you collide. */
 			if (character.getType() == GameObject.TYPE.GHOST) {
+				if (pacman.getState() == STATE.POWER_UP) {
+					if (pacman.getWhip().getHitBox().intersects(character.getHitBox())){
+						characters.remove(character);
+						break;
+					}
+				}
 				if (pacman.collidedWith((GameObject) character)) {
 					pacman.loseLife();
 					return;
