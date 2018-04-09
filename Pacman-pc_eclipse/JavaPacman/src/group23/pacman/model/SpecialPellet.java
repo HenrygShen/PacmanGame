@@ -12,6 +12,8 @@ public class SpecialPellet extends Pellet{
 		
 	}
 	
+	
+	
 	@Override
 	public void setImage() {
 		

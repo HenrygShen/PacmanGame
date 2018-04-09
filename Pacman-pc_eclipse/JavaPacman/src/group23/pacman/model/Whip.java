@@ -35,7 +35,7 @@ public class Whip extends GameObject implements MovingCharacter {
 		this.pacman = pacman;
 		
 		/* Whip initially cannot be used (no charges) */
-		this.charges = 100000;
+		this.charges = 0;
 		
 		hitBox = new Rectangle();
 		hitBox.setWidth(10);
@@ -55,6 +55,11 @@ public class Whip extends GameObject implements MovingCharacter {
 			charges--;
 			shouldPlay = true;
 		}
+	}
+	
+	public void addCharges() {
+		
+		charges = charges + 3;
 	}
 	
 	
@@ -121,6 +126,7 @@ public class Whip extends GameObject implements MovingCharacter {
 		
 	}
 	
+	/* Updates the next frame of animation according to direction of whip */
 	public void playAnimation() {
 		
 		if (shouldPlay) {
@@ -210,7 +216,9 @@ public class Whip extends GameObject implements MovingCharacter {
 	}
 	
 	
-	/* Public getters and setters */
+	
+	/** ALL PUBLIC GETTERS AND SETTERS BELOW **/
+	
 	public int getCharges() {
 		
 		return this.charges;

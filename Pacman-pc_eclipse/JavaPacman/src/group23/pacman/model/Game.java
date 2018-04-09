@@ -2,9 +2,7 @@ package group23.pacman.model;
 
 import java.io.File;
 import java.util.ArrayList;
-
 import group23.pacman.model.Pacman.STATE;
-import javafx.scene.input.TouchPoint.State;
 import javafx.scene.media.Media;
 import javafx.scene.media.MediaPlayer;
 
@@ -54,7 +52,7 @@ public class Game {
 		score = 0;
 		
 		
-		/* Set up sound effect for pacman eating the pellet */
+		/* Set up sound effect for Pacman eating the pellet */
 		chompNoise = new Media(new File("bin/assets/sfx/chompNoise.mp3").toURI().toString());
 		
 		
@@ -162,9 +160,9 @@ public class Game {
 			if (pacman.collidedWith(object)) {
 				if (object.getType() == GameObject.TYPE.PELLET || object.getType() == GameObject.TYPE.SPECIAL_PELLET ) {
 					if (object.getType() == GameObject.TYPE.SPECIAL_PELLET) {
-						pacman.setState(Pacman.STATE.POWER_UP);
+						pacman.getWhip().addCharges();
 					}
-
+					
 					playSfx(chompNoise);
 					objects.remove(object);
 					score++;
@@ -178,6 +176,7 @@ public class Game {
 	
 	/* Checks if pacman has died and resets all moving objects*/
 	public void checkState() {
+		
 		if (pacman.getState() == Pacman.STATE.DEAD && pacman.getLives() > 0) {
 			for (MovingCharacter character: characters) {
 				if (character.getType() == GameObject.TYPE.PACMAN) {
@@ -191,7 +190,7 @@ public class Game {
 	}
 	
 	
-	/* Plays pacman munching sound effect */
+	/* Plays Pacman munching sound effect */
 	public void playSfx(Media sfx) {
 		mediaPlayer = new MediaPlayer(sfx);
 		mediaPlayer.setVolume(0.3);
@@ -201,10 +200,9 @@ public class Game {
 	
 	
 	
-	/** ALL PUBLIC GETTERS **/
+	/** ALL PUBLIC GETTERS BELOW **/
 	
-	
-	/* Public getter to reference pacman object */
+	/* Public getter to reference Pacman object */
 	public Pacman getPacman() {
 		
 		return this.pacman;
@@ -250,7 +248,17 @@ public class Game {
 		
 		return this.players;
 	}
-
+	
+	public String getCharges() {
+		
+		String charges = Integer.toString(pacman.getWhip().getCharges());
+		charges = new StringBuilder(charges).reverse().toString();
+        while (charges.length() < 3){
+           	charges = charges + "x";
+        }
+        return charges;
+		
+	}
 	
 	/* Returns the user's score in string format */
 	public String getScore() {

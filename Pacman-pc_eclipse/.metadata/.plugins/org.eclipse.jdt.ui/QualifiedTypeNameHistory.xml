@@ -11,7 +11,6 @@
 <fullyQualifiedTypeName name="java.io.FileReader"/>
 <fullyQualifiedTypeName name="java.io.BufferedReader"/>
 <fullyQualifiedTypeName name="javafx.scene.paint.Paint"/>
-<fullyQualifiedTypeName name="javafx.scene.paint.Color"/>
 <fullyQualifiedTypeName name="java.io.File"/>
 <fullyQualifiedTypeName name="Animation"/>
 <fullyQualifiedTypeName name="java.util.ArrayList"/>
@@ -48,4 +47,5 @@
 <fullyQualifiedTypeName name="javafx.scene.canvas.GraphicsContext"/>
 <fullyQualifiedTypeName name="javafx.scene.input.TouchPoint.State"/>
 <fullyQualifiedTypeName name="group23.pacman.model.Pacman.STATE"/>
+<fullyQualifiedTypeName name="javafx.scene.paint.Color"/>
 </qualifiedTypeNameHistroy>

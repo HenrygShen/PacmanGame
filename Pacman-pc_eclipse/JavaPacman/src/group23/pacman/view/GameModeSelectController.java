@@ -24,7 +24,6 @@ public class GameModeSelectController {
 	/* Main app copy kept to use when referencing to get its stage, and scene. */
 	private MainApp mainApp;
 	
-	private Scene scene;
 
 	public GameModeSelectController() {
 		
