@@ -9,7 +9,7 @@ run:
 	javac group23/pacman/model/*.java
 	javac group23/pacman/controller/*.java
 	javac group23/pacman/view/*.java
-	java group23/pacman/MainApp
+	java group23.pacman.MainApp
 
 clean:
 	rm -rf group23/pacman/model/*.class

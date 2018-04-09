@@ -53,7 +53,7 @@ public class Game {
 		
 		
 		/* Set up sound effect for Pacman eating the pellet */
-		chompNoise = new Media(new File("bin/assets/sfx/chompNoise.mp3").toURI().toString());
+		//chompNoise = new Media(new File("bin/assets/sfx/chompNoise.mp3").toURI().toString());
 		
 		
 		/* Create new board (with user selected map) to define valid coordinates */
@@ -163,7 +163,7 @@ public class Game {
 						pacman.getWhip().addCharges();
 					}
 					
-					playSfx(chompNoise);
+					//playSfx(chompNoise);
 					objects.remove(object);
 					score++;
 					break;
