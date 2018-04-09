@@ -2,9 +2,7 @@ package group23.pacman.view;
 import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.image.Image;
 
-/**
-	This class holds all the frames of a single animation
-  */
+/**This class holds all the frames of a single animation */
 
 public class Animation {
 
@@ -63,6 +61,15 @@ public class Animation {
         else {
         	graphicsContext.drawImage(frames[frameIndex],x,y);
         }
+    }
+    
+    public void reset() {
+    	frameIndex = 0;
+    }
+    
+    public int getIndex() {
+    	
+    	return this.frameIndex;
     }
 
 

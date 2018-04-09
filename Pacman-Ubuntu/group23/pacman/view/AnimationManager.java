@@ -1,9 +1,7 @@
 package group23.pacman.view;
 import javafx.scene.canvas.GraphicsContext;
 
-/**
-	This class handles an array of animations, each of which has its own array of images(frames).
- */
+/** This class handles an array of animations, each of which has its own array of images(frames).*/
 public class AnimationManager {
 
     private Animation animations[];
@@ -22,10 +20,14 @@ public class AnimationManager {
         if (!animations[animationIndex].isPlaying()){
         	animations[animationIndex].playAnimation();
         }
-        else {
-        	//animations[animationIndex].playAnimation();
-        }
+
         animationIndex = index;
+    }
+    
+    public void stopAction() {
+    	
+    	animations[animationIndex].stopAnimation();
+    	animations[animationIndex].reset();
     }
 
     public void draw(GraphicsContext graphicsContext,double x,double y){
@@ -40,6 +42,11 @@ public class AnimationManager {
         if (animations[animationIndex].isPlaying()){
         	animations[animationIndex].update();
         }
+    }
+    
+    public int getFrameIndex() {
+    	
+    	return this.animations[animationIndex].getIndex();
     }
 
 }

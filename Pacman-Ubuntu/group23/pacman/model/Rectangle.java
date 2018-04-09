@@ -1,5 +1,6 @@
 package group23.pacman.model;
 
+/** The class that we use to classify hit boxes for all game objects */
 public class Rectangle {
 
     private double x;
@@ -29,12 +30,12 @@ public class Rectangle {
         this.firstIntersect = firstIntersect;
     }
     
-    public void setX(int x) {
+    public void setX(double x) {
     	
     	this.x = x;
     }
     
-    public void setY(int y) {
+    public void setY(double y) {
     	
     	this.y = y;
     }
@@ -57,6 +58,16 @@ public class Rectangle {
     public double getY() {
     	return this.y;
     }
+
+	public double getHeight() {
+		// TODO Auto-generated method stub
+		return height;
+	}
+
+	public double getWidth() {
+		// TODO Auto-generated method stub
+		return width;
+	}
     
     
 

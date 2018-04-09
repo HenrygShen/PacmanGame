@@ -2,9 +2,8 @@ package group23.pacman.model;
 import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.image.Image;
 
-/**
-	This class contains the information of a wall which is 10x10 pixels.
- */
+/** This class contains the information of a wall which is 10x10 pixels */
+
 public class Wall extends GameObject{
 	
 	private Rectangle wallHitBox;
@@ -17,6 +16,9 @@ public class Wall extends GameObject{
 		/* Choose which tile block to load into the map */
 		String mapBlock;
 		switch (map) {
+			case 'c' :
+				mapBlock = "assets/tiles/mapBlock-classic.png";
+				break;
 			case 's' :
 				mapBlock = "assets/tiles/mapBlock-sea.png";
 				break;

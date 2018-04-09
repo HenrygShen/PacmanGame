@@ -4,25 +4,227 @@ import group23.pacman.view.AnimationManager;
 import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.image.Image;
 
-public class Pacman extends GameObject{
+public class Pacman extends GameObject implements MovingCharacter {
 	
+	public enum STATE {
+		POWER_UP,
+		DEAD,
+		ALIVE
+	}
 	
+	private static final int NUM_LIVES = 3;
+	
+	/* Pacman's size */
 	private static final int SPRITE_HEIGHT = 30;
 	private static final int SPRITE_WIDTH = 30;
+	private static final int OFFSET = 10;
+	
+	/* Pixels moved per update */
 	private static final int SPEED = 2;
+	
+	/* Direction to move and planned direction */
 	private char vector;
-	private AnimationManager animationManager;
-
 	private char queuedDirection;
+	
+	
+	/* Handles the animations */
+	private AnimationManager animationManager;
+	
+	/* Pacman's state */
+	private STATE state;
+	
+	/* Condition for moving in the ghost spawn point */
+	private boolean hasLeftSpawn;
+	
+	/* Pacman's Whip */
+	private Whip whip;
+	
+	/* Pacman's remaining lives */
+	private int lives;
+	
+	
+	private int x;
+	private int y;
+	
+	
+	public Pacman(int x,int y,Board board) {
 
-	private Rectangle theoreticalHitBox;
-	
-	
-	public Pacman(int x,int y) {
+		setUpAnimations();
 		
+		type = GameObject.TYPE.PACMAN;
+		state = STATE.ALIVE;
 
+		/* Sets up the main character's hit-box */
+		hitBox = new Rectangle();
+		hitBox.setHeight(SPRITE_HEIGHT - OFFSET);
+		hitBox.setWidth(SPRITE_WIDTH - OFFSET);
+		hitBox.setX(x + OFFSET/2);
+		hitBox.setY(y + OFFSET/2);
+		
+		hasLeftSpawn = true;
+		
+		/* Set up main character's position */
+		this.x = x;
+		this.y = y;
 
-		/* Set up the frame animation for the main character */
+		lives = NUM_LIVES;
+		
+		/* Creates whip object that Pacman will use */
+		this.whip = new Whip(this);
+		
+		/* Character does not initially move*/
+		this.vector = 'S';
+		this.queuedDirection = 'S';
+	
+	}
+
+	
+	public void whip() {
+		
+		if (whip.getCharges() > 0) {
+			this.state = STATE.POWER_UP;
+			whip.useCharge();
+		}
+	}
+
+	
+	public void update() {	
+		
+		/* Update whip state only if in whipping state */
+		if (state == STATE.POWER_UP) {
+			whip.update(this.vector,this.x,this.y);
+		}
+		
+		animationManager.update();
+		playAnimation();
+	}
+
+	
+	/* Checks for collisions */
+    public boolean collidedWith(GameObject object) {
+
+    	Rectangle hitBox = object.getHitBox();
+    	
+    	return this.hitBox.intersects(hitBox);
+    }
+    
+    
+    /* Method called when time runs out or Pacman runs into a ghost while not in the powered up state */
+    public void loseLife() {
+    	
+    	lives--;
+    	this.state = STATE.DEAD;
+    }
+
+    
+    /* End Pacman invincible/whipping state */
+    public void setVulnerable() {
+    	
+    	this.state = STATE.ALIVE;
+    }
+    
+    
+    /* Determines if the current direction is the same as the queued direction */
+    public boolean checkforQueuedAction() {
+    		
+	    return (queuedDirection != vector);
+    }
+    
+    
+    /* Determines if the current direction is the opposite direction of the queued direction */
+    public boolean oppositeDirection() {
+    	
+    	switch (vector) {
+    		case 'S':
+    			return true;
+			case 'U':
+				if (queuedDirection == 'D') {
+					return true;
+				}
+			case 'D':
+				if (queuedDirection == 'U') {
+					return true;
+				}
+			case 'L':
+				if (queuedDirection == 'R') {
+					return true;
+				}
+			case 'R':
+				if (queuedDirection == 'L') {
+					return true;
+				}
+    	}
+    	return false;
+    }
+        
+    
+    public void updateDestination() {
+    
+    		
+    	if (this.vector == 'U') {
+			this.hitBox.setY((int)hitBox.getY() - SPEED);
+			this.y = y - SPEED;
+		}
+		else if (this.vector == 'D') {
+			this.hitBox.setY((int)hitBox.getY() + SPEED);
+			this.y = y + SPEED;
+		}
+		else if (this.vector == 'L') {
+			this.hitBox.setX((int)hitBox.getX() - SPEED);
+			this.x = x - SPEED;
+		}
+		else if (this.vector == 'R') {
+			this.hitBox.setX((int)hitBox.getX() + SPEED);
+			this.x = x + SPEED;
+		}
+    }
+    
+    
+    /* Resets Pacman's position when Pacman dies and still has lives left. */
+	public void reset(int x, int y) {
+		
+		this.hitBox.setX(x + OFFSET/2);
+		this.hitBox.setY(y + OFFSET/2);
+		this.x = x;
+		this.y = y;
+		this.hasLeftSpawn = true;
+		setDirection('S');
+		queueMovement('S');
+		animationManager.playAction(1);
+		setState(Pacman.STATE.ALIVE);
+	}
+	
+	
+    /* Changes character animation depending on the direction it's currently facing */
+    public void playAnimation() {
+    	
+    	if (this.vector == 'S') {
+			animationManager.playAction(1);
+		}
+		if (this.vector == 'U') {
+			animationManager.playAction(2);
+		}
+		else if (this.vector == 'D') {
+			animationManager.playAction(3);
+		}
+		else if (this.vector == 'L') {
+			animationManager.playAction(0);
+		}
+		else if (this.vector == 'R') {
+			animationManager.playAction(1);
+		}
+    }
+    
+    /* Public draw method */
+	public void draw(GraphicsContext graphicsContext) {
+		
+		animationManager.draw(graphicsContext,this.x,this.y);
+	}
+    
+	
+	/* Set up the frame animation for the main character */
+	private void setUpAnimations() {
+		
 		Image leftC = new Image("assets/Pacman/leftClosed.png",SPRITE_WIDTH,SPRITE_HEIGHT,false,false);
 		Image leftO = new Image("assets/Pacman/leftOpen.png",SPRITE_WIDTH,SPRITE_HEIGHT,false,false);
 		Image rightC = new Image("assets/Pacman/rightClosed.png",SPRITE_WIDTH,SPRITE_HEIGHT,false,false);
@@ -61,140 +263,71 @@ public class Pacman extends GameObject{
 		
 		animationManager = new AnimationManager(movementAnimations);
 		
-
-		/* Sets up the main character's hit-box */
-		hitBox = new Rectangle();
-		hitBox.setHeight(SPRITE_HEIGHT);
-		hitBox.setWidth(SPRITE_WIDTH);
-		hitBox.setX(x);
-		hitBox.setY(y);
-		theoreticalHitBox = new Rectangle();
-		theoreticalHitBox.setHeight(SPRITE_HEIGHT);
-		theoreticalHitBox.setWidth(SPRITE_WIDTH);
-		theoreticalHitBox.setX(x);
-		theoreticalHitBox.setY(y);
-		
-		/* Character does not initially move */
-		this.vector = 'S';
-		this.queuedDirection = 'S';
-	
 	}
 	
-	public void update() {	
-		
-		animationManager.update();
-		playAnimation();
+	/* PUBLIC GETTERS AND SETTERS BELOW */
+	 public char getDirection() {
+		 
+		 return this.vector;
+	 }
+	    
+	 public char getQDirection() {
+		 
+		return this.queuedDirection;
 	}
-	
-	public void queueMovement(char queuedDirection) {
-		
-		this.queuedDirection = queuedDirection;
-	}
+	    
+	 public STATE getState() {
+		 
+		 return this.state;
+	 }
 
-    
-    public void setDirection(char vector) {
-    	
-    	this.vector = vector;	
-    }
-    
-    public char getDirection() {
-    	
-    	return this.vector;
-    }
-    
-    public char getQDirection() {
-    	
-    	return this.queuedDirection;
-    }
-    
-    public boolean collidedWith(GameObject object) {
-    	
-    	
-    	Rectangle hitBox = object.getHitBox();
-    	
-    	return this.hitBox.intersects(hitBox);
-    }
+	 public int getLives() {
+		 
+		 return this.lives;
+	 }
+	    
+	 public double getX() {
+		 
+		 return this.x;
+	 }
+	    
+	 public double getY() {
+		 
+		 return this.y;
+	 }
+	 
+	 public Whip getWhip() {
+		 
+		 return this.whip;
+	 }
+	 
+	 public boolean getHasLeftSpawn() {
+		 
+		 return this.hasLeftSpawn;
+	 }
+	    
+	 public Rectangle getHitBox() {
+		 
+		 return this.hitBox;
+	 }
+	 
+	 public void setState(STATE state) {
+		 
+		 this.state = state;
+	 }
+	    
+	 public void setHasLeftSpawn() {
+		 
+		 this.hasLeftSpawn = true;
+	 }
+	    
+	 public void queueMovement(char queuedDirection) {
+			
+		 this.queuedDirection = queuedDirection;
+	 }
 
-    
-    public boolean checkforQueuedAction() {
-    		
-	    return (queuedDirection != vector);
-    }
-    
-    public boolean oppositeDirection() {
-    	
-    	switch (vector) {
-    		case 'S':
-    			return true;
-			case 'U':
-				if (queuedDirection == 'D') {
-					return true;
-				}
-			case 'D':
-				if (queuedDirection == 'U') {
-					return true;
-				}
-			case 'L':
-				if (queuedDirection == 'R') {
-					return true;
-				}
-			case 'R':
-				if (queuedDirection == 'L') {
-					return true;
-				}
-    	}
-    	return false;
-    }
-        
-
-    public void setNewMove() {
-    	
-    	this.hitBox.setY((int)theoreticalHitBox.getY());
-    	this.hitBox.setX((int)theoreticalHitBox.getX());
-    	setDirection(queuedDirection);
-    }
-    
-    public void changeMovement() {
-    
-    		
-    	if (this.vector == 'U') {
-			this.hitBox.setY((int)hitBox.getY() - SPEED);
-		}
-		else if (this.vector == 'D') {
-			this.hitBox.setY((int)hitBox.getY() + SPEED);
-		}
-		else if (this.vector == 'L') {
-			this.hitBox.setX((int)hitBox.getX() - SPEED);
-		}
-		else if (this.vector == 'R') {
-			this.hitBox.setX((int)hitBox.getX() + SPEED);
-		}
-    }
-
-    
-    public void playAnimation() {
-    	
-    	if (this.vector == 'S') {
-			animationManager.playAction(1);
-		}
-		if (this.vector == 'U') {
-			animationManager.playAction(2);
-		}
-		else if (this.vector == 'D') {
-			animationManager.playAction(3);
-		}
-		else if (this.vector == 'L') {
-			animationManager.playAction(0);
-		}
-		else if (this.vector == 'R') {
-			animationManager.playAction(1);
-		}
-    }
-    
-	public void draw(GraphicsContext graphicsContext) {
-		
-		animationManager.draw(graphicsContext,this.hitBox.getX(),this.hitBox.getY());
-	}
-    
-
+	 public void setDirection(char vector) {
+		 
+		 this.vector = vector;	
+	 }
 }

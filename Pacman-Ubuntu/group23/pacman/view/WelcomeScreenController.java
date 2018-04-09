@@ -20,6 +20,9 @@ public class WelcomeScreenController {
 	private Button playBtn;
 	
 	@FXML
+	private Button tutorialBtn;
+	
+	@FXML
 	private Button optionsBtn;
 	
 	@FXML
@@ -27,6 +30,9 @@ public class WelcomeScreenController {
 	
 	@FXML 
 	private ImageView playBtnImage;
+	
+	@FXML 
+	private ImageView tutorialBtnImage;
 	
 	@FXML
 	private ImageView optionBtnImage;
@@ -53,7 +59,7 @@ public class WelcomeScreenController {
 		
 		if (event.getCode() == KeyCode.ENTER) {
 			
-			mainApp.showLevelSelect();
+			mainApp.showGameModeSelect();
 		}
 		
 		else if (event.getCode() == KeyCode.LEFT) {
@@ -66,6 +72,22 @@ public class WelcomeScreenController {
 	}
 	
 	@FXML
+	private void handleTutorial(KeyEvent event) {
+		
+		if (event.getCode() == KeyCode.ENTER) {
+			mainApp.showHelp();
+		}
+		
+		else if (event.getCode() == KeyCode.LEFT) {
+			highlightButton(1);
+		}
+		else if (event.getCode() == KeyCode.RIGHT) {
+			highlightButton(3);
+		}
+
+	}
+	
+	@FXML
 	private void handleOptions(KeyEvent event) {
 		
 		if (event.getCode() == KeyCode.ENTER) {
@@ -73,10 +95,10 @@ public class WelcomeScreenController {
 			//Show options dialog stage.
 		}
 		else if (event.getCode() == KeyCode.LEFT) {
-			highlightButton(1);
+			highlightButton(2);
 		}
 		else if (event.getCode() == KeyCode.RIGHT) {
-			highlightButton(3);
+			highlightButton(4);
 			
 		}
 
@@ -91,7 +113,7 @@ public class WelcomeScreenController {
 			Platform.exit();
 		}
 		else if (event.getCode() == KeyCode.LEFT) {
-			highlightButton(2);
+			highlightButton(3);
 		}
 		else if (event.getCode() == KeyCode.RIGHT) {
 			/* Maybe play a sound effect here */
@@ -101,18 +123,28 @@ public class WelcomeScreenController {
 	}
 	
 	private void highlightButton(int button) {
+		
 		if (button == 1) {
 			playBtnImage.setImage(new Image("assets/buttons/button-play-highlighted.png",200,100,false,false));
+			tutorialBtnImage.setImage(new Image("assets/buttons/button-tutorial.png",200,100,false,false));
 			optionBtnImage.setImage(new Image("assets/buttons/button-options.png",200,100,false,false));
 			exitBtnImage.setImage(new Image("assets/buttons/button-exit.png",200,100,false,false));
 		}
 		else if (button == 2) {
 			playBtnImage.setImage(new Image("assets/buttons/button-play.png",200,100,false,false));
-			optionBtnImage.setImage(new Image("assets/buttons/button-options-highlighted.png",200,100,false,false));
+			tutorialBtnImage.setImage(new Image("assets/buttons/button-tutorial-highlighted.png",200,100,false,false));
+			optionBtnImage.setImage(new Image("assets/buttons/button-options.png",200,100,false,false));
 			exitBtnImage.setImage(new Image("assets/buttons/button-exit.png",200,100,false,false));
 		}
 		else if (button == 3) {
 			playBtnImage.setImage(new Image("assets/buttons/button-play.png",200,100,false,false));
+			tutorialBtnImage.setImage(new Image("assets/buttons/button-tutorial.png",200,100,false,false));
+			optionBtnImage.setImage(new Image("assets/buttons/button-options-highlighted.png",200,100,false,false));
+			exitBtnImage.setImage(new Image("assets/buttons/button-exit.png",200,100,false,false));
+		}
+		else if (button == 4) {
+			playBtnImage.setImage(new Image("assets/buttons/button-play.png",200,100,false,false));
+			tutorialBtnImage.setImage(new Image("assets/buttons/button-tutorial.png",200,100,false,false));
 			optionBtnImage.setImage(new Image("assets/buttons/button-options.png",200,100,false,false));
 			exitBtnImage.setImage(new Image("assets/buttons/button-exit-highlighted.png",200,100,false,false));
 		}
@@ -126,6 +158,9 @@ public class WelcomeScreenController {
 
 		Image playImage = new Image("assets/buttons/button-play-highlighted.png",200,100,false,false);
 		playBtnImage.setImage(playImage);
+		
+		Image tutorialImage = new Image("assets/buttons/button-tutorial.png",200,100,false,false);
+		tutorialBtnImage.setImage(tutorialImage);
 		
 		Image optionImage = new Image("assets/buttons/button-options.png",200,100,false,false);
 		optionBtnImage.setImage(optionImage);
