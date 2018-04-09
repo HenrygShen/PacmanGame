@@ -12,6 +12,8 @@ public class Pacman extends GameObject implements MovingCharacter {
 		ALIVE
 	}
 	
+	private static final int NUM_LIVES = 3;
+	
 	/* Pacman's size */
 	private static final int SPRITE_HEIGHT = 30;
 	private static final int SPRITE_WIDTH = 30;
@@ -37,9 +39,9 @@ public class Pacman extends GameObject implements MovingCharacter {
 	/* Pacman's Whip */
 	private Whip whip;
 	
-	private boolean whipping;
-	
+	/* Pacman's remaining lives */
 	private int lives;
+	
 	
 	private int x;
 	private int y;
@@ -48,6 +50,9 @@ public class Pacman extends GameObject implements MovingCharacter {
 	public Pacman(int x,int y,Board board) {
 
 		setUpAnimations();
+		
+		type = GameObject.TYPE.PACMAN;
+		state = STATE.ALIVE;
 
 		/* Sets up the main character's hit-box */
 		hitBox = new Rectangle();
@@ -61,14 +66,13 @@ public class Pacman extends GameObject implements MovingCharacter {
 		/* Set up main character's position */
 		this.x = x;
 		this.y = y;
+
+		lives = NUM_LIVES;
 		
-		type = GameObject.TYPE.PACMAN;
-		state = STATE.ALIVE;
-		lives = 3;
-		this.whip = new Whip();
+		/* Creates whip object that Pacman will use */
+		this.whip = new Whip(this);
 		
-		/* Character does not initially move or whip*/
-		this.whipping = false;
+		/* Character does not initially move*/
 		this.vector = 'S';
 		this.queuedDirection = 'S';
 	
@@ -77,56 +81,46 @@ public class Pacman extends GameObject implements MovingCharacter {
 	
 	public void whip() {
 		
-		this.state = STATE.POWER_UP;
-		whip.whip();
+		if (whip.getCharges() > 0) {
+			this.state = STATE.POWER_UP;
+			whip.useCharge();
+		}
 	}
 
 	
 	public void update() {	
 		
-		whip.update(this.vector,this.x,this.y);
-	
+		/* Update whip state only if in whipping state */
+		if (state == STATE.POWER_UP) {
+			whip.update(this.vector,this.x,this.y);
+		}
+		
 		animationManager.update();
 		playAnimation();
 	}
 
 	
+	/* Checks for collisions */
     public boolean collidedWith(GameObject object) {
-    	
-    	
+
     	Rectangle hitBox = object.getHitBox();
     	
     	return this.hitBox.intersects(hitBox);
     }
     
     
+    /* Method called when time runs out or Pacman runs into a ghost while not in the powered up state */
     public void loseLife() {
+    	
     	lives--;
     	this.state = STATE.DEAD;
     }
-    
-    
-	public void queueMovement(char queuedDirection) {
-		
-		this.queuedDirection = queuedDirection;
-	}
 
     
-    public void setDirection(char vector) {
+    /* End Pacman invincible/whipping state */
+    public void setVulnerable() {
     	
-    	this.vector = vector;	
-    }
-    
-    
-    /* Public setter for state */
-    public void setState(STATE state) {
-    	
-    	this.state = state;
-    }
-    
-    
-    public void setHasLeftSpawn() {
-    	this.hasLeftSpawn = true;
+    	this.state = STATE.ALIVE;
     }
     
     
@@ -163,6 +157,7 @@ public class Pacman extends GameObject implements MovingCharacter {
     	return false;
     }
         
+    
     public void updateDestination() {
     
     		
@@ -183,45 +178,7 @@ public class Pacman extends GameObject implements MovingCharacter {
 			this.x = x + SPEED;
 		}
     }
-
-    public char getDirection() {
-    	
-    	return this.vector;
-    }
     
-    public char getQDirection() {
-    	
-    	return this.queuedDirection;
-    }
-    
-    public STATE getState() {
-    	return this.state;
-    }
-    
-    public int getLives() {
-    	return this.lives;
-    }
-    
-    public double getX() {
-    	return this.x;
-    }
-    
-    public double getY() {
-    	return this.y;
-    }
-    
-    public Whip getWhip() {
-    	
-    	return this.whip;
-    }
-    
-    public boolean getHasLeftSpawn() {
-    	return this.hasLeftSpawn;
-    }
-    
-    public Rectangle getHitBox() {
-    	return this.hitBox;
-    }
     
     /* Resets Pacman's position when Pacman dies and still has lives left. */
 	public void reset(int x, int y) {
@@ -235,11 +192,7 @@ public class Pacman extends GameObject implements MovingCharacter {
 		queueMovement('S');
 		setState(Pacman.STATE.ALIVE);
 	}
-
-	public void draw(GraphicsContext graphicsContext) {
-		
-		animationManager.draw(graphicsContext,this.x,this.y);
-	}
+	
 	
     /* Changes character animation depending on the direction it's currently facing */
     public void playAnimation() {
@@ -261,6 +214,13 @@ public class Pacman extends GameObject implements MovingCharacter {
 		}
     }
     
+    /* Public draw method */
+	public void draw(GraphicsContext graphicsContext) {
+		
+		animationManager.draw(graphicsContext,this.x,this.y);
+	}
+    
+	
 	/* Set up the frame animation for the main character */
 	private void setUpAnimations() {
 		
@@ -303,5 +263,70 @@ public class Pacman extends GameObject implements MovingCharacter {
 		animationManager = new AnimationManager(movementAnimations);
 		
 	}
+	
+	/* PUBLIC GETTERS AND SETTERS BELOW */
+	 public char getDirection() {
+		 
+		 return this.vector;
+	 }
+	    
+	 public char getQDirection() {
+		 
+		return this.queuedDirection;
+	}
+	    
+	 public STATE getState() {
+		 
+		 return this.state;
+	 }
 
+	 public int getLives() {
+		 
+		 return this.lives;
+	 }
+	    
+	 public double getX() {
+		 
+		 return this.x;
+	 }
+	    
+	 public double getY() {
+		 
+		 return this.y;
+	 }
+	 
+	 public Whip getWhip() {
+		 
+		 return this.whip;
+	 }
+	 
+	 public boolean getHasLeftSpawn() {
+		 
+		 return this.hasLeftSpawn;
+	 }
+	    
+	 public Rectangle getHitBox() {
+		 
+		 return this.hitBox;
+	 }
+	 
+	 public void setState(STATE state) {
+		 
+		 this.state = state;
+	 }
+	    
+	 public void setHasLeftSpawn() {
+		 
+		 this.hasLeftSpawn = true;
+	 }
+	    
+	 public void queueMovement(char queuedDirection) {
+			
+		 this.queuedDirection = queuedDirection;
+	 }
+
+	 public void setDirection(char vector) {
+		 
+		 this.vector = vector;	
+	 }
 }

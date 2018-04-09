@@ -4,13 +4,13 @@ import group23.pacman.view.Animation;
 import group23.pacman.view.AnimationManager;
 import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.image.Image;
+import javafx.scene.paint.Color;
 
 /** Whip class is the weapon that the Pacman object uses when it picks up the SpecialPellet object */
 
 public class Whip extends GameObject implements MovingCharacter {
 	
-	/* Pixels moved per update */
-	private static final int SPEED = 2;
+	private Pacman pacman;
 	
 	/* Direction Pacman is facing */
 	private char vector;
@@ -20,34 +20,143 @@ public class Whip extends GameObject implements MovingCharacter {
 	
 	private boolean shouldPlay;
 	
+	/* Coordinates of the whip */
 	private int x;
 	private int y;
 	
-	private int bulletX;
-	private int bulletY;
+	/* Number of times left that the whip can be activated */
+	private int charges;
 	
-	private Image bullet;
-	
-	private int index;
-	private long time;
-	
-	private Rectangle hitBox;
-	
-	public Whip() {
+	public Whip(Pacman pacman) {
+		
 		this.x = 0;
 		this.y = 0;
+		
+		this.pacman = pacman;
+		
+		/* Whip initially cannot be used (no charges) */
+		this.charges = 100000;
+		
 		hitBox = new Rectangle();
 		hitBox.setWidth(10);
 		hitBox.setHeight(10);
 		hitBox.setX(this.x);
 		hitBox.setY(this.y);
+		
 		shouldPlay = false;
 		setUpAnimations();
-		bullet = new Image("assets/tiles/mapBlock-random.png",10,10,false,false);
-		time = 0;
 		
 	}
 	
+	
+	public void useCharge() {
+		
+		if (charges > 0) {
+			charges--;
+			shouldPlay = true;
+		}
+	}
+	
+	
+	/* Updates whip hitbox and coordinates */
+	public void update(char vector,int x,int y) {
+		
+		this.vector = vector;
+		
+		if (vector == 'U') {
+			
+			setX(x);
+			setY(y - 60);
+			
+			hitBox.setWidth(10);
+			hitBox.setHeight(60);
+			hitBox.setX(x+10);
+			hitBox.setY(y-60);
+			
+			
+		}
+		else if (vector == 'D') {
+			
+			setX(x);
+			setY(y);
+			
+			hitBox.setWidth(10);
+			hitBox.setHeight(60);
+			hitBox.setX(x+10);
+			hitBox.setY(y+30);
+			
+		}
+		else if (vector == 'L') {
+			
+			setX(x - 60);
+			setY(y);
+			
+			hitBox.setWidth(60);
+			hitBox.setHeight(10);
+			hitBox.setX(x-60);
+			hitBox.setY(y+10);
+			
+		}
+		else if (vector == 'R') {
+			
+			setX(x);
+			setY(y);
+			
+			hitBox.setWidth(60);
+			hitBox.setHeight(10);
+			hitBox.setX(x+30);
+			hitBox.setY(y+10);
+			
+		}
+		
+		/* When playing last frame for whip animation, end the animation and set Pacman to non-powered state */
+		if (animationManager.getFrameIndex() == 2) {
+			animationManager.stopAction();
+			shouldPlay = false;
+			pacman.setVulnerable();
+		}
+		
+		animationManager.update();
+		playAnimation();
+		
+	}
+	
+	public void playAnimation() {
+		
+		if (shouldPlay) {
+				if (this.vector == 'S') {
+					animationManager.playAction(1);
+				}
+				if (this.vector == 'U') {
+					animationManager.playAction(2);
+				}
+				else if (this.vector == 'D') {
+					animationManager.playAction(3);
+				}
+				else if (this.vector == 'L') {
+					animationManager.playAction(0);
+				}
+				else if (this.vector == 'R') {
+					animationManager.playAction(1);
+				}
+		}
+	}
+	
+	public void draw(GraphicsContext graphicsContext) {
+		
+		if (shouldPlay) {
+			
+			animationManager.draw(graphicsContext,this.x,this.y);
+			graphicsContext.setFill(Color.WHITESMOKE);
+			graphicsContext.fillRect(hitBox.getX(),hitBox.getY(),hitBox.getWidth(),hitBox.getHeight());
+			graphicsContext.setFill(Color.GREEN);
+			graphicsContext.setStroke(Color.BLUE);
+
+		}
+		
+	}
+	
+	/* Set up frame animations */
 	private void setUpAnimations() {
 		
 		Image left1 = new Image("assets/Pacman/Whip/left-whip1.png",90,30,false,false);
@@ -100,154 +209,62 @@ public class Whip extends GameObject implements MovingCharacter {
 		animationManager = new AnimationManager(animations);
 	}
 	
-	public void playAnimation() {
-		
-		if (shouldPlay) {
-				if (this.vector == 'S') {
-					animationManager.playAction(1);
-				}
-				if (this.vector == 'U') {
-					animationManager.playAction(2);
-				}
-				else if (this.vector == 'D') {
-					animationManager.playAction(3);
-				}
-				else if (this.vector == 'L') {
-					animationManager.playAction(0);
-				}
-				else if (this.vector == 'R') {
-					animationManager.playAction(1);
-				}
-		}
-	}
 	
-	public void whip() {
+	/* Public getters and setters */
+	public int getCharges() {
 		
-		shouldPlay = true;
+		return this.charges;
 	}
-	
-	public void update(char vector,int x,int y) {
-		
-		this.vector = vector;
-		
-		index = animationManager.getFrameIndex();
-		
-		if (vector == 'U') {
-			
-			setX(x);
-			setY(y - 60);
-			
-			hitBox.setWidth(10);
-			hitBox.setHeight(90);
-			hitBox.setX(x+10);
-			hitBox.setY(y-60);
-			
-			
-		}
-		else if (vector == 'D') {
-			
-			setX(x);
-			setY(y);
-			
-			hitBox.setWidth(10);
-			hitBox.setHeight(90);
-			hitBox.setX(x+10);
-			hitBox.setY(y+30);
-			
-		}
-		else if (vector == 'L') {
-			
-			setX(x - 60);
-			setY(y);
-			
-			hitBox.setWidth(90);
-			hitBox.setHeight(10);
-			hitBox.setX(x-60);
-			hitBox.setY(y+10);
-			
-		}
-		else if (vector == 'R') {
-			
-			setX(x);
-			setY(y);
-			
-			hitBox.setWidth(90);
-			hitBox.setHeight(10);
-			hitBox.setX(x+30);
-			hitBox.setY(y+10);
-			
-		}
-		
-		
-		if (animationManager.getFrameIndex() == 2) {
-			animationManager.stopAction();
-			shouldPlay = false;
-		}
-		animationManager.update();
-		playAnimation();
-	}
-	
-	public void draw(GraphicsContext graphicsContext) {
-		
-		if (shouldPlay) {
-			animationManager.draw(graphicsContext,this.x,this.y);
-			graphicsContext.drawImage(bullet, hitBox.getX(), hitBox.getY());
-		}
-		
-	}
-	
 	
     public Rectangle getHitBox() {
     	return this.hitBox;
     }
+    
+	public void setX(int x) {
+		this.x = x;
+	}
 	
+	public void setY(int y) {
+		this.y = y;
+	}
 	
 	@Override
 	public boolean checkforQueuedAction() {
+		// TODO Auto-generated method stub
 		return false;
 	}
 
 	@Override
 	public void setDirection(char qDirection) {
-		
+		// TODO Auto-generated method stub
 	}
 
 	@Override
 	public char getQDirection() {
+		// TODO Auto-generated method stub
 		return 0;
 	}
 
 	@Override
 	public void updateDestination() {
-		
+		// TODO Auto-generated method stub
 	}
 
 	@Override
 	public char getDirection() {
+		// TODO Auto-generated method stub
 		return 0;
 	}
 
 	@Override
 	public void reset(int x, int y) {
 		// TODO Auto-generated method stub
-		
 	}
-	
-	public void setX(int x) {
-		// TODO Auto-generated method stub
-		this.x = x;
-	}
-	
-	public void setY(int y) {
-		// TODO Auto-generated method stub
-		this.y = y;
-	}
-
 
 	@Override
 	public void setHasLeftSpawn() {
 		// TODO Auto-generated method stub
-		
+
 	}
 
 	@Override
