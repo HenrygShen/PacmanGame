@@ -175,8 +175,8 @@ public class Board {
 		}
 	}
 	
-	/* Checks if the specified position is an intersection node. */
-	public boolean isNode(int x, int y) {
+	/* Checks if character is at the intersection nodes. */
+	public boolean atNode(int x, int y) {
 		
 		if (((x - X_OFFSET)%TILE_SIZE == 0) && ((y - Y_OFFSET)%TILE_SIZE == 0)){
 			return this.node[(x - X_OFFSET)/TILE_SIZE][(y - Y_OFFSET)/TILE_SIZE ];
@@ -215,11 +215,6 @@ public class Board {
 		}
     	return false;
     }
-	
-	public boolean isValidPos(int x, int y) {
-		boolean validPos = this.status[(x - X_OFFSET)/TILE_SIZE][(y - Y_OFFSET)/TILE_SIZE ] || this.ghostOnlyPath[(x - X_OFFSET)/TILE_SIZE][(y - Y_OFFSET)/TILE_SIZE ];
-		return validPos;
-	}
 	
 	/* Pass coordinates of characters to spawn on map */
 	public int[] getPacman() {

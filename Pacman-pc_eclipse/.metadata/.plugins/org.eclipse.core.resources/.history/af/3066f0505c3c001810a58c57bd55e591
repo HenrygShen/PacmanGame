@@ -29,13 +29,12 @@ public class AI {
 	
 	/* Nodes that exist in the map */
 	private ArrayList<Node> ghostNodes;
-	
 	/* Path which determines the next move */
 	private ArrayList<Node> path;
 
-	/* Conditionals for different behaviours TODO : implement different behaviours */
 	private boolean chase;
-	private boolean scatter;
+
+	private boolean returnHome;
 	
 	
 	public AI(Board board, int type) {
@@ -47,7 +46,7 @@ public class AI {
 		ghostNodes = new ArrayList<Node>();
 		path = new ArrayList<Node>();
 		chase = true;
-		scatter = false;
+		returnHome = false;
 		
 		
 	}

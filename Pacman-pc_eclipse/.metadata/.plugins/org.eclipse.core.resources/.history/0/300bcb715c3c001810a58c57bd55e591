@@ -33,7 +33,7 @@ public class AI {
 	/* Path which determines the next move */
 	private ArrayList<Node> path;
 
-	/* Conditionals for different behaviours TODO : implement different behaviours */
+	/* Conditionals for t*/
 	private boolean chase;
 	private boolean scatter;
 	

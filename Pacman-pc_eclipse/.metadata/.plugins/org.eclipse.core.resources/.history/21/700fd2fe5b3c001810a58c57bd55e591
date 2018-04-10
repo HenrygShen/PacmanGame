@@ -216,11 +216,6 @@ public class Board {
     	return false;
     }
 	
-	public boolean isValidPos(int x, int y) {
-		boolean validPos = this.status[(x - X_OFFSET)/TILE_SIZE][(y - Y_OFFSET)/TILE_SIZE ] || this.ghostOnlyPath[(x - X_OFFSET)/TILE_SIZE][(y - Y_OFFSET)/TILE_SIZE ];
-		return validPos;
-	}
-	
 	/* Pass coordinates of characters to spawn on map */
 	public int[] getPacman() {
 		
