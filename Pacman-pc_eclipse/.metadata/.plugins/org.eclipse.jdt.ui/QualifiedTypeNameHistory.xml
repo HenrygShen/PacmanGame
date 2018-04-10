@@ -25,7 +25,6 @@
 <fullyQualifiedTypeName name="javafx.stage.Modality"/>
 <fullyQualifiedTypeName name="javafx.scene.input.KeyEvent"/>
 <fullyQualifiedTypeName name="javafx.scene.input.KeyCode"/>
-<fullyQualifiedTypeName name="javafx.scene.control.Button"/>
 <fullyQualifiedTypeName name="javafx.event.ActionEvent"/>
 <fullyQualifiedTypeName name="group23.pacman.controller.Game"/>
 <fullyQualifiedTypeName name="java.util.Timer"/>
@@ -48,4 +47,5 @@
 <fullyQualifiedTypeName name="javafx.scene.input.TouchPoint.State"/>
 <fullyQualifiedTypeName name="group23.pacman.model.Pacman.STATE"/>
 <fullyQualifiedTypeName name="javafx.scene.paint.Color"/>
+<fullyQualifiedTypeName name="javafx.scene.control.Button"/>
 </qualifiedTypeNameHistroy>

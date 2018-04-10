@@ -3,7 +3,6 @@ package group23.pacman;
 import java.io.IOException;
 
 import group23.pacman.model.Game;
-import group23.pacman.view.GameModeSelectController;
 import group23.pacman.view.GameViewController;
 import group23.pacman.view.HelpScreenController;
 import group23.pacman.view.LevelSelectController;
@@ -118,29 +117,6 @@ public class MainApp extends Application{
 			e.printStackTrace();
 		}
 		
-	}
-	
-	
-	/* The screen that allows the user to choose between single,two and three player modes */
-	public void showGameModeSelect() {
-		
-		try {
-			
-			/* Load/show the mode select layout */
-			FXMLLoader loader = new FXMLLoader();
-			loader.setLocation(MainApp.class.getResource("view/GameModeSelect.fxml"));
-			AnchorPane gameModeSelectScreen = (AnchorPane) loader.load();
-			rootLayout.setCenter(gameModeSelectScreen);
-
-            /* Get the controller to manipulate this class */
-			GameModeSelectController controller = loader.getController();
-			controller.setMainApp(this);
-
-
-		}
-		catch (IOException e) {
-			e.printStackTrace();
-		}
 	}
 	
 	

@@ -14,31 +14,37 @@ import javafx.scene.input.KeyEvent;
  */
 public class WelcomeScreenController {
 	
+	private static final int BUTTON_WIDTH = 300;
+	private static final int BUTTON_HEIGHT = 50;
+	
 	private MainApp mainApp;
 	
-	@FXML
-	private Button playBtn;
-	
-	@FXML
-	private Button tutorialBtn;
-	
-	@FXML
-	private Button optionsBtn;
-	
-	@FXML
-	private Button exitBtn;
+	private int buttonIndex;
+	private int numPlayers;
+	private boolean playSelected;
 	
 	@FXML 
 	private ImageView playBtnImage;
+	
+	@FXML
+	private Button button;
 	
 	@FXML 
 	private ImageView tutorialBtnImage;
 	
 	@FXML
-	private ImageView optionBtnImage;
+	private ImageView singlePlayerImage;
+	@FXML
+	private ImageView twoPlayerImage;
+	@FXML
+	private ImageView threePlayerImage;
+	
 	
 	@FXML
 	private ImageView exitBtnImage;
+	
+	@FXML 
+	private ImageView mode_select_bg;
 	
 	@FXML
 	private ImageView background;
@@ -55,99 +61,123 @@ public class WelcomeScreenController {
 	}
 	
 	@FXML
-	private void handlePlay(KeyEvent event) {
+	private void handleButton(KeyEvent event) {
 		
 		if (event.getCode() == KeyCode.ENTER) {
-			
-			mainApp.showGameModeSelect();
+			if (playSelected) {
+				mainApp.setPlayers(numPlayers);
+				mainApp.showLevelSelect();
+			}
+			else if (buttonIndex == 0) {
+				
+				playSelected = true;
+				numPlayers = 1;
+				
+				Image panel = new Image("assets/misc/mode_select_bg.png",400,200,false,false);
+				mode_select_bg.setImage(panel);
+				
+				Image singlePlayer = new Image("assets/buttons/singlePlayer.png",BUTTON_WIDTH,BUTTON_HEIGHT,false,false);
+				singlePlayerImage.setImage(singlePlayer);
+				
+				Image twoPlayer = new Image("assets/buttons/twoPlayer.png",BUTTON_WIDTH,BUTTON_HEIGHT,false,false);
+				twoPlayerImage.setImage(twoPlayer);
+				
+				Image threePlayer = new Image("assets/buttons/ThreePlayer.png",BUTTON_WIDTH,BUTTON_HEIGHT,false,false);
+				threePlayerImage.setImage(threePlayer);
+				
+				highlightPlayers(numPlayers);
+				}
+			else if (buttonIndex == 1) {
+				mainApp.showHelp();
+			}
+			else if (buttonIndex == 2) {
+				Platform.exit();
+			}
 		}
 		
-		else if (event.getCode() == KeyCode.LEFT) {
-			/* Maybe play a sound effect here */
+		/* When scrolling */
+		else if (event.getCode() == KeyCode.UP) {
+			if (playSelected) {
+				numPlayers--;
+				numPlayers = (numPlayers < 1) ? 1 : numPlayers;
+				highlightPlayers(numPlayers);
+			}
+		
+			else {
+				buttonIndex--;
+				buttonIndex = (buttonIndex < 0 ) ? 0 : buttonIndex;
+				highlightButton(buttonIndex);
+			}
+			System.out.println("Button Index " + buttonIndex);
+			System.out.println("Number of players " + numPlayers + "\n");
 		}
-		else if (event.getCode() == KeyCode.RIGHT) {
-			highlightButton(2);
+		
+		else if (event.getCode() == KeyCode.DOWN) {
+			if (playSelected) {
+				numPlayers++;
+				numPlayers = (numPlayers > 3) ? 3 : numPlayers;
+				highlightPlayers(numPlayers);
+			}
+		
+			else {
+				buttonIndex++;
+				buttonIndex = (buttonIndex > 2 ) ? 2 : buttonIndex;
+				highlightButton(buttonIndex);
+			}
+			System.out.println("Button Index " + buttonIndex);
+			System.out.println("Number of players " + numPlayers + "\n");
+		}
+		else if (event.getCode() == KeyCode.ESCAPE) {
+			if (playSelected) {
+				singlePlayerImage.setImage(new Image("assets/misc/empty.png"));
+				twoPlayerImage.setImage(new Image("assets/misc/empty.png"));
+				threePlayerImage.setImage(new Image("assets/misc/empty.png"));
+				mode_select_bg.setImage(new Image("assets/misc/empty.png"));
+				playSelected = false;
+			}
 		}
 
 	}
 	
-	@FXML
-	private void handleTutorial(KeyEvent event) {
-		
-		if (event.getCode() == KeyCode.ENTER) {
-			mainApp.showHelp();
-		}
-		
-		else if (event.getCode() == KeyCode.LEFT) {
-			highlightButton(1);
-		}
-		else if (event.getCode() == KeyCode.RIGHT) {
-			highlightButton(3);
-		}
 
+	private void highlightPlayers(int players) {
+		
+		if (players == 1) {
+			singlePlayerImage.setImage(new Image("assets/buttons/singlePlayer-highlighted.png",BUTTON_WIDTH,BUTTON_HEIGHT,false,false));
+			twoPlayerImage.setImage(new Image("assets/buttons/twoPlayer.png",BUTTON_WIDTH,BUTTON_HEIGHT,false,false));
+			threePlayerImage.setImage(new Image("assets/buttons/threePlayer.png",BUTTON_WIDTH,BUTTON_HEIGHT,false,false));
+		}
+		else if (players == 2) {
+			singlePlayerImage.setImage(new Image("assets/buttons/singlePlayer.png",BUTTON_WIDTH,BUTTON_HEIGHT,false,false));
+			twoPlayerImage.setImage(new Image("assets/buttons/twoPlayer-highlighted.png",BUTTON_WIDTH,BUTTON_HEIGHT,false,false));
+			threePlayerImage.setImage(new Image("assets/buttons/threePlayer.png",BUTTON_WIDTH,BUTTON_HEIGHT,false,false));
+		}
+		else if (players == 3) {
+			singlePlayerImage.setImage(new Image("assets/buttons/singlePlayer.png",BUTTON_WIDTH,BUTTON_HEIGHT,false,false));
+			twoPlayerImage.setImage(new Image("assets/buttons/twoPlayer.png",BUTTON_WIDTH,BUTTON_HEIGHT,false,false));
+			threePlayerImage.setImage(new Image("assets/buttons/threePlayer-highlighted.png",BUTTON_WIDTH,BUTTON_HEIGHT,false,false));
+		}
 	}
 	
-	@FXML
-	private void handleOptions(KeyEvent event) {
-		
-		if (event.getCode() == KeyCode.ENTER) {
-			//TODO 
-			//Show options dialog stage.
-		}
-		else if (event.getCode() == KeyCode.LEFT) {
-			highlightButton(2);
-		}
-		else if (event.getCode() == KeyCode.RIGHT) {
-			highlightButton(4);
-			
-		}
-
-	}
-	
-	
-	@FXML
-	private void handleExit(KeyEvent event) {
-		
-		if (event.getCode() == KeyCode.ENTER) {
-			
-			Platform.exit();
-		}
-		else if (event.getCode() == KeyCode.LEFT) {
-			highlightButton(3);
-		}
-		else if (event.getCode() == KeyCode.RIGHT) {
-			/* Maybe play a sound effect here */
-		}
-		
-
-	}
 	
 	private void highlightButton(int button) {
 		
-		if (button == 1) {
-			playBtnImage.setImage(new Image("assets/buttons/button-play-highlighted.png",200,100,false,false));
-			tutorialBtnImage.setImage(new Image("assets/buttons/button-tutorial.png",200,100,false,false));
-			optionBtnImage.setImage(new Image("assets/buttons/button-options.png",200,100,false,false));
-			exitBtnImage.setImage(new Image("assets/buttons/button-exit.png",200,100,false,false));
+		if (button == 0) {
+			playBtnImage.setImage(new Image("assets/buttons/button-play-highlighted.png",BUTTON_WIDTH,BUTTON_HEIGHT,false,false));
+			tutorialBtnImage.setImage(new Image("assets/buttons/button-tutorial.png",BUTTON_WIDTH,BUTTON_HEIGHT,false,false));
+			exitBtnImage.setImage(new Image("assets/buttons/button-exit.png",BUTTON_WIDTH,BUTTON_HEIGHT,false,false));
+		}
+		else if (button == 1) {
+			playBtnImage.setImage(new Image("assets/buttons/button-play.png",BUTTON_WIDTH,BUTTON_HEIGHT,false,false));
+			tutorialBtnImage.setImage(new Image("assets/buttons/button-tutorial-highlighted.png",BUTTON_WIDTH,BUTTON_HEIGHT,false,false));
+			exitBtnImage.setImage(new Image("assets/buttons/button-exit.png",BUTTON_WIDTH,BUTTON_HEIGHT,false,false));
 		}
 		else if (button == 2) {
-			playBtnImage.setImage(new Image("assets/buttons/button-play.png",200,100,false,false));
-			tutorialBtnImage.setImage(new Image("assets/buttons/button-tutorial-highlighted.png",200,100,false,false));
-			optionBtnImage.setImage(new Image("assets/buttons/button-options.png",200,100,false,false));
-			exitBtnImage.setImage(new Image("assets/buttons/button-exit.png",200,100,false,false));
+			playBtnImage.setImage(new Image("assets/buttons/button-play.png",BUTTON_WIDTH,BUTTON_HEIGHT,false,false));
+			tutorialBtnImage.setImage(new Image("assets/buttons/button-tutorial.png",BUTTON_WIDTH,BUTTON_HEIGHT,false,false));
+			exitBtnImage.setImage(new Image("assets/buttons/button-exit-highlighted.png",BUTTON_WIDTH,BUTTON_HEIGHT,false,false));
 		}
-		else if (button == 3) {
-			playBtnImage.setImage(new Image("assets/buttons/button-play.png",200,100,false,false));
-			tutorialBtnImage.setImage(new Image("assets/buttons/button-tutorial.png",200,100,false,false));
-			optionBtnImage.setImage(new Image("assets/buttons/button-options-highlighted.png",200,100,false,false));
-			exitBtnImage.setImage(new Image("assets/buttons/button-exit.png",200,100,false,false));
-		}
-		else if (button == 4) {
-			playBtnImage.setImage(new Image("assets/buttons/button-play.png",200,100,false,false));
-			tutorialBtnImage.setImage(new Image("assets/buttons/button-tutorial.png",200,100,false,false));
-			optionBtnImage.setImage(new Image("assets/buttons/button-options.png",200,100,false,false));
-			exitBtnImage.setImage(new Image("assets/buttons/button-exit-highlighted.png",200,100,false,false));
-		}
+
 	}
 	
 	@FXML
@@ -156,17 +186,20 @@ public class WelcomeScreenController {
 		Image mainMenuBackground = new Image("bg/background-main.png");
 		background.setImage(mainMenuBackground);
 
-		Image playImage = new Image("assets/buttons/button-play-highlighted.png",200,100,false,false);
+		Image playImage = new Image("assets/buttons/button-play-highlighted.png",BUTTON_WIDTH,BUTTON_HEIGHT,false,false);
 		playBtnImage.setImage(playImage);
 		
-		Image tutorialImage = new Image("assets/buttons/button-tutorial.png",200,100,false,false);
+		Image tutorialImage = new Image("assets/buttons/button-tutorial.png",BUTTON_WIDTH,BUTTON_HEIGHT,false,false);
 		tutorialBtnImage.setImage(tutorialImage);
 		
-		Image optionImage = new Image("assets/buttons/button-options.png",200,100,false,false);
-		optionBtnImage.setImage(optionImage);
 		
-		Image exitImage = new Image("assets/buttons/button-exit.png",200,100,false,false);
+		Image exitImage = new Image("assets/buttons/button-exit.png",BUTTON_WIDTH,BUTTON_HEIGHT,false,false);
 		exitBtnImage.setImage(exitImage);
+		
+		
+		playSelected = false;
+		numPlayers = 1;
+		buttonIndex= 0;
 	}
 
 }
