@@ -53,6 +53,12 @@ public class GameViewController {
 	private ImageView sec_ones;
 	@FXML
 	private ImageView start_timer;
+	@FXML
+	private ImageView whip_huns;
+	@FXML
+	private ImageView whip_tens;
+	@FXML
+	private ImageView whip_ones;
 	
 	private long countDownTime;
 
@@ -137,14 +143,19 @@ public class GameViewController {
 		timer = new Timer(120);
 		time_remaining.setImage(new Image("assets/misc/time_remaining.png"));
 		min_ones.setImage(new Image("assets/numbers/2.png"));
+		colon.setImage(new Image("assets/misc/colon.png"));
 		sec_tens.setImage(new Image("assets/numbers/0.png"));
 		sec_ones.setImage(new Image("assets/numbers/0.png"));
 		
 		/* Lives */
 		lives_image.setImage(new Image("assets/misc/lives.png"));
+	
 		
 		/*Charges */
 		charges_remaining.setImage(new Image("assets/misc/whip_charges.png"));
+		whip_huns.setImage(new Image("assets/numbers/0.png"));
+		whip_tens.setImage(new Image("assets/numbers/0.png"));
+		whip_ones.setImage(new Image("assets/numbers/0.png"));
 		
 		/* Score starts off as 0 */
 		score_image.setImage(new Image("assets/misc/score.png"));
@@ -277,6 +288,7 @@ public class GameViewController {
 		
 		gameStateController.getGame().getPacman().draw(graphicsContext);
 		updateScore();
+		updateWhipCharges();
 		
 		gameStateController.getGame().getGhost().draw(graphicsContext);
 		gameStateController.getGame().getGhost2().draw(graphicsContext);
@@ -305,7 +317,7 @@ public class GameViewController {
 	}
 	
 	/* Updates the images of score digits to reflect user's score */
-	public void setDigitImage(String image, int digit) {
+	private void setDigitImage(String image, int digit) {
 		switch (digit) {
 			case 0 :
 				digit_ones.setImage(new Image(image));
@@ -322,11 +334,35 @@ public class GameViewController {
 		}
 	}
 	
+	/* Updates the images of whip charge digits to reflect user's ammo */
+	private void setChargeDigits(String image,int digit) {
+		switch (digit) {
+			case 0 :
+				whip_ones.setImage(new Image(image));
+				break;
+			case 1 :
+				whip_tens.setImage(new Image(image));
+				break;
+			case 2 :
+				whip_huns.setImage(new Image(image));
+				break;
+
+		}
+	}
+	
 	private void updateScore() {
 		
 		/* Updates each digit */
 		for (int i = 0; i < 4 ; i++) {
 			setDigitImage(getDigit(gameStateController.getGame().getScore().charAt(i)), i);
+		}
+	}
+	
+	private void updateWhipCharges() {
+		
+		/* Updates each digit */
+		for (int i = 0; i < 3 ; i++) {
+			setChargeDigits(getDigit(gameStateController.getGame().getCharges().charAt(i)), i);
 		}
 	}
 	
