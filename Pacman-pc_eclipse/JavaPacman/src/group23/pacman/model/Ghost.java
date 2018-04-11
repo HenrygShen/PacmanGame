@@ -233,6 +233,10 @@ public class Ghost extends GameObject implements MovingCharacter {
     	return this.state;
     }
     
+    public AI getAI() {
+    	return this.ai;
+    }
+    
     public double getX() {
     	
     	return this.x;

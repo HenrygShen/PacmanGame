@@ -17,8 +17,8 @@ public class AI {
 	 * 1) Type == 0, is not an AI, it is a player controlled object
 	 * 2) Type == 1, is an AI with completely random movements
 	 * 3) Type == 2, is an AI which chases the main character 
-	 * 4) Type == 3, is an AI which tries to get in front of the main character 
-	 * 5) Type == 4, is an AI which will chase the main character until it gets too close */
+	 * 4) Type == 3, is an AI which will chase the main character until it gets too close, at which point it will lose control and start moving randomly
+	 * 5) Type == 4, is an AI which will chase the main character until it gets too close, at which point it will try to run away to its corner */
 	private int type;
 	
 	/* Random number generator for picking directions */
@@ -28,14 +28,13 @@ public class AI {
 	private int count;
 	
 	/* Nodes that exist in the map */
-	private ArrayList<Node> ghostNodes;
+	private ArrayList<Node> nodes;
 	
 	/* Path which determines the next move */
 	private ArrayList<Node> path;
 
 	/* Conditionals for different behaviours TODO : implement different behaviours */
 	private boolean chase;
-	private boolean scatter;
 	
 	
 	public AI(Board board, int type) {
@@ -44,12 +43,15 @@ public class AI {
 		this.type = type;
 		rand = new Random();
 		count = 0;
-		ghostNodes = new ArrayList<Node>();
+		nodes = new ArrayList<Node>();
 		path = new ArrayList<Node>();
-		chase = true;
-		scatter = false;
+		chase = false;
 		
 		
+	}
+	/**/
+	public void setChase(boolean bool) {
+		this.chase = bool;
 	}
 	
 	/* Pacman position and ghost position changes frequently 
@@ -57,26 +59,26 @@ public class AI {
 	public void setNodes(int ghostX, int ghostY, int pacmanX, int pacmanY) {
 
 		/* Remove previous nodes */
-		ghostNodes.clear();
+		nodes.clear();
 		
 		/* Add a node for ghost's position */
-		ghostNodes.add(new Node(ghostX, ghostY));
+		nodes.add(new Node(ghostX, ghostY));
 		
 		/* Find all the turning points in the map and create nodes for them */
 		for (int i = 0; i < 25; i++) {
 			for (int j = 0; j < 25; j++) {
 				if (board.isNode(i*GRID_SIZE + 158, j*GRID_SIZE + 7)) {
-					ghostNodes.add(new Node(i*GRID_SIZE + 158, j*GRID_SIZE + 7));
+					nodes.add(new Node(i*GRID_SIZE + 158, j*GRID_SIZE + 7));
 				}
 			}
 		}
 		
 		/* Add a node for pacman's position */
-		ghostNodes.add(new Node(pacmanX, pacmanY));
+		nodes.add(new Node(pacmanX, pacmanY));
 		
 		/* Find all the connecting edges between nodes */
-		for (int i = 0; i< ghostNodes.size(); i++) {
-			ghostNodes.get(i).addEdges(ghostNodes, board);
+		for (int i = 0; i< nodes.size(); i++) {
+			nodes.get(i).addEdges(nodes, board);
 		}
 		
 	}
@@ -103,9 +105,9 @@ public class AI {
 		
 		boolean initial = true;
 		
-		for (int i = 0 ; i < this.ghostNodes.size(); i++) {
-			queue.add(this.ghostNodes.get(i));
-			if(ghostNodes.get(i) == source){
+		for (int i = 0 ; i < this.nodes.size(); i++) {
+			queue.add(this.nodes.get(i));
+			if(nodes.get(i) == source){
 				dist.add(0);
 				prev.add(source);
 			}
@@ -118,7 +120,7 @@ public class AI {
 		
 		/* Sets the index of the current node */
 		currentNode = source;
-		currentNPos = this.ghostNodes.indexOf(source);
+		currentNPos = this.nodes.indexOf(source);
 		
 		while (!queue.isEmpty()) {
 			
@@ -127,7 +129,7 @@ public class AI {
 			/* Does not do this loop on the first iteration */
 			if (initial == false) {
 				currentSmallest = (1<<25) + 1;
-				for (int i = 0 ; i < ghostNodes.size(); i++) {	
+				for (int i = 0 ; i < nodes.size(); i++) {	
 					if (isRemoved.get(i) == false) {
 						if (firstSmallest==true) {
 							currentNPos = i;
@@ -147,17 +149,17 @@ public class AI {
 			initial = false;
 			
 			/* Step to remove the node from the queue, because we are going to expand it now*/
-			currentNode = ghostNodes.get(currentNPos);
+			currentNode = nodes.get(currentNPos);
 			isRemoved.set(currentNPos, true);
 			currentNPos = queue.indexOf(currentNode);
 			queue.remove(currentNPos);
 			
 			/* Loop through all connected edges of the current node */
 			for (int i = 0 ; i < currentNode.getEdges().size(); i++) {
-				currentNPos = ghostNodes.indexOf(currentNode);
+				currentNPos = nodes.indexOf(currentNode);
 				newNode = currentNode.getEdges().get(i);
 				tempDist = dist.get(currentNPos) + Math.abs(currentNode.getX() - newNode.getX()) + Math.abs(currentNode.getY() - newNode.getY());
-				newNPos = ghostNodes.indexOf(newNode);
+				newNPos = nodes.indexOf(newNode);
 				/* If the new distance is smaller than the old distance, replace it 
 				 * And set the previous node of (newNode) to the current node */
 				if (tempDist < dist.get(newNPos)) {
@@ -174,20 +176,20 @@ public class AI {
 		int currentPos;
 		Node prevNode;
 		Node currentNode2 = destination;
-		currentPos = this.ghostNodes.indexOf(destination);
+		currentPos = this.nodes.indexOf(destination);
 		/* Starting from the destination, back track using the prev ArrayList and store each node into backwardsPath*/
-		while(!source.equals(this.ghostNodes.get(currentPos))){
+		while(!source.equals(this.nodes.get(currentPos))){
 			backwardsPath.add(currentNode2);
 			prevNode = currentNode2;
 			currentNode2 = prev.get(currentPos);
-			currentPos = this.ghostNodes.indexOf(currentNode2);
+			currentPos = this.nodes.indexOf(currentNode2);
 			
 			/* If the previous node is the same as the current node, there is no path*/
 			if (currentNode2 == prevNode){
 				return null;
 			}
 		}
-		
+		 
 		return backwardsPath;
 
 	}
@@ -196,163 +198,103 @@ public class AI {
 	
 	/* Chooses a direction using the private move generator method,while checking if the direction is a valid move on the board */
 	public char chooseMovement(boolean hasLeftSpawn, char currentDirection, int ghostX, int ghostY, int pacmanX, int pacmanY, char pacmanDirection) {
+		
 		char direction;
 		/* Random */
 		if (type == 1) {
-			direction = randomMove(hasLeftSpawn, currentDirection);
-			while (!board.isValidDestination(hasLeftSpawn, direction, ghostX, ghostY)) {
+			/* End scatter behaviour if it has reached the corner */
+			if (ghostX == 188 && ghostY == 37) {
+				chase = true;
+			}
+			if (chase) {
 				direction = randomMove(hasLeftSpawn, currentDirection);
+				while (!board.isValidDestination(hasLeftSpawn, direction, ghostX, ghostY)) {
+					direction = randomMove(hasLeftSpawn, currentDirection);
+				}
+			}
+			else {
+				int pacmanXNew = pacmanX;
+				int pacmanYNew = pacmanY;
+				
+				/* Top left corner */
+				pacmanXNew = 188;
+				pacmanYNew = 37;
+				setNodes(ghostX, ghostY, pacmanXNew, pacmanYNew);
+				path = computeShortest(nodes.get(0), nodes.get(nodes.size() - 1));
+				direction = posCompMove(ghostX, ghostY, path.get(path.size() - 1).getX(), path.get(path.size() - 1).getY());
 			}
 			return direction;
 		}
 		/* Chaser */
 		else if (type == 2) {
-			setNodes(ghostX, ghostY, pacmanX, pacmanY);
-			path = computeShortest(ghostNodes.get(0), ghostNodes.get(ghostNodes.size() - 1));
+			/* End scatter behaviour if it has reached the corner */
+			if (ghostX == 848 && ghostY == 37) {
+				chase = true;
+			}
+			int pacmanXNew = pacmanX;
+			int pacmanYNew = pacmanY;
+			
+			if (!chase) {
+				/* Top right corner */
+				pacmanXNew = 848;
+				pacmanYNew = 37;
+			}
+			setNodes(ghostX, ghostY, pacmanXNew, pacmanYNew);
+			path = computeShortest(nodes.get(0), nodes.get(nodes.size() - 1));
 			direction = posCompMove(ghostX, ghostY, path.get(path.size() - 1).getX(), path.get(path.size() - 1).getY());
 			return direction;
 		}
-		/* Interceptor */ 
-		/* NEED TO FIX THIS */
+		/* Crazy */ 
 		else if (type == 3) {
-			
-			int pacmanYDisplaced = pacmanY;
-			int pacmanXDisplaced = pacmanX;
-			int extraDisplacement = 0;
-			boolean directionLeft;
-			boolean directionUp;
-			
-			
-			/* Displaces pacman's position based on his direction */
-			if (pacmanDirection == 'U') {
-				pacmanYDisplaced = (pacmanY - 5*GRID_SIZE);
-				
-				while (pacmanYDisplaced < 37 || !board.isValidPos(pacmanXDisplaced, pacmanYDisplaced)) {
-					pacmanYDisplaced = (pacmanYDisplaced/30)*30 + GRID_SIZE;
-					extraDisplacement += GRID_SIZE;
-				}
-				
-				if (pacmanXDisplaced > 518) {
-					pacmanXDisplaced -= extraDisplacement;
-					directionLeft = true;
+			/* End scatter behaviour if it has reached the corner */
+			if (ghostX == 188 && ghostY == 697) {
+				chase = true;
+			}
+			int pacmanXNew = pacmanX;
+			int pacmanYNew = pacmanY;
+			if (chase) {
+				/* If the ghost is within an 5 GRID_SIZE radius of pacman, it will move randomly. */
+				if (Math.sqrt(Math.pow(ghostX - pacmanX, 2) + Math.pow(ghostY - pacmanY, 2)) < 5*GRID_SIZE) {
+					direction = randomMove(hasLeftSpawn, currentDirection);
+					while (!board.isValidDestination(hasLeftSpawn, direction, ghostX, ghostY)) {
+						direction = randomMove(hasLeftSpawn, currentDirection);
+					}
 				}
 				else {
-					pacmanXDisplaced += extraDisplacement;
-					directionLeft = false;
+					setNodes(ghostX, ghostY, pacmanXNew, pacmanYNew);
+					path = computeShortest(nodes.get(0), nodes.get(nodes.size() - 1));
+					direction = posCompMove(ghostX, ghostY, path.get(path.size() - 1).getX(), path.get(path.size() - 1).getY());
 				}
-				
-				while (!board.isValidPos(pacmanXDisplaced, pacmanYDisplaced)){
-					if (directionLeft) {
-						pacmanXDisplaced = (pacmanXDisplaced/30)*30 + GRID_SIZE;
-					}
-					else {
-						pacmanXDisplaced = (pacmanXDisplaced/30)*30 - GRID_SIZE;
-					}
-				}
-
 			}
-			else if (pacmanDirection == 'D') {
-				pacmanYDisplaced = (pacmanY + 5*GRID_SIZE);
-				
-				while (pacmanYDisplaced > 727 || !board.isValidPos(pacmanXDisplaced, pacmanYDisplaced)) {
-					pacmanYDisplaced = (pacmanYDisplaced/30)*30 - GRID_SIZE;
-					extraDisplacement += GRID_SIZE;
-				}
-				
-				if (pacmanXDisplaced > 518) {
-					pacmanXDisplaced -= extraDisplacement;
-					directionLeft = true;
-				}
-				else {
-					pacmanXDisplaced += extraDisplacement;
-					directionLeft = false;
-				}
-				
-				System.out.println(pacmanXDisplaced);
-				while (!board.isValidPos(pacmanXDisplaced, pacmanYDisplaced)){
-					if (directionLeft) {
-						pacmanXDisplaced = (pacmanXDisplaced/30)*30 + GRID_SIZE;
-					}
-					else {
-						pacmanXDisplaced = (pacmanXDisplaced/30)*30 - GRID_SIZE;
-					}
-				}
-
+			else {
+				/* Bottom left corner */
+				pacmanXNew = 188;
+				pacmanYNew = 697;
+				setNodes(ghostX, ghostY, pacmanXNew, pacmanYNew);
+				path = computeShortest(nodes.get(0), nodes.get(nodes.size() - 1));
+				direction = posCompMove(ghostX, ghostY, path.get(path.size() - 1).getX(), path.get(path.size() - 1).getY());
 			}
-			else if (pacmanDirection == 'L') {
-				pacmanXDisplaced = (pacmanX - 5*GRID_SIZE);
-				
-				while (pacmanXDisplaced < 188 || !board.isValidPos(pacmanXDisplaced, pacmanYDisplaced)) {
-					pacmanXDisplaced = (pacmanXDisplaced/30)*30 + GRID_SIZE;
-					extraDisplacement += GRID_SIZE;
-				}
-				
-				if (pacmanYDisplaced > 367) {
-					pacmanYDisplaced -= extraDisplacement;
-					directionUp = true;
-				}
-				else {
-					pacmanYDisplaced += extraDisplacement;
-					directionUp = false;
-				}
-				
-				while (!board.isValidPos(pacmanXDisplaced, pacmanYDisplaced)){
-					if (directionUp) {
-						pacmanYDisplaced = (pacmanYDisplaced/30)*30 + GRID_SIZE;
-					}
-					else {
-						pacmanYDisplaced = (pacmanYDisplaced/30)*30 - GRID_SIZE;
-					}
-				}
-
-			}
-			else if (pacmanDirection == 'R') {
-				pacmanXDisplaced = (pacmanX + 5*GRID_SIZE);
-				
-				while (pacmanXDisplaced > 878 || !board.isValidPos(pacmanXDisplaced, pacmanYDisplaced)) {
-					pacmanXDisplaced = (pacmanXDisplaced/30)*30 - GRID_SIZE;
-					extraDisplacement += GRID_SIZE;
-				}
-				
-				if (pacmanYDisplaced > 367) {
-					pacmanYDisplaced -= extraDisplacement;
-					directionUp = true;
-				}
-				else {
-					pacmanYDisplaced += extraDisplacement;
-					directionUp = false;
-				}
-				
-				while (!board.isValidPos(pacmanXDisplaced, pacmanYDisplaced)){
-					if (directionUp) {
-						pacmanYDisplaced = (pacmanYDisplaced/30)*30 + GRID_SIZE;
-					}
-					else {
-						pacmanYDisplaced = (pacmanYDisplaced/30)*30 - GRID_SIZE;
-					}
-				}
-
-			}
-			
-			setNodes(ghostX, ghostY, pacmanXDisplaced, pacmanYDisplaced);
-			path = computeShortest(ghostNodes.get(0), ghostNodes.get(ghostNodes.size() - 1));
-			direction = posCompMove(ghostX, ghostY, path.get(path.size() - 1).getX(), path.get(path.size() - 1).getY());
 			return direction;
 		}
 		/* Shy Ghost */
 		else if (type == 4) {
+			/* End scatter behaviour if it has reached the corner */
+			if (ghostX == 848 && ghostY == 697) {
+				chase = true;
+			}
+			
 			int pacmanXNew = pacmanX;
 			int pacmanYNew = pacmanY;
 			
-			/* If the ghost is within an 8 GRID_SIZE radius of pacman, it will move to the bottom left corner. */
-			if (Math.sqrt(Math.pow(ghostX - pacmanX, 2) + Math.pow(ghostY - pacmanY, 2)) < 8*GRID_SIZE) {
-				/* These values may need to change depending on the map */
-				pacmanXNew = 188;
+			/* If the ghost is within an 8 GRID_SIZE radius of pacman, it will move to its corner. */
+			if (Math.sqrt(Math.pow(ghostX - pacmanX, 2) + Math.pow(ghostY - pacmanY, 2)) < 5*GRID_SIZE || !chase) {
+				/* Bottom right corner */
+				pacmanXNew = 848;
 				pacmanYNew = 697;
 			}
 			
 			setNodes(ghostX, ghostY, pacmanXNew, pacmanYNew);
-			path = computeShortest(ghostNodes.get(0), ghostNodes.get(ghostNodes.size() - 1));
+			path = computeShortest(nodes.get(0), nodes.get(nodes.size() - 1));
 			direction = posCompMove(ghostX, ghostY, path.get(path.size() - 1).getX(), path.get(path.size() - 1).getY());
 			return direction;
 		}

@@ -45,11 +45,14 @@ public class Board {
 		/* Parse the map.txt file, loads the map into the game */
 		try {
 			switch (map) {
-				case 's' :
+				case 'c' :
 					mapTxt = "mapOne.txt";
 					break;
+				case 's' :
+					mapTxt = "mapTwo.txt";
+					break;
 				case 'd' :
-					mapTxt = "mapOne.txt";
+					mapTxt = "mapThree.txt";
 					break;
 				default :
 					mapTxt = "mapOne.txt";

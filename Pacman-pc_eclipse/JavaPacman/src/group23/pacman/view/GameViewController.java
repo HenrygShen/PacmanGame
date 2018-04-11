@@ -98,10 +98,10 @@ public class GameViewController {
     		backgroundImage = "bg/background-classic_game.png";
     		break;
 	    case 's' :
-	    	backgroundImage = "bg/background-sea_game.png";
+	    	backgroundImage = "bg/background-classic_game.png";
 	    	break;
 	    case 'd' :
-	    	backgroundImage = "bg/background-desert_game.png";
+	    	backgroundImage = "bg/background-classic_game.png";
 	    	break;
 	    default :
 	    	backgroundImage = "bg/background-sea_game.png";

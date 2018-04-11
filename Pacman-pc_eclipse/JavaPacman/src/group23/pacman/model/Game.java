@@ -3,6 +3,8 @@ package group23.pacman.model;
 import java.io.File;
 import java.util.ArrayList;
 import group23.pacman.model.Pacman.STATE;
+import javafx.animation.AnimationTimer;
+import javafx.scene.image.Image;
 import javafx.scene.media.Media;
 import javafx.scene.media.MediaPlayer;
 
@@ -18,6 +20,11 @@ public class Game {
 	private Ghost ghost2;
 	private Ghost ghost3;
 	private Ghost ghost4;
+	
+	/*Ghost a.i scatter behaviour */
+	private int scatterScore;
+	private boolean scatter;
+	private boolean countDown;
 	
 	/* Media variables for sound effects */
 	private Media chompNoise;
@@ -40,6 +47,12 @@ public class Game {
 	
 	/* Game has array list of moving objects */
 	private ArrayList<MovingCharacter> characters;
+	
+	/* Time */
+	private long scatterTime = 0;
+	
+	/* Used to manipulate time for showing to screen */
+	private Timer timer;
 	
 	
 	
@@ -72,7 +85,7 @@ public class Game {
 		
 		/* Set up ghosts according to game mode */
 		if (players == 1) {
-			ghost = new Ghost(board.getGhost()[0],board.getGhost()[1], board, 4);
+			ghost = new Ghost(board.getGhost()[0],board.getGhost()[1], board, 3);
 			ghost2 = new Ghost(board.getGhost()[0],board.getGhost()[1], board, 2);
 		}
 		else if (players == 2) {
@@ -87,6 +100,11 @@ public class Game {
 		/* The remaining 2 ghosts will have a random AI(1) and a chasing AI(4) */
 		ghost3 = new Ghost(board.getGhost()[0],board.getGhost()[1], board, 1);
 		ghost4= new Ghost(board.getGhost()[0],board.getGhost()[1], board, 4);
+		
+		/* Initialise the variables used to control the AI scatter behaviour */
+		scatter = false;
+		countDown = false;
+		scatterScore = 0;
 		
 		/* Add all these moving characters to the array list */
 		characters.add(pacman);
@@ -105,6 +123,7 @@ public class Game {
 		
 		checkCollisions();
 		pacman.update();
+		changeAIBehaviour();
 		ghost.update((int)pacman.getX(), (int)pacman.getY(), pacman.getDirection());
 		ghost2.update((int)pacman.getX(), (int)pacman.getY(), pacman.getDirection());
 		ghost3.update((int)pacman.getX(), (int)pacman.getY(), pacman.getDirection());
@@ -173,7 +192,41 @@ public class Game {
 		}
 	}
 	
-	
+	/* To change the movement behaviour to scatter for 5 seconds */
+	public void changeAIBehaviour() {
+		
+		if (score%60 == 0 && score != scatterScore) {
+			scatterScore = score;
+			scatter = true;
+		}
+		if (scatter && !countDown) {
+			timer = new Timer(5);
+			ghost.getAI().setChase(false);
+			ghost2.getAI().setChase(false);
+			ghost3.getAI().setChase(false);
+			ghost4.getAI().setChase(false);
+			scatterTime = System.currentTimeMillis();
+			countDown = true;
+			scatter = false;
+		}
+		
+		/* Count down 1 second */
+		if (countDown) {
+			if (System.currentTimeMillis() - scatterTime >= 1000) {
+				timer.countDown(1);
+				scatterTime = System.currentTimeMillis();
+			}
+		
+			/* If 5 seconds is up, end scatter behaviour */
+			if (timer.timedOut()) {
+				ghost.getAI().setChase(true);
+				ghost2.getAI().setChase(true);
+				ghost3.getAI().setChase(true);
+				ghost4.getAI().setChase(true);
+				countDown = false;
+			}
+		}
+	}
 	/* Checks if pacman has died and resets all moving objects*/
 	public void checkState() {
 		
