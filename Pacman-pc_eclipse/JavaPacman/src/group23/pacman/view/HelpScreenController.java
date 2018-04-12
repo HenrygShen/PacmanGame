@@ -13,12 +13,17 @@ import javafx.scene.input.KeyEvent;
 
 public class HelpScreenController {
 	
-	/* Number of help panels subtract 1 */
+	/* Constant - do not change */
 	private final int MAX_BACKGROUND_INDEX = 2;
+	
+	/* FXML elements in HelpScreen.fxml */
+	@FXML
+	private ImageView backgroundImage;
+	@FXML
+	private ImageView helpPanel;
 	
 	/* Main app copy kept to use when referencing to get its scene. */
 	private MainApp mainApp;
-	
 	private Scene scene;
 	
 	/* Variables for showing which help panel will be set */
@@ -28,21 +33,13 @@ public class HelpScreenController {
 	private Image help3;
 	private Image helpImages[];
 	
-	/* FXML elements in HelpScreen.fxml */
-	@FXML
-	private ImageView backgroundImage;
-	@FXML
-	private ImageView helpPanel;
 	
-	/* This boolean stops the enter key press that was used before from instantly starting a game */
-	private boolean firstPress;
-	
-	
-	
+	/* Constructor */
 	public HelpScreenController() {
 		
 	}
 	
+	/* Adds key listener to scene */
 	public void listenToKeyEvents() {
 		
 		
@@ -64,7 +61,7 @@ public class HelpScreenController {
 	}
 	
 	
-	
+	/* Sets up images and backgrounds for initial view */
 	@FXML
 	private void initialize() {
 		
@@ -72,22 +69,32 @@ public class HelpScreenController {
 		Image background = new Image("bg/help_screen_background.png");
 		backgroundImage.setImage(background);
 		
-		index = 0;
-		
+		/* Prepare tutorial slides */
 		help1 = new Image("bg/helpPanelOne.png");
 		help2 = new Image("bg/helpPanelTwo.png");
 		help3 = new Image("bg/helpPanelThree.png");
-		
 		helpImages = new Image[3];
 		helpImages[0] = help1;
 		helpImages[1] = help2;
 		helpImages[2] = help3;
 		
+		/* Show first slide */
+		index = 0;
 		helpPanel.setImage(helpImages[index]);
 		
 		
 	}
 
+	
+	/* Public setter to reference main application */
+	public void setMainApp(MainApp mainApp) {
+		
+		this.mainApp = mainApp;
+		this.scene = mainApp.getScene();
+		
+	}
+	
+	
 	/** BELOW ARE HELPER FUNCTIONS WHICH HELP WITH THE ANIMATION OF THIS VIEW **/
 	
 	/* Set background functions - 
@@ -109,10 +116,4 @@ public class HelpScreenController {
 		System.out.println("Index : " + index);
 	}
 	
-	public void setMainApp(MainApp mainApp) {
-		
-		this.mainApp = mainApp;
-		this.scene = mainApp.getScene();
-		
-	}
 }

@@ -1,7 +1,6 @@
 package group23.pacman;
 
 import java.io.IOException;
-
 import group23.pacman.model.Game;
 import group23.pacman.view.CharacterSelectController;
 import group23.pacman.view.GameViewController;
@@ -15,10 +14,8 @@ import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.BorderPane;
 import javafx.stage.Stage; 
 
-/**The class that creates the platform and shows the main menu.
- * Also has the methods for showing other screens.
-*/
 
+/** The class that creates the platform and shows the main menu. Also has the methods for showing other screens */
 public class MainApp extends Application{ 
 	
 	/* The window for showing the game/application */
@@ -102,7 +99,7 @@ public class MainApp extends Application{
 	}
 	
 	
-	/* 	*/
+	/* Shows tutorial slides to teach user the game mechanics */
 	public void showHelp() {
 		
 		try {
@@ -116,7 +113,6 @@ public class MainApp extends Application{
 			HelpScreenController controller = loader.getController();
 			controller.setMainApp(this);
 			controller.listenToKeyEvents();
-
 
 		}
 		catch (IOException e) {
@@ -148,7 +144,7 @@ public class MainApp extends Application{
 		}
 	}
 	
-	/* Shows char select */
+	/* Shows character select view */
 	public void showCharacterSelect() {
 		
 		try {
@@ -162,8 +158,6 @@ public class MainApp extends Application{
 			controller.setMainApp(this);
 			controller.setPlayers(numPlayers);
 			
-			//TODO
-			// pass ghost number and which sprites
 			
 		}
 		catch (IOException e) {
@@ -234,6 +228,4 @@ public class MainApp extends Application{
 	}
 	
 
-	
-	
 }

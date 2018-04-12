@@ -18,7 +18,7 @@ import javafx.scene.image.*;
 
 public class GameViewController {
 	
-	/* FXML elements in GameView.fxml */
+	/* View elements in GameView.fxml */
 	@FXML
 	private ImageView background_map;
 	@FXML
@@ -169,6 +169,7 @@ public class GameViewController {
 		this.running = !this.running;
 	}
 	
+	
 	public void initialDraw() {
 
 		/* Add canvas to layout.
@@ -182,7 +183,7 @@ public class GameViewController {
 		startCountdown();
 	}
 	
-
+	
 	public void startGame() {
 
 		time = System.currentTimeMillis();
@@ -283,6 +284,7 @@ public class GameViewController {
 		
 		
 		gameStateController.getGame().getPacman().draw(graphicsContext);
+		gameStateController.getGame().getPacman().getWhip().draw(graphicsContext);
 		updateScore();
 		updateWhipCharges();
 		
@@ -290,7 +292,7 @@ public class GameViewController {
 		gameStateController.getGame().getGhost2().draw(graphicsContext);
 		gameStateController.getGame().getGhost3().draw(graphicsContext);
 		gameStateController.getGame().getGhost4().draw(graphicsContext);
-		gameStateController.getGame().getPacman().getWhip().draw(graphicsContext);
+		
 		
 		/* Draws other objects ( walls ,pellets) */
 		ArrayList<GameObject> objects = gameStateController.getGame().getOtherGameObjects();

@@ -14,8 +14,8 @@ import javafx.scene.input.KeyEvent;
 
 public class LevelSelectController {
 	
-	/* Number of available levels subtract 1 */
-	private static final int MAX_BACKGROUND_INDEX = 2;
+	/* Constant - do not change */
+	private final int MAX_BACKGROUND_INDEX = 2;
 	
 	/* FXML elements in LevelSelect.fxml */
 	@FXML
@@ -30,7 +30,6 @@ public class LevelSelectController {
 	
 	/* Main app copy kept to use when referencing to get its scene. */
 	private MainApp mainApp;
-	
 	private Scene scene;
 
 	
@@ -39,14 +38,16 @@ public class LevelSelectController {
 	private Image seaBackground;
 	private Image desertBackground;
 	private Image classicBackground;
-	
 	private Image[] backgrounds;
 
+	
 	/* Variable to control scroll speed */
 	private long lastTime;
 
+	
 	/* This boolean stops the enter key press that was used before from instantly starting a game */
 	private boolean firstPress;
+	
 	
 	/* Boolean to prevent animation to happen to already animated image */
 	private boolean animated;
@@ -178,6 +179,7 @@ public class LevelSelectController {
 		this.scene = mainApp.getScene();
 	}
 		
+	
 	
 	/** BELOW ARE HELPER FUNCTIONS WHICH HELP WITH THE ANIMATION OF THIS VIEW **/
 	
