@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
+<?import javafx.scene.control.*?>
 <?import javafx.scene.image.*?>
 <?import java.lang.*?>
 <?import javafx.scene.layout.*?>
@@ -7,6 +8,7 @@
 
 <AnchorPane prefHeight="768.0" prefWidth="1366.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="group23.pacman.view.CharacterSelectController">
    <children>
+      <Button layoutX="90.0" layoutY="51.0" mnemonicParsing="false" onKeyPressed="#handleButton" />
       <ImageView fx:id="background" fitHeight="768.0" fitWidth="1366.0" pickOnBounds="true" preserveRatio="true" />
       <ImageView fx:id="ghost1" fitHeight="150.0" fitWidth="150.0" layoutX="300.0" layoutY="300.0" pickOnBounds="true" preserveRatio="true" />
       <ImageView fx:id="ghost2" fitHeight="150.0" fitWidth="150.0" layoutX="500.0" layoutY="300.0" pickOnBounds="true" preserveRatio="true" />

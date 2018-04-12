@@ -155,6 +155,7 @@ public class MainApp extends Application{
 			/* Get the controller to manipulate this class */
 			CharacterSelectController controller = loader.getController();
 			controller.setMainApp(this);
+			controller.setPlayers(players);
 			
 			//TODO
 			// pass ghost number and which sprites
@@ -196,6 +197,14 @@ public class MainApp extends Application{
 	public void setPlayers(int players) {
 		
 		this.players = players;
+	}
+	
+	public void setPlayer2(int player2) {
+		//TODO
+	}
+	
+	public void setPlayer3(int player2) {
+		//TODO
 	}
 	
 	/* Public setter to pass map back to this class from LevelSelectController */

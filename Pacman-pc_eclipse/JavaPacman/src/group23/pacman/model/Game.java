@@ -3,8 +3,6 @@ package group23.pacman.model;
 import java.io.File;
 import java.util.ArrayList;
 import group23.pacman.model.Pacman.STATE;
-import javafx.animation.AnimationTimer;
-import javafx.scene.image.Image;
 import javafx.scene.media.Media;
 import javafx.scene.media.MediaPlayer;
 
