@@ -30,7 +30,12 @@ public class MainApp extends Application{
 	private Scene scene;
 	
 	/* Stores the player mode selected from GameModeSelect */
-	private int players;
+	private int numPlayers;
+	
+	private int player2;
+	
+	private int player3;
+	
 	
 	/* Stores the map selected from LevelSelect */
 	private char map;
@@ -155,7 +160,7 @@ public class MainApp extends Application{
 			/* Get the controller to manipulate this class */
 			CharacterSelectController controller = loader.getController();
 			controller.setMainApp(this);
-			controller.setPlayers(players);
+			controller.setPlayers(numPlayers);
 			
 			//TODO
 			// pass ghost number and which sprites
@@ -181,7 +186,7 @@ public class MainApp extends Application{
 			controller.setMainApp(this);
 			
 			/* Create game and pass to controller */
-			Game game = new Game(map,players);
+			Game game = new Game(map,numPlayers,player2,player3);
 			controller.setGame(game);
 			controller.initialDraw();
 			controller.startGame();	
@@ -196,15 +201,17 @@ public class MainApp extends Application{
 	/* Public setter to pass game mode back to this class from GameModeSelectController */
 	public void setPlayers(int players) {
 		
-		this.players = players;
+		this.numPlayers = players;
 	}
 	
-	public void setPlayer2(int player2) {
-		//TODO
+	public void setPlayer2(int ghostIndex) {
+		
+		player2 = ghostIndex;
 	}
 	
-	public void setPlayer3(int player2) {
-		//TODO
+	public void setPlayer3(int ghostIndex) {
+		
+		player3 = ghostIndex;
 	}
 	
 	/* Public setter to pass map back to this class from LevelSelectController */

@@ -2,6 +2,8 @@ package group23.pacman.model;
 
 import java.io.File;
 import java.util.ArrayList;
+import java.util.Vector;
+
 import group23.pacman.model.Pacman.STATE;
 import javafx.scene.media.Media;
 import javafx.scene.media.MediaPlayer;
@@ -41,7 +43,7 @@ public class Game {
 	private char map;
 	
 	/* Keep track of number of players/game mode */
-	private int players;
+	private int numPlayers;
 	
 	/* Game has array list of moving objects */
 	private ArrayList<MovingCharacter> characters;
@@ -54,10 +56,10 @@ public class Game {
 	
 	
 	
-	public Game(char map,int players) {
+	public Game(char map,int numPlayers,int player2Ghost,int player3Ghost) {
 		
 		this.map = map;
-		this.players = players;
+		this.numPlayers = numPlayers;
 		
 		/* Initial score is 0 */
 		score = 0;
@@ -81,7 +83,7 @@ public class Game {
 		/* Only one pacman object will be created */
 		pacman = new Pacman(board.getPacman()[0],board.getPacman()[1], board);
 		
-		setUpGhosts();
+		setUpGhosts(player2Ghost,player3Ghost);
 		
 		/* Initialise the variables used to control the AI scatter behaviour */
 		scatter = false;
@@ -98,26 +100,47 @@ public class Game {
 	
 	}
 	
-	private void setUpGhosts() {
+	private void setUpGhosts(int player2Ghost,int player3Ghost) {
+		
+		Vector<Integer> vector = new Vector<Integer>(4);
+		vector.add(1);
+		vector.add(2);
+		vector.add(3);
+		vector.add(4);
 		
 		/* Set up ghosts according to game mode */
-		if (players == 1) {
-			ghost = new Ghost(board.getGhost()[0],board.getGhost()[1], board, 3,"ghost1");
-			ghost2 = new Ghost(board.getGhost()[0],board.getGhost()[1], board, 2,"ghost2");
-		}
-		else if (players == 2) {
-			ghost = new Ghost(board.getGhost()[0],board.getGhost()[1], board, 0,"ghost1");
-			ghost2 = new Ghost(board.getGhost()[0],board.getGhost()[1], board, 2,"ghost2");
-		}
-		else if (players == 3) {
-			ghost = new Ghost(board.getGhost()[0],board.getGhost()[1], board, 0,"ghost1");
-			ghost2 = new Ghost(board.getGhost()[0],board.getGhost()[1], board, 0,"ghost2");
+		if (numPlayers == 1) {
+			ghost = new Ghost(board.getGhost()[0],board.getGhost()[1], board, 3,1);
+			ghost2 = new Ghost(board.getGhost()[0],board.getGhost()[1], board, 2,2);
+			ghost3 = new Ghost(board.getGhost()[0],board.getGhost()[1], board, 1,3);
+			ghost4= new Ghost(board.getGhost()[0],board.getGhost()[1], board, 4,4);
 		}
 		
-		/* The remaining 2 ghosts will have a random AI(1) and a chasing AI(4) */
-		ghost3 = new Ghost(board.getGhost()[0],board.getGhost()[1], board, 1,"ghost3");
-		ghost4= new Ghost(board.getGhost()[0],board.getGhost()[1], board, 4,"ghost4");
+		else if (numPlayers == 2) {
+			
+			/* Get and set player ghost choices then remove them from remaining choices */
+			vector.removeElement(player2Ghost);
+			ghost = new Ghost(board.getGhost()[0],board.getGhost()[1], board, 0,player2Ghost);
+			
+			/* The AI's will now have the remaining ghost sprites not chosen by the players */
+			ghost2 = new Ghost(board.getGhost()[0],board.getGhost()[1], board, 2,vector.elementAt(0));
+			ghost3 = new Ghost(board.getGhost()[0],board.getGhost()[1], board, 1,vector.elementAt(1));
+			ghost4= new Ghost(board.getGhost()[0],board.getGhost()[1], board, 4,vector.elementAt(2));
+		}
+		else if (numPlayers == 3) {
+			
+			/* Get and set player ghost choices then remove them from remaining choices */
+			vector.removeElement(player2Ghost);
+			ghost = new Ghost(board.getGhost()[0],board.getGhost()[1], board, 0,player2Ghost);
+			vector.removeElement(player3Ghost);
+			ghost2 = new Ghost(board.getGhost()[0],board.getGhost()[1], board, 0,player3Ghost);
+			
+			/* The AI's will now have the remaining ghost sprites not chosen by the players */
+			ghost3 = new Ghost(board.getGhost()[0],board.getGhost()[1], board, 1,vector.elementAt(0));
+			ghost4= new Ghost(board.getGhost()[0],board.getGhost()[1], board, 4,vector.elementAt(1));
+		}
 		
+
 	}
 	
 	
@@ -304,7 +327,7 @@ public class Game {
 	/* Public getter to reference game mode */
 	public int getPlayers() {
 		
-		return this.players;
+		return this.numPlayers;
 	}
 	
 	public String getCharges() {

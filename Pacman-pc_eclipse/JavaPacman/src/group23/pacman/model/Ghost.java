@@ -48,9 +48,25 @@ public class Ghost extends GameObject implements MovingCharacter {
 
 	
 	
-	public Ghost(int x,int y,Board board, int type,String ghost) {
+	public Ghost(int x,int y,Board board, int type,int ghost) {
 		
-		this.ghost = ghost;
+		switch (ghost) {
+			case 1:
+				this.ghost = "ghost1";
+				break;
+			case 2:
+				this.ghost = "ghost2";
+				break;
+			case 3:
+				this.ghost = "ghost3";
+				break;
+			case 4:
+				this.ghost = "ghost4";
+				break;
+			default :
+				this.ghost = "ghost1";
+				break;
+		}
 		
 		setUpAnimations();
 
