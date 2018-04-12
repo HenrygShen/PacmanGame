@@ -30,8 +30,6 @@ public class GameViewController {
 	@FXML
 	private ImageView digit_thous;
 	@FXML
-	private ImageView score_image;
-	@FXML
 	private ImageView life_1;
 	@FXML
 	private ImageView life_2;
@@ -39,10 +37,6 @@ public class GameViewController {
 	private ImageView life_3;
 	@FXML
 	private ImageView lives_image;
-	@FXML
-	private ImageView time_remaining;
-	@FXML
-	private ImageView charges_remaining;
 	@FXML
 	private ImageView min_ones;
 	@FXML
@@ -54,11 +48,13 @@ public class GameViewController {
 	@FXML
 	private ImageView start_timer;
 	@FXML
-	private ImageView whip_huns;
+	private ImageView whip_charges;
 	@FXML
-	private ImageView whip_tens;
+	private ImageView slash;
 	@FXML
-	private ImageView whip_ones;
+	private ImageView max_charges;
+	@FXML
+	private ImageView game_info_panel;
 	
 	private long countDownTime;
 
@@ -107,7 +103,6 @@ public class GameViewController {
 	    	backgroundImage = "bg/background-classic_game.png";
 	    	break;
 		}
-		
 		/*Second, set the map as the background */
 		background_map.setImage(new Image(backgroundImage));
 		
@@ -139,26 +134,27 @@ public class GameViewController {
 	@FXML
 	private void initialize() {
 		
+		game_info_panel.setImage(new Image("bg/game_info_panel.png"));
+		
 		/* Initialize 2 minute timer */
 		timer = new Timer(120);
-		time_remaining.setImage(new Image("assets/misc/time_remaining.png"));
 		min_ones.setImage(new Image("assets/numbers/2.png"));
 		colon.setImage(new Image("assets/misc/colon.png"));
 		sec_tens.setImage(new Image("assets/numbers/0.png"));
 		sec_ones.setImage(new Image("assets/numbers/0.png"));
 		
 		/* Lives */
-		lives_image.setImage(new Image("assets/misc/lives.png"));
-	
+		life_1.setImage(new Image("assets/Pacman/rightOpen.png"));
+		life_2.setImage(new Image("assets/Pacman/rightOpen.png"));
+		life_3.setImage(new Image("assets/Pacman/rightOpen.png"));
+		
 		
 		/*Charges */
-		charges_remaining.setImage(new Image("assets/misc/whip_charges.png"));
-		whip_huns.setImage(new Image("assets/numbers/0.png"));
-		whip_tens.setImage(new Image("assets/numbers/0.png"));
-		whip_ones.setImage(new Image("assets/numbers/0.png"));
+		whip_charges.setImage(new Image("assets/numbers/0.png"));
+		slash.setImage(new Image("assets/misc/slash.png"));
+		max_charges.setImage(new Image("assets/numbers/6.png"));
 		
 		/* Score starts off as 0 */
-		score_image.setImage(new Image("assets/misc/score.png"));
 		String digitimage = "assets/numbers/0.png";
 		digit_ones.setImage(new Image(digitimage));
 		digit_tens.setImage(new Image(digitimage));
@@ -334,21 +330,6 @@ public class GameViewController {
 		}
 	}
 	
-	/* Updates the images of whip charge digits to reflect user's ammo */
-	private void setChargeDigits(String image,int digit) {
-		switch (digit) {
-			case 0 :
-				whip_ones.setImage(new Image(image));
-				break;
-			case 1 :
-				whip_tens.setImage(new Image(image));
-				break;
-			case 2 :
-				whip_huns.setImage(new Image(image));
-				break;
-
-		}
-	}
 	
 	private void updateScore() {
 		
@@ -360,10 +341,7 @@ public class GameViewController {
 	
 	private void updateWhipCharges() {
 		
-		/* Updates each digit */
-		for (int i = 0; i < 3 ; i++) {
-			setChargeDigits(getDigit(gameStateController.getGame().getCharges().charAt(i)), i);
-		}
+		whip_charges.setImage(new Image(getDigit(gameStateController.getGame().getCharges().charAt(0))));
 	}
 	
 	

@@ -5,51 +5,36 @@
 <?import javafx.scene.layout.*?>
 <?import javafx.scene.layout.AnchorPane?>
 
-<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="group23.pacman.view.GameViewController">
+<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="768.0" prefWidth="1366.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="group23.pacman.view.GameViewController">
    <children>
       <ImageView fx:id="background_map" fitHeight="768.0" fitWidth="1366.0" pickOnBounds="true" preserveRatio="true" />
-      <ImageView fx:id="digit_thous" fitHeight="50.0" fitWidth="50.0" layoutX="1180.0" layoutY="80.0" pickOnBounds="true" preserveRatio="true">
+      <ImageView fx:id="game_info_panel" fitHeight="768.0" fitWidth="300.0" layoutX="1066.0" pickOnBounds="true" preserveRatio="true" />
+      <ImageView fx:id="digit_thous" fitHeight="50.0" fitWidth="50.0" layoutX="1140.0" layoutY="180.0" pickOnBounds="true" preserveRatio="true">
          <image>
             <Image url="@../../../../bin/assets/numbers/0.png" />
          </image></ImageView>
-      <ImageView fx:id="digit_hunds" fitHeight="50.0" fitWidth="50.0" layoutX="1210.0" layoutY="80.0" pickOnBounds="true" preserveRatio="true">
+      <ImageView fx:id="digit_hunds" fitHeight="50.0" fitWidth="50.0" layoutX="1170.0" layoutY="180.0" pickOnBounds="true" preserveRatio="true">
          <image>
             <Image url="@../../../../bin/assets/numbers/0.png" />
          </image></ImageView>
-      <ImageView fx:id="digit_tens" fitHeight="50.0" fitWidth="50.0" layoutX="1240.0" layoutY="80.0" pickOnBounds="true" preserveRatio="true">
+      <ImageView fx:id="digit_tens" fitHeight="50.0" fitWidth="50.0" layoutX="1200.0" layoutY="180.0" pickOnBounds="true" preserveRatio="true">
          <image>
             <Image url="@../../../../bin/assets/numbers/0.png" />
          </image></ImageView>
-      <ImageView fx:id="digit_ones" fitHeight="50.0" fitWidth="50.0" layoutX="1270.0" layoutY="80.0" pickOnBounds="true" preserveRatio="true">
+      <ImageView fx:id="digit_ones" fitHeight="50.0" fitWidth="50.0" layoutX="1230.0" layoutY="180.0" pickOnBounds="true" preserveRatio="true">
          <image>
             <Image url="@../../../../bin/assets/numbers/0.png" />
          </image></ImageView>
-      <ImageView fx:id="score_image" fitHeight="50.0" fitWidth="250.0" layoutX="1050.0" layoutY="30.0" pickOnBounds="true" preserveRatio="true" />
-      <ImageView fx:id="life_1" fitHeight="30.0" fitWidth="30.0" layoutX="1240.0" layoutY="182.0" pickOnBounds="true" preserveRatio="true">
-         <image>
-            <Image url="@../../../../bin/assets/Pacman/rightOpen.png" />
-         </image>
-      </ImageView>
-      <ImageView fx:id="life_2" fitHeight="30.0" fitWidth="30.0" layoutX="1278.0" layoutY="182.0" pickOnBounds="true" preserveRatio="true">
-         <image>
-            <Image url="@../../../../bin/assets/Pacman/rightOpen.png" />
-         </image>
-      </ImageView>
-      <ImageView fx:id="life_3" fitHeight="30.0" fitWidth="30.0" layoutX="1315.0" layoutY="182.0" pickOnBounds="true" preserveRatio="true">
-         <image>
-            <Image url="@../../../../bin/assets/Pacman/rightOpen.png" />
-         </image>
-      </ImageView>
-      <ImageView fx:id="lives_image" fitHeight="50.0" fitWidth="210.0" layoutX="1026.0" layoutY="172.0" pickOnBounds="true" preserveRatio="true" />
-      <ImageView fx:id="time_remaining" fitHeight="60.0" fitWidth="300.0" layoutX="1060.0" layoutY="232.0" pickOnBounds="true" preserveRatio="true" />
-      <ImageView fx:id="min_ones" fitHeight="50.0" fitWidth="50.0" layoutX="1180.0" layoutY="300.0" pickOnBounds="true" preserveRatio="true" />
-      <ImageView fx:id="colon" fitHeight="50.0" fitWidth="50.0" layoutX="1210.0" layoutY="300.0" pickOnBounds="true" preserveRatio="true" />
-      <ImageView fx:id="sec_tens" fitHeight="50.0" fitWidth="50.0" layoutX="1240.0" layoutY="300.0" pickOnBounds="true" preserveRatio="true" />
-      <ImageView fx:id="sec_ones" fitHeight="50.0" fitWidth="50.0" layoutX="1270.0" layoutY="300.0" pickOnBounds="true" preserveRatio="true" />
+      <ImageView fx:id="life_1" fitHeight="30.0" fitWidth="30.0" layoutX="1150.0" layoutY="310.0" pickOnBounds="true" preserveRatio="true" />
+      <ImageView fx:id="life_2" fitHeight="30.0" fitWidth="30.0" layoutX="1200.0" layoutY="310.0" pickOnBounds="true" preserveRatio="true" />
+      <ImageView fx:id="life_3" fitHeight="30.0" fitWidth="30.0" layoutX="1250.0" layoutY="310.0" pickOnBounds="true" preserveRatio="true" />
+      <ImageView fx:id="min_ones" fitHeight="50.0" fitWidth="50.0" layoutX="1140.0" layoutY="65.0" pickOnBounds="true" preserveRatio="true" />
+      <ImageView fx:id="colon" fitHeight="50.0" fitWidth="50.0" layoutX="1170.0" layoutY="65.0" pickOnBounds="true" preserveRatio="true" />
+      <ImageView fx:id="sec_tens" fitHeight="50.0" fitWidth="50.0" layoutX="1200.0" layoutY="65.0" pickOnBounds="true" preserveRatio="true" />
+      <ImageView fx:id="sec_ones" fitHeight="50.0" fitWidth="50.0" layoutX="1230.0" layoutY="65.0" pickOnBounds="true" preserveRatio="true" />
       <ImageView fx:id="start_timer" fitHeight="50.0" fitWidth="50.0" layoutX="516.0" layoutY="283.0" pickOnBounds="true" preserveRatio="true" />
-      <ImageView fx:id="charges_remaining" fitHeight="60.0" fitWidth="300.0" layoutX="1060.0" layoutY="350.0" pickOnBounds="true" preserveRatio="true" />
-      <ImageView fx:id="whip_huns" fitHeight="50.0" fitWidth="50.0" layoutX="1200.0" layoutY="410.0" pickOnBounds="true" preserveRatio="true" />
-      <ImageView fx:id="whip_ones" fitHeight="50.0" fitWidth="50.0" layoutX="1300.0" layoutY="410.0" pickOnBounds="true" preserveRatio="true" />
-      <ImageView fx:id="whip_tens" fitHeight="50.0" fitWidth="50.0" layoutX="1250.0" layoutY="410.0" pickOnBounds="true" preserveRatio="true" />
+      <ImageView fx:id="whip_charges" fitHeight="50.0" fitWidth="50.0" layoutX="1160.0" layoutY="430.0" pickOnBounds="true" preserveRatio="true" />
+      <ImageView fx:id="slash" fitHeight="50.0" fitWidth="50.0" layoutX="1190.0" layoutY="430.0" pickOnBounds="true" preserveRatio="true" />
+      <ImageView fx:id="max_charges" fitHeight="50.0" fitWidth="50.0" layoutX="1220.0" layoutY="430.0" pickOnBounds="true" preserveRatio="true" />
    </children>
 </AnchorPane>

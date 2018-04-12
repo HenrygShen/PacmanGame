@@ -27,6 +27,8 @@ public class Whip extends GameObject implements MovingCharacter {
 	/* Number of times left that the whip can be activated */
 	private int charges;
 	
+	private static final int MAX_CHARGES = 6;
+	
 	public Whip(Pacman pacman) {
 		
 		this.x = 0;
@@ -60,6 +62,7 @@ public class Whip extends GameObject implements MovingCharacter {
 	public void addCharges() {
 		
 		charges = charges + 3;
+		charges = (charges > MAX_CHARGES) ? 6 : charges;
 	}
 	
 	

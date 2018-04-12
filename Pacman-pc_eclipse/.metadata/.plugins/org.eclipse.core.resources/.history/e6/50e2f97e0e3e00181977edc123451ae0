@@ -1,0 +1,12 @@
+package group23.pacman.view;
+
+public class CharacterSelectController {
+
+	public CharacterSelectController() {
+		
+	}
+	
+	private void initialize() {
+		
+	}
+}

@@ -43,8 +43,6 @@ public class WelcomeScreenController {
 	@FXML
 	private ImageView exitBtnImage;
 	
-	@FXML 
-	private ImageView mode_select_bg;
 	
 	@FXML
 	private ImageView background;
@@ -65,16 +63,20 @@ public class WelcomeScreenController {
 		
 		if (event.getCode() == KeyCode.ENTER) {
 			if (playSelected) {
+				
 				mainApp.setPlayers(numPlayers);
-				mainApp.showLevelSelect();
+				if (numPlayers == 1) {
+					mainApp.showLevelSelect();
+				}
+				else {
+					mainApp.showCharacterSelect();
+				}
 			}
 			else if (buttonIndex == 0) {
 				
 				playSelected = true;
 				numPlayers = 1;
 				
-				Image panel = new Image("assets/misc/mode_select_bg.png",400,200,false,false);
-				mode_select_bg.setImage(panel);
 				
 				Image singlePlayer = new Image("assets/buttons/singlePlayer.png",BUTTON_WIDTH,BUTTON_HEIGHT,false,false);
 				singlePlayerImage.setImage(singlePlayer);
@@ -132,8 +134,8 @@ public class WelcomeScreenController {
 				singlePlayerImage.setImage(new Image("assets/misc/empty.png"));
 				twoPlayerImage.setImage(new Image("assets/misc/empty.png"));
 				threePlayerImage.setImage(new Image("assets/misc/empty.png"));
-				mode_select_bg.setImage(new Image("assets/misc/empty.png"));
 				playSelected = false;
+				numPlayers = 1;
 			}
 		}
 
