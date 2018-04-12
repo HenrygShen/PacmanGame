@@ -83,7 +83,23 @@ public class Game {
 		/* Only one pacman object will be created */
 		pacman = new Pacman(board.getPacman()[0],board.getPacman()[1], board);
 		
-		setUpGhosts();
+		/* Set up ghosts according to game mode */
+		if (players == 1) {
+			ghost = new Ghost(board.getGhost()[0],board.getGhost()[1], board, 3);
+			ghost2 = new Ghost(board.getGhost()[0],board.getGhost()[1], board, 2);
+		}
+		else if (players == 2) {
+			ghost = new Ghost(board.getGhost()[0],board.getGhost()[1], board, 0);
+			ghost2 = new Ghost(board.getGhost()[0],board.getGhost()[1], board, 2);
+		}
+		else if (players == 3) {
+			ghost = new Ghost(board.getGhost()[0],board.getGhost()[1], board, 0);
+			ghost2 = new Ghost(board.getGhost()[0],board.getGhost()[1], board, 0);
+		}
+		
+		/* The remaining 2 ghosts will have a random AI(1) and a chasing AI(4) */
+		ghost3 = new Ghost(board.getGhost()[0],board.getGhost()[1], board, 1);
+		ghost4= new Ghost(board.getGhost()[0],board.getGhost()[1], board, 4);
 		
 		/* Initialise the variables used to control the AI scatter behaviour */
 		scatter = false;
@@ -99,29 +115,6 @@ public class Game {
 		
 	
 	}
-	
-	private void setUpGhosts() {
-		
-		/* Set up ghosts according to game mode */
-		if (players == 1) {
-			ghost = new Ghost(board.getGhost()[0],board.getGhost()[1], board, 3,"ghost1");
-			ghost2 = new Ghost(board.getGhost()[0],board.getGhost()[1], board, 2,"ghost2");
-		}
-		else if (players == 2) {
-			ghost = new Ghost(board.getGhost()[0],board.getGhost()[1], board, 0,"ghost1");
-			ghost2 = new Ghost(board.getGhost()[0],board.getGhost()[1], board, 2,"ghost2");
-		}
-		else if (players == 3) {
-			ghost = new Ghost(board.getGhost()[0],board.getGhost()[1], board, 0,"ghost1");
-			ghost2 = new Ghost(board.getGhost()[0],board.getGhost()[1], board, 0,"ghost2");
-		}
-		
-		/* The remaining 2 ghosts will have a random AI(1) and a chasing AI(4) */
-		ghost3 = new Ghost(board.getGhost()[0],board.getGhost()[1], board, 1,"ghost3");
-		ghost4= new Ghost(board.getGhost()[0],board.getGhost()[1], board, 4,"ghost4");
-		
-	}
-	
 	
 	
 	/* When updating the game state, we need to check for collisions before updating moving characters
@@ -312,7 +305,10 @@ public class Game {
 	public String getCharges() {
 		
 		String charges = Integer.toString(pacman.getWhip().getCharges());
-		
+		charges = new StringBuilder(charges).reverse().toString();
+        while (charges.length() < 3){
+           	charges = charges + "x";
+        }
         return charges;
 		
 	}

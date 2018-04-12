@@ -109,16 +109,16 @@ public class Game {
 		}
 		else if (players == 2) {
 			ghost = new Ghost(board.getGhost()[0],board.getGhost()[1], board, 0,"ghost1");
-			ghost2 = new Ghost(board.getGhost()[0],board.getGhost()[1], board, 2,"ghost2");
+			ghost2 = new Ghost(board.getGhost()[0],board.getGhost()[1], board, 2,"ghost1");
 		}
 		else if (players == 3) {
 			ghost = new Ghost(board.getGhost()[0],board.getGhost()[1], board, 0,"ghost1");
-			ghost2 = new Ghost(board.getGhost()[0],board.getGhost()[1], board, 0,"ghost2");
+			ghost2 = new Ghost(board.getGhost()[0],board.getGhost()[1], board, 0,"ghost1");
 		}
 		
 		/* The remaining 2 ghosts will have a random AI(1) and a chasing AI(4) */
-		ghost3 = new Ghost(board.getGhost()[0],board.getGhost()[1], board, 1,"ghost3");
-		ghost4= new Ghost(board.getGhost()[0],board.getGhost()[1], board, 4,"ghost4");
+		ghost3 = new Ghost(board.getGhost()[0],board.getGhost()[1], board, 1,"ghost1");
+		ghost4= new Ghost(board.getGhost()[0],board.getGhost()[1], board, 4,"ghost1");
 		
 	}
 	

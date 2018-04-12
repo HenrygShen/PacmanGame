@@ -101,7 +101,7 @@ public class Ghost extends GameObject implements MovingCharacter {
 	}
 	
 	 /* Changes character animation depending on the direction it's currently facing */
-    private void playAnimation() {
+    public void playAnimation() {
     	
     	if (this.vector == 'S') {
 			animationManager.playAction(1);

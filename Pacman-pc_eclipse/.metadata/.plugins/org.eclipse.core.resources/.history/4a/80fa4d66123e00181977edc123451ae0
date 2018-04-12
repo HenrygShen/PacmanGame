@@ -50,11 +50,9 @@ public class Ghost extends GameObject implements MovingCharacter {
 	
 	public Ghost(int x,int y,Board board, int type,String ghost) {
 		
-		this.ghost = ghost;
-		
 		setUpAnimations();
 
-
+		this.ghost = ghost;
 		hitBox = new Rectangle();
 		this.hitBox.setX(x + OFFSET/2);
 		this.hitBox.setY(y + OFFSET/2);
@@ -96,29 +94,9 @@ public class Ghost extends GameObject implements MovingCharacter {
 		
 		/* Play the animation for this character */
 		animationManager.update();
-		playAnimation();
+		animationManager.playAction(0);
 		
 	}
-	
-	 /* Changes character animation depending on the direction it's currently facing */
-    private void playAnimation() {
-    	
-    	if (this.vector == 'S') {
-			animationManager.playAction(1);
-		}
-		if (this.vector == 'U') {
-			animationManager.playAction(2);
-		}
-		else if (this.vector == 'D') {
-			animationManager.playAction(3);
-		}
-		else if (this.vector == 'L') {
-			animationManager.playAction(0);
-		}
-		else if (this.vector == 'R') {
-			animationManager.playAction(1);
-		}
-    }
 	
 	public void queueMovement(char queuedDirection) {
 		
@@ -238,30 +216,30 @@ public class Ghost extends GameObject implements MovingCharacter {
 	private void setUpAnimations() {
 		
 		
-		Image left1 = new Image("assets/Ghost/" + ghost + "Left1.png",SPRITE_WIDTH,SPRITE_HEIGHT,false,false);
-		Image left2 = new Image("assets/Ghost/" + ghost + "Left2.png",SPRITE_WIDTH,SPRITE_HEIGHT,false,false);
-		Image right1 = new Image("assets/Ghost/" + ghost + "Right1.png",SPRITE_WIDTH,SPRITE_HEIGHT,false,false);
-		Image right2 = new Image("assets/Ghost/" + ghost + "Right2.png",SPRITE_WIDTH,SPRITE_HEIGHT,false,false);
-		Image up1 = new Image("assets/Ghost/" + ghost + "Up1.png",SPRITE_WIDTH,SPRITE_HEIGHT,false,false);
-		Image up2 = new Image("assets/Ghost/" + ghost + "Up2.png",SPRITE_WIDTH,SPRITE_HEIGHT,false,false);
-		Image down1 = new Image("assets/Ghost/" + ghost + "Down1.png",SPRITE_WIDTH,SPRITE_HEIGHT,false,false);
-		Image down2 = new Image("assets/Ghost/" + ghost + "Down2.png",SPRITE_WIDTH,SPRITE_HEIGHT,false,false);
+		Image leftC = new Image("assets/Ghost/" + ghost + "leftClosed.png",SPRITE_WIDTH,SPRITE_HEIGHT,false,false);
+		Image leftO = new Image("assets/Ghost/leftOpen.png",SPRITE_WIDTH,SPRITE_HEIGHT,false,false);
+		Image rightC = new Image("assets/Ghost/rightClosed.png",SPRITE_WIDTH,SPRITE_HEIGHT,false,false);
+		Image rightO = new Image("assets/Ghost/rightOpen.png",SPRITE_WIDTH,SPRITE_HEIGHT,false,false);
+		Image upC = new Image("assets/Ghost/upClosed.png",SPRITE_WIDTH,SPRITE_HEIGHT,false,false);
+		Image upO = new Image("assets/Ghost/upOpen.png",SPRITE_WIDTH,SPRITE_HEIGHT,false,false);
+		Image downC = new Image("assets/Ghost/downClosed.png",SPRITE_WIDTH,SPRITE_HEIGHT,false,false);
+		Image downO = new Image("assets/Ghost/downOpen.png",SPRITE_WIDTH,SPRITE_HEIGHT,false,false);
 		
 		Image[] leftMove = new Image[2];
-		leftMove[0] = left1;
-		leftMove[1] = left2;
+		leftMove[0] = leftC;
+		leftMove[1] = leftO;
 		
 		Image[] rightMove = new Image[2];
-		rightMove[0] = right1;
-		rightMove[1] = right2;
+		rightMove[0] = rightC;
+		rightMove[1] = rightO;
 		
 		Image[] upMove = new Image[2];
-		upMove[0] = up1;
-		upMove[1] = up2;
+		upMove[0] = upC;
+		upMove[1] = upO;
 		
 		Image[] downMove = new Image[2];
-		downMove[0] = down1;
-		downMove[1] = down2;
+		downMove[0] = downC;
+		downMove[1] = downO;
 		
 		Animation leftAnimation = new Animation(leftMove,0.3f);
 		Animation rightAnimation = new Animation(rightMove,0.3f);

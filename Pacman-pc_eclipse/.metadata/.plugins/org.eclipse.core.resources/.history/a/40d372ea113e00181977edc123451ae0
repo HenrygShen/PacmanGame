@@ -224,7 +224,7 @@ public class Pacman extends GameObject implements MovingCharacter {
 	
 	/* Set up the frame animation for the main character */
 	private void setUpAnimations() {
-
+		
 		Image leftC = new Image("assets/Pacman/leftClosed.png",SPRITE_WIDTH,SPRITE_HEIGHT,false,false);
 		Image leftO = new Image("assets/Pacman/leftOpen.png",SPRITE_WIDTH,SPRITE_HEIGHT,false,false);
 		Image rightC = new Image("assets/Pacman/rightClosed.png",SPRITE_WIDTH,SPRITE_HEIGHT,false,false);
