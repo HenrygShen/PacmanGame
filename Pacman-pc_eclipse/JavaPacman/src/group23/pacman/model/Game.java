@@ -167,12 +167,11 @@ public class Game {
 			
 			/* Checks for collision with a ghost. Lose a life when you collide. */
 			if (character.getType() == GameObject.TYPE.GHOST) {
-				/* If using whip,freeze ghost (temporary interaction) */
+				/* If using whip, make them disappear (temporary) */
 				if (pacman.getState() == STATE.POWER_UP) {
 					if (pacman.getWhip().getHitBox().intersects(character.getHitBox())){
-						//characters.remove(character);
 						((Ghost) character).setIsDeactivated(true);
-						break;
+						//break;
 					}
 				}
 				if (pacman.collidedWith((GameObject) character) && !((Ghost)character).getIsDeactivated()) {

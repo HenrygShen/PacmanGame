@@ -2,6 +2,7 @@ package group23.pacman.view;
 
 
 import group23.pacman.MainApp;
+import javafx.animation.AnimationTimer;
 import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.scene.Scene;
@@ -16,6 +17,7 @@ public class LevelSelectController {
 	
 	/* Constant - do not change */
 	private final int MAX_BACKGROUND_INDEX = 2;
+	private final float FADE_SPEED = 0.02f;
 	
 	/* FXML elements in LevelSelect.fxml */
 	@FXML
@@ -26,6 +28,8 @@ public class LevelSelectController {
 	private ImageView leftArrow;
 	@FXML
 	private ImageView rightArrow;
+	@FXML
+	private ImageView fade;
 	
 	
 	/* Main app copy kept to use when referencing to get its scene. */
@@ -43,23 +47,23 @@ public class LevelSelectController {
 	
 	/* Variable to control scroll speed */
 	private long lastTime;
-
-	
-	/* This boolean stops the enter key press that was used before from instantly starting a game */
-	private boolean firstPress;
-	
-	
+		
 	/* Boolean to prevent animation to happen to already animated image */
 	private boolean animated;
+	
+	/* Fade variables */
+	private float opacity;
+	private long time;
 	
 	
 	/* Constructor */
 	public LevelSelectController() {
 		
 		lastTime = 0;
-		firstPress = true;
 		animated = false;
+		
 	}
+	
 	
 	/* Sets up images and backgrounds for initial view */
 	@FXML
@@ -68,6 +72,12 @@ public class LevelSelectController {
 		/* Set up background of this view */
 		Image backgroundImage = new Image("bg/background-levelSelect.png");
 		background.setImage(backgroundImage);
+		
+		/* Fade */
+		fade.setImage(new Image("bg/blackbg.png"));
+		opacity = 1;
+		fade.setOpacity(opacity);
+		fadeTransition(true);
 		
 		/* Set up level backgrounds to scroll through */
 		seaBackground = new Image("bg/background-sea_game.png");
@@ -88,37 +98,77 @@ public class LevelSelectController {
 		
 	}
 	
+	
+	private void fadeTransition(boolean in) {
+		
+		time = System.currentTimeMillis();
+		
+		AnimationTimer fadeAnimation = new AnimationTimer() {
+			public void handle(long now) {
+				
+				/* Every 0.05 seconds, move the two backgrounds to the left at SCROLL_SPEED pixels
+				 * When it is time to loop,move the images back to the right by the amount scrolled. */
+				
+				if (System.currentTimeMillis() - time > 0.05f) {
+					
+					if (in) {
+						opacity -= FADE_SPEED;
+					}
+					else {
+						opacity += FADE_SPEED;
+					}
+					
+					fade.setOpacity(opacity);
+					time = System.currentTimeMillis();
+				}
+				
+				if (in) {
+					if (opacity <= 0) {
+						this.stop();
+					}
+				}
+				else {
+					if (opacity >= 1) {
+						mainApp.showGameView();
+						this.stop();
+						
+					}
+				}
+			}
+		};
+		fadeAnimation.start();
+		
+	}
+	
+
 	/* Adds key listener to scene */
 	public void listenToKeyEvents() {
 		
 		scene.setOnKeyPressed(new EventHandler<KeyEvent>(){
 		    @Override
 		    public void handle(KeyEvent event) {
+		    	
 		    	/* Selects the currently shown map/level */
 		    	if (event.getCode() == KeyCode.ENTER) {	
-		    		if (!firstPress) {
-			    		char level;
-			    		switch (index) {
-			    			case 0 :
-			    				level = 'c';
-			    				break;
-			    			case 1 :
-			   					level = 's';
-			   					break;
-			    			case 2 :
-			    				level = 'd';
-			    				break;
-		    				default :
-			    				level = 'c';
-			    				break;
-			    		}
+			    	char level;
+			    	switch (index) {
+			    		case 0 :
+			    			level = 'c';
+			    			break;
+			    		case 1 :
+			   				level = 's';
+			   				break;
+			    		case 2 :
+			    			level = 'd';
+			    			break;
+		    			default :
+			    			level = 'c';
+			    			break;
+			    	}
 			    		
-			    		mainApp.setMap(level);
-			    		mainApp.showGameView();
-		    		}
-		    		else {
-		    			firstPress = false;
-		    		}
+			    	mainApp.setMap(level);
+			    	fadeTransition(false);
+			    		
 		    	}
 		    	else if (event.getCode() == KeyCode.LEFT) {
 		    		

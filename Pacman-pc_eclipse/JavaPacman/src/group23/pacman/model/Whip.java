@@ -27,7 +27,7 @@ public class Whip extends GameObject implements MovingCharacter {
 	/* Number of times left that the whip can be activated */
 	private int charges;
 	
-	private static final int MAX_CHARGES = 6;
+	private static final int MAX_CHARGES = 1000;
 	
 	public Whip(Pacman pacman) {
 		
@@ -37,7 +37,7 @@ public class Whip extends GameObject implements MovingCharacter {
 		this.pacman = pacman;
 		
 		/* Whip initially cannot be used (no charges) */
-		this.charges = 0;
+		this.charges = 1000;
 		
 		hitBox = new Rectangle();
 		hitBox.setWidth(10);
@@ -53,16 +53,18 @@ public class Whip extends GameObject implements MovingCharacter {
 	
 	public void useCharge() {
 		
-		if (charges > 0) {
-			charges--;
-			shouldPlay = true;
+		if (shouldPlay == false) {
+			if (charges > 0) {
+				charges--;
+				shouldPlay = true;
+			}
 		}
 	}
 	
 	public void addCharges() {
 		
 		charges = charges + 3;
-		charges = (charges > MAX_CHARGES) ? 6 : charges;
+		charges = (charges > MAX_CHARGES) ? MAX_CHARGES : charges;
 	}
 	
 	
@@ -156,10 +158,10 @@ public class Whip extends GameObject implements MovingCharacter {
 		if (shouldPlay) {
 			
 			animationManager.draw(graphicsContext,this.x,this.y);
-			graphicsContext.setFill(Color.WHITESMOKE);
-			graphicsContext.fillRect(hitBox.getX(),hitBox.getY(),hitBox.getWidth(),hitBox.getHeight());
-			graphicsContext.setFill(Color.GREEN);
-			graphicsContext.setStroke(Color.BLUE);
+//			graphicsContext.setFill(Color.WHITESMOKE);
+//			graphicsContext.fillRect(hitBox.getX(),hitBox.getY(),hitBox.getWidth(),hitBox.getHeight());
+//			graphicsContext.setFill(Color.GREEN);
+//			graphicsContext.setStroke(Color.BLUE);
 
 		}
 		
@@ -237,6 +239,11 @@ public class Whip extends GameObject implements MovingCharacter {
 	
 	public void setY(int y) {
 		this.y = y;
+	}
+	
+	public boolean inAnimation() {
+		
+		return this.shouldPlay;
 	}
 	
 	@Override

@@ -1,6 +1,7 @@
 package group23.pacman.view;
 
 import group23.pacman.MainApp;
+import javafx.animation.AnimationTimer;
 import javafx.application.Platform;
 import javafx.fxml.FXML;
 import javafx.scene.image.Image;
@@ -14,6 +15,7 @@ public class WelcomeScreenController {
 	/* Constants - do not change */
 	private final int BUTTON_WIDTH = 300;
 	private final int BUTTON_HEIGHT = 50;
+	private final float FADE_SPEED = 0.02f;
 	
 	
 	/* View elements in WelcomeScreen.fxml */
@@ -31,6 +33,8 @@ public class WelcomeScreenController {
 	private ImageView exitBtnImage;
 	@FXML
 	private ImageView background;
+	@FXML
+	private ImageView fade;
 	
 	
 	/* Main app copy kept to use when referencing to show other views */ 
@@ -45,7 +49,13 @@ public class WelcomeScreenController {
 	/* Keeps track of which game mode is hovered over */
 	private int numPlayers;
 	
-
+	
+	/* Fade variables */
+	private float opacity;
+	private long time;
+	
+	
+	
 	/* Constructor */
 	public WelcomeScreenController() {
 		
@@ -60,6 +70,11 @@ public class WelcomeScreenController {
 		/* Loads all button and background assets to their respective ImageView elements */
 		Image mainMenuBackground = new Image("bg/background-main.png");
 		background.setImage(mainMenuBackground);
+		
+		/* Fade */
+		fade.setImage(new Image("bg/blackbg.png"));
+		opacity = 0;
+		fade.setOpacity(opacity);
 
 		Image playImage = new Image("assets/buttons/button-play-highlighted.png",BUTTON_WIDTH,BUTTON_HEIGHT,false,false);
 		playBtnImage.setImage(playImage);
@@ -80,6 +95,36 @@ public class WelcomeScreenController {
 		buttonIndex= 0;
 	}
 	
+	private void fadeTransition() {
+		
+		time = System.currentTimeMillis();
+		
+		AnimationTimer fadeAnimation = new AnimationTimer() {
+			public void handle(long now) {
+				
+				/* Every 0.05 seconds increase the opacity of the black background to give illusion of fading out of this scene */
+				if (System.currentTimeMillis() - time > 0.05f) {
+					
+					opacity += FADE_SPEED;
+					fade.setOpacity(opacity);
+					time = System.currentTimeMillis();
+				}
+				if (opacity >= 1) {
+					if (numPlayers == 1) {
+						mainApp.showLevelSelect();
+					}
+					else {
+						mainApp.showCharacterSelect();
+					}
+					
+					this.stop();
+					
+				}
+			}
+		};
+		fadeAnimation.start();
+	}
+	
 	
 	/* Adds listener to the button in this view */
 	@FXML
@@ -89,17 +134,13 @@ public class WelcomeScreenController {
 		/* ENTER is the confirmation key */
 		if (event.getCode() == KeyCode.ENTER) {
 			
-			/* If the player presses ENTER while selecting game mode, save the game mode and send user to the map/level selection screen 
+			/* If the player presses ENTER while selecting game mode, save the game mode and play fade animation, then send user to the map/level selection screen 
 			 * If there is more than one player, then send them to the character selection screen. */
 			if (playSelected) {
 				
 				mainApp.setPlayers(numPlayers);
-				if (numPlayers == 1) {
-					mainApp.showLevelSelect();
-				}
-				else {
-					mainApp.showCharacterSelect();
-				}
+				fadeTransition();
+
 			}
 			
 			/* If user presses ENTER while not selecting game mode, but is hovered on the play button, show the various game modes and 

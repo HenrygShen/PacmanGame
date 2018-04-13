@@ -16,12 +16,12 @@ public class Ghost extends GameObject implements MovingCharacter {
 	}
 	
 	/* Constants */
-	private static final int SPRITE_HEIGHT = 30;
-	private static final int SPRITE_WIDTH = 30;
-	private static final int OFFSET = 10;
+	private final int SPRITE_HEIGHT = 30;
+	private final int SPRITE_WIDTH = 30;
+	private final int OFFSET = 10;
 	
 	/* Pixels moved per update */
-	private static final int SPEED = 2;
+	private final int SPEED = 2;
 	
 	/* Handles character animations */
 	private AnimationManager animationManager;

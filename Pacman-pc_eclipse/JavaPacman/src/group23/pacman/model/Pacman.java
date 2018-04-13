@@ -91,10 +91,12 @@ public class Pacman extends GameObject implements MovingCharacter {
 	
 	public void whip() {
 		
-		if (whip.getCharges() > 0) {
-			this.state = STATE.POWER_UP;
-			playSfx(whipSound);
-			whip.useCharge();
+		if (!whip.inAnimation()) {
+			if (whip.getCharges() > 0) {
+				this.state = STATE.POWER_UP;
+				playSfx(whipSound);
+				whip.useCharge();
+			}
 		}
 	}
 

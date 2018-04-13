@@ -288,17 +288,17 @@ public class GameViewController {
 		updateScore();
 		updateWhipCharges();
 		
-		gameStateController.getGame().getGhost().draw(graphicsContext);
-		gameStateController.getGame().getGhost2().draw(graphicsContext);
-		gameStateController.getGame().getGhost3().draw(graphicsContext);
-		gameStateController.getGame().getGhost4().draw(graphicsContext);
-		
-		
 		/* Draws other objects ( walls ,pellets) */
 		ArrayList<GameObject> objects = gameStateController.getGame().getOtherGameObjects();
 		for (GameObject object : objects) {
 			object.draw(graphicsContext);
 		}
+		
+		gameStateController.getGame().getGhost().draw(graphicsContext);
+		gameStateController.getGame().getGhost2().draw(graphicsContext);
+		gameStateController.getGame().getGhost3().draw(graphicsContext);
+		gameStateController.getGame().getGhost4().draw(graphicsContext);
+		
 	}
 	
 	
@@ -399,6 +399,15 @@ public class GameViewController {
                 return "assets/numbers/0.png";
         }
     }
+	
+	public void showMenu() {
+		
+		running = false;
+		animationLoop.stop();
+		
+		mainApp.gameToMenu();
+		mainApp.showWelcomeScreen();
+	}
 	
 	public Timer getTimer() {
 		

@@ -2,6 +2,7 @@ package group23.pacman.view;
 
 import java.io.File;
 import group23.pacman.MainApp;
+import javafx.animation.AnimationTimer;
 import javafx.fxml.FXML;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
@@ -17,6 +18,8 @@ public class CharacterSelectController {
 	@FXML
 	private ImageView background;
 	@FXML
+	private ImageView background2;
+	@FXML
 	private ImageView ghost1;
 	@FXML
 	private ImageView ghost2;
@@ -26,11 +29,16 @@ public class CharacterSelectController {
 	private ImageView ghost4;
 	@FXML
 	private ImageView player_banner;
+	@FXML
+	private ImageView fade;
 	
 	/* Constants - do not change */
-	private static final int MAX_GHOSTS = 4;
-	private static final int SPRITE_HEIGHT = 150;
-	private static final int SPRITE_WIDTH = 150;
+	private final int MAX_GHOSTS = 4;
+	private final int SPRITE_HEIGHT = 150;
+	private final int SPRITE_WIDTH = 150;
+	private final int SCROLL_RESET = 594;
+	private final int SCROLL_SPEED = 1;
+	private final float FADE_SPEED = 0.02f;
 	
 	/* Main app copy kept to use when referencing to show other views */ 
 	private MainApp mainApp;
@@ -53,6 +61,16 @@ public class CharacterSelectController {
 	private boolean firstPick;
 	
 	
+	/* Variables for manipulating the looping background of this view */
+	private AnimationTimer animationLoop;
+	private long time;
+	private float xScroll;
+	
+	/* Fade variables */
+	private float opacity;
+	
+	
+	
 	public CharacterSelectController() {
 		
 		
@@ -68,7 +86,8 @@ public class CharacterSelectController {
 			if (numPlayers == 2) {
 				
 				mainApp.setPlayer2(ghostIndex);
-				mainApp.showLevelSelect();
+				fadeTransition(false);
+
 			}
 			
 			/* Three players */
@@ -85,7 +104,7 @@ public class CharacterSelectController {
 				}
 				else {
 					mainApp.setPlayer3(ghostIndex);
-					mainApp.showLevelSelect();
+					fadeTransition(false);
 				}
 			}
 			
@@ -120,24 +139,103 @@ public class CharacterSelectController {
 		
 	}
 	
+	public void animate() {
+		
+		animationLoop = new AnimationTimer() {
+			public void handle(long now) {
+				
+				/* Every 0.05 seconds, move the two backgrounds to the left at SCROLL_SPEED pixels
+				 * When it is time to loop,move the images back to the right by the amount scrolled. */
+				
+				if (System.currentTimeMillis() - time > 0.05f) {
+					
+					background.setX(background.getX() - SCROLL_SPEED);
+					background2.setX(background2.getX() - SCROLL_SPEED);
+					xScroll = xScroll + SCROLL_SPEED;
+					if (xScroll == SCROLL_RESET) {
+						background.setX(background.getX() + SCROLL_RESET);
+						background2.setX(background2.getX() +SCROLL_RESET);
+						xScroll = 0;
+					}
+					
+				}
+			}
+		};
+		animationLoop.start();
+	}
+	
+	
+	private void fadeTransition(boolean in) {
+		
+		time = System.currentTimeMillis();
+		
+		AnimationTimer fadeAnimation = new AnimationTimer() {
+			public void handle(long now) {
+				
+				/* Every 0.05 seconds, move the two backgrounds to the left at SCROLL_SPEED pixels
+				 * When it is time to loop,move the images back to the right by the amount scrolled. */
+				
+				if (System.currentTimeMillis() - time > 0.05f) {
+					
+					if (in) {
+						opacity -= FADE_SPEED;
+					}
+					else {
+						opacity += FADE_SPEED;
+					}
+					
+					fade.setOpacity(opacity);
+					time = System.currentTimeMillis();
+				}
+				
+				if (in) {
+					if (opacity <= 0) {
+						this.stop();
+					}
+				}
+				else {
+					if (opacity >= 1) {
+						animationLoop.stop();
+						mainApp.showLevelSelect();
+						this.stop();
+						
+					}
+				}
+			}
+		};
+		fadeAnimation.start();
+	}
 	
 	@FXML
 	private void initialize() {
 		
 		/* Initialize the default view */
-		background.setImage(new Image("bg/blackbg.png"));
+		background.setImage(new Image("assets/Elements-CharSel/bg1.png",1366,768,false,false));
+		background2.setImage(new Image("assets/Elements-CharSel/bg2.png",1366,768,false,false));
+		xScroll = 0;
+		animate();
+		
+		
+		/* Fade */
+		fade.setImage(new Image("bg/blackbg.png"));
+		opacity = 1;
+		fade.setOpacity(opacity);
+		
+		
 		ghost1.setImage(new Image("assets/Elements-CharSel/ghost1-highlighted.png",SPRITE_WIDTH,SPRITE_HEIGHT,false,false));
 		ghost2.setImage(new Image("assets/Elements-CharSel/ghost2.png",SPRITE_WIDTH,SPRITE_HEIGHT,false,false));
 		ghost3.setImage(new Image("assets/Elements-CharSel/ghost3.png",SPRITE_WIDTH,SPRITE_HEIGHT,false,false));
 		ghost4.setImage(new Image("assets/Elements-CharSel/ghost4.png",SPRITE_WIDTH,SPRITE_HEIGHT,false,false));
 		player_banner.setImage(new Image("assets/Elements-CharSel/player_two_banner.png"));
-		
+		fadeTransition(true);
 		/* Set up sound effect button presses */
 		buttonPress = new Media(new File("bin/assets/sfx/menuSelect.mp3").toURI().toString());
 		
 		/* Set variable to determine which sprite is chosen for which character */
 		firstPick = true;
 		ghostIndex = 1;
+
+		
 	}
 	
 	

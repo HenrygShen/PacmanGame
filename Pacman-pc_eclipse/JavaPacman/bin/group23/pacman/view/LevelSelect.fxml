@@ -12,5 +12,6 @@
       <ImageView fx:id="levelImage" fitHeight="600.0" fitWidth="1000.0" layoutX="175.0" layoutY="21.0" pickOnBounds="true" preserveRatio="true" />
       <ImageView fx:id="leftArrow" fitHeight="110.0" fitWidth="110.0" layoutX="300.0" layoutY="650.0" pickOnBounds="true" preserveRatio="true" />
       <ImageView fx:id="rightArrow" fitHeight="110.0" fitWidth="110.0" layoutX="1000.0" layoutY="650.0" pickOnBounds="true" preserveRatio="true" />
+      <ImageView fx:id="fade" fitHeight="768.0" fitWidth="1366.0" pickOnBounds="true" preserveRatio="true" />
    </children>
 </AnchorPane>
