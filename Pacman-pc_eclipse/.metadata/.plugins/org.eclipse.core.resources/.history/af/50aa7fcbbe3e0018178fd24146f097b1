@@ -170,12 +170,11 @@ public class Game {
 				/* If using whip,freeze ghost (temporary interaction) */
 				if (pacman.getState() == STATE.POWER_UP) {
 					if (pacman.getWhip().getHitBox().intersects(character.getHitBox())){
-						//characters.remove(character);
-						((Ghost) character).setIsDeactivated(true);
+						characters.remove(character);
 						break;
 					}
 				}
-				if (pacman.collidedWith((GameObject) character) && !((Ghost)character).getIsDeactivated()) {
+				if (pacman.collidedWith((GameObject) character)) {
 					pacman.loseLife();
 					return;
 				}

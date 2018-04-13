@@ -204,9 +204,7 @@ public class Ghost extends GameObject implements MovingCharacter {
 
 	
 	public void draw(GraphicsContext graphicsContext) {
-		if (!isDeactivated) {
-			animationManager.draw(graphicsContext, this.x, this.y);
-		}
+		animationManager.draw(graphicsContext, this.x, this.y);
 	}
 
 	/* Reset position when Ghost or Pacman dies and Pacman still has lives left. */

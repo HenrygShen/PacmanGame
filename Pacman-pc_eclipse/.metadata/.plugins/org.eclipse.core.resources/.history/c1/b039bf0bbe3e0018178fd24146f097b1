@@ -107,18 +107,16 @@ public class Ghost extends GameObject implements MovingCharacter {
 	
 	public void update(int pacmanX, int pacmanY, char direction) {
 		
-		if (!isDeactivated) {
-			/* If this character is meant to be an AI, generate movement using the AI object created in this class */
-			if (isAI) {
-				if (ai.canTurn((int)getX(), (int)getY())) {
-					queueMovement(ai.chooseMovement(hasLeftSpawn, vector, (int)getX(), (int)getY(), pacmanX, pacmanY, direction));
-				}
+		/* If this character is meant to be an AI, generate movement using the AI object created in this class */
+		if (isAI) {
+			if (ai.canTurn((int)getX(), (int)getY())) {
+				queueMovement(ai.chooseMovement(hasLeftSpawn, vector, (int)getX(), (int)getY(), pacmanX, pacmanY, direction));
 			}
-			
-			/* Play the animation for this character */
-			animationManager.update();
-			playAnimation();
 		}
+		
+		/* Play the animation for this character */
+		animationManager.update();
+		playAnimation();
 		
 	}
 	
@@ -147,10 +145,54 @@ public class Ghost extends GameObject implements MovingCharacter {
 		this.queuedDirection = queuedDirection;
 	}
 
+    
+    public void setDirection(char vector) {
+    	
+    	this.vector = vector;	
+    }
+    
+    public void setState(STATE state) {
+    	
+    	this.state = state;
+    }
+    
+    public void setHasLeftSpawn() {
+    	this.hasLeftSpawn = true;
+    }
+    
+    public void setIsDeactivated(boolean bool) {
+    	this.isDeactivated = bool;
+    }
+    
+    public char getDirection() {
+    	
+    	return this.vector;
+    }
+    
+    public char getQDirection() {
+    	
+    	return this.queuedDirection;
+    }
+   
+    
+    /* Determines if the ghost has left the spawn point */
+    public boolean getHasLeftSpawn() {
+    	return this.hasLeftSpawn;
+    }
+    
+    public boolean getIsDeactivated() {
+    	return this.isDeactivated;
+    }
+    
+    
     /* Determines if the current direction is the same as the queued direction */
     public boolean checkforQueuedAction() {
 		
 	    return (queuedDirection != vector);
+    }
+    
+    public Rectangle getHitBox() {
+    	return this.hitBox;
     }
     
     /* Determines if the current direction is the opposite direction of the queued direction */
@@ -265,27 +307,8 @@ public class Ghost extends GameObject implements MovingCharacter {
 		
 	}
 	
-	/* PUBLIC SETTERS */
 	
-    public void setDirection(char vector) {
-    	
-    	this.vector = vector;	
-    }
-    
-    public void setState(STATE state) {
-    	
-    	this.state = state;
-    }
-    
-    public void setHasLeftSpawn() {
-    	this.hasLeftSpawn = true;
-    }
-    
-    public void setIsDeactivated(boolean bool) {
-    	this.isDeactivated = bool;
-    }
-    
-	/* PUBLIC GETTERS */
+	/* Public getters */
 	
     public STATE getState() {
     	
@@ -304,29 +327,6 @@ public class Ghost extends GameObject implements MovingCharacter {
     public double getY() {
     	
     	return this.y;
-    }
-
-    public char getDirection() {
-    	
-    	return this.vector;
-    }
-    
-    public char getQDirection() {
-    	
-    	return this.queuedDirection;
-    }
-   
-    /* Determines if the ghost has left the spawn point */
-    public boolean getHasLeftSpawn() {
-    	return this.hasLeftSpawn;
-    }
-    
-    public boolean getIsDeactivated() {
-    	return this.isDeactivated;
-    }
-    
-    public Rectangle getHitBox() {
-    	return this.hitBox;
     }
 	
 }
