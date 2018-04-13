@@ -92,12 +92,12 @@ public class Ghost extends GameObject implements MovingCharacter {
 		 * 1 is a random movement type AI. 
 		 * 2 is an AI which prioritizes shortening the distance between the ghost and pacman. */
 		if (type != 0) {
-			ai = new AI(board, type);
 			isAI = true;
 		}
 		else {
 			isAI = false;
 		}
+		ai = new AI(board, type);
 	}
 	
 	

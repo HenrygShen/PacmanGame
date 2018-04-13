@@ -21,7 +21,7 @@ public class Game {
 	private Ghost ghost3;
 	private Ghost ghost4;
 	
-	/*Ghost a.i scatter behaviour */
+	/*Ghost A.I scatter behaviour */
 	private int scatterScore;
 	private boolean scatter;
 	private boolean countDown;
