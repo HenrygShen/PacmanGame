@@ -10,8 +10,8 @@
 		<item value="C:\Users\Lincoln\Downloads\scenebuilder-8.4.1-all.jar" key="EditorSelectionDialog.STORE_ID_DESCR"/>
 	</section>
 	<section name="org.eclipse.ui.internal.QuickAccess">
-		<item value="-1" key="dialogHeight"/>
-		<item value="-1" key="dialogWidth"/>
+		<item value="250" key="dialogHeight"/>
+		<item value="350" key="dialogWidth"/>
 		<list key="textEntries">
 		</list>
 		<list key="orderedElements">

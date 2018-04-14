@@ -213,7 +213,7 @@ public class MainApp extends Application{
 	}
 	
 	
-	/* Public method for creating new stage for inputting name on new high score*/
+	/* Public method for */
 	public void setName() {
 		
 		try {

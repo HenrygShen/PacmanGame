@@ -1,6 +1,7 @@
 package group23.pacman.view;
 
 import java.util.ArrayList;
+
 import group23.pacman.MainApp;
 import group23.pacman.controller.GameStateController;
 import group23.pacman.model.Game;

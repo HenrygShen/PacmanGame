@@ -1,6 +1,8 @@
 package group23.pacman.view;
 
+import java.io.IOException;
 import java.util.ArrayList;
+
 import group23.pacman.MainApp;
 import group23.pacman.controller.GameStateController;
 import group23.pacman.model.Game;
@@ -8,10 +10,14 @@ import group23.pacman.model.GameObject;
 import group23.pacman.model.Timer;
 import javafx.animation.AnimationTimer;
 import javafx.fxml.FXML;
+import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
 import javafx.scene.canvas.Canvas;
 import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.image.*;
+import javafx.scene.layout.AnchorPane;
+import javafx.stage.Modality;
+import javafx.stage.Stage;
 
 /** Controller class for the GameView screen */
 

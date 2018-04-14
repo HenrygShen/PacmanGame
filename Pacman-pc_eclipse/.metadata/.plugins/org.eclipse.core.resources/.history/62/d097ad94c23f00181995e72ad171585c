@@ -8,12 +8,8 @@ import javafx.scene.input.KeyCode;
 import javafx.scene.input.KeyEvent;
 import javafx.stage.Stage;
 
-
-/** Controller class for the view which takes in user's name for a new high score */
-
 public class EditNameController {
 	
-	/* View elements in EditName.fxml */
 	@FXML
 	private TextField nameField;
 	@FXML
@@ -21,24 +17,22 @@ public class EditNameController {
 	@FXML
 	private ImageView errorMessage;
 	
-	/* The stage which will contain the text field for input */
 	private Stage dialogStage;
 	
-	/* Name is set when input is valid */
 	private String name;
+	
+	private boolean nameSet;
 	
 	
 	@FXML
 	private void initialize() {
 		
-		/* Set up the images in this view */
 		background.setImage(new Image("bg/dialogBg.png"));
 		errorMessage.setImage(new Image("assets/misc/error_message.png"));
 		errorMessage.setOpacity(0);
-		
-//		nameField.setPromptText("Enter your name : ");
-//		nameField.getParent().requestFocus();
-
+		nameField.setPromptText("Enter your name : ");
+		nameField.getParent().requestFocus();
+		nameSet = false;
 	}
 	
 	
@@ -47,8 +41,8 @@ public class EditNameController {
 		
 		if (event.getCode() == KeyCode.ENTER) {
 			if (isValidInput(nameField.getText())){
-				
 				this.name = nameField.getText();
+				nameSet = true;
 				dialogStage.close();
 			}
 			else {
@@ -58,7 +52,8 @@ public class EditNameController {
 	}
 	
 
-	/* Tests if the user's input conforms to the rules */
+	
+	
 	private boolean isValidInput(String text) {
 		
 		if (text.length() == 0 || text.length() > 10) {
@@ -83,6 +78,11 @@ public class EditNameController {
 	public String getName() {
 		
 		return name;
+	}
+	
+	public boolean noNameSet() {
+		
+		return !nameSet;
 	}
 	
 	
