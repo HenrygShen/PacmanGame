@@ -24,6 +24,10 @@ public class WelcomeScreenController {
 	@FXML 
 	private ImageView tutorialBtnImage;
 	@FXML
+	private ImageView leaderboardBtnImage;
+	@FXML
+	private ImageView creditsBtnImage;
+	@FXML
 	private ImageView singlePlayerImage;
 	@FXML
 	private ImageView twoPlayerImage;
@@ -35,6 +39,8 @@ public class WelcomeScreenController {
 	private ImageView background;
 	@FXML
 	private ImageView fade;
+	@FXML
+	private ImageView title;
 	
 	
 	/* Main app copy kept to use when referencing to show other views */ 
@@ -68,22 +74,21 @@ public class WelcomeScreenController {
 	private void initialize() {
 		
 		/* Loads all button and background assets to their respective ImageView elements */
-		Image mainMenuBackground = new Image("bg/background-main.png");
-		background.setImage(mainMenuBackground);
+		title.setImage(new Image("assets/misc/title.png"));
+		background.setImage(new Image("bg/background-main.png"));
+
+		/* Images for layering over buttons */
+		playBtnImage.setImage(new Image("assets/buttons/button-play-highlighted.png",BUTTON_WIDTH,BUTTON_HEIGHT,false,false));
+		tutorialBtnImage.setImage(new Image("assets/buttons/button-tutorial.png",BUTTON_WIDTH,BUTTON_HEIGHT,false,false));
+		leaderboardBtnImage.setImage(new Image("assets/buttons/button-leaderboard.png",BUTTON_WIDTH,BUTTON_HEIGHT,false,false));
+		creditsBtnImage.setImage(new Image("assets/buttons/button-credits.png",BUTTON_WIDTH,BUTTON_HEIGHT,false,false));
+		exitBtnImage.setImage(new Image("assets/buttons/button-exit.png",BUTTON_WIDTH,BUTTON_HEIGHT,false,false));
 		
-		/* Fade */
+		/* Fade animation for coming into and out of this view*/
 		fade.setImage(new Image("bg/blackbg.png"));
 		opacity = 0;
 		fade.setOpacity(opacity);
 
-		Image playImage = new Image("assets/buttons/button-play-highlighted.png",BUTTON_WIDTH,BUTTON_HEIGHT,false,false);
-		playBtnImage.setImage(playImage);
-		
-		Image tutorialImage = new Image("assets/buttons/button-tutorial.png",BUTTON_WIDTH,BUTTON_HEIGHT,false,false);
-		tutorialBtnImage.setImage(tutorialImage);
-		
-		Image exitImage = new Image("assets/buttons/button-exit.png",BUTTON_WIDTH,BUTTON_HEIGHT,false,false);
-		exitBtnImage.setImage(exitImage);
 		
 		/* Player does not start off with the selection of game modes(i.e. single,two, or three player) */
 		playSelected = false;
@@ -93,7 +98,9 @@ public class WelcomeScreenController {
 		
 		/* First button highlighted and selected is the Play button */
 		buttonIndex= 0;
+		
 	}
+	
 	
 	private void fadeTransition() {
 		
@@ -176,6 +183,14 @@ public class WelcomeScreenController {
 			/* If user presses ENTER while on the exit button, close the game */
 			else if (buttonIndex == 2) {
 				
+				//TODO leaderboard
+				//mainApp.showLeaderboard();
+			}
+			else if (buttonIndex == 3) {
+				
+				mainApp.showCredits();
+			}
+			else if (buttonIndex == 4) {
 				Platform.exit();
 			}
 		}
@@ -214,7 +229,7 @@ public class WelcomeScreenController {
 		
 			else {
 				buttonIndex++;
-				buttonIndex = (buttonIndex > 2 ) ? 2 : buttonIndex;
+				buttonIndex = (buttonIndex > 4 ) ? 4 : buttonIndex;
 				highlightButton();
 			}
 		}
@@ -246,8 +261,8 @@ public class WelcomeScreenController {
 	}
 	
 	
-	/** BELOW ARE HELPER FUNCTIONS WHICH HELP WITH THE ANIMATION OF THIS VIEW **/
 	
+	/** BELOW ARE HELPER FUNCTIONS WHICH HELP WITH THE ANIMATION OF THIS VIEW **/
 	/* Helper function for highlighting buttons to show which button is being hovered over*/
 	private void highlightPlayers() {
 		
@@ -274,16 +289,36 @@ public class WelcomeScreenController {
 		if (buttonIndex == 0) {
 			playBtnImage.setImage(new Image("assets/buttons/button-play-highlighted.png",BUTTON_WIDTH,BUTTON_HEIGHT,false,false));
 			tutorialBtnImage.setImage(new Image("assets/buttons/button-tutorial.png",BUTTON_WIDTH,BUTTON_HEIGHT,false,false));
+			leaderboardBtnImage.setImage(new Image("assets/buttons/button-leaderboard.png",BUTTON_WIDTH,BUTTON_HEIGHT,false,false));
+			creditsBtnImage.setImage(new Image("assets/buttons/button-credits.png",BUTTON_WIDTH,BUTTON_HEIGHT,false,false));
 			exitBtnImage.setImage(new Image("assets/buttons/button-exit.png",BUTTON_WIDTH,BUTTON_HEIGHT,false,false));
 		}
 		else if (buttonIndex == 1) {
 			playBtnImage.setImage(new Image("assets/buttons/button-play.png",BUTTON_WIDTH,BUTTON_HEIGHT,false,false));
 			tutorialBtnImage.setImage(new Image("assets/buttons/button-tutorial-highlighted.png",BUTTON_WIDTH,BUTTON_HEIGHT,false,false));
+			leaderboardBtnImage.setImage(new Image("assets/buttons/button-leaderboard.png",BUTTON_WIDTH,BUTTON_HEIGHT,false,false));
+			creditsBtnImage.setImage(new Image("assets/buttons/button-credits.png",BUTTON_WIDTH,BUTTON_HEIGHT,false,false));
 			exitBtnImage.setImage(new Image("assets/buttons/button-exit.png",BUTTON_WIDTH,BUTTON_HEIGHT,false,false));
 		}
 		else if (buttonIndex == 2) {
 			playBtnImage.setImage(new Image("assets/buttons/button-play.png",BUTTON_WIDTH,BUTTON_HEIGHT,false,false));
 			tutorialBtnImage.setImage(new Image("assets/buttons/button-tutorial.png",BUTTON_WIDTH,BUTTON_HEIGHT,false,false));
+			leaderboardBtnImage.setImage(new Image("assets/buttons/button-leaderboard-highlighted.png",BUTTON_WIDTH,BUTTON_HEIGHT,false,false));
+			creditsBtnImage.setImage(new Image("assets/buttons/button-credits.png",BUTTON_WIDTH,BUTTON_HEIGHT,false,false));
+			exitBtnImage.setImage(new Image("assets/buttons/button-exit.png",BUTTON_WIDTH,BUTTON_HEIGHT,false,false));
+		}
+		else if (buttonIndex == 3) {
+			playBtnImage.setImage(new Image("assets/buttons/button-play.png",BUTTON_WIDTH,BUTTON_HEIGHT,false,false));
+			tutorialBtnImage.setImage(new Image("assets/buttons/button-tutorial.png",BUTTON_WIDTH,BUTTON_HEIGHT,false,false));
+			leaderboardBtnImage.setImage(new Image("assets/buttons/button-leaderboard.png",BUTTON_WIDTH,BUTTON_HEIGHT,false,false));
+			creditsBtnImage.setImage(new Image("assets/buttons/button-credits-highlighted.png",BUTTON_WIDTH,BUTTON_HEIGHT,false,false));
+			exitBtnImage.setImage(new Image("assets/buttons/button-exit.png",BUTTON_WIDTH,BUTTON_HEIGHT,false,false));
+		}
+		else if (buttonIndex == 4) {
+			playBtnImage.setImage(new Image("assets/buttons/button-play.png",BUTTON_WIDTH,BUTTON_HEIGHT,false,false));
+			tutorialBtnImage.setImage(new Image("assets/buttons/button-tutorial.png",BUTTON_WIDTH,BUTTON_HEIGHT,false,false));
+			leaderboardBtnImage.setImage(new Image("assets/buttons/button-leaderboard.png",BUTTON_WIDTH,BUTTON_HEIGHT,false,false));
+			creditsBtnImage.setImage(new Image("assets/buttons/button-credits.png",BUTTON_WIDTH,BUTTON_HEIGHT,false,false));
 			exitBtnImage.setImage(new Image("assets/buttons/button-exit-highlighted.png",BUTTON_WIDTH,BUTTON_HEIGHT,false,false));
 		}
 

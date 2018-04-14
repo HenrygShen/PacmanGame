@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.image.*?>
+<?import javafx.scene.control.*?>
+<?import java.lang.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.layout.AnchorPane?>
+
+<AnchorPane prefHeight="768.0" prefWidth="1366.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="group23.pacman.view.CreditsController">
+   <children>
+      <Button layoutX="184.0" layoutY="149.0" mnemonicParsing="false" onKeyPressed="#handleButton" text="Button" />
+      <ImageView fx:id="background" fitHeight="768.0" fitWidth="1366.0" pickOnBounds="true" preserveRatio="true" />
+   </children>
+</AnchorPane>

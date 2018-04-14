@@ -34,7 +34,6 @@
 <fullyQualifiedTypeName name="javafx.scene.input.TouchPoint.State"/>
 <fullyQualifiedTypeName name="javafx.scene.paint.Color"/>
 <fullyQualifiedTypeName name="javafx.scene.control.Button"/>
-<fullyQualifiedTypeName name="group23.pacman.MainApp"/>
 <fullyQualifiedTypeName name="javafx.application.Platform"/>
 <fullyQualifiedTypeName name="java.util.Vector"/>
 <fullyQualifiedTypeName name="java.io.FileWriter"/>
@@ -45,12 +44,14 @@
 <fullyQualifiedTypeName name="group23.pacman.view.EditNameController"/>
 <fullyQualifiedTypeName name="javafx.stage.Stage"/>
 <fullyQualifiedTypeName name="javafx.scene.control.TextField"/>
-<fullyQualifiedTypeName name="javafx.fxml.FXML"/>
-<fullyQualifiedTypeName name="javafx.scene.image.ImageView"/>
-<fullyQualifiedTypeName name="javafx.scene.image.Image"/>
-<fullyQualifiedTypeName name="javafx.scene.input.KeyEvent"/>
-<fullyQualifiedTypeName name="javafx.scene.input.KeyCode"/>
 <fullyQualifiedTypeName name="group23.pacman.model.Pacman.STATE"/>
 <fullyQualifiedTypeName name="java.lang.System"/>
 <fullyQualifiedTypeName name="group23.pacman.model.GameObject.TYPE"/>
+<fullyQualifiedTypeName name="group23.pacman.view.CreditsController"/>
+<fullyQualifiedTypeName name="javafx.fxml.FXML"/>
+<fullyQualifiedTypeName name="javafx.scene.input.KeyEvent"/>
+<fullyQualifiedTypeName name="javafx.scene.input.KeyCode"/>
+<fullyQualifiedTypeName name="javafx.scene.image.ImageView"/>
+<fullyQualifiedTypeName name="javafx.scene.image.Image"/>
+<fullyQualifiedTypeName name="group23.pacman.MainApp"/>
 </qualifiedTypeNameHistroy>

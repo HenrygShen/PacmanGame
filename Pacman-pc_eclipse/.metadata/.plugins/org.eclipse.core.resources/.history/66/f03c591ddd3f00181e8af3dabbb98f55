@@ -1,0 +1,8 @@
+package group23.pacman.view;
+
+public class CreditsController {
+	
+	public CreditsController() {
+		
+	}
+}

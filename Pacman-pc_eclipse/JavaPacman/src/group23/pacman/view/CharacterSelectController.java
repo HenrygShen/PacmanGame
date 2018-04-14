@@ -86,7 +86,7 @@ public class CharacterSelectController {
 			if (numPlayers == 2) {
 				
 				mainApp.setPlayer2(ghostIndex);
-				fadeTransition(false);
+				fadeTransition(1);
 
 			}
 			
@@ -104,7 +104,7 @@ public class CharacterSelectController {
 				}
 				else {
 					mainApp.setPlayer3(ghostIndex);
-					fadeTransition(false);
+					fadeTransition(1);
 				}
 			}
 			
@@ -137,6 +137,11 @@ public class CharacterSelectController {
 			}
 		}
 		
+		else if (event.getCode() == KeyCode.ESCAPE) {
+			
+			fadeTransition(2);
+		}
+		
 	}
 	
 	public void animate() {
@@ -165,7 +170,7 @@ public class CharacterSelectController {
 	}
 	
 	
-	private void fadeTransition(boolean in) {
+	private void fadeTransition(int mode) {
 		
 		time = System.currentTimeMillis();
 		
@@ -174,10 +179,9 @@ public class CharacterSelectController {
 				
 				/* Every 0.05 seconds, move the two backgrounds to the left at SCROLL_SPEED pixels
 				 * When it is time to loop,move the images back to the right by the amount scrolled. */
-				
 				if (System.currentTimeMillis() - time > 0.05f) {
 					
-					if (in) {
+					if (mode ==0) {
 						opacity -= FADE_SPEED;
 					}
 					else {
@@ -188,15 +192,24 @@ public class CharacterSelectController {
 					time = System.currentTimeMillis();
 				}
 				
-				if (in) {
+				if (mode == 0) {
 					if (opacity <= 0) {
 						this.stop();
 					}
 				}
-				else {
+				
+				else if (mode == 1){
 					if (opacity >= 1) {
 						animationLoop.stop();
 						mainApp.showLevelSelect();
+						this.stop();
+						
+					}
+				}
+				else if (mode == 2){
+					if (opacity >= 1) {
+						animationLoop.stop();
+						mainApp.showWelcomeScreen();
 						this.stop();
 						
 					}
@@ -227,7 +240,7 @@ public class CharacterSelectController {
 		ghost3.setImage(new Image("assets/Elements-CharSel/ghost3.png",SPRITE_WIDTH,SPRITE_HEIGHT,false,false));
 		ghost4.setImage(new Image("assets/Elements-CharSel/ghost4.png",SPRITE_WIDTH,SPRITE_HEIGHT,false,false));
 		player_banner.setImage(new Image("assets/Elements-CharSel/player_two_banner.png"));
-		fadeTransition(true);
+		fadeTransition(0);
 		/* Set up sound effect button presses */
 		buttonPress = new Media(new File("bin/assets/sfx/menuSelect.mp3").toURI().toString());
 		

@@ -13,6 +13,7 @@ import javafx.stage.Stage;
 
 public class EditNameController {
 	
+	
 	/* View elements in EditName.fxml */
 	@FXML
 	private TextField nameField;
@@ -21,11 +22,18 @@ public class EditNameController {
 	@FXML
 	private ImageView errorMessage;
 	
+	
 	/* The stage which will contain the text field for input */
 	private Stage dialogStage;
 	
 	/* Name is set when input is valid */
 	private String name;
+	
+	
+	/* Constructor */
+	public EditNameController() {
+		
+	}
 	
 	
 	@FXML
@@ -35,9 +43,6 @@ public class EditNameController {
 		background.setImage(new Image("bg/dialogBg.png"));
 		errorMessage.setImage(new Image("assets/misc/error_message.png"));
 		errorMessage.setOpacity(0);
-		
-//		nameField.setPromptText("Enter your name : ");
-//		nameField.getParent().requestFocus();
 
 	}
 	
@@ -46,6 +51,7 @@ public class EditNameController {
 	private void handleEnter(KeyEvent event) {
 		
 		if (event.getCode() == KeyCode.ENTER) {
+			
 			if (isValidInput(nameField.getText())){
 				
 				this.name = nameField.getText();
@@ -79,6 +85,8 @@ public class EditNameController {
 		return true;
 	}
 	
+	
+	/** PUBLIC GETTERS AND SETTERS BELOW */
 	
 	public String getName() {
 		

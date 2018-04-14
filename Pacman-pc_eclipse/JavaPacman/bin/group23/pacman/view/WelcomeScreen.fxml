@@ -9,9 +9,12 @@
 <AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="768.0" prefWidth="1366.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="group23.pacman.view.WelcomeScreenController">
    <children>
       <ImageView fx:id="background" fitHeight="768.0" fitWidth="1366.0" pickOnBounds="true" preserveRatio="true" />
-      <Button fx:id="button" layoutY="460.0" mnemonicParsing="false" onKeyPressed="#handleButton" prefHeight="30.0" prefWidth="50.0" />
-      <ImageView fx:id="playBtnImage" fitHeight="50.0" fitWidth="300.0" layoutY="450.0" pickOnBounds="true" preserveRatio="true" />
-      <ImageView fx:id="tutorialBtnImage" fitHeight="50.0" fitWidth="300.0" layoutY="550.0" pickOnBounds="true" preserveRatio="true" />
+      <ImageView fx:id="title" fitHeight="150.0" fitWidth="1000.0" layoutX="350.0" layoutY="50.0" pickOnBounds="true" preserveRatio="true" />
+      <Button fx:id="button" layoutX="6.0" layoutY="260.0" mnemonicParsing="false" onKeyPressed="#handleButton" prefHeight="30.0" prefWidth="50.0" />
+      <ImageView fx:id="playBtnImage" fitHeight="50.0" fitWidth="300.0" layoutY="250.0" pickOnBounds="true" preserveRatio="true" />
+      <ImageView fx:id="tutorialBtnImage" fitHeight="50.0" fitWidth="300.0" layoutY="350.0" pickOnBounds="true" preserveRatio="true" />
+      <ImageView fx:id="leaderboardBtnImage" fitHeight="50.0" fitWidth="300.0" layoutY="450.0" pickOnBounds="true" preserveRatio="true" />
+      <ImageView fx:id="creditsBtnImage" fitHeight="50.0" fitWidth="300.0" layoutY="550.0" pickOnBounds="true" preserveRatio="true" />
       <ImageView fx:id="exitBtnImage" fitHeight="50.0" fitWidth="300.0" layoutY="650.0" pickOnBounds="true" preserveRatio="true" />
       <ImageView fx:id="singlePlayerImage" fitHeight="50.0" fitWidth="300.0" layoutX="535.0" layoutY="380.0" pickOnBounds="true" preserveRatio="true" />
       <ImageView fx:id="twoPlayerImage" fitHeight="50.0" fitWidth="300.0" layoutX="535.0" layoutY="480.0" pickOnBounds="true" preserveRatio="true" />

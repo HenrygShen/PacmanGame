@@ -129,6 +129,11 @@ public class GameStateController {
 		return this.scoreBeaten;
 	}
 	
+	public boolean gameOver() {
+		
+		return this.gameOver;
+	}
+	
 	
 	/**
 	 * KEY LISTENERS FOR DIFFERENT GAME MODES 

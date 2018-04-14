@@ -323,9 +323,15 @@ public class GameViewController {
 		gameStateController.getGame().getGhost3().draw(graphicsContext);
 		gameStateController.getGame().getGhost4().draw(graphicsContext);
 		
+		
+		/* Conditionals for end of game */
 		if (gameStateController.scoreBeaten()) {
 			graphicsContext.drawImage(new Image("assets/misc/recordScorePrompt.png"), 233, 234);
 		}
+		else if (gameStateController.gameOver()) {
+			graphicsContext.drawImage(new Image("assets/misc/game_over.png",500,250,false,false),283,284);
+		}
+		
 		
 	}
 	
