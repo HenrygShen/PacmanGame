@@ -170,12 +170,11 @@ public class Game {
 				/* If using whip, make them disappear (temporary) */
 				if (pacman.getState() == STATE.POWER_UP) {
 					if (pacman.getWhip().getHitBox().intersects(character.getHitBox())){
-						((Ghost) character).setState(Ghost.STATE.DEAD);
-						score += 15;
+						((Ghost) character).setIsDeactivated(true);
 						//break;
 					}
 				}
-				if (pacman.collidedWith((GameObject) character) && ((Ghost)character).getState() == Ghost.STATE.ALIVE) {
+				if (pacman.collidedWith((GameObject) character) && !((Ghost)character).getIsDeactivated()) {
 					pacman.loseLife();
 					return;
 				}

@@ -48,7 +48,7 @@ public class Ghost extends GameObject implements MovingCharacter {
 	/* The image passed in */
 	String ghost;
 	
-	/* Time and condition to create a new timer */
+	/* Time */
 	private long deathTime = 0;
 	private boolean timerStarted;
 	
@@ -134,7 +134,7 @@ public class Ghost extends GameObject implements MovingCharacter {
 	public void updateDeathTimer() {
 		
 		if (!timerStarted) {
-			timer = new Timer(3);
+			timer = new Timer(5);
 			deathTime = System.currentTimeMillis();
 			timerStarted = true;
 		}
