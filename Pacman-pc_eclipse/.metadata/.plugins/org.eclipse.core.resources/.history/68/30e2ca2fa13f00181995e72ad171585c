@@ -1,0 +1,89 @@
+package group23.pacman.view;
+
+import javafx.fxml.FXML;
+import javafx.scene.control.TextField;
+import javafx.scene.image.Image;
+import javafx.scene.image.ImageView;
+import javafx.scene.input.KeyCode;
+import javafx.scene.input.KeyEvent;
+import javafx.stage.Stage;
+
+public class EditNameController {
+	
+	@FXML
+	private TextField nameField;
+	@FXML
+	private ImageView background;
+	@FXML
+	private ImageView errorMessage;
+	
+	private Stage dialogStage;
+	
+	private String name;
+	
+	
+	@FXML
+	private void initialize() {
+		
+		background.setImage(new Image("bg/dialogBg.png"));
+		errorMessage.setImage(new Image("assets/misc/error_message.png"));
+		errorMessage.setOpacity(0);
+		nameField.setPromptText("Enter your name : ");
+		nameField.getParent().requestFocus();
+		
+	}
+	
+	
+	@FXML
+	private void handleEnter(KeyEvent event) {
+		
+		if (event.getCode() == KeyCode.ENTER) {
+			if (isValidInput(nameField.getText())){
+				this.name = nameField.getText();
+				dialogStage.close();
+			}
+			else {
+				errorMessage.setOpacity(1);
+			}
+		}
+	}
+	
+
+	
+	
+	private boolean isValidInput(String text) {
+		
+		if (text.length() == 0 || text.length() > 10) {
+			
+			return false;
+		}
+		
+		for (int i = 0; i < text.length(); i++) {
+			
+			if (!Character.isLetter(text.charAt(i)) && !Character.isDigit(text.charAt(i))){
+				return false;
+			}
+			if (text.charAt(i) == ' '){
+				return false;
+			}
+		}
+		
+		return true;
+	}
+	
+	
+	public String getName() {
+		
+		return name;
+	}
+	
+	public boolean noNameSet() {
+		
+	}
+	
+	
+	public void setDialogStage(Stage dialogStage) {
+		
+		this.dialogStage = dialogStage;
+	}
+}

@@ -1,0 +1,46 @@
+package group23.pacman.view;
+
+import javafx.fxml.FXML;
+import javafx.scene.control.TextField;
+import javafx.scene.image.Image;
+import javafx.scene.image.ImageView;
+import javafx.scene.input.KeyCode;
+import javafx.scene.input.KeyEvent;
+import javafx.stage.Stage;
+
+public class EditNameController {
+	
+	@FXML
+	private TextField nameField;
+	@FXML
+	private ImageView background;
+	
+	private Stage dialogStage;
+	
+	
+	
+	@FXML
+	private void initialize() {
+		
+		background.setImage(new Image("bg/dialogBg.png"));
+	}
+	
+	@FXML
+	private void handleButton(KeyEvent event) {
+		
+		if (event.getCode() == KeyCode.ENTER) {
+			dialogStage.close();
+		}
+	}
+	
+	public String getName() {
+		
+		return "same";
+	}
+	
+	
+	public void setDialogStage(Stage dialogStage) {
+		
+		this.dialogStage = dialogStage;
+	}
+}

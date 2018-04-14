@@ -1,0 +1,129 @@
+package group23.pacman.model;
+
+import java.io.BufferedReader;
+import java.io.FileNotFoundException;
+import java.io.FileReader;
+import java.io.FileWriter;
+import java.io.IOException;
+import java.io.PrintWriter;
+
+public class ScoreHandler {
+	
+	private String firstName;
+	private String secondName;
+	private String thirdName;
+	
+	private int firstScore;
+	private int secondScore;
+	private int thirdScore;
+	
+	
+	public ScoreHandler() {
+		readScores();
+	}
+	
+	
+	private void readScores() {
+		
+
+		
+		try {
+			FileReader fileReader = new FileReader("highScores.txt");
+			BufferedReader bufferedReader = new BufferedReader(fileReader);
+			int row = 0;
+			String line;
+			try {
+				while (row < 3) {
+					row++;
+					line = bufferedReader.readLine();
+					String[] nameAndScore = line.split(",");
+					System.out.println(nameAndScore[0].trim() + nameAndScore[1].trim());
+					
+					switch (row) {
+						case 1 :
+							firstName = nameAndScore[0].trim();
+							firstScore = Integer.parseInt(nameAndScore[1].trim());
+							break;
+						case 2 :
+							secondName = nameAndScore[0].trim();
+							secondScore = Integer.parseInt(nameAndScore[1].trim());
+							break;
+						case 3 :
+							thirdName = nameAndScore[0].trim();
+							thirdScore = Integer.parseInt(nameAndScore[1].trim());
+							break;
+						default :
+							;
+						
+					}
+					
+				}
+			}
+			catch (IOException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+			
+			
+		} 
+		catch (FileNotFoundException e) {
+			System.out.println("Invalid text file");
+		}
+		
+		
+	}
+	
+	public void writeScore(int newScore,String newName) {
+		
+		if (newScore > firstScore) {
+			thirdScore = secondScore;
+			thirdName = secondName;
+			secondScore = firstScore;
+			secondName = firstName;
+			firstScore = newScore;
+			firstName = newName;
+		}
+		else if (newScore > secondScore) {
+			
+			thirdScore = secondScore;
+			thirdName = secondName;
+			secondScore = newScore;
+			secondName = newName;
+		}
+		else if (newScore > thirdScore) {
+			
+			thirdScore = newScore;
+			thirdName = newName;
+		}
+		saveScore();
+		
+	}
+	
+	private void saveScore() {
+		
+		try {
+			FileWriter fileWriter = new FileWriter("highScores.txt");
+			PrintWriter printWriter = new PrintWriter(fileWriter);
+			printWriter.printf(firstName + ",%d",firstScore);
+			printWriter.printf(secondName + ",%d",secondScore);
+			printWriter.printf(thirdName + ",%d",thirdScore);
+			printWriter.close();
+		} 
+		catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+	}
+
+	
+//	public String[] getTopThree() {
+//		
+//		return;
+//	}
+//	
+//	public int[] getHighScore() {
+//		
+//		
+//		return [3,2,1];
+//	}
+}

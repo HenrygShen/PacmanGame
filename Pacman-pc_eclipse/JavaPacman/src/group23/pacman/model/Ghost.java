@@ -245,6 +245,7 @@ public class Ghost extends GameObject implements MovingCharacter {
 	
 	public void draw(GraphicsContext graphicsContext) {
 		if (state == Ghost.STATE.ALIVE) {
+
 			animationManager.draw(graphicsContext, this.x, this.y);
 		}
 	}

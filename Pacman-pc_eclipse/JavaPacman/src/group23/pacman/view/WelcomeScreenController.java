@@ -111,13 +111,13 @@ public class WelcomeScreenController {
 				}
 				if (opacity >= 1) {
 					if (numPlayers == 1) {
+						this.stop();
 						mainApp.showLevelSelect();
 					}
 					else {
+						this.stop();
 						mainApp.showCharacterSelect();
-					}
-					
-					this.stop();
+					}	
 					
 				}
 			}

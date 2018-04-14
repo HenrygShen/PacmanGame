@@ -1,15 +1,13 @@
 package group23.pacman.model;
 
-import java.io.File;
+import group23.pacman.model.Pacman.STATE;
 import java.util.ArrayList;
 import java.util.Vector;
 
-import group23.pacman.model.Pacman.STATE;
-import javafx.scene.media.Media;
-import javafx.scene.media.MediaPlayer;
-
 /**The class that handles all the game logics - collisions, level handling, and creation of the map.
  */
+
+
 public class Game {
 	
 	/* Each game has a main character */
@@ -25,11 +23,7 @@ public class Game {
 	private int scatterScore;
 	private boolean scatter;
 	private boolean countDown;
-	
-	/* Media variables for sound effects */
-	private Media chompNoise;
-	private MediaPlayer mediaPlayer;
-	
+		
 	/* ArrayList to access other game objects */
 	private ArrayList<GameObject> objects;
 	
@@ -64,11 +58,6 @@ public class Game {
 		/* Initial score is 0 */
 		score = 0;
 		
-		
-		/* Set up sound effect for Pacman eating the pellet */
-		chompNoise = new Media(new File("bin/assets/sfx/chompNoise.mp3").toURI().toString());
-		
-		
 		/* Create new board (with user selected map) to define valid coordinates */
 		board = new Board();
 		board.createBoard(map);
@@ -99,6 +88,7 @@ public class Game {
 		
 	
 	}
+	
 	
 	private void setUpGhosts(int player2Ghost,int player3Ghost) {
 		
@@ -144,7 +134,6 @@ public class Game {
 	}
 	
 	
-	
 	/* When updating the game state, we need to check for collisions before updating moving characters
 	 * due to the nature of how we implemented the MovingCharacter interface */
 	public void update( ) {
@@ -169,10 +158,9 @@ public class Game {
 			if (character.getType() == GameObject.TYPE.GHOST) {
 				/* If using whip, make them disappear (temporary) */
 				if (pacman.getState() == STATE.POWER_UP) {
-					if (pacman.getWhip().getHitBox().intersects(character.getHitBox())){
+					if (pacman.getWhip().getHitBox().intersects(character.getHitBox()) && ((Ghost)character).getState() == Ghost.STATE.ALIVE){
 						((Ghost) character).setState(Ghost.STATE.DEAD);
 						score += 15;
-						//break;
 					}
 				}
 				if (pacman.collidedWith((GameObject) character) && ((Ghost)character).getState() == Ghost.STATE.ALIVE) {
@@ -211,7 +199,7 @@ public class Game {
 						pacman.getWhip().addCharges();
 					}
 					
-					playSfx(chompNoise);
+					
 					objects.remove(object);
 					score++;
 					break;
@@ -220,6 +208,23 @@ public class Game {
 			}
 		}
 	}
+	
+
+	/* Checks if pacman has died and resets all moving objects*/
+	public void checkState() {
+		
+		if (pacman.getState() == Pacman.STATE.DEAD && pacman.getLives() > 0) {
+			for (MovingCharacter character: characters) {
+				if (character.getType() == GameObject.TYPE.PACMAN) {
+					character.reset(board.getPacman()[0],board.getPacman()[1]);
+				}
+				else if (character.getType() == GameObject.TYPE.GHOST) {
+					character.reset(board.getGhost()[0],board.getGhost()[1]);
+				}
+			}
+		}
+	}
+	
 	
 	/* To change the movement behaviour to scatter for 5 seconds */
 	public void changeAIBehaviour() {
@@ -257,29 +262,22 @@ public class Game {
 		}
 	}
 	
-	/* Checks if pacman has died and resets all moving objects*/
-	public void checkState() {
+	
+	public boolean scoreBeaten() {
 		
-		if (pacman.getState() == Pacman.STATE.DEAD && pacman.getLives() > 0) {
-			for (MovingCharacter character: characters) {
-				if (character.getType() == GameObject.TYPE.PACMAN) {
-					character.reset(board.getPacman()[0],board.getPacman()[1]);
-				}
-				else if (character.getType() == GameObject.TYPE.GHOST) {
-					character.reset(board.getGhost()[0],board.getGhost()[1]);
-				}
-			}
-		}
+		ScoreHandler scoreHandler = new ScoreHandler();
+		
+		int scores[] = scoreHandler.getHighScores();
+		
+		return (score > scores[0] || score > scores[1] || score > scores[2]);
+
 	}
 	
-	
-	/* Plays Pacman munching sound effect */
-	public void playSfx(Media sfx) {
-		mediaPlayer = new MediaPlayer(sfx);
-		mediaPlayer.setVolume(0.3);
-		mediaPlayer.play();
+	public void updateHighScores(String name) {
+		
+		ScoreHandler scoreHandler = new ScoreHandler();
+		scoreHandler.writeScore(score, name, map);
 	}
-	
 	
 	
 	
@@ -311,8 +309,6 @@ public class Game {
 		
 		return this.ghost4;
 	}
-	
-	
 	
 	/* Public getter to reference other game objects (i.e walls, pellets ) */
 	public ArrayList<GameObject> getOtherGameObjects() {

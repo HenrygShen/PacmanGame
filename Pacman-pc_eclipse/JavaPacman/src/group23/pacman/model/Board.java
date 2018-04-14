@@ -12,21 +12,25 @@ import java.util.ArrayList;
 
 public class Board {
 	
-	private static final int TILE_SIZE = 10;
-	private static final int X_OFFSET = 158;
-	private static final int Y_OFFSET = 7;
-	private static final int OFFSET = 1;
+	/* Constants - do not change */
+	private final int TILE_SIZE = 10;
+	private final int X_OFFSET = 158;
+	private final int Y_OFFSET = 7;
+	private final int OFFSET = 1;
 	
-	
+	/* Adds objects to list for Game object to reference */
 	private ArrayList<GameObject> objects;
 	
+	/* Grids for determining validity of path taken */
 	private boolean[][] status;
 	private boolean[][] node;
 	private boolean[][] ghostOnlyPath;
 	
+	/* Spawn point coordinates */
 	private int[] ghostCoords;
 	private int[] pacmanCoords;
 
+	
 	public Board() {
 		
 		/* Create the list and arrays of objects/states to be placed on the map */
@@ -37,6 +41,7 @@ public class Board {
 		ghostOnlyPath = new boolean[75][75];
 		objects = new ArrayList<GameObject>();
 	}
+	
 	
 	public void createBoard(char map) {
 		
@@ -167,6 +172,7 @@ public class Board {
 		return this.objects;
 	}
 	
+	
 	/* Checks if character is in the exact x,y position to do a 90 degree turn */
 	public boolean validTurningPoint(int x, int y) {
 		
@@ -178,6 +184,7 @@ public class Board {
 		}
 	}
 	
+	
 	/* Checks if the specified position is an intersection node. */
 	public boolean isNode(int x, int y) {
 		
@@ -188,6 +195,7 @@ public class Board {
 			return false;
 		}
 	}
+	
 	
 	/* Checks if a location is valid when the character is moving in a certain direction */
 	public boolean isValidDestination(boolean hasLeftSpawn, char direction, int x, int y) {
@@ -219,16 +227,20 @@ public class Board {
     	return false;
     }
 	
+	
 	public boolean isValidPos(int x, int y) {
 		boolean validPos = this.status[(x - X_OFFSET)/TILE_SIZE][(y - Y_OFFSET)/TILE_SIZE ] || this.ghostOnlyPath[(x - X_OFFSET)/TILE_SIZE][(y - Y_OFFSET)/TILE_SIZE ];
 		return validPos;
 	}
+	
 	
 	/* Pass coordinates of characters to spawn on map */
 	public int[] getPacman() {
 		
 		return pacmanCoords;
 	}
+	
+	
 	public int[] getGhost() {
 		
 		return ghostCoords;

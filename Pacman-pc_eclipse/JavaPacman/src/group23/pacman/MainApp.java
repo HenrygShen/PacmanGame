@@ -3,6 +3,7 @@ package group23.pacman;
 import java.io.IOException;
 import group23.pacman.model.Game;
 import group23.pacman.view.CharacterSelectController;
+import group23.pacman.view.EditNameController;
 import group23.pacman.view.GameViewController;
 import group23.pacman.view.HelpScreenController;
 import group23.pacman.view.LevelSelectController;
@@ -12,6 +13,7 @@ import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene; 
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.BorderPane;
+import javafx.stage.Modality;
 import javafx.stage.Stage; 
 
 
@@ -28,14 +30,14 @@ public class MainApp extends Application{
 	
 	/* Stores the player mode selected from GameModeSelect */
 	private int numPlayers;
-	
 	private int player2;
-	
 	private int player3;
-	
 	
 	/* Stores the map selected from LevelSelect */
 	private char map;
+	
+	/* Stores name of new high - scorer */
+	private String name;
 	
 	
 	public static void main(String[] args) {
@@ -196,6 +198,7 @@ public class MainApp extends Application{
 			GameViewController controller = loader.getController();
 			controller.setMainApp(this);
 			
+			System.out.println("Game created");
 			/* Create game and pass to controller */
 			Game game = new Game(map,numPlayers,player2,player3);
 			controller.setGame(game);
@@ -207,6 +210,45 @@ public class MainApp extends Application{
 			
 			e.printStackTrace();
 		}
+	}
+	
+	
+	public void setName() {
+		
+		try {
+			
+            /* Load the fxml file and create a new stage for the pop-up dialog */
+            FXMLLoader loader = new FXMLLoader();
+            loader.setLocation(MainApp.class.getResource("view/EditName.fxml"));
+            AnchorPane page = (AnchorPane) loader.load();
+
+            /* Create the new stage for recording name */
+            Stage dialogStage = new Stage();
+            dialogStage.setTitle("Set Name");
+            dialogStage.initModality(Modality.WINDOW_MODAL);
+            dialogStage.initOwner(gameWindow);
+            Scene scene = new Scene(page);
+            dialogStage.setScene(scene);
+
+            EditNameController controller = loader.getController();
+            controller.setDialogStage(dialogStage);
+
+            dialogStage.showAndWait();
+            
+            name = controller.getName();
+            
+        }
+		
+		catch (IOException e) {
+            e.printStackTrace();
+        }
+
+	}
+	
+	
+	public String getName() {
+		
+		return this.name;
 	}
 	
 	/* Public setter to pass game mode back to this class from GameModeSelectController */
@@ -242,6 +284,11 @@ public class MainApp extends Application{
 	public Scene getScene() {
 		
 		return this.scene;
+	}
+	
+	public Stage getStage() {
+		
+		return this.gameWindow;
 	}
 	
 

@@ -1,0 +1,42 @@
+package group23.pacman.view;
+
+import javafx.fxml.FXML;
+import javafx.scene.control.TextField;
+import javafx.scene.image.Image;
+import javafx.scene.image.ImageView;
+import javafx.stage.Stage;
+
+public class EditNameController {
+	
+	@FXML
+	private TextField nameField;
+	@FXML
+	private ImageView background;
+	
+	private Stage dialogStage;
+	
+	
+	
+	@FXML
+	private void initialize() {
+		
+		background.setImage(new Image("bg/dialogBg"));
+	}
+	
+	@FXML
+	private void handleButton() {
+		
+		
+	}
+	
+	public String getName() {
+		
+		return "same";
+	}
+	
+	
+	public void setDialogStage(Stage dialogStage) {
+		
+		this.dialogStage = dialogStage;
+	}
+}

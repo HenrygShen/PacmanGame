@@ -26,6 +26,10 @@ public class GameStateController {
 	/* Keep track of pacman's lives */
 	private int pacmanLives;
 	
+	private boolean gameOver;
+	
+	private boolean scoreBeaten;
+	
 	
 	
 	/* Public constructor */
@@ -35,6 +39,8 @@ public class GameStateController {
 		this.scene = gameViewController.getScene();
 		this.game = game;
 		this.pacmanLives = game.getPacman().getLives();
+		this.gameOver = false;
+		this.scoreBeaten = false;
 		
 		
 	}
@@ -52,14 +58,20 @@ public class GameStateController {
 		/* Check to make sure we're not out of time */
 		checkTimer();
 		
-		/* If pacman lost a life, show this to the screen */
+		/* If Pacman lost a life, show this to the screen */
 		if (pacmanLives != game.getPacman().getLives()) {
 			
 			/* If all lives lost, stop the game */
 			if (game.getPacman().getLives() == 0) {
 				
+				pacmanLives = game.getPacman().getLives();
 				gameViewController.showLivesLeft();
 				gameViewController.stopGame();
+				gameOver = true;
+				
+				if (game.scoreBeaten()) {
+					scoreBeaten = true;
+				}
 				
 			}
 			
@@ -75,6 +87,7 @@ public class GameStateController {
 		}
 
 	}
+	
 	
 	/* Checks if the player is losing on time */
 	private void checkTimer() {
@@ -92,10 +105,28 @@ public class GameStateController {
 	}
 	
 	
+	private void recordScore() {
+		
+		gameViewController.showTextField();
+		game.updateHighScores(gameViewController.getName());
+		
+		/* DEBUG STATEMENT */
+		System.out.println("New high score :" + gameViewController.getName());
+		
+	}
+	
+	
 	/* Public getter to allow GameViewController(the view class) to reference objects(to draw) */
 	public Game getGame() {
 		
 		return this.game;
+	}
+	
+	
+	/* Public getter to determine if user needs to be congratulated via GameViewController */
+	public boolean scoreBeaten() {
+		
+		return this.scoreBeaten;
 	}
 	
 	
@@ -126,6 +157,20 @@ public class GameStateController {
 			    	else if (e.getCode() == KeyCode.PAGE_DOWN) {
 			    		gameViewController.getTimer().endTimer();
 			    		gameViewController.setTimerImage();
+			    		
+			    	}
+			    	
+			    	else if (e.getCode() == KeyCode.Y) {
+			    		if (gameOver) {
+			    			recordScore();
+			    			gameViewController.showMenu();
+							
+			    		}
+			    	}
+					else if (e.getCode() == KeyCode.N) {
+			    		if (gameOver) {
+			    			gameViewController.showMenu();
+			    		}
 			    	}
 			    	/* Pause button */
 			    	else if (e.getCode() == KeyCode.P) {
@@ -170,6 +215,17 @@ public class GameStateController {
 					else if (e.getCode() == KeyCode.D) {
 						game.getGhost().queueMovement('R');
 					}
+					else if (e.getCode() == KeyCode.Y) {
+			    		if (gameOver) {
+			    			recordScore();
+			    			gameViewController.showMenu();
+			    		}
+			    	}
+					else if (e.getCode() == KeyCode.N) {
+			    		if (gameOver) {
+			    			gameViewController.showMenu();
+			    		}
+			    	}
 			    	else if (e.getCode() == KeyCode.PAGE_DOWN) {
 			    		gameViewController.getTimer().endTimer();
 			    		gameViewController.setTimerImage();
@@ -229,6 +285,17 @@ public class GameStateController {
 					else if (e.getCode() == KeyCode.L) {
 						game.getGhost2().queueMovement('R');
 					}
+					else if (e.getCode() == KeyCode.Y) {
+			    		if (gameOver) {
+			    			recordScore();
+			    			gameViewController.showMenu();
+			    		}
+			    	}
+					else if (e.getCode() == KeyCode.N) {
+			    		if (gameOver) {
+			    			gameViewController.showMenu();
+			    		}
+			    	}
 			    	else if (e.getCode() == KeyCode.PAGE_DOWN) {
 			    		gameViewController.getTimer().endTimer();
 			    		gameViewController.setTimerImage();

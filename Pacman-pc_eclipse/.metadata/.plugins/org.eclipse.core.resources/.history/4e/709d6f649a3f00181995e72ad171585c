@@ -1,0 +1,14 @@
+package group23.pacman.view;
+
+import javafx.stage.Stage;
+
+public class EditNameController {
+	
+	private Stage dialogStage;
+	
+	
+	public void setDialogStage(Stage dialogStage) {
+		
+		this.dialogStage = dialogStage;
+	}
+}

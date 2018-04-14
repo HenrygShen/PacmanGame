@@ -10,6 +10,13 @@ import javafx.scene.paint.Color;
 
 public class Whip extends GameObject implements MovingCharacter {
 	
+	/* Constant - do not change */
+	private final int MAX_CHARGES = 6;
+	
+	/* Number of times left that the whip can be activated */
+	private int charges;
+	
+	/* Reference to Pacman object */
 	private Pacman pacman;
 	
 	/* Direction Pacman is facing */
@@ -18,16 +25,13 @@ public class Whip extends GameObject implements MovingCharacter {
 	/* Handles the animations */
 	private AnimationManager animationManager;
 	
+	/* Boolean to determine if one whip animation has been played */
 	private boolean shouldPlay;
 	
 	/* Coordinates of the whip */
 	private int x;
 	private int y;
 	
-	/* Number of times left that the whip can be activated */
-	private int charges;
-	
-	private static final int MAX_CHARGES = 1000;
 	
 	public Whip(Pacman pacman) {
 		
@@ -51,16 +55,18 @@ public class Whip extends GameObject implements MovingCharacter {
 	}
 	
 	
+	/* Consumes a charge of the whip */
 	public void useCharge() {
 		
-		if (shouldPlay == false) {
-			if (charges > 0) {
-				charges--;
-				shouldPlay = true;
-			}
+		if (charges > 0) {
+			charges--;
+			shouldPlay = true;
 		}
+
 	}
 	
+	
+	/* Cap charges at 6 */
 	public void addCharges() {
 		
 		charges = charges + 3;
@@ -68,10 +74,10 @@ public class Whip extends GameObject implements MovingCharacter {
 	}
 	
 	
-	/* Updates whip hitbox and coordinates */
-	public void update(char vector,int x,int y) {
+	/* Updates whip hit-box and coordinates */
+	public void update(int x,int y) {
 		
-		this.vector = vector;
+		this.vector = pacman.getDirection();
 		
 		if (vector == 'U') {
 			
@@ -107,7 +113,9 @@ public class Whip extends GameObject implements MovingCharacter {
 			hitBox.setY(y+10);
 			
 		}
-		else if (vector == 'R') {
+		
+		/* Include Stop vector in case user wants to whip right after respawning without moving */
+		else if (vector == 'R' || vector == 'S') {
 			
 			setX(x);
 			setY(y);
@@ -123,13 +131,14 @@ public class Whip extends GameObject implements MovingCharacter {
 		if (animationManager.getFrameIndex() == 2) {
 			animationManager.stopAction();
 			shouldPlay = false;
-			pacman.setVulnerable();
+			pacman.endWhipAnim();
 		}
 		
 		animationManager.update();
 		playAnimation();
 		
 	}
+	
 	
 	/* Updates the next frame of animation according to direction of whip */
 	public void playAnimation() {
@@ -153,19 +162,21 @@ public class Whip extends GameObject implements MovingCharacter {
 		}
 	}
 	
+	
 	public void draw(GraphicsContext graphicsContext) {
 		
 		if (shouldPlay) {
 			
 			animationManager.draw(graphicsContext,this.x,this.y);
-//			graphicsContext.setFill(Color.WHITESMOKE);
-//			graphicsContext.fillRect(hitBox.getX(),hitBox.getY(),hitBox.getWidth(),hitBox.getHeight());
-//			graphicsContext.setFill(Color.GREEN);
-//			graphicsContext.setStroke(Color.BLUE);
+			graphicsContext.setFill(Color.WHITESMOKE);
+			graphicsContext.fillRect(hitBox.getX(),hitBox.getY(),hitBox.getWidth(),hitBox.getHeight());
+			graphicsContext.setFill(Color.GREEN);
+			graphicsContext.setStroke(Color.BLUE);
 
 		}
 		
 	}
+	
 	
 	/* Set up frame animations */
 	private void setUpAnimations() {
@@ -244,6 +255,12 @@ public class Whip extends GameObject implements MovingCharacter {
 	public boolean inAnimation() {
 		
 		return this.shouldPlay;
+	}
+	
+	/* Public setter to end whip animation if Pacman dies while whipping to avoid buggy behaviour with whip */
+	public void endAnim() {
+		
+		this.shouldPlay = false;
 	}
 	
 	@Override

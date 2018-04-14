@@ -1,0 +1,17 @@
+package group23.pacman.model;
+
+public class ScoreHandler {
+	
+	
+	public ScoreHandler() {
+		
+	}
+
+	
+	
+	
+	public int getHighScore() {
+		
+		return 3;
+	}
+}
