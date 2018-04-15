@@ -1,0 +1,94 @@
+package group23.pacman.view;
+
+import group23.pacman.MainApp;
+import javafx.event.EventHandler;
+import javafx.fxml.FXML;
+import javafx.scene.image.Image;
+import javafx.scene.image.ImageView;
+import javafx.scene.input.KeyCode;
+import javafx.scene.input.KeyEvent;
+
+public class ResultsController {
+	
+	private MainApp mainApp;
+	
+	/* FXML */
+	@FXML
+	private ImageView background;
+	@FXML
+	private ImageView life_multiplier;
+	@FXML
+	private ImageView time_multiplier;
+	
+	
+	
+	/* Constructor */
+	public ResultsController() {
+		
+	}
+	
+	
+	public void addKeyListener() {
+		
+		mainApp.getScene().setOnKeyPressed(new EventHandler<KeyEvent> (){
+	    	@Override
+	    	public void handle(KeyEvent e) {
+		    	if (e.getCode() == KeyCode.UP) {
+		    		game.getPacman().queueMovement('U');
+		    	}
+		    	else if (e.getCode() == KeyCode.DOWN) {
+		    		game.getPacman().queueMovement('D');
+		    	}
+		    	else if (e.getCode() == KeyCode.LEFT) {
+		    		game.getPacman().queueMovement('L');
+		    	}
+		    	else if (e.getCode() == KeyCode.RIGHT) {
+		    		game.getPacman().queueMovement('R');
+		    	}
+		    	else if (e.getCode() == KeyCode.SPACE) {
+		    		game.getPacman().whip();
+		    	}
+
+		    	else if (e.getCode() == KeyCode.PAGE_DOWN) {
+		    		gameViewController.getTimer().endTimer();
+		    		gameViewController.setTimerImage();
+		    		
+		    	}
+		    	
+		    	else if (e.getCode() == KeyCode.Y) {
+		    		if (scoreBeaten) {
+		    			recordScore();
+		    			gameViewController.showMenu();
+						
+		    		}
+		    	}
+				else if (e.getCode() == KeyCode.N) {
+		    		if (scoreBeaten) {
+		    			gameViewController.showMenu();
+		    		}
+		    	}
+		    	/* Pause button */
+		    	else if (e.getCode() == KeyCode.P) {
+		    		gameViewController.toggleState();
+		    	}
+		    	else if (e.getCode() == KeyCode.ESCAPE) {
+		    		gameViewController.showMenu();
+		    	}
+	    	}
+	    });
+	}
+	@FXML
+	private void initialize() {
+		
+		background.setImage(new Image("bg/background-results.png"));
+		life_multiplier.setImage(new Image("assets/misc/life_multiplier.png"));
+		time_multiplier.setImage(new Image("assets/misc/time_multiplier.png"));
+	}
+	
+	
+	/* Public setter to reference main app */
+	public void setMainApp(MainApp mainApp) {
+		
+		this.mainApp = mainApp;
+	}
+}

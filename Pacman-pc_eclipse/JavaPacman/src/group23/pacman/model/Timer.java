@@ -54,6 +54,11 @@ public class Timer {
 		currentTime =0;
 	}
 	
+	public int getTimeRemaining() {
+		
+		return this.currentTime;
+	}
+	
 	/* Checks if the timer has counted to 0 */
 	public boolean timedOut() {
 		

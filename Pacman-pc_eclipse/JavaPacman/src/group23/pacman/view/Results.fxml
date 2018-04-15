@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.image.*?>
+<?import java.lang.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.layout.AnchorPane?>
+
+<AnchorPane prefHeight="768.0" prefWidth="1366.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="group23.pacman.view.ResultsController">
+   <children>
+      <ImageView fx:id="background" fitHeight="768.0" fitWidth="1366.0" pickOnBounds="true" preserveRatio="true">
+         <image>
+            <Image url="@../../../../bin/bg/background-results.png" />
+         </image>
+      </ImageView>
+      <ImageView fx:id="lives_remaining" fitHeight="50.0" fitWidth="50.0" layoutX="550.0" layoutY="275.0" pickOnBounds="true" preserveRatio="true" />
+      <ImageView fx:id="time_digit1" fitHeight="50.0" fitWidth="50.0" layoutX="550.0" layoutY="409.0" pickOnBounds="true" preserveRatio="true" />
+      <ImageView fx:id="time_digit2" fitHeight="50.0" fitWidth="50.0" layoutX="580.0" layoutY="409.0" pickOnBounds="true" preserveRatio="true" />
+      <ImageView fx:id="time_digit3" fitHeight="50.0" fitWidth="50.0" layoutX="610.0" layoutY="409.0" pickOnBounds="true" preserveRatio="true" />
+      <ImageView fx:id="score_digit1" fitHeight="50.0" fitWidth="50.0" layoutX="550.0" layoutY="135.0" pickOnBounds="true" preserveRatio="true" />
+      <ImageView fx:id="score_digit2" fitHeight="50.0" fitWidth="50.0" layoutX="580.0" layoutY="135.0" pickOnBounds="true" preserveRatio="true" />
+      <ImageView fx:id="score_digit3" fitHeight="50.0" fitWidth="50.0" layoutX="610.0" layoutY="135.0" pickOnBounds="true" preserveRatio="true" />
+      <ImageView fx:id="score_digit4" fitHeight="50.0" fitWidth="50.0" layoutX="640.0" layoutY="135.0" pickOnBounds="true" preserveRatio="true" />
+      <ImageView fx:id="total_digit1" fitHeight="50.0" fitWidth="50.0" layoutX="550.0" layoutY="595.0" pickOnBounds="true" preserveRatio="true" />
+      <ImageView fx:id="total_digit2" fitHeight="50.0" fitWidth="50.0" layoutX="580.0" layoutY="595.0" pickOnBounds="true" preserveRatio="true" />
+      <ImageView fx:id="total_digit3" fitHeight="50.0" fitWidth="50.0" layoutX="610.0" layoutY="595.0" pickOnBounds="true" preserveRatio="true" />
+      <ImageView fx:id="total_digit4" fitHeight="50.0" fitWidth="50.0" layoutX="640.0" layoutY="595.0" pickOnBounds="true" preserveRatio="true" />
+      <ImageView fx:id="record_score" fitHeight="300.0" fitWidth="600.0" layoutX="383.0" layoutY="234.0" pickOnBounds="true" preserveRatio="true" />
+   </children>
+</AnchorPane>

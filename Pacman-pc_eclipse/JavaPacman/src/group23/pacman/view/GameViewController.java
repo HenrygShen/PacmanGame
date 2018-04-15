@@ -17,6 +17,7 @@ import javafx.scene.image.*;
 
 public class GameViewController {
 	
+	
 	/* View elements in GameView.fxml */
 	@FXML
 	private ImageView background_map;
@@ -55,7 +56,7 @@ public class GameViewController {
 	@FXML
 	private ImageView game_info_panel;
 
-	
+	private long holdTime;
 	private long countDownTime;
 
 	/* Reference to the main app */
@@ -325,8 +326,8 @@ public class GameViewController {
 		
 		
 		/* Conditionals for end of game */
-		if (gameStateController.scoreBeaten()) {
-			graphicsContext.drawImage(new Image("assets/misc/recordScorePrompt.png"), 233, 234);
+		if (gameStateController.levelCleared()) {
+			graphicsContext.drawImage(new Image("assets/misc/pass.png", 500, 250,false,false),283,284);
 		}
 		else if (gameStateController.gameOver()) {
 			graphicsContext.drawImage(new Image("assets/misc/game_over.png",500,250,false,false),283,284);
@@ -343,6 +344,44 @@ public class GameViewController {
 		mainApp.gameToMenu();
 		mainApp.showWelcomeScreen();
 	}
+	
+	
+	public void showGameEnd() {
+		
+		stopGame();
+		holdFrame();
+	}
+	
+	
+	private void holdFrame() {
+		
+		
+		Timer holdTimer = new Timer(2);
+		holdTime = System.currentTimeMillis();
+		
+		new AnimationTimer() {
+			
+			public void handle(long now) {
+				
+				
+				if (System.currentTimeMillis() - holdTime >= 1000) {
+					holdTimer.countDown(1);
+					holdTime = System.currentTimeMillis();
+					
+				}
+				if (holdTimer.timedOut()) {
+					this.stop();
+					/* Calculate bonuses */
+					int time = timer.getTimeRemaining();
+					int lives = gameStateController.getGame().getPacman().getLives();
+					int score = gameStateController.getGame().getIntScore();
+					mainApp.showResults(time,lives,score,gameStateController.getGame().getMap());
+				}
+			}
+		}.start();
+	}
+	
+	
 	
 	
 	/* Creates dialog stage using method from mainApp to get user's name */

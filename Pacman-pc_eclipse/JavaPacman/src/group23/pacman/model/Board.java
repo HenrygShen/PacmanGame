@@ -29,6 +29,9 @@ public class Board {
 	/* Spawn point coordinates */
 	private int[] ghostCoords;
 	private int[] pacmanCoords;
+	
+	/* Keep track of clear condition */
+	private int pellets;
 
 	
 	public Board() {
@@ -40,6 +43,7 @@ public class Board {
 		node = new boolean[75][75];
 		ghostOnlyPath = new boolean[75][75];
 		objects = new ArrayList<GameObject>();
+		pellets = 0 ;
 	}
 	
 	
@@ -103,6 +107,7 @@ public class Board {
 						node[position][row] = false;
 						ghostOnlyPath[position][row] = false;
 						position++;
+						pellets++;
 					}
 					else if (line.charAt(i) == 'W') {
 						SpecialPellet sPellet = new SpecialPellet(position*TILE_SIZE + X_OFFSET,row*TILE_SIZE + Y_OFFSET);
@@ -170,6 +175,11 @@ public class Board {
 	public ArrayList<GameObject> getObjects() {
 		
 		return this.objects;
+	}
+	
+	public int getTotalPellets() {
+		
+		return this.pellets;
 	}
 	
 	

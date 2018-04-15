@@ -3,6 +3,7 @@ package group23.pacman.view;
 import java.io.File;
 import group23.pacman.MainApp;
 import javafx.animation.AnimationTimer;
+import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
@@ -76,73 +77,80 @@ public class CharacterSelectController {
 		
 	}
 	
-	@FXML
-	private void handleButton(KeyEvent event) {
-		
-		/* ENTER key confirms character selection */
-		if (event.getCode() == KeyCode.ENTER) {
-			
-			/* Two players */
-			if (numPlayers == 2) {
-				
-				mainApp.setPlayer2(ghostIndex);
-				fadeTransition(1);
 
-			}
-			
-			/* Three players */
-			else if (numPlayers == 3) {
-				
-				/* Now allow third player to select if they haven't already */
-				if (firstPick) {
-					firstPick = false;
-					mainApp.setPlayer2(ghostIndex);
-					ghostIndex = 1;
-					highlightGhost();
-					player_banner.setImage(new Image("assets/Elements-CharSel/player_three_banner.png"));
+	public void addKeyListener() {
+		
+		mainApp.getScene().setOnKeyPressed(new EventHandler<KeyEvent> (){
+	    	@Override
+	    	public void handle(KeyEvent event) {
+	    		/* ENTER key confirms character selection */
+	    		if (event.getCode() == KeyCode.ENTER) {
+	    			
+	    			/* Two players */
+	    			if (numPlayers == 2) {
+	    				
+	    				mainApp.setPlayer2(ghostIndex);
+	    				fadeTransition(1);
 
-				}
-				else {
-					mainApp.setPlayer3(ghostIndex);
-					fadeTransition(1);
-				}
-			}
-			
-		}
+	    			}
+	    			
+	    			/* Three players */
+	    			else if (numPlayers == 3) {
+	    				
+	    				/* Now allow third player to select if they haven't already */
+	    				if (firstPick) {
+	    					firstPick = false;
+	    					mainApp.setPlayer2(ghostIndex);
+	    					ghostIndex = 1;
+	    					highlightGhost();
+	    					player_banner.setImage(new Image("assets/Elements-CharSel/player_three_banner.png"));
+
+	    				}
+	    				else {
+	    					mainApp.setPlayer3(ghostIndex);
+	    					fadeTransition(1);
+	    				}
+	    			}
+	    			
+	    		}
+	    		
+	    		/* LEFT and RIGHT keys scroll through choose-able sprites */
+	    		else if (event.getCode() == KeyCode.LEFT) {
+	    			
+	    			ghostIndex--;
+	    			
+	    			if (ghostIndex < 1) {
+	    				ghostIndex = 1;
+	    			}
+	    			else {
+	    				playSfx(buttonPress);
+	    				highlightGhost();
+	    			}
+	    		}
+	    		
+	    		else if (event.getCode() == KeyCode.RIGHT) {
+	    			
+	    			ghostIndex++;
+	    			
+	    			if (ghostIndex > MAX_GHOSTS) {
+	    				ghostIndex = MAX_GHOSTS;
+	    			}
+	    			else {
+	    				playSfx(buttonPress);
+	    				highlightGhost();
+	    			}
+	    		}
+	    		
+	    		else if (event.getCode() == KeyCode.ESCAPE) {
+	    			
+	    			fadeTransition(2);
+	    		}
+	    	}
+	    });
 		
-		/* LEFT and RIGHT keys scroll through choose-able sprites */
-		else if (event.getCode() == KeyCode.LEFT) {
-			
-			ghostIndex--;
-			
-			if (ghostIndex < 1) {
-				ghostIndex = 1;
-			}
-			else {
-				playSfx(buttonPress);
-				highlightGhost();
-			}
-		}
-		
-		else if (event.getCode() == KeyCode.RIGHT) {
-			
-			ghostIndex++;
-			
-			if (ghostIndex > MAX_GHOSTS) {
-				ghostIndex = MAX_GHOSTS;
-			}
-			else {
-				playSfx(buttonPress);
-				highlightGhost();
-			}
-		}
-		
-		else if (event.getCode() == KeyCode.ESCAPE) {
-			
-			fadeTransition(2);
-		}
 		
 	}
+	
 	
 	public void animate() {
 		

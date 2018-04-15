@@ -324,6 +324,11 @@ public class Pacman extends GameObject implements MovingCharacter {
 		 
 		 return this.lives;
 	 }
+	 
+	 public void setLives(int lives) {
+		 
+		 this.lives = lives;
+	 }
 	    
 	 public double getX() {
 		 

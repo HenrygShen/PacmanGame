@@ -8,6 +8,7 @@ import group23.pacman.view.EditNameController;
 import group23.pacman.view.GameViewController;
 import group23.pacman.view.HelpScreenController;
 import group23.pacman.view.LevelSelectController;
+import group23.pacman.view.ResultsController;
 import group23.pacman.view.WelcomeScreenController;
 import javafx.application.Application; 
 import javafx.fxml.FXMLLoader;
@@ -110,6 +111,8 @@ public class MainApp extends Application{
             /* Get the controller to manipulate this class */
 			WelcomeScreenController controller = loader.getController();
 			controller.setMainApp(this);
+			controller.addKeyListener();
+			
 			
 		}
 		catch (IOException e) {
@@ -178,6 +181,7 @@ public class MainApp extends Application{
 			CharacterSelectController controller = loader.getController();
 			controller.setMainApp(this);
 			controller.setPlayers(numPlayers);
+			controller.addKeyListener();
 			
 			
 		}
@@ -238,6 +242,31 @@ public class MainApp extends Application{
 		}
 	}
 	
+	public void showResults(int time,int lives, int score,char map) {
+		
+		try {
+			/* Load/show the end of game results view layout */
+			FXMLLoader loader = new FXMLLoader();
+			loader.setLocation(MainApp.class.getResource("view/Results.fxml"));
+			AnchorPane results = (AnchorPane) loader.load();
+			rootLayout.setCenter(results);
+			
+			
+			/* Get the controller to manipulate this class */
+			ResultsController controller = loader.getController();
+			controller.setMainApp(this);
+			controller.addKeyListener();
+			controller.addParameters(time,lives,score,map);
+			controller.showScore();
+			
+
+		}
+		catch (IOException e) {
+			
+			e.printStackTrace();
+		}
+	}
+	
 	
 	/* Public method for creating new stage for inputting name on new high score*/
 	public void setName() {
@@ -247,14 +276,14 @@ public class MainApp extends Application{
             /* Load the fxml file and create a new stage for the pop-up dialog */
             FXMLLoader loader = new FXMLLoader();
             loader.setLocation(MainApp.class.getResource("view/EditName.fxml"));
-            AnchorPane page = (AnchorPane) loader.load();
+            AnchorPane pane = (AnchorPane) loader.load();
 
             /* Create the new stage for recording name */
             Stage dialogStage = new Stage();
             dialogStage.setTitle("Set Name");
             dialogStage.initModality(Modality.WINDOW_MODAL);
             dialogStage.initOwner(gameWindow);
-            Scene scene = new Scene(page);
+            Scene scene = new Scene(pane);
             dialogStage.setScene(scene);
 
             EditNameController controller = loader.getController();

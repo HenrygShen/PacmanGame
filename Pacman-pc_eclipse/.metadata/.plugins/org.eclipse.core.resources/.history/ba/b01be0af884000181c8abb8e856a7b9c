@@ -1,0 +1,7 @@
+package group23.pacman.view;
+
+public class ResultsController {
+	
+	private MainApp mainApp
+	
+}

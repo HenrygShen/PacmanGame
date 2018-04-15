@@ -2,7 +2,6 @@ package group23.pacman.controller;
 
 import group23.pacman.model.Game;
 import group23.pacman.view.GameViewController;
-import javafx.application.Platform;
 import javafx.event.EventHandler;
 import javafx.scene.Scene;
 import javafx.scene.input.KeyCode;
@@ -26,11 +25,9 @@ public class GameStateController {
 	/* Keep track of pacman's lives */
 	private int pacmanLives;
 	
+	/* Keep track of game state */
 	private boolean gameOver;
-	
-	private boolean scoreBeaten;
-	
-	
+	private boolean levelCleared;
 	
 	/* Public constructor */
 	public GameStateController(GameViewController gameViewController,Game game) {
@@ -39,8 +36,9 @@ public class GameStateController {
 		this.scene = gameViewController.getScene();
 		this.game = game;
 		this.pacmanLives = game.getPacman().getLives();
+		this.levelCleared = false;
 		this.gameOver = false;
-		this.scoreBeaten = false;
+
 		
 		
 	}
@@ -68,22 +66,23 @@ public class GameStateController {
 				gameViewController.showLivesLeft();
 				gameViewController.stopGame();
 				gameOver = true;
-				
-				if (game.scoreBeaten()) {
-					scoreBeaten = true;
-				}
-				
+				gameViewController.showGameEnd();
+		
 			}
 			
-			/* Otherwise, just show number of lives to the screen and reset the timer */
+			/* Otherwise, just show number of lives to the screen */
 			else {
 				
 				gameViewController.showLivesLeft();
 				pacmanLives = game.getPacman().getLives();
-				gameViewController.getTimer().resetCounter();
-				gameViewController.setTimerImage();
 				gameViewController.startCountdown();
 			}
+		}
+		
+		else if (game.levelCleared()) {
+			levelCleared = true;
+			gameViewController.showGameEnd();
+		
 		}
 
 	}
@@ -92,28 +91,15 @@ public class GameStateController {
 	/* Checks if the player is losing on time */
 	private void checkTimer() {
 		
-		/* If player ran out of time, player loses a life */
+		/* If player ran out of time, end the game */
 		if (gameViewController.getTimer().timedOut()) {
-		
-			/* Lose life and reset timer */
-			game.getPacman().loseLife();
-			gameViewController.getTimer().resetCounter();
-			gameViewController.setTimerImage();
-			gameViewController.finalUpdate();
+			
+			gameOver = true;
+			game.getPacman().setLives(0);
 		}
 		
 	}
 	
-	
-	private void recordScore() {
-		
-		gameViewController.showTextField();
-		game.updateHighScores(gameViewController.getName());
-		
-		/* DEBUG STATEMENT */
-		System.out.println("New high score :" + gameViewController.getName());
-		
-	}
 	
 	
 	/* Public getter to allow GameViewController(the view class) to reference objects(to draw) */
@@ -122,18 +108,16 @@ public class GameStateController {
 		return this.game;
 	}
 	
-	
-	/* Public getter to determine if user needs to be congratulated via GameViewController */
-	public boolean scoreBeaten() {
-		
-		return this.scoreBeaten;
-	}
-	
 	public boolean gameOver() {
 		
 		return this.gameOver;
 	}
 	
+	public boolean levelCleared() {
+		
+		return this.levelCleared;
+	}
+		
 	
 	/**
 	 * KEY LISTENERS FOR DIFFERENT GAME MODES 
@@ -165,18 +149,6 @@ public class GameStateController {
 			    		
 			    	}
 			    	
-			    	else if (e.getCode() == KeyCode.Y) {
-			    		if (gameOver) {
-			    			recordScore();
-			    			gameViewController.showMenu();
-							
-			    		}
-			    	}
-					else if (e.getCode() == KeyCode.N) {
-			    		if (gameOver) {
-			    			gameViewController.showMenu();
-			    		}
-			    	}
 			    	/* Pause button */
 			    	else if (e.getCode() == KeyCode.P) {
 			    		gameViewController.toggleState();
@@ -220,17 +192,6 @@ public class GameStateController {
 					else if (e.getCode() == KeyCode.D) {
 						game.getGhost().queueMovement('R');
 					}
-					else if (e.getCode() == KeyCode.Y) {
-			    		if (gameOver) {
-			    			recordScore();
-			    			gameViewController.showMenu();
-			    		}
-			    	}
-					else if (e.getCode() == KeyCode.N) {
-			    		if (gameOver) {
-			    			gameViewController.showMenu();
-			    		}
-			    	}
 			    	else if (e.getCode() == KeyCode.PAGE_DOWN) {
 			    		gameViewController.getTimer().endTimer();
 			    		gameViewController.setTimerImage();
@@ -290,17 +251,6 @@ public class GameStateController {
 					else if (e.getCode() == KeyCode.L) {
 						game.getGhost2().queueMovement('R');
 					}
-					else if (e.getCode() == KeyCode.Y) {
-			    		if (gameOver) {
-			    			recordScore();
-			    			gameViewController.showMenu();
-			    		}
-			    	}
-					else if (e.getCode() == KeyCode.N) {
-			    		if (gameOver) {
-			    			gameViewController.showMenu();
-			    		}
-			    	}
 			    	else if (e.getCode() == KeyCode.PAGE_DOWN) {
 			    		gameViewController.getTimer().endTimer();
 			    		gameViewController.setTimerImage();

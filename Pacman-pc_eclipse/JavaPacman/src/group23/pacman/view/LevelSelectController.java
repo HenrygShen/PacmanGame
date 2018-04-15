@@ -77,7 +77,7 @@ public class LevelSelectController {
 		fade.setImage(new Image("bg/blackbg.png"));
 		opacity = 1;
 		fade.setOpacity(opacity);
-		fadeTransition(true);
+		fadeTransition(0);
 		
 		/* Set up level backgrounds to scroll through */
 		seaBackground = new Image("bg/background-sea_game.png");
@@ -99,7 +99,7 @@ public class LevelSelectController {
 	}
 	
 	
-	private void fadeTransition(boolean in) {
+	private void fadeTransition(int mode) {
 		
 		time = System.currentTimeMillis();
 		
@@ -111,7 +111,7 @@ public class LevelSelectController {
 				
 				if (System.currentTimeMillis() - time > 0.05f) {
 					
-					if (in) {
+					if (mode == 0) {
 						opacity -= FADE_SPEED;
 					}
 					else {
@@ -122,14 +122,22 @@ public class LevelSelectController {
 					time = System.currentTimeMillis();
 				}
 				
-				if (in) {
+				if (mode == 0) {
 					if (opacity <= 0) {
 						this.stop();
 					}
 				}
-				else {
+				else if (mode == 1){
 					if (opacity >= 1) {
 						mainApp.showGameView();
+						this.stop();
+						
+					}
+				}
+				else if (mode == 2) {
+					
+					if (opacity >= 1) {
+						mainApp.showWelcomeScreen();
 						this.stop();
 						
 					}
@@ -165,9 +173,9 @@ public class LevelSelectController {
 			    			level = 'c';
 			    			break;
 			    	}
-			    		
+			    		System.out.println("same");
 			    	mainApp.setMap(level);
-			    	fadeTransition(false);
+			    	fadeTransition(1);
 			    		
 		    	}
 		    	else if (event.getCode() == KeyCode.LEFT) {
@@ -197,6 +205,10 @@ public class LevelSelectController {
 						animateRight();
 						animated = true;
 					}
+				}
+				else if (event.getCode() == KeyCode.ESCAPE) {
+					
+					fadeTransition(2);
 				}
 				
 		    }	    

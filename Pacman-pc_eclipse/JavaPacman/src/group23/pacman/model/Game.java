@@ -48,6 +48,9 @@ public class Game {
 	/* Used to manipulate time for showing to screen */
 	private Timer timer;
 	
+	/* Clear condition */
+	private int pellets;
+	
 	
 	
 	public Game(char map,int numPlayers,int player2Ghost,int player3Ghost) {
@@ -64,6 +67,9 @@ public class Game {
 		
 		/* Get reference to objects created on the board */
 		objects = board.getObjects();
+		
+		/* Clear condition (number of pellets to eat) */
+		pellets = board.getTotalPellets();
 		
 		
 		/* Set up character objects to add to ArrayList of MovingCharacter interface */
@@ -316,6 +322,12 @@ public class Game {
 		return this.objects;
 	}
 	
+	public boolean levelCleared() {
+		
+		return (score==5);
+		//return (this.pellets == score);
+	}
+	
 	/* Public getter to reference map type */
 	public char getMap() {
 		
@@ -345,6 +357,11 @@ public class Game {
            	tempScore = tempScore + "x";
         }
         return tempScore;
+	}
+	
+	public int getIntScore() {
+		
+		return score;
 	}
 
 
