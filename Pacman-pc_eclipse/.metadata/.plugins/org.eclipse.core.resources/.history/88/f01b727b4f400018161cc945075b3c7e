@@ -95,13 +95,13 @@ public class GameViewController {
 		String backgroundImage;
 		switch (map) {
     	case 'c' :
-    		backgroundImage = "bg/background-forest_game.png";
+    		backgroundImage = "bg/background-classic_game.png";
     		break;
 	    case 's' :
 	    	backgroundImage = "bg/background-sea_game.png";
 	    	break;
 	    case 'd' :
-	    	backgroundImage = "bg/background-deserttemple_game.png";
+	    	backgroundImage = "bg/background-desert_game.png";
 	    	break;
 	    default :
 	    	backgroundImage = "bg/background-classic_game.png";

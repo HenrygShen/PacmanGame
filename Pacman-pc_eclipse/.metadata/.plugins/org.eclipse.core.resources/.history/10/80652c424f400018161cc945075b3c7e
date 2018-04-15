@@ -10,7 +10,7 @@ public class AI {
 	
 	private static final int GRID_SIZE = 30;
 	private static final int X_OFFSET = 158;
-	private static final int Y_OFFSET = 9;
+	private static final int Y_OFFSET = 7;
 	
 	/* Board object to help determine whether a move is valid */
 	private Board board;

@@ -170,7 +170,7 @@ public class Game {
 			}
 			
 			/* Restricts the character from moving into the spawn point after it has left the spawn point */
-			if (character.getX() == 518 && character.getY() == 309) {
+			if (character.getX() == 518 && character.getY() == 307) {
 				character.setHasLeftSpawn();
 			}
 			

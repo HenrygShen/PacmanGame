@@ -15,7 +15,7 @@ public class Board {
 	/* Constants - do not change */
 	private final int TILE_SIZE = 10;
 	private final int X_OFFSET = 158;
-	private final int Y_OFFSET = 9;
+	private final int Y_OFFSET = 7;
 	private final int OFFSET = 1;
 	
 	/* Adds objects to list for Game object to reference */
