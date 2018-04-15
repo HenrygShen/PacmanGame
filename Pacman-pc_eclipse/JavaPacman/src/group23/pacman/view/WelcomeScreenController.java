@@ -187,7 +187,7 @@ public class WelcomeScreenController {
 					else if (buttonIndex == 2) {
 						
 						//TODO leaderboard
-						//mainApp.showLeaderboard();
+						mainApp.showLeaderboard();
 					}
 					else if (buttonIndex == 3) {
 						

@@ -1,0 +1,60 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.image.*?>
+<?import java.lang.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.layout.AnchorPane?>
+
+<AnchorPane prefHeight="768.0" prefWidth="1366.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="group23.pacman.view.LeaderboardController">
+   <children>
+      <ImageView fx:id="background" fitHeight="768.0" fitWidth="1366.0" pickOnBounds="true" preserveRatio="true">
+         <image>
+            <Image url="@../../../../bin/assets/Elements-Leaderboard/background-leaderboard.png" />
+         </image></ImageView>
+      <ImageView fx:id="first_character1" fitHeight="50.0" fitWidth="50.0" layoutX="440.0" layoutY="131.0" pickOnBounds="true" preserveRatio="true" />
+      <ImageView fx:id="first_character2" fitHeight="50.0" fitWidth="50.0" layoutX="470.0" layoutY="131.0" pickOnBounds="true" preserveRatio="true" />
+      <ImageView fx:id="first_character3" fitHeight="50.0" fitWidth="50.0" layoutX="500.0" layoutY="131.0" pickOnBounds="true" preserveRatio="true" />
+      <ImageView fx:id="first_character4" fitHeight="50.0" fitWidth="50.0" layoutX="530.0" layoutY="131.0" pickOnBounds="true" preserveRatio="true" />
+      <ImageView fx:id="first_character5" fitHeight="50.0" fitWidth="50.0" layoutX="560.0" layoutY="131.0" pickOnBounds="true" preserveRatio="true" />
+      <ImageView fx:id="first_character6" fitHeight="50.0" fitWidth="50.0" layoutX="590.0" layoutY="131.0" pickOnBounds="true" preserveRatio="true" />
+      <ImageView fx:id="first_character7" fitHeight="50.0" fitWidth="50.0" layoutX="620.0" layoutY="131.0" pickOnBounds="true" preserveRatio="true" />
+      <ImageView fx:id="first_character8" fitHeight="50.0" fitWidth="50.0" layoutX="650.0" layoutY="131.0" pickOnBounds="true" preserveRatio="true" />
+      <ImageView fx:id="first_character9" fitHeight="50.0" fitWidth="50.0" layoutX="680.0" layoutY="131.0" pickOnBounds="true" preserveRatio="true" />
+      <ImageView fx:id="first_character10" fitHeight="50.0" fitWidth="50.0" layoutX="710.0" layoutY="131.0" pickOnBounds="true" preserveRatio="true" />
+      <ImageView fx:id="second_character1" fitHeight="50.0" fitWidth="50.0" layoutX="440.0" layoutY="290.0" pickOnBounds="true" preserveRatio="true" />
+      <ImageView fx:id="second_character2" fitHeight="50.0" fitWidth="50.0" layoutX="470.0" layoutY="290.0" pickOnBounds="true" preserveRatio="true" />
+      <ImageView fx:id="second_character3" fitHeight="50.0" fitWidth="50.0" layoutX="500.0" layoutY="290.0" pickOnBounds="true" preserveRatio="true" />
+      <ImageView fx:id="second_character4" fitHeight="50.0" fitWidth="50.0" layoutX="530.0" layoutY="290.0" pickOnBounds="true" preserveRatio="true" />
+      <ImageView fx:id="second_character5" fitHeight="50.0" fitWidth="50.0" layoutX="560.0" layoutY="290.0" pickOnBounds="true" preserveRatio="true" />
+      <ImageView fx:id="second_character6" fitHeight="50.0" fitWidth="50.0" layoutX="590.0" layoutY="290.0" pickOnBounds="true" preserveRatio="true" />
+      <ImageView fx:id="second_character7" fitHeight="50.0" fitWidth="50.0" layoutX="620.0" layoutY="290.0" pickOnBounds="true" preserveRatio="true" />
+      <ImageView fx:id="second_character8" fitHeight="50.0" fitWidth="50.0" layoutX="650.0" layoutY="290.0" pickOnBounds="true" preserveRatio="true" />
+      <ImageView fx:id="second_character9" fitHeight="50.0" fitWidth="50.0" layoutX="680.0" layoutY="290.0" pickOnBounds="true" preserveRatio="true" />
+      <ImageView fx:id="second_character10" fitHeight="50.0" fitWidth="50.0" layoutX="710.0" layoutY="290.0" pickOnBounds="true" preserveRatio="true" />
+      <ImageView fx:id="third_character1" fitHeight="50.0" fitWidth="50.0" layoutX="440.0" layoutY="450.0" pickOnBounds="true" preserveRatio="true" />
+      <ImageView fx:id="third_character2" fitHeight="50.0" fitWidth="50.0" layoutX="470.0" layoutY="450.0" pickOnBounds="true" preserveRatio="true" />
+      <ImageView fx:id="third_character3" fitHeight="50.0" fitWidth="50.0" layoutX="500.0" layoutY="450.0" pickOnBounds="true" preserveRatio="true" />
+      <ImageView fx:id="third_character4" fitHeight="50.0" fitWidth="50.0" layoutX="530.0" layoutY="450.0" pickOnBounds="true" preserveRatio="true" />
+      <ImageView fx:id="third_character5" fitHeight="50.0" fitWidth="50.0" layoutX="560.0" layoutY="450.0" pickOnBounds="true" preserveRatio="true" />
+      <ImageView fx:id="third_character6" fitHeight="50.0" fitWidth="50.0" layoutX="590.0" layoutY="450.0" pickOnBounds="true" preserveRatio="true" />
+      <ImageView fx:id="third_character7" fitHeight="50.0" fitWidth="50.0" layoutX="620.0" layoutY="450.0" pickOnBounds="true" preserveRatio="true" />
+      <ImageView fx:id="third_character8" fitHeight="50.0" fitWidth="50.0" layoutX="650.0" layoutY="450.0" pickOnBounds="true" preserveRatio="true" />
+      <ImageView fx:id="third_character9" fitHeight="50.0" fitWidth="50.0" layoutX="680.0" layoutY="450.0" pickOnBounds="true" preserveRatio="true" />
+      <ImageView fx:id="third_character10" fitHeight="50.0" fitWidth="50.0" layoutX="710.0" layoutY="450.0" pickOnBounds="true" preserveRatio="true" />
+      <ImageView fx:id="first_score1" fitHeight="50.0" fitWidth="50.0" layoutX="880.0" layoutY="131.0" pickOnBounds="true" preserveRatio="true" />
+      <ImageView fx:id="first_score2" fitHeight="50.0" fitWidth="50.0" layoutX="910.0" layoutY="131.0" pickOnBounds="true" preserveRatio="true" />
+      <ImageView fx:id="first_score3" fitHeight="50.0" fitWidth="50.0" layoutX="940.0" layoutY="131.0" pickOnBounds="true" preserveRatio="true" />
+      <ImageView fx:id="first_score4" fitHeight="50.0" fitWidth="50.0" layoutX="970.0" layoutY="131.0" pickOnBounds="true" preserveRatio="true" />
+      <ImageView fx:id="second_score1" fitHeight="50.0" fitWidth="50.0" layoutX="880.0" layoutY="290.0" pickOnBounds="true" preserveRatio="true" />
+      <ImageView fx:id="second_score2" fitHeight="50.0" fitWidth="50.0" layoutX="910.0" layoutY="290.0" pickOnBounds="true" preserveRatio="true" />
+      <ImageView fx:id="second_score3" fitHeight="50.0" fitWidth="50.0" layoutX="940.0" layoutY="290.0" pickOnBounds="true" preserveRatio="true" />
+      <ImageView fx:id="second_score4" fitHeight="50.0" fitWidth="50.0" layoutX="970.0" layoutY="290.0" pickOnBounds="true" preserveRatio="true" />
+      <ImageView fx:id="third_score1" fitHeight="50.0" fitWidth="50.0" layoutX="880.0" layoutY="450.0" pickOnBounds="true" preserveRatio="true" />
+      <ImageView fx:id="third_score2" fitHeight="50.0" fitWidth="50.0" layoutX="910.0" layoutY="450.0" pickOnBounds="true" preserveRatio="true" />
+      <ImageView fx:id="third_score3" fitHeight="50.0" fitWidth="50.0" layoutX="940.0" layoutY="450.0" pickOnBounds="true" preserveRatio="true" />
+      <ImageView fx:id="third_score4" fitHeight="50.0" fitWidth="50.0" layoutX="970.0" layoutY="450.0" pickOnBounds="true" preserveRatio="true" />
+      <ImageView fx:id="map1" fitHeight="50.0" fitWidth="200.0" layoutX="1074.0" layoutY="131.0" pickOnBounds="true" preserveRatio="true" />
+      <ImageView fx:id="map2" fitHeight="50.0" fitWidth="200.0" layoutX="1074.0" layoutY="290.0" pickOnBounds="true" preserveRatio="true" />
+      <ImageView fx:id="map3" fitHeight="50.0" fitWidth="200.0" layoutX="1074.0" layoutY="450.0" pickOnBounds="true" preserveRatio="true" />
+   </children>
+</AnchorPane>

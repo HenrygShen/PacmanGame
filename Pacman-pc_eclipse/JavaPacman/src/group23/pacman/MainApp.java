@@ -7,6 +7,7 @@ import group23.pacman.view.CreditsController;
 import group23.pacman.view.EditNameController;
 import group23.pacman.view.GameViewController;
 import group23.pacman.view.HelpScreenController;
+import group23.pacman.view.LeaderboardController;
 import group23.pacman.view.LevelSelectController;
 import group23.pacman.view.ResultsController;
 import group23.pacman.view.WelcomeScreenController;
@@ -189,6 +190,32 @@ public class MainApp extends Application{
 			
 			e.printStackTrace();
 		}
+	}
+	
+	
+	/* Show high scores */
+	public void showLeaderboard() {
+		
+		try {
+			/* Load/show the character select view layout */
+			FXMLLoader loader = new FXMLLoader();
+			loader.setLocation(MainApp.class.getResource("view/Leaderboard.fxml"));
+			AnchorPane leaderBoard = (AnchorPane) loader.load();
+			rootLayout.setCenter(leaderBoard);
+			
+			
+			/* Get the controller to manipulate this class */
+			LeaderboardController controller = loader.getController();
+			controller.setMainApp(this);
+			controller.addKeyListener();
+			
+			
+		}
+		catch (IOException e) {
+			
+			e.printStackTrace();
+		}
+		
 	}
 	
 	

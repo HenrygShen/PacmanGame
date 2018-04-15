@@ -131,11 +131,26 @@ public class ScoreHandler {
 		}
 	}
 
-	
-	//public String[] getTopThree() {
+	public String[] getNames() {
 		
-//		return;
-//	}
+		String[] names = new String[3];
+		names[0] = firstName;
+		names[1] = secondName;
+		names[2] = thirdName;
+		
+		return names;
+	}
+	
+	public String[] getMaps() {
+		
+		String[] maps = new String[3];
+		maps[0] = firstMapName;
+		maps[1] = secondMapName;
+		maps[2] = thirdMapName;
+		
+		return maps;
+		
+	}
 	
 	public int[] getHighScores() {
 		
