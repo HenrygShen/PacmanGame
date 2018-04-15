@@ -186,7 +186,6 @@ public class WelcomeScreenController {
 					/* If user presses ENTER while on the exit button, close the game */
 					else if (buttonIndex == 2) {
 						
-						//TODO leaderboard
 						mainApp.showLeaderboard();
 					}
 					else if (buttonIndex == 3) {
@@ -250,9 +249,9 @@ public class WelcomeScreenController {
 					}
 				}
 				
-				/* DEBUG statements */
-				System.out.println("Button Index " + buttonIndex);
-				System.out.println("Number of players " + numPlayers + "\n");
+//				/* DEBUG statements */
+//				System.out.println("Button Index " + buttonIndex);
+//				System.out.println("Number of players " + numPlayers + "\n");
 			}
 		});
 		

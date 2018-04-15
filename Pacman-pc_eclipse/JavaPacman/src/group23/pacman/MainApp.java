@@ -255,7 +255,6 @@ public class MainApp extends Application{
 			GameViewController controller = loader.getController();
 			controller.setMainApp(this);
 			
-			System.out.println("Game created");
 			/* Create game and pass to controller */
 			Game game = new Game(map,numPlayers,player2,player3);
 			controller.setGame(game);
@@ -269,9 +268,12 @@ public class MainApp extends Application{
 		}
 	}
 	
+	
+	/* Prints the results at the end of a game */
 	public void showResults(int time,int lives, int score,char map) {
 		
 		try {
+			
 			/* Load/show the end of game results view layout */
 			FXMLLoader loader = new FXMLLoader();
 			loader.setLocation(MainApp.class.getResource("view/Results.fxml"));

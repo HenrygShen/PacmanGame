@@ -118,11 +118,11 @@ public class ResultsController {
 			time_digit3.setImage(new Image(getDigit(timeString.charAt(2))));
 		}
 		else if (timeString.length() == 2) {
-			time_digit2.setImage(new Image(getDigit(timeString.charAt(0))));
-			time_digit3.setImage(new Image(getDigit(timeString.charAt(1))));
+			time_digit1.setImage(new Image(getDigit(timeString.charAt(0))));
+			time_digit2.setImage(new Image(getDigit(timeString.charAt(1))));
 		}
-		else if (timeString.length() == 2) {
-			time_digit3.setImage(new Image(getDigit(timeString.charAt(0))));
+		else if (timeString.length() == 1) {
+			time_digit1.setImage(new Image(getDigit(timeString.charAt(0))));
 		}
 		
 		/* Score showing */
@@ -182,11 +182,11 @@ public class ResultsController {
 	}
 	
 	
-	/* Shows the message which asks user if they want to record their high score after two seconds of showing results (if a score is beaten)*/
+	/* Shows the message which asks user if they want to record their high score after three seconds of showing results (if a score is beaten)*/
 	private void recordScorePrompt() {
 		
-		/* Wait two seconds */
-		Timer holdTimer = new Timer(2);
+		/* Wait three seconds */
+		Timer holdTimer = new Timer(3);
 		holdTime = System.currentTimeMillis();
 		
 		new AnimationTimer() {

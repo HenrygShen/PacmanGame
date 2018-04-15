@@ -50,6 +50,7 @@ public class Game {
 	
 	/* Clear condition */
 	private int pellets;
+	private int pelletsEaten;
 	
 	
 	
@@ -70,6 +71,7 @@ public class Game {
 		
 		/* Clear condition (number of pellets to eat) */
 		pellets = board.getTotalPellets();
+		pelletsEaten = 0;
 		
 		
 		/* Set up character objects to add to ArrayList of MovingCharacter interface */
@@ -204,10 +206,13 @@ public class Game {
 					if (object.getType() == GameObject.TYPE.SPECIAL_PELLET) {
 						pacman.getWhip().addCharges();
 					}
-					
+					else if (object.getType() == GameObject.TYPE.PELLET){
+						pelletsEaten++;
+						score++;
+					}
 					
 					objects.remove(object);
-					score++;
+					
 					break;
 				}
 		
@@ -324,8 +329,7 @@ public class Game {
 	
 	public boolean levelCleared() {
 		
-		return (score==5);
-		//return (this.pellets == score);
+		return (this.pellets == pelletsEaten);
 	}
 	
 	/* Public getter to reference map type */

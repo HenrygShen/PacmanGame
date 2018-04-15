@@ -1,8 +1,5 @@
 package group23.pacman.view;
 
-import java.io.BufferedReader;
-import java.io.FileReader;
-
 import group23.pacman.MainApp;
 import group23.pacman.model.ScoreHandler;
 import javafx.event.EventHandler;
@@ -16,6 +13,7 @@ public class LeaderboardController {
 
 	private MainApp mainApp;
 	
+	/* View elements in Leaderboard.fxml */
 	@FXML
 	private ImageView background;
 	@FXML
@@ -38,7 +36,6 @@ public class LeaderboardController {
 	private ImageView first_character9;
 	@FXML
 	private ImageView first_character10;
-	
 	@FXML
 	private ImageView second_character1;
 	@FXML
@@ -59,7 +56,6 @@ public class LeaderboardController {
 	private ImageView second_character9;
 	@FXML
 	private ImageView second_character10;
-	
 	@FXML
 	private ImageView third_character1;
 	@FXML
@@ -107,7 +103,7 @@ public class LeaderboardController {
 
 	
 	
-	
+	/* Constructor */
 	public LeaderboardController() {
 		
 	}
@@ -118,12 +114,23 @@ public class LeaderboardController {
 		
 		
 		background.setImage(new Image("assets/Elements-Leaderboard/background-leaderboard.png"));
+		
+		/* Get the high scores */
 		ScoreHandler scoreHandler = new ScoreHandler();
+		
+		/* Get names and convert to lower case for easier handling */
 		String names[] = scoreHandler.getNames();
 		names[0] = names[0].toLowerCase();
 		names[1] = names[1].toLowerCase();
 		names[2] = names[2].toLowerCase();
+		
+		/* Get scores and convert to strings for easier handling */
 		int scores[] = scoreHandler.getHighScores();
+		String firstScoreString = Integer.toString(scores[0]);
+		String secondScoreString = Integer.toString(scores[0]);
+		String thirdScoreString = Integer.toString(scores[0]);
+		
+		/* Get maps */
 		String maps[] = scoreHandler.getMaps();
 		
 		/* Set up #1 */
@@ -158,7 +165,7 @@ public class LeaderboardController {
 				}
 			}
 		}
-		String firstScoreString = Integer.toString(scores[0]);
+
 		if (scores[0] >=0) {
 			first_score1.setImage(new Image(getCharacter(firstScoreString.charAt(0))));
 			if (scores[0] >= 10) {
@@ -208,7 +215,7 @@ public class LeaderboardController {
 			}
 		}
 		
-		String secondScoreString = Integer.toString(scores[0]);
+
 		if (scores[1] >=0) {
 			second_score1.setImage(new Image(getCharacter(secondScoreString.charAt(0))));
 			if (scores[1] >= 10) {
@@ -256,7 +263,7 @@ public class LeaderboardController {
 			}
 		}
 		
-		String thirdScoreString = Integer.toString(scores[0]);
+
 		if (scores[2] >=0) {
 			third_score1.setImage(new Image(getCharacter(thirdScoreString.charAt(0))));
 			if (scores[2] >= 10) {
@@ -276,6 +283,7 @@ public class LeaderboardController {
 	}
 	
 	
+	/* Adds key listener to scene from main app */
 	public void addKeyListener() {
 		
 		mainApp.getScene().setOnKeyPressed(new EventHandler<KeyEvent> (){
@@ -290,7 +298,7 @@ public class LeaderboardController {
 	}
 	
 	
-	/* Helper function */
+	/* Helper function for getting images corresponding to a character that needs to be printed to the UI*/
 	private String getCharacter(char character) {
 		
 		switch (character) {
@@ -372,6 +380,7 @@ public class LeaderboardController {
 	}
 	
 	
+	/* Public setter to reference main app */
 	public void setMainApp(MainApp mainApp) {
 		
 		this.mainApp = mainApp;
