@@ -94,23 +94,25 @@ public class GameViewController {
 		/* First, select map based on user input */
 		char map = game.getMap();
 		String backgroundImage;
+		
 		switch (map) {
-    	case 'c' :
+		 case 'r' :
+		    backgroundImage = "bg/background-ruins_game.png";
+			break;
+    	case 'f' :
     		backgroundImage = "bg/background-forest_game.png";
     		break;
+    	case 'd' :
+    		backgroundImage = "bg/background-deserttemple_game.png";
+  	    	break;
 	    case 's' :
 	    	backgroundImage = "bg/background-sea_game.png";
-	    	break;
-	    case 'd' :
-	    	backgroundImage = "bg/background-deserttemple_game.png";
-	    	break;
-	    case 'r' :
-	    	backgroundImage = "assets/tiles/mapBlock-ruins_game.png";
-			break;
+	    	break;	   
 	    default :
-	    	backgroundImage = "bg/background-classic_game.png";
+	    	backgroundImage = "bg/background-ruins_game.png";
 	    	break;
 		}
+		
 		/*Second, set the map as the background */
 		background_map.setImage(new Image(backgroundImage));
 		

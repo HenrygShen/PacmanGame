@@ -53,8 +53,8 @@
       <ImageView fx:id="third_score2" fitHeight="50.0" fitWidth="50.0" layoutX="910.0" layoutY="450.0" pickOnBounds="true" preserveRatio="true" />
       <ImageView fx:id="third_score3" fitHeight="50.0" fitWidth="50.0" layoutX="940.0" layoutY="450.0" pickOnBounds="true" preserveRatio="true" />
       <ImageView fx:id="third_score4" fitHeight="50.0" fitWidth="50.0" layoutX="970.0" layoutY="450.0" pickOnBounds="true" preserveRatio="true" />
-      <ImageView fx:id="map1" fitHeight="50.0" fitWidth="200.0" layoutX="1074.0" layoutY="131.0" pickOnBounds="true" preserveRatio="true" />
-      <ImageView fx:id="map2" fitHeight="50.0" fitWidth="200.0" layoutX="1074.0" layoutY="290.0" pickOnBounds="true" preserveRatio="true" />
-      <ImageView fx:id="map3" fitHeight="50.0" fitWidth="200.0" layoutX="1074.0" layoutY="450.0" pickOnBounds="true" preserveRatio="true" />
+      <ImageView fx:id="map1" fitHeight="50.0" fitWidth="200.0" layoutX="1125.0" layoutY="131.0" pickOnBounds="true" preserveRatio="true" />
+      <ImageView fx:id="map2" fitHeight="50.0" fitWidth="200.0" layoutX="1125.0" layoutY="290.0" pickOnBounds="true" preserveRatio="true" />
+      <ImageView fx:id="map3" fitHeight="50.0" fitWidth="200.0" layoutX="1125.0" layoutY="450.0" pickOnBounds="true" preserveRatio="true" />
    </children>
 </AnchorPane>
