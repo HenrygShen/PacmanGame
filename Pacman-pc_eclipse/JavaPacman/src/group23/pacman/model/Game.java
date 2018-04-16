@@ -208,7 +208,7 @@ public class Game {
 					}
 					else if (object.getType() == GameObject.TYPE.PELLET){
 						pelletsEaten++;
-						score++;
+						score += 10;
 					}
 					
 					objects.remove(object);
@@ -240,8 +240,8 @@ public class Game {
 	/* To change the movement behaviour to scatter for 5 seconds */
 	public void changeAIBehaviour() {
 		
-		if (score%60 == 0 && score != scatterScore) {
-			scatterScore = score;
+		if (score>=scatterScore) {
+			scatterScore = score + 600;
 			scatter = true;
 		}
 		if (scatter && !countDown) {

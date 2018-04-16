@@ -248,7 +248,7 @@ public class ResultsController {
 		this.map = map;
 		
 		/* Calculate the total score including bonuses */
-		this.totalScore = (time * 10) + (lives * 150) + score;
+		this.totalScore = (time * 5) + (lives * 150) + score;
 		
 	}
 	

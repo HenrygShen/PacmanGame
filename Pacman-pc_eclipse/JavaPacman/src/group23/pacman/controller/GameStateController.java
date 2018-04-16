@@ -139,7 +139,7 @@ public class GameStateController {
 			    	else if (e.getCode() == KeyCode.RIGHT) {
 			    		game.getPacman().queueMovement('R');
 			    	}
-			    	else if (e.getCode() == KeyCode.SPACE) {
+			    	else if (e.getCode() == KeyCode.ENTER) {
 			    		game.getPacman().whip();
 			    	}
 
