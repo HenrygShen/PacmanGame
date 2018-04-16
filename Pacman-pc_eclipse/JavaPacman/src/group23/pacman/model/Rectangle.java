@@ -9,15 +9,23 @@ public class Rectangle {
     private int height;
 
     private boolean firstIntersect;
+    private boolean hitBoxEnabled;
 
     public Rectangle(){
     	
+    	hitBoxEnabled = true;
         firstIntersect = true;
     }
     
     public boolean intersects(Rectangle other){
     	
-        return (this.x < (other.x + other.width) && (this.x + this.width) > other.x && this.y < (other.y  + other.height) && (this.y +  this.height) > other.y );
+    	if (hitBoxEnabled) {
+    		return (this.x < (other.x + other.width) && (this.x + this.width) > other.x && this.y < (other.y  + other.height) && (this.y +  this.height) > other.y );
+    	}
+    	else {
+    		return false;
+    	}
+  
     }
 
     public boolean firstIntersect(){
@@ -57,6 +65,11 @@ public class Rectangle {
     
     public double getY() {
     	return this.y;
+    }
+    
+    public void enableHitBox(boolean enable) {
+    	
+    	hitBoxEnabled = enable;
     }
 
 	public double getHeight() {

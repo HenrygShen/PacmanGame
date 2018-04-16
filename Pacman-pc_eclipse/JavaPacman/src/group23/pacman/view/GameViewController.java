@@ -56,6 +56,7 @@ public class GameViewController {
 	@FXML
 	private ImageView game_info_panel;
 
+
 	private long holdTime;
 	private long countDownTime;
 
@@ -71,8 +72,10 @@ public class GameViewController {
 	/* Stores game state (paused, running)*/
 	private boolean running = false;
 	
+	/* Essentially the game loop */
 	private AnimationTimer animationLoop;
 	
+
 	/* Time */
 	private long time = 0;
 	
@@ -96,21 +99,21 @@ public class GameViewController {
 		String backgroundImage;
 		
 		switch (map) {
-		 case 'r' :
-		    backgroundImage = "bg/background-ruins_game.png";
-			break;
-    	case 'f' :
-    		backgroundImage = "bg/background-forest_game.png";
-    		break;
-    	case 'd' :
-    		backgroundImage = "bg/background-deserttemple_game.png";
-  	    	break;
-	    case 's' :
-	    	backgroundImage = "bg/background-sea_game.png";
-	    	break;	   
-	    default :
-	    	backgroundImage = "bg/background-ruins_game.png";
-	    	break;
+			 case 'r' :
+			    backgroundImage = "bg/backgrounds-game/background-ruins_game.png";
+				break;
+	    	case 'f' :
+	    		backgroundImage = "bg/backgrounds-game/background-forest_game.png";
+	    		break;
+	    	case 'd' :
+	    		backgroundImage = "bg/backgrounds-game/background-deserttemple_game.png";
+	  	    	break;
+		    case 's' :
+		    	backgroundImage = "bg/backgrounds-game/background-sea_game.png";
+		    	break;	   
+		    default :
+		    	backgroundImage = "bg/backgrounds-game/background-ruins_game.png";
+		    	break;
 		}
 		
 		/*Second, set the map as the background */
@@ -144,12 +147,12 @@ public class GameViewController {
 	@FXML
 	private void initialize() {
 		
-		game_info_panel.setImage(new Image("bg/game_info_panel.png"));
+		game_info_panel.setImage(new Image("assets/Elements-GameView/game_info_panel.png"));
 		
 		/* Initialize 2 minute timer */
 		timer = new Timer(120);
 		min_ones.setImage(new Image("assets/numbers/2.png"));
-		colon.setImage(new Image("assets/misc/colon.png"));
+		colon.setImage(new Image("assets/Elements-GameView/colon.png"));
 		sec_tens.setImage(new Image("assets/numbers/0.png"));
 		sec_ones.setImage(new Image("assets/numbers/0.png"));
 		
@@ -160,7 +163,7 @@ public class GameViewController {
 		
 		/*Charges */
 		whip_charges.setImage(new Image("assets/numbers/0.png"));
-		slash.setImage(new Image("assets/misc/slash.png"));
+		slash.setImage(new Image("assets/Elements-GameView/slash.png"));
 		max_charges.setImage(new Image("assets/numbers/6.png"));
 		
 		/* Score starts off as 0 */
@@ -174,6 +177,12 @@ public class GameViewController {
 	
 	/* Pauses/starts the game */
 	public void toggleState() {
+		
+		/* When trying to pause,draw pause panel*/
+		if (this.running == true) {
+			graphicsContext.drawImage(new Image("bg/backgrounds-game/pause_panel.png"),0,0);
+			
+		}
 
 		this.running = !this.running;
 	}
@@ -329,13 +338,13 @@ public class GameViewController {
 		gameStateController.getGame().getGhost3().draw(graphicsContext);
 		gameStateController.getGame().getGhost4().draw(graphicsContext);
 		
-		
+
 		/* Conditionals for end of game */
 		if (gameStateController.levelCleared()) {
-			graphicsContext.drawImage(new Image("assets/misc/pass.png", 500, 250,false,false),283,284);
+			graphicsContext.drawImage(new Image("assets/Elements-GameView/pass.png", 500, 250,false,false),283,284);
 		}
 		else if (gameStateController.gameOver()) {
-			graphicsContext.drawImage(new Image("assets/misc/game_over.png",500,250,false,false),283,284);
+			graphicsContext.drawImage(new Image("assets/Elements-GameView/game_over.png",500,250,false,false),283,284);
 		}
 		
 		

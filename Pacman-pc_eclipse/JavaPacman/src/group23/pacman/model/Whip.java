@@ -79,6 +79,8 @@ public class Whip extends GameObject implements MovingCharacter {
 		
 		this.vector = pacman.getDirection();
 		
+		hitBox.enableHitBox(true);
+		
 		if (vector == 'U') {
 			
 			setX(x);
@@ -130,6 +132,7 @@ public class Whip extends GameObject implements MovingCharacter {
 		/* When playing last frame for whip animation, end the animation and set Pacman to non-powered state */
 		if (animationManager.getFrameIndex() == 2) {
 			animationManager.stopAction();
+			hitBox.enableHitBox(false);
 			shouldPlay = false;
 			pacman.endWhipAnim();
 		}
@@ -168,12 +171,14 @@ public class Whip extends GameObject implements MovingCharacter {
 		if (shouldPlay) {
 			
 			animationManager.draw(graphicsContext,this.x,this.y);
-			//graphicsContext.setFill(Color.WHITESMOKE);
-			//graphicsContext.fillRect(hitBox.getX(),hitBox.getY(),hitBox.getWidth(),hitBox.getHeight());
-			//graphicsContext.setFill(Color.GREEN);
-			//graphicsContext.setStroke(Color.BLUE);
+			
 
 		}
+		
+		graphicsContext.setFill(Color.WHITESMOKE);
+		graphicsContext.fillRect(hitBox.getX(),hitBox.getY(),hitBox.getWidth(),hitBox.getHeight());
+		graphicsContext.setFill(Color.GREEN);
+		graphicsContext.setStroke(Color.BLUE);
 		
 	}
 	

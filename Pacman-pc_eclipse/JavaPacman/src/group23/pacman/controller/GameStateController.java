@@ -146,9 +146,7 @@ public class GameStateController {
 			    	else if (e.getCode() == KeyCode.PAGE_DOWN) {
 			    		gameViewController.getTimer().endTimer();
 			    		gameViewController.setTimerImage();
-			    		
 			    	}
-			    	
 			    	/* Pause button */
 			    	else if (e.getCode() == KeyCode.P) {
 			    		gameViewController.toggleState();

@@ -210,7 +210,7 @@ public class Pacman extends GameObject implements MovingCharacter {
     
     
     /* Plays Pacman whip sound effect */
-	public void playSfx(Media sfx) {
+	private void playSfx(Media sfx) {
 		mediaPlayer = new MediaPlayer(sfx);
 		mediaPlayer.setVolume(0.3);
 		mediaPlayer.play();

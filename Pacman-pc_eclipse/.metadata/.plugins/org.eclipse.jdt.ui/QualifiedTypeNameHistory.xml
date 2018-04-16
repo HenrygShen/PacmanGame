@@ -56,4 +56,6 @@
 <fullyQualifiedTypeName name="group23.pacman.view.LeaderboardController"/>
 <fullyQualifiedTypeName name="javafx.event.EventHandler"/>
 <fullyQualifiedTypeName name="javafx.scene.image.Image"/>
+<fullyQualifiedTypeName name="javafx.scene.media.Media"/>
+<fullyQualifiedTypeName name="javafx.scene.media.MediaPlayer"/>
 </qualifiedTypeNameHistroy>

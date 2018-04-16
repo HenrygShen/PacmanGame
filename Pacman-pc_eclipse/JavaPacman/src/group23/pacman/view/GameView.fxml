@@ -36,5 +36,6 @@
       <ImageView fx:id="whip_charges" fitHeight="50.0" fitWidth="50.0" layoutX="1160.0" layoutY="430.0" pickOnBounds="true" preserveRatio="true" />
       <ImageView fx:id="slash" fitHeight="50.0" fitWidth="50.0" layoutX="1190.0" layoutY="430.0" pickOnBounds="true" preserveRatio="true" />
       <ImageView fx:id="max_charges" fitHeight="50.0" fitWidth="50.0" layoutX="1220.0" layoutY="430.0" pickOnBounds="true" preserveRatio="true" />
+      <ImageView fx:id="fade" fitHeight="768.0" fitWidth="1366.0" pickOnBounds="true" preserveRatio="true" />
    </children>
 </AnchorPane>

@@ -1,5 +1,7 @@
 package group23.pacman.view;
 
+import java.io.File;
+
 import group23.pacman.MainApp;
 import group23.pacman.model.ScoreHandler;
 import group23.pacman.model.Timer;
@@ -10,6 +12,8 @@ import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.KeyCode;
 import javafx.scene.input.KeyEvent;
+import javafx.scene.media.Media;
+import javafx.scene.media.MediaPlayer;
 
 public class ResultsController {
 	
@@ -61,6 +65,8 @@ public class ResultsController {
 	private long holdTime;
 	
 	
+	private int waitMode;
+	
 	
 	/* Constructor */
 	public ResultsController() {
@@ -71,8 +77,8 @@ public class ResultsController {
 	@FXML
 	private void initialize() {
 		
-		background.setImage(new Image("bg/background-results.png"));
 		scoreBeaten = false;
+		waitMode = 0;
 	}
 	
 	
@@ -83,10 +89,14 @@ public class ResultsController {
 	    	@Override
 	    	public void handle(KeyEvent event) {
 		    	if (event.getCode() == KeyCode.ESCAPE) {
-		    		mainApp.showWelcomeScreen();
+		    		if (waitMode == 1 || waitMode == 2) {
+		    			mainApp.showWelcomeScreen();
+		    		}
 		    	}
 		    	else if (event.getCode() == KeyCode.ENTER) {
-		    		mainApp.showLevelSelect();
+		    		if (waitMode == 1 || waitMode == 2) {
+		    			mainApp.showLevelSelect();
+		    		}
 		    	}
 		    	else if (event.getCode() == KeyCode.Y) {
 		    		if (scoreBeaten) {
@@ -174,9 +184,18 @@ public class ResultsController {
 		
 		for (int i = 0;i<scores.length;i++) {
 			if (totalScore > scores[i]) {
-				recordScorePrompt();
-				
+				scoreBeaten = true;
 			}
+		}
+		
+		/* Show a different results screen if no high score is beaten */
+		if (scoreBeaten) {
+			background.setImage(new Image("bg/background-results/background-results-high_score.png"));
+			recordScorePrompt();
+		}
+		else {
+			background.setImage(new Image("bg/background-results/background-results.png"));
+			waitMode = 1;
 		}
 		
 	}
@@ -198,10 +217,14 @@ public class ResultsController {
 					holdTime = System.currentTimeMillis();
 					
 				}
-				/* After two seconds, show the message */
+				/* After three seconds, show the message */
 				if (holdTimer.timedOut()) {
 					this.stop();
-					scoreBeaten = true;
+					waitMode = 2;
+					Media congratulationsNoise = new Media(new File("bin/assets/sfx/highScore.mp3").toURI().toString());
+					MediaPlayer mediaPlayer = new MediaPlayer(congratulationsNoise);
+					mediaPlayer.setVolume(0.3f);
+					mediaPlayer.play();
 					record_score.setImage(new Image("assets/misc/record_score.png"));
 				}
 			}
@@ -249,6 +272,8 @@ public class ResultsController {
 		
 		/* Calculate the total score including bonuses */
 		this.totalScore = (time * 5) + (lives * 150) + score;
+		
+		
 		
 	}
 	

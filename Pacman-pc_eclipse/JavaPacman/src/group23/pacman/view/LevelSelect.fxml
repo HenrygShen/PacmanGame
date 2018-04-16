@@ -9,9 +9,10 @@
 <AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="768.0" prefWidth="1366.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="group23.pacman.view.LevelSelectController">
    <children>
       <ImageView fx:id="background" fitHeight="768.0" fitWidth="1366.0" pickOnBounds="true" preserveRatio="true" />
-      <ImageView fx:id="levelImage" fitHeight="600.0" fitWidth="1000.0" layoutX="175.0" layoutY="21.0" pickOnBounds="true" preserveRatio="true" />
+      <ImageView fx:id="levelImage" fitHeight="600.0" fitWidth="833.0" layoutX="283.0" layoutY="21.0" pickOnBounds="true" preserveRatio="true" />
       <ImageView fx:id="leftArrow" fitHeight="110.0" fitWidth="110.0" layoutX="300.0" layoutY="650.0" pickOnBounds="true" preserveRatio="true" />
       <ImageView fx:id="rightArrow" fitHeight="110.0" fitWidth="110.0" layoutX="1000.0" layoutY="650.0" pickOnBounds="true" preserveRatio="true" />
+      <ImageView fx:id="map_label" fitHeight="50.0" fitWidth="200.0" layoutX="620.0" layoutY="689.0" pickOnBounds="true" preserveRatio="true" />
       <ImageView fx:id="fade" fitHeight="768.0" fitWidth="1366.0" pickOnBounds="true" preserveRatio="true" />
    </children>
 </AnchorPane>

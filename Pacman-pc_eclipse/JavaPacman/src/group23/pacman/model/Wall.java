@@ -16,20 +16,20 @@ public class Wall extends GameObject{
 		/* Choose which tile block to load into the map */
 		String mapBlock;
 		switch (map) {
-			case 'c' :
-				mapBlock = "assets/tiles/mapBlock-forest.png";
+			case 'r' :
+				mapBlock = "assets/tiles/mapBlock-ruins.png";
 				break;
-			case 's' :
-				mapBlock = "assets/tiles/mapBlock-sea.png";
+			case 'f' :
+				mapBlock = "assets/tiles/mapBlock-forest.png";
 				break;
 			case 'd' :
 				mapBlock = "assets/tiles/mapBlock-deserttemple.png";
 				break;
-			case 'r' :
-				mapBlock = "assets/tiles/mapBlock-ruins.png";
+			case 's' :
+				mapBlock = "assets/tiles/mapBlock-sea.png";
 				break;
 			default :
-				mapBlock = "assets/tiles/mapBlock-default.png";
+				mapBlock = "assets/tiles/mapBlock-ruins.png";
 				break;
 		}
 		this.mapBlock = new Image(mapBlock,10,10,false,false);
