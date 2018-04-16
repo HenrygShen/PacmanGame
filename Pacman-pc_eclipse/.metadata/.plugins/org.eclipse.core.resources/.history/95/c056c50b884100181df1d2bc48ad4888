@@ -164,7 +164,6 @@ public class GameViewController {
 	@FXML
 	private void initialize() {
 		
-		/* Panel which holds all the statistics of the running game ( lives,time remaining, charges,score) */
 		game_info_panel.setImage(new Image("assets/Elements-GameView/game_info_panel.png"));
 		
 		/* SFX for pause/resuming game */

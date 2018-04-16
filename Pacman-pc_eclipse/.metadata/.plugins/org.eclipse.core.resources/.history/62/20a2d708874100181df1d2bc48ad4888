@@ -162,7 +162,6 @@ public class GameStateController {
 			    	/* Show exit prompt */
 			    	else if (e.getCode() == KeyCode.ESCAPE) {
 			    		
-			    		/* Can only show if not currently shown and the countdown timer is not counting */
 			    		if (!escapePressed) {
 			    			if (!gameViewController.countingDown()) {
 				    			gameViewController.pauseGame();
@@ -172,8 +171,6 @@ public class GameStateController {
 			    		}
 			    		
 			    	}
-			    	
-			    	/* Yes/No keys to respond to exit prompt */
 			    	else if (e.getCode() == KeyCode.Y) {
 			    		if (escapePressed) {
 			    			gameViewController.showMenu();

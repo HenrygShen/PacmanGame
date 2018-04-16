@@ -1,6 +1,5 @@
 package group23.pacman.view;
 
-import java.io.File;
 import java.util.ArrayList;
 import group23.pacman.MainApp;
 import group23.pacman.controller.GameStateController;
@@ -13,8 +12,6 @@ import javafx.scene.Scene;
 import javafx.scene.canvas.Canvas;
 import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.image.*;
-import javafx.scene.media.Media;
-import javafx.scene.media.MediaPlayer;
 
 /** Controller class for the GameView screen */
 
@@ -92,15 +89,10 @@ public class GameViewController {
 	/* Used to manipulate time for showing to screen */
 	private Timer timer;
 	
-	/* Determines if the countdown timer is timed out, i.e game has started */
+	
 	private boolean countingDown;
 	
-	/* Recorded name of person who beats high score */
 	private String name;
-	
-	/* Media variables for playing sound effect for pause/resume */
-	private Media toggle;
-	private MediaPlayer mediaPlayer;
 
 	
 	
@@ -164,11 +156,7 @@ public class GameViewController {
 	@FXML
 	private void initialize() {
 		
-		/* Panel which holds all the statistics of the running game ( lives,time remaining, charges,score) */
 		game_info_panel.setImage(new Image("assets/Elements-GameView/game_info_panel.png"));
-		
-		/* SFX for pause/resuming game */
-		toggle = new Media(new File("bin/assets/sfx/toggle.mp3").toURI().toString());
 		
 		/* Initialize 2 minute timer */
 		timer = new Timer(120);
@@ -203,11 +191,14 @@ public class GameViewController {
 		if (!countingDown && !gameStateController.escapePressed()) {
 			/* When trying to pause,draw pause panel*/
 			if (this.running == true) {
-				pauseGame();
+				pauseOverlay.drawImage(new Image("bg/backgrounds-game/pause_panel.png"),0,0);
+				
 			}
 			else {
-				resumeGame();
+				pauseOverlay.clearRect(0,0,1366,768);
 			}
+	
+			this.running = !this.running;
 		}
 	}
 	
@@ -217,14 +208,12 @@ public class GameViewController {
 		pauseOverlay.clearRect(0, 0, 1366, 768);
 		pauseOverlay.drawImage(new Image("bg/backgrounds-game/pause_panel.png"),0,0);
 		this.running = false;
-		playSfx();
 	}
 	
 	public void resumeGame() {
 		
 		pauseOverlay.clearRect(0,0,1366,768);
 		this.running = true;
-		playSfx();
 	}
 	
 	
@@ -427,12 +416,6 @@ public class GameViewController {
 	}
 	
 	
-	/* Play sound effect for pause/resume */
-	private void playSfx() {
-		mediaPlayer = new MediaPlayer(toggle);
-		mediaPlayer.setVolume(0.3f);
-		mediaPlayer.play();
-	}
 	
 	public void showExitConfirmation() {
 		

@@ -172,8 +172,6 @@ public class GameStateController {
 			    		}
 			    		
 			    	}
-			    	
-			    	/* Yes/No keys to respond to exit prompt */
 			    	else if (e.getCode() == KeyCode.Y) {
 			    		if (escapePressed) {
 			    			gameViewController.showMenu();

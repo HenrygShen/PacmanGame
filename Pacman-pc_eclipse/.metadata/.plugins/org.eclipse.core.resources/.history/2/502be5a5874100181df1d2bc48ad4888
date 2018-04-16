@@ -1,6 +1,5 @@
 package group23.pacman.view;
 
-import java.io.File;
 import java.util.ArrayList;
 import group23.pacman.MainApp;
 import group23.pacman.controller.GameStateController;
@@ -164,11 +163,7 @@ public class GameViewController {
 	@FXML
 	private void initialize() {
 		
-		/* Panel which holds all the statistics of the running game ( lives,time remaining, charges,score) */
 		game_info_panel.setImage(new Image("assets/Elements-GameView/game_info_panel.png"));
-		
-		/* SFX for pause/resuming game */
-		toggle = new Media(new File("bin/assets/sfx/toggle.mp3").toURI().toString());
 		
 		/* Initialize 2 minute timer */
 		timer = new Timer(120);
@@ -208,6 +203,8 @@ public class GameViewController {
 			else {
 				resumeGame();
 			}
+	
+			this.running = !this.running;
 		}
 	}
 	
