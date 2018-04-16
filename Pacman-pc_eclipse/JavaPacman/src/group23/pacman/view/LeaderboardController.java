@@ -127,8 +127,11 @@ public class LeaderboardController {
 		/* Get scores and convert to strings for easier handling */
 		int scores[] = scoreHandler.getHighScores();
 		String firstScoreString = Integer.toString(scores[0]);
-		String secondScoreString = Integer.toString(scores[0]);
-		String thirdScoreString = Integer.toString(scores[0]);
+		String secondScoreString = Integer.toString(scores[1]);
+		String thirdScoreString = Integer.toString(scores[2]);
+		System.out.println("1: "+ firstScoreString );
+		System.out.println("2: "+ secondScoreString );
+		System.out.println("3: "+ thirdScoreString );
 		
 		/* Get maps */
 		String maps[] = scoreHandler.getMaps();
@@ -172,7 +175,7 @@ public class LeaderboardController {
 				first_score2.setImage(new Image(getCharacter(firstScoreString.charAt(1))));
 				if (scores[0] >= 100) {
 					first_score3.setImage(new Image(getCharacter(firstScoreString.charAt(2))));
-					if (scores[0] >= 100) {
+					if (scores[0] >= 1000) {
 						first_score4.setImage(new Image(getCharacter(firstScoreString.charAt(3))));
 					}
 				}
@@ -216,13 +219,13 @@ public class LeaderboardController {
 		}
 		
 
-		if (scores[1] >=0) {
+		if (scores[1] >= 0) {
 			second_score1.setImage(new Image(getCharacter(secondScoreString.charAt(0))));
 			if (scores[1] >= 10) {
 				second_score2.setImage(new Image(getCharacter(secondScoreString.charAt(1))));
 				if (scores[1] >= 100) {
 					second_score3.setImage(new Image(getCharacter(secondScoreString.charAt(2))));
-					if (scores[1] >= 100) {
+					if (scores[1] >= 1000) {
 						second_score4.setImage(new Image(getCharacter(secondScoreString.charAt(3))));
 					}
 				}
@@ -270,7 +273,7 @@ public class LeaderboardController {
 				third_score2.setImage(new Image(getCharacter(thirdScoreString.charAt(1))));
 				if (scores[2] >= 100) {
 					third_score3.setImage(new Image(getCharacter(thirdScoreString.charAt(2))));
-					if (scores[2] >= 100) {
+					if (scores[2] >= 1000) {
 						third_score4.setImage(new Image(getCharacter(thirdScoreString.charAt(3))));
 					}
 				}
