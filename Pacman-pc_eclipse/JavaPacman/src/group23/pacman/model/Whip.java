@@ -44,8 +44,8 @@ public class Whip extends GameObject implements MovingCharacter {
 		this.charges = 0;
 		
 		hitBox = new Rectangle();
-		hitBox.setWidth(10);
-		hitBox.setHeight(10);
+		hitBox.setWidth(0);
+		hitBox.setHeight(0);
 		hitBox.setX(this.x);
 		hitBox.setY(this.y);
 		

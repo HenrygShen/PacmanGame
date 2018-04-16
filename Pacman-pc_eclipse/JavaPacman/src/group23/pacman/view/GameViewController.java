@@ -46,8 +46,6 @@ public class GameViewController {
 	@FXML
 	private ImageView sec_ones;
 	@FXML
-	private ImageView start_timer;
-	@FXML
 	private ImageView whip_charges;
 	@FXML
 	private ImageView slash;
@@ -75,6 +73,9 @@ public class GameViewController {
 	/* Essentially the game loop */
 	private AnimationTimer animationLoop;
 	
+	
+	/* GraphicsContext for separate canvas which is used to paint the countdown timer */
+	private GraphicsContext countdownGraphicsContext;
 
 	/* Time */
 	private long time = 0;
@@ -207,6 +208,11 @@ public class GameViewController {
 		Canvas canvas = new Canvas(1366,768);
 		mainApp.getPane().getChildren().add(canvas);
 		
+		/* Separate canvas for countdown timer */
+		Canvas canvas2 = new Canvas(1366,768);
+		mainApp.getPane().getChildren().add(canvas2);
+		countdownGraphicsContext = canvas2.getGraphicsContext2D();
+		
 		graphicsContext = canvas.getGraphicsContext2D();
 		gameStateController.update();
 		gameStateController.update();
@@ -262,15 +268,17 @@ public class GameViewController {
 	/* Count-down that shows at the start of every new round/game */
 	public void startCountdown() {
 		
-		/* Count down timer starts at 3 seconds */
-		Timer timerStart = new Timer(0);
+		/* Count down timer starts at 3 seconds but we need 2 extra seconds allow player to get ready */
+		Timer timerStart = new Timer(5);
+		
 		
 		/* The game is paused while counting down */
 		running = false;
 		
-		start_timer.setImage(new Image(getDigit((char)timerStart.getSecOnes())));
-		
 		countDownTime = System.currentTimeMillis();
+		
+		countdownGraphicsContext.drawImage(new Image("bg/backgrounds-game/countdown_overlay.png"), 0, 0);
+		countdownGraphicsContext.drawImage(new Image("assets/Elements-GameView/ready.png"),470,360);
 		
 		new AnimationTimer() {
 			
@@ -278,14 +286,22 @@ public class GameViewController {
 				
 				/* Count down 1 second every second */
 				if (System.currentTimeMillis() - countDownTime >= 1000) {
+					
 					timerStart.countDown(1);
 					countDownTime = System.currentTimeMillis();
-					start_timer.setImage(new Image(getDigit((char)timerStart.getSecOnes())));
+					
+					/* Wait for timer to count from 5 seconds to 3 seconds before removing "Ready" sign.
+					 * Add 48 because getSecOnes() method returns seconds + 48 for ascii value */
+					if (timerStart.getSecOnes() <= 3 + 48) {
+						countdownGraphicsContext.clearRect(0, 0, 1366, 768);
+						countdownGraphicsContext.drawImage(new Image("bg/backgrounds-game/countdown_overlay.png"), 0, 0);
+						countdownGraphicsContext.drawImage(new Image(getDigit((char)timerStart.getSecOnes())),508,359);
+					}
 				}
 				/* After time has counted to 0, start the game */
 				if (timerStart.timedOut()) {
 					this.stop();
-					start_timer.setImage(new Image("assets/misc/empty.png"));
+					countdownGraphicsContext.clearRect(0,0,1366,768);
 					running = true;
 				}
 				
