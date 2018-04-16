@@ -25,9 +25,6 @@ public class Wall extends GameObject{
 			case 'd' :
 				mapBlock = "assets/tiles/mapBlock-deserttemple.png";
 				break;
-			case 'r' :
-				mapBlock = "assets/tiles/mapBlock-ruins.png";
-				break;
 			default :
 				mapBlock = "assets/tiles/mapBlock-default.png";
 				break;

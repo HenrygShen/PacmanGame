@@ -80,9 +80,9 @@ public class LevelSelectController {
 		fadeTransition(0);
 		
 		/* Set up level backgrounds to scroll through */
-		seaBackground = new Image("bg/background-sea_levelselect.png");
-		desertBackground = new Image("bg/background-deserttemple_levelselect.png");
-		classicBackground = new Image("bg/background-forest_levelselect.png");
+		seaBackground = new Image("bg/background-sea_game.png");
+		desertBackground = new Image("bg/background-desert_game.png");
+		classicBackground = new Image("bg/background-classic_game.png");
 		backgrounds = new Image[3];
 		backgrounds[0] = classicBackground;
 		backgrounds[1] = seaBackground;

@@ -41,7 +41,7 @@ public class Whip extends GameObject implements MovingCharacter {
 		this.pacman = pacman;
 		
 		/* Whip initially cannot be used (no charges) */
-		this.charges = 0;
+		this.charges = 1000;
 		
 		hitBox = new Rectangle();
 		hitBox.setWidth(10);

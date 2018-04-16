@@ -104,9 +104,6 @@ public class GameViewController {
 	    case 'd' :
 	    	backgroundImage = "bg/background-deserttemple_game.png";
 	    	break;
-	    case 'r' :
-	    	backgroundImage = "assets/tiles/mapBlock-ruins_game.png";
-			break;
 	    default :
 	    	backgroundImage = "bg/background-classic_game.png";
 	    	break;
