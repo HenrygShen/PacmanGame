@@ -2,7 +2,7 @@ package group23.pacman.model;
 import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.image.Image;
 
-/** The object that pacman will be eating */
+/** The object that Pacman will be eating */
 
 public class Pellet extends GameObject {
 	
@@ -34,7 +34,7 @@ public class Pellet extends GameObject {
 	}
 	
 	public void draw(GraphicsContext graphicsContext) {
-		
+
 		graphicsContext.drawImage(image, x,y);
 	}
 

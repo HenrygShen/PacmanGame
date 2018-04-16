@@ -1,8 +1,15 @@
 package group23.pacman.model;
+
+
 import group23.pacman.view.Animation;
 import group23.pacman.view.AnimationManager;
+
+import java.io.File;
 import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.image.Image;
+import javafx.scene.media.Media;
+import javafx.scene.media.MediaPlayer;
+import javafx.util.Duration;
 
 public class Pacman extends GameObject implements MovingCharacter {
 	
@@ -12,21 +19,26 @@ public class Pacman extends GameObject implements MovingCharacter {
 		ALIVE
 	}
 	
-	private static final int NUM_LIVES = 3;
 	
-	/* Pacman's size */
-	private static final int SPRITE_HEIGHT = 30;
-	private static final int SPRITE_WIDTH = 30;
-	private static final int OFFSET = 10;
-	
-	/* Pixels moved per update */
-	private static final int SPEED = 2;
+	/* Constants - do not change */
+	private final int SPRITE_HEIGHT = 30;
+	private final int SPRITE_WIDTH = 30;
+	private final int OFFSET = 10;
+	private final int SPEED = 2;
+	private final int NUM_LIVES = 3;
+
 	
 	/* Direction to move and planned direction */
 	private char vector;
 	private char queuedDirection;
 	
-	
+	/* Media variables for sound effects */
+	private Media whipSound;
+	private Media chompNoise;
+	private MediaPlayer mediaPlayer;
+	private MediaPlayer mediaPlayer2;
+	private Duration start;
+
 	/* Handles the animations */
 	private AnimationManager animationManager;
 	
@@ -43,9 +55,6 @@ public class Pacman extends GameObject implements MovingCharacter {
 	private int lives;
 	
 	
-	private int x;
-	private int y;
-	
 	
 	public Pacman(int x,int y,Board board) {
 
@@ -53,6 +62,18 @@ public class Pacman extends GameObject implements MovingCharacter {
 		
 		type = GameObject.TYPE.PACMAN;
 		state = STATE.ALIVE;
+		
+		/* Set up sound effect for Pacman using a whip */
+		start = new Duration(0);
+		whipSound = new Media(new File("assets/sfx/whipSound.mp3").toURI().toString());
+		mediaPlayer = new MediaPlayer(whipSound);
+		mediaPlayer.setVolume(0.3);
+		
+		/* Set up sound effect for Pacman eating the pellet */
+		chompNoise = new Media(new File("assets/sfx/chompNoise.mp3").toURI().toString());
+		mediaPlayer2 = new MediaPlayer(chompNoise);
+		mediaPlayer2.setVolume(0.3);
+		
 
 		/* Sets up the main character's hit-box */
 		hitBox = new Rectangle();
@@ -81,9 +102,16 @@ public class Pacman extends GameObject implements MovingCharacter {
 	
 	public void whip() {
 		
-		if (whip.getCharges() > 0) {
-			this.state = STATE.POWER_UP;
-			whip.useCharge();
+		/* Can only consume charge after whip has finished previous animation */
+		if (!whip.inAnimation()) {
+			if (whip.getCharges() > 0) {
+				this.state = STATE.POWER_UP;
+				//playSfx(whipSound);
+				mediaPlayer.stop();
+				mediaPlayer.setStartTime(start);
+				mediaPlayer.play();
+				whip.useCharge();
+			}
 		}
 	}
 
@@ -92,7 +120,7 @@ public class Pacman extends GameObject implements MovingCharacter {
 		
 		/* Update whip state only if in whipping state */
 		if (state == STATE.POWER_UP) {
-			whip.update(this.vector,this.x,this.y);
+			whip.update(this.x,this.y);
 		}
 		
 		animationManager.update();
@@ -102,8 +130,20 @@ public class Pacman extends GameObject implements MovingCharacter {
 	
 	/* Checks for collisions */
     public boolean collidedWith(GameObject object) {
-
+    	
+    	
     	Rectangle hitBox = object.getHitBox();
+    	
+    	
+    	if (object.getType() == GameObject.TYPE.PELLET || object.getType() == GameObject.TYPE.SPECIAL_PELLET) {
+    		if (this.hitBox.intersects(hitBox)) {
+    			//playSfx(chompNoise);
+			mediaPlayer2.stop();
+			mediaPlayer2.setStartTime(start);
+			mediaPlayer2.play();
+    		}
+    	}
+    	
     	
     	return this.hitBox.intersects(hitBox);
     }
@@ -113,12 +153,14 @@ public class Pacman extends GameObject implements MovingCharacter {
     public void loseLife() {
     	
     	lives--;
+    	this.whip.endAnim();
     	this.state = STATE.DEAD;
+    	
     }
 
     
-    /* End Pacman invincible/whipping state */
-    public void setVulnerable() {
+    /* End Pacman whipping state */
+    public void endWhipAnim() {
     	
     	this.state = STATE.ALIVE;
     }
@@ -158,6 +200,7 @@ public class Pacman extends GameObject implements MovingCharacter {
     }
         
     
+    /* Updates Pacman's x,y coordinates depending on it's direction */
     public void updateDestination() {
     
     		
@@ -180,6 +223,14 @@ public class Pacman extends GameObject implements MovingCharacter {
     }
     
     
+    /* Plays Pacman whip sound effect */
+	private void playSfx(Media sfx) {
+		mediaPlayer = new MediaPlayer(sfx);
+		mediaPlayer.setVolume(0.3);
+		mediaPlayer.play();
+	}
+	
+	
     /* Resets Pacman's position when Pacman dies and still has lives left. */
 	public void reset(int x, int y) {
 		
@@ -215,16 +266,18 @@ public class Pacman extends GameObject implements MovingCharacter {
 		}
     }
     
+    
     /* Public draw method */
 	public void draw(GraphicsContext graphicsContext) {
 		
 		animationManager.draw(graphicsContext,this.x,this.y);
+		
 	}
     
 	
 	/* Set up the frame animation for the main character */
 	private void setUpAnimations() {
-		
+
 		Image leftC = new Image("assets/Pacman/leftClosed.png",SPRITE_WIDTH,SPRITE_HEIGHT,false,false);
 		Image leftO = new Image("assets/Pacman/leftOpen.png",SPRITE_WIDTH,SPRITE_HEIGHT,false,false);
 		Image rightC = new Image("assets/Pacman/rightClosed.png",SPRITE_WIDTH,SPRITE_HEIGHT,false,false);
@@ -284,6 +337,11 @@ public class Pacman extends GameObject implements MovingCharacter {
 	 public int getLives() {
 		 
 		 return this.lives;
+	 }
+	 
+	 public void setLives(int lives) {
+		 
+		 this.lives = lives;
 	 }
 	    
 	 public double getX() {

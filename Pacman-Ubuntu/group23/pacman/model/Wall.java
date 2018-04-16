@@ -17,13 +17,16 @@ public class Wall extends GameObject{
 		String mapBlock;
 		switch (map) {
 			case 'c' :
-				mapBlock = "assets/tiles/mapBlock-classic.png";
+				mapBlock = "assets/tiles/mapBlock-forest.png";
 				break;
 			case 's' :
 				mapBlock = "assets/tiles/mapBlock-sea.png";
 				break;
 			case 'd' :
-				mapBlock = "assets/tiles/mapBlock-desert.png";
+				mapBlock = "assets/tiles/mapBlock-deserttemple.png";
+				break;
+			case 'r' :
+				mapBlock = "assets/tiles/mapBlock-ruins.png";
 				break;
 			default :
 				mapBlock = "assets/tiles/mapBlock-default.png";

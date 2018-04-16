@@ -2,7 +2,6 @@ package group23.pacman.controller;
 
 import group23.pacman.model.Game;
 import group23.pacman.view.GameViewController;
-import javafx.application.Platform;
 import javafx.event.EventHandler;
 import javafx.scene.Scene;
 import javafx.scene.input.KeyCode;
@@ -26,7 +25,9 @@ public class GameStateController {
 	/* Keep track of pacman's lives */
 	private int pacmanLives;
 	
-	
+	/* Keep track of game state */
+	private boolean gameOver;
+	private boolean levelCleared;
 	
 	/* Public constructor */
 	public GameStateController(GameViewController gameViewController,Game game) {
@@ -35,6 +36,9 @@ public class GameStateController {
 		this.scene = gameViewController.getScene();
 		this.game = game;
 		this.pacmanLives = game.getPacman().getLives();
+		this.levelCleared = false;
+		this.gameOver = false;
+
 		
 		
 	}
@@ -52,44 +56,50 @@ public class GameStateController {
 		/* Check to make sure we're not out of time */
 		checkTimer();
 		
-		/* If pacman lost a life, show this to the screen */
+		/* If Pacman lost a life, show this to the screen */
 		if (pacmanLives != game.getPacman().getLives()) {
 			
 			/* If all lives lost, stop the game */
 			if (game.getPacman().getLives() == 0) {
 				
+				pacmanLives = game.getPacman().getLives();
 				gameViewController.showLivesLeft();
 				gameViewController.stopGame();
-				
+				gameOver = true;
+				gameViewController.showGameEnd();
+		
 			}
 			
-			/* Otherwise, just show number of lives to the screen and reset the timer */
+			/* Otherwise, just show number of lives to the screen */
 			else {
 				
 				gameViewController.showLivesLeft();
 				pacmanLives = game.getPacman().getLives();
-				gameViewController.getTimer().resetCounter();
-				gameViewController.setTimerImage();
 				gameViewController.startCountdown();
 			}
+		}
+		
+		else if (game.levelCleared()) {
+			levelCleared = true;
+			gameViewController.showGameEnd();
+		
 		}
 
 	}
 	
+	
 	/* Checks if the player is losing on time */
 	private void checkTimer() {
 		
-		/* If player ran out of time, player loses a life */
+		/* If player ran out of time, end the game */
 		if (gameViewController.getTimer().timedOut()) {
-		
-			/* Lose life and reset timer */
-			game.getPacman().loseLife();
-			gameViewController.getTimer().resetCounter();
-			gameViewController.setTimerImage();
-			gameViewController.finalUpdate();
+			
+			gameOver = true;
+			game.getPacman().setLives(0);
 		}
 		
 	}
+	
 	
 	
 	/* Public getter to allow GameViewController(the view class) to reference objects(to draw) */
@@ -98,6 +108,16 @@ public class GameStateController {
 		return this.game;
 	}
 	
+	public boolean gameOver() {
+		
+		return this.gameOver;
+	}
+	
+	public boolean levelCleared() {
+		
+		return this.levelCleared;
+	}
+		
 	
 	/**
 	 * KEY LISTENERS FOR DIFFERENT GAME MODES 
@@ -126,13 +146,15 @@ public class GameStateController {
 			    	else if (e.getCode() == KeyCode.PAGE_DOWN) {
 			    		gameViewController.getTimer().endTimer();
 			    		gameViewController.setTimerImage();
+			    		
 			    	}
+			    	
 			    	/* Pause button */
 			    	else if (e.getCode() == KeyCode.P) {
 			    		gameViewController.toggleState();
 			    	}
 			    	else if (e.getCode() == KeyCode.ESCAPE) {
-			    		Platform.exit();
+			    		gameViewController.showMenu();
 			    	}
 		    	}
 		    });
@@ -179,7 +201,7 @@ public class GameStateController {
 			    		gameViewController.toggleState();
 			    	}
 			    	else if (e.getCode() == KeyCode.ESCAPE) {
-			    		Platform.exit();
+			    		gameViewController.showMenu();
 			    	}
 		    	}
 		    });
@@ -238,7 +260,7 @@ public class GameStateController {
 			    		gameViewController.toggleState();
 			    	}
 			    	else if (e.getCode() == KeyCode.ESCAPE) {
-			    		Platform.exit();
+			    		gameViewController.showMenu();
 			    	}
 		    	}
 		    });

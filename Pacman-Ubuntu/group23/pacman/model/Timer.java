@@ -23,7 +23,9 @@ public class Timer {
 	
 	public void countDown(int decrement) {
 		
-		this.currentTime -= decrement;
+		if (this.currentTime > 0){
+			this.currentTime -= decrement;
+		}
 		
 	}
 	
@@ -52,6 +54,11 @@ public class Timer {
 	public void endTimer() {
 		
 		currentTime =0;
+	}
+	
+	public int getTimeRemaining() {
+		
+		return this.currentTime;
 	}
 	
 	/* Checks if the timer has counted to 0 */

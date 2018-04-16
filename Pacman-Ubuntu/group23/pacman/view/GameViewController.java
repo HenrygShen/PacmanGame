@@ -1,7 +1,6 @@
 package group23.pacman.view;
 
 import java.util.ArrayList;
-
 import group23.pacman.MainApp;
 import group23.pacman.controller.GameStateController;
 import group23.pacman.model.Game;
@@ -18,7 +17,8 @@ import javafx.scene.image.*;
 
 public class GameViewController {
 	
-	/* FXML elements in GameView.fxml */
+	
+	/* View elements in GameView.fxml */
 	@FXML
 	private ImageView background_map;
 	@FXML
@@ -30,8 +30,6 @@ public class GameViewController {
 	@FXML
 	private ImageView digit_thous;
 	@FXML
-	private ImageView score_image;
-	@FXML
 	private ImageView life_1;
 	@FXML
 	private ImageView life_2;
@@ -39,10 +37,6 @@ public class GameViewController {
 	private ImageView life_3;
 	@FXML
 	private ImageView lives_image;
-	@FXML
-	private ImageView time_remaining;
-	@FXML
-	private ImageView charges_remaining;
 	@FXML
 	private ImageView min_ones;
 	@FXML
@@ -54,12 +48,15 @@ public class GameViewController {
 	@FXML
 	private ImageView start_timer;
 	@FXML
-	private ImageView whip_huns;
+	private ImageView whip_charges;
 	@FXML
-	private ImageView whip_tens;
+	private ImageView slash;
 	@FXML
-	private ImageView whip_ones;
-	
+	private ImageView max_charges;
+	@FXML
+	private ImageView game_info_panel;
+
+	private long holdTime;
 	private long countDownTime;
 
 	/* Reference to the main app */
@@ -81,7 +78,11 @@ public class GameViewController {
 	
 	/* Used to manipulate time for showing to screen */
 	private Timer timer;
+	
 
+	private String name;
+
+	
 	
 	public GameViewController() {
 		
@@ -95,19 +96,21 @@ public class GameViewController {
 		String backgroundImage;
 		switch (map) {
     	case 'c' :
-    		backgroundImage = "bg/background-classic_game.png";
+    		backgroundImage = "bg/background-forest_game.png";
     		break;
 	    case 's' :
 	    	backgroundImage = "bg/background-sea_game.png";
 	    	break;
 	    case 'd' :
-	    	backgroundImage = "bg/background-desert_game.png";
+	    	backgroundImage = "bg/background-deserttemple_game.png";
 	    	break;
+	    case 'r' :
+	    	backgroundImage = "assets/tiles/mapBlock-ruins_game.png";
+			break;
 	    default :
-	    	backgroundImage = "bg/background-sea_game.png";
+	    	backgroundImage = "bg/background-classic_game.png";
 	    	break;
 		}
-		
 		/*Second, set the map as the background */
 		background_map.setImage(new Image(backgroundImage));
 		
@@ -139,26 +142,26 @@ public class GameViewController {
 	@FXML
 	private void initialize() {
 		
+		game_info_panel.setImage(new Image("bg/game_info_panel.png"));
+		
 		/* Initialize 2 minute timer */
 		timer = new Timer(120);
-		time_remaining.setImage(new Image("assets/misc/time_remaining.png"));
 		min_ones.setImage(new Image("assets/numbers/2.png"));
 		colon.setImage(new Image("assets/misc/colon.png"));
 		sec_tens.setImage(new Image("assets/numbers/0.png"));
 		sec_ones.setImage(new Image("assets/numbers/0.png"));
 		
 		/* Lives */
-		lives_image.setImage(new Image("assets/misc/lives.png"));
-	
+		life_1.setImage(new Image("assets/Pacman/rightOpen.png"));
+		life_2.setImage(new Image("assets/Pacman/rightOpen.png"));
+		life_3.setImage(new Image("assets/Pacman/rightOpen.png"));
 		
 		/*Charges */
-		charges_remaining.setImage(new Image("assets/misc/whip_charges.png"));
-		whip_huns.setImage(new Image("assets/numbers/0.png"));
-		whip_tens.setImage(new Image("assets/numbers/0.png"));
-		whip_ones.setImage(new Image("assets/numbers/0.png"));
+		whip_charges.setImage(new Image("assets/numbers/0.png"));
+		slash.setImage(new Image("assets/misc/slash.png"));
+		max_charges.setImage(new Image("assets/numbers/6.png"));
 		
 		/* Score starts off as 0 */
-		score_image.setImage(new Image("assets/misc/score.png"));
 		String digitimage = "assets/numbers/0.png";
 		digit_ones.setImage(new Image(digitimage));
 		digit_tens.setImage(new Image(digitimage));
@@ -173,20 +176,37 @@ public class GameViewController {
 		this.running = !this.running;
 	}
 	
+	
 	public void initialDraw() {
-
-		/* Add canvas to layout.
-		 * Create graphics context to draw game to canvas */
+		
+		
+		/* Add canvas for drawing the wall objects, and only 
+		 * draw the walls once */
+		Canvas canvasWall = new Canvas(1366,768);
+		mainApp.getPane().getChildren().add(canvasWall);
+		GraphicsContext gcWall = canvasWall.getGraphicsContext2D();
+		ArrayList<GameObject> objects = gameStateController.getGame().getOtherGameObjects();
+		for (GameObject object : objects) {
+			if (object.getType() == GameObject.TYPE.WALL) {
+				object.draw(gcWall);
+			}
+		}
+		
+		/* Add separate canvas for drawing everything else */
 		Canvas canvas = new Canvas(1366,768);
 		mainApp.getPane().getChildren().add(canvas);
+		
 		graphicsContext = canvas.getGraphicsContext2D();
 		gameStateController.update();
 		gameStateController.update();
+		
+		
 		draw(graphicsContext);
 		startCountdown();
+		
 	}
 	
-
+	
 	public void startGame() {
 
 		time = System.currentTimeMillis();
@@ -208,13 +228,16 @@ public class GameViewController {
 			}
 		};
 		animationLoop.start();
+
 	}
 	
 	
 	public void stopGame() {
 		
+		running = false;
 		animationLoop.stop();
 	}
+	
 	
 	/* Update after timer times out */
 	public void finalUpdate() {
@@ -224,11 +247,12 @@ public class GameViewController {
 		draw(graphicsContext);
 	}
 	
+	
 	/* Count-down that shows at the start of every new round/game */
 	public void startCountdown() {
 		
 		/* Count down timer starts at 3 seconds */
-		Timer timerStart = new Timer(3);
+		Timer timerStart = new Timer(0);
 		
 		/* The game is paused while counting down */
 		running = false;
@@ -272,6 +296,7 @@ public class GameViewController {
 
 	}
 	
+	
 	/* Shows the current time to the screen */
 	public void setTimerImage() {
 		
@@ -280,43 +305,112 @@ public class GameViewController {
 		sec_ones.setImage(new Image(getDigit((char)timer.getSecOnes())));
 	}
 	
-
 	
 	/* Draws all objects */
-	public void draw(GraphicsContext graphicsContext) {
+	private void draw(GraphicsContext graphicsContext) {
 		
 		
 		gameStateController.getGame().getPacman().draw(graphicsContext);
+		gameStateController.getGame().getPacman().getWhip().draw(graphicsContext);
 		updateScore();
 		updateWhipCharges();
+		
+		/* Draws other objects (pellets) */
+		ArrayList<GameObject> objects = gameStateController.getGame().getOtherGameObjects();
+		for (GameObject object : objects) {
+			if (object.getType() != GameObject.TYPE.WALL)
+			object.draw(graphicsContext);
+		}
 		
 		gameStateController.getGame().getGhost().draw(graphicsContext);
 		gameStateController.getGame().getGhost2().draw(graphicsContext);
 		gameStateController.getGame().getGhost3().draw(graphicsContext);
 		gameStateController.getGame().getGhost4().draw(graphicsContext);
-		gameStateController.getGame().getPacman().getWhip().draw(graphicsContext);
 		
-		/* Draws other objects ( walls ,pellets) */
-		ArrayList<GameObject> objects = gameStateController.getGame().getOtherGameObjects();
-		for (GameObject object : objects) {
-			object.draw(graphicsContext);
+		
+		/* Conditionals for end of game */
+		if (gameStateController.levelCleared()) {
+			graphicsContext.drawImage(new Image("assets/misc/pass.png", 500, 250,false,false),283,284);
+		}
+		else if (gameStateController.gameOver()) {
+			graphicsContext.drawImage(new Image("assets/misc/game_over.png",500,250,false,false),283,284);
+		}
+		
+		
+	}
+	
+	
+	/* Method used in GameStateController to leave game via button press */
+	public void showMenu() {
+		
+		stopGame();
+		mainApp.gameToMenu();
+		mainApp.showWelcomeScreen();
+	}
+	
+	
+	public void showGameEnd() {
+		
+		stopGame();
+		holdFrame();
+
+	}
+	
+	
+	private void holdFrame() {
+		
+		
+		Timer holdTimer = new Timer(2);
+		holdTime = System.currentTimeMillis();
+		
+		new AnimationTimer() {
+			
+			public void handle(long now) {
+				
+				
+				if (System.currentTimeMillis() - holdTime >= 1000) {
+					holdTimer.countDown(1);
+					holdTime = System.currentTimeMillis();
+					
+				}
+				if (holdTimer.timedOut()) {
+					this.stop();
+					/* Calculate bonuses */
+					int time = timer.getTimeRemaining();
+					int lives = gameStateController.getGame().getPacman().getLives();
+					int score = gameStateController.getGame().getIntScore();
+					System.out.println("Time  = " + time);
+					System.out.println("Lives  = " + lives);
+					System.out.println("Score  = " + score);
+	
+					mainApp.showResults(time,lives,score,gameStateController.getGame().getMap());
+				}
+			}
+		}.start();
+	}
+	
+	
+	
+	
+	/* Creates dialog stage using method from mainApp to get user's name */
+	public void showTextField() {
+		
+		mainApp.setName();
+		name = mainApp.getName();
+	}
+	
+	
+	/* Updates the images of score digits to reflect user's score */
+	private void updateScore() {
+		
+		/* Updates each digit */
+		for (int i = 0; i < 4 ; i++) {
+			setDigitImage(getDigit(gameStateController.getGame().getScore().charAt(i)), i);
 		}
 	}
 	
 	
-	/* Public getter to pass scene to GameStateController */
-	public Scene getScene() {
-		
-		return this.mainApp.getScene();
-	}
-	
-	/* Public setter to reference main app */
-	public void setMainApp(MainApp mainApp) {
-		
-		this.mainApp = mainApp;
-	}
-	
-	/* Updates the images of score digits to reflect user's score */
+	/* Helper function for updateScore() */
 	private void setDigitImage(String image, int digit) {
 		switch (digit) {
 			case 0 :
@@ -334,39 +428,14 @@ public class GameViewController {
 		}
 	}
 	
-	/* Updates the images of whip charge digits to reflect user's ammo */
-	private void setChargeDigits(String image,int digit) {
-		switch (digit) {
-			case 0 :
-				whip_ones.setImage(new Image(image));
-				break;
-			case 1 :
-				whip_tens.setImage(new Image(image));
-				break;
-			case 2 :
-				whip_huns.setImage(new Image(image));
-				break;
-
-		}
-	}
 	
-	private void updateScore() {
-		
-		/* Updates each digit */
-		for (int i = 0; i < 4 ; i++) {
-			setDigitImage(getDigit(gameStateController.getGame().getScore().charAt(i)), i);
-		}
-	}
-	
+	/* Prints to UI how many charges left */
 	private void updateWhipCharges() {
 		
-		/* Updates each digit */
-		for (int i = 0; i < 3 ; i++) {
-			setChargeDigits(getDigit(gameStateController.getGame().getCharges().charAt(i)), i);
-		}
+		whip_charges.setImage(new Image(getDigit(gameStateController.getGame().getCharges().charAt(0))));
 	}
 	
-	
+
 	/* Draws to the screen how many lives the player has left */
 	public void showLivesLeft() {
 		
@@ -375,7 +444,8 @@ public class GameViewController {
 		}
 	}
 	
-	/* Helper function for  */
+	
+	/* Helper function for showLivesLeft() */
 	public void setLivesImage(String image, int number) {
 		
 		switch (number) {
@@ -390,6 +460,7 @@ public class GameViewController {
 			break;
 		}
 	}
+	
 	
 	/* Helper function to break score digits down (to more easily show in UI) */
 	private String getDigit(char digit){
@@ -419,9 +490,34 @@ public class GameViewController {
                 return "assets/numbers/0.png";
         }
     }
+
+	
+	
+	/** PUBLIC GETTERS AND SETTERS BELOW */
+	
+	/* Public getter to pass name to GameStateController */
+	public String getName() {
+		
+		return name;
+	}
+	
+	/* Public getter to pass scene to GameStateController */
+	public Scene getScene() {
+		
+		return this.mainApp.getScene();
+	}
+	
+	/* Public setter to reference main app */
+	public void setMainApp(MainApp mainApp) {
+		
+		this.mainApp = mainApp;
+	}
 	
 	public Timer getTimer() {
 		
 		return this.timer;
 	}
+	
+	
+
 }

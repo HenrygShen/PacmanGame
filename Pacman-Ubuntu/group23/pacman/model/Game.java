@@ -1,13 +1,13 @@
 package group23.pacman.model;
 
-import java.io.File;
-import java.util.ArrayList;
 import group23.pacman.model.Pacman.STATE;
-import javafx.scene.media.Media;
-import javafx.scene.media.MediaPlayer;
+import java.util.ArrayList;
+import java.util.Vector;
 
 /**The class that handles all the game logics - collisions, level handling, and creation of the map.
  */
+
+
 public class Game {
 	
 	/* Each game has a main character */
@@ -19,10 +19,11 @@ public class Game {
 	private Ghost ghost3;
 	private Ghost ghost4;
 	
-	/* Media variables for sound effects */
-	private Media chompNoise;
-	private MediaPlayer mediaPlayer;
-	
+	/*Ghost A.I scatter behaviour */
+	private int scatterScore;
+	private boolean scatter;
+	private boolean countDown;
+		
 	/* ArrayList to access other game objects */
 	private ArrayList<GameObject> objects;
 	
@@ -36,25 +37,30 @@ public class Game {
 	private char map;
 	
 	/* Keep track of number of players/game mode */
-	private int players;
+	private int numPlayers;
 	
 	/* Game has array list of moving objects */
 	private ArrayList<MovingCharacter> characters;
 	
+	/* Time */
+	private long scatterTime = 0;
+	
+	/* Used to manipulate time for showing to screen */
+	private Timer timer;
+	
+	/* Clear condition */
+	private int pellets;
+	private int pelletsEaten;
 	
 	
-	public Game(char map,int players) {
+	
+	public Game(char map,int numPlayers,int player2Ghost,int player3Ghost) {
 		
 		this.map = map;
-		this.players = players;
+		this.numPlayers = numPlayers;
 		
 		/* Initial score is 0 */
 		score = 0;
-		
-		
-		/* Set up sound effect for Pacman eating the pellet */
-		//chompNoise = new Media(new File("bin/assets/sfx/chompNoise.mp3").toURI().toString());
-		
 		
 		/* Create new board (with user selected map) to define valid coordinates */
 		board = new Board();
@@ -63,6 +69,10 @@ public class Game {
 		/* Get reference to objects created on the board */
 		objects = board.getObjects();
 		
+		/* Clear condition (number of pellets to eat) */
+		pellets = board.getTotalPellets();
+		pelletsEaten = 0;
+		
 		
 		/* Set up character objects to add to ArrayList of MovingCharacter interface */
 		characters = new ArrayList<MovingCharacter>();
@@ -70,23 +80,12 @@ public class Game {
 		/* Only one pacman object will be created */
 		pacman = new Pacman(board.getPacman()[0],board.getPacman()[1], board);
 		
-		/* Set up ghosts according to game mode */
-		if (players == 1) {
-			ghost = new Ghost(board.getGhost()[0],board.getGhost()[1], board, 2);
-			ghost2 = new Ghost(board.getGhost()[0],board.getGhost()[1], board, 3);
-		}
-		else if (players == 2) {
-			ghost = new Ghost(board.getGhost()[0],board.getGhost()[1], board, 0);
-			ghost2 = new Ghost(board.getGhost()[0],board.getGhost()[1], board, 3);
-		}
-		else if (players == 3) {
-			ghost = new Ghost(board.getGhost()[0],board.getGhost()[1], board, 0);
-			ghost2 = new Ghost(board.getGhost()[0],board.getGhost()[1], board, 0);
-		}
+		setUpGhosts(player2Ghost,player3Ghost);
 		
-		/* The remaining 2 ghosts will have a random AI(2) and a chasing AI(3) */
-		ghost3 = new Ghost(board.getGhost()[0],board.getGhost()[1], board, 1);
-		ghost4= new Ghost(board.getGhost()[0],board.getGhost()[1], board, 4);
+		/* Initialise the variables used to control the AI scatter behaviour */
+		scatter = false;
+		countDown = false;
+		scatterScore = 0;
 		
 		/* Add all these moving characters to the array list */
 		characters.add(pacman);
@@ -99,12 +98,57 @@ public class Game {
 	}
 	
 	
+	private void setUpGhosts(int player2Ghost,int player3Ghost) {
+		
+		Vector<Integer> vector = new Vector<Integer>(4);
+		vector.add(1);
+		vector.add(2);
+		vector.add(3);
+		vector.add(4);
+		
+		/* Set up ghosts according to game mode */
+		if (numPlayers == 1) {
+			ghost = new Ghost(board.getGhost()[0],board.getGhost()[1], board, 3,1);
+			ghost2 = new Ghost(board.getGhost()[0],board.getGhost()[1], board, 2,2);
+			ghost3 = new Ghost(board.getGhost()[0],board.getGhost()[1], board, 1,3);
+			ghost4= new Ghost(board.getGhost()[0],board.getGhost()[1], board, 4,4);
+		}
+		
+		else if (numPlayers == 2) {
+			
+			/* Get and set player ghost choices then remove them from remaining choices */
+			vector.removeElement(player2Ghost);
+			ghost = new Ghost(board.getGhost()[0],board.getGhost()[1], board, 0,player2Ghost);
+			
+			/* The AI's will now have the remaining ghost sprites not chosen by the players */
+			ghost2 = new Ghost(board.getGhost()[0],board.getGhost()[1], board, 2,vector.elementAt(0));
+			ghost3 = new Ghost(board.getGhost()[0],board.getGhost()[1], board, 1,vector.elementAt(1));
+			ghost4= new Ghost(board.getGhost()[0],board.getGhost()[1], board, 4,vector.elementAt(2));
+		}
+		else if (numPlayers == 3) {
+			
+			/* Get and set player ghost choices then remove them from remaining choices */
+			vector.removeElement(player2Ghost);
+			ghost = new Ghost(board.getGhost()[0],board.getGhost()[1], board, 0,player2Ghost);
+			vector.removeElement(player3Ghost);
+			ghost2 = new Ghost(board.getGhost()[0],board.getGhost()[1], board, 0,player3Ghost);
+			
+			/* The AI's will now have the remaining ghost sprites not chosen by the players */
+			ghost3 = new Ghost(board.getGhost()[0],board.getGhost()[1], board, 1,vector.elementAt(0));
+			ghost4= new Ghost(board.getGhost()[0],board.getGhost()[1], board, 4,vector.elementAt(1));
+		}
+		
+
+	}
+	
+	
 	/* When updating the game state, we need to check for collisions before updating moving characters
 	 * due to the nature of how we implemented the MovingCharacter interface */
 	public void update( ) {
 		
 		checkCollisions();
 		pacman.update();
+		changeAIBehaviour();
 		ghost.update((int)pacman.getX(), (int)pacman.getY(), pacman.getDirection());
 		ghost2.update((int)pacman.getX(), (int)pacman.getY(), pacman.getDirection());
 		ghost3.update((int)pacman.getX(), (int)pacman.getY(), pacman.getDirection());
@@ -120,21 +164,21 @@ public class Game {
 			
 			/* Checks for collision with a ghost. Lose a life when you collide. */
 			if (character.getType() == GameObject.TYPE.GHOST) {
-				/* If using whip,freeze ghost (temporary interaction) */
+				/* If using whip, make them disappear (temporary) */
 				if (pacman.getState() == STATE.POWER_UP) {
-					if (pacman.getWhip().getHitBox().intersects(character.getHitBox())){
-						characters.remove(character);
-						break;
+					if (pacman.getWhip().getHitBox().intersects(character.getHitBox()) && ((Ghost)character).getState() == Ghost.STATE.ALIVE){
+						((Ghost) character).setState(Ghost.STATE.DEAD);
+						score += 15;
 					}
 				}
-				if (pacman.collidedWith((GameObject) character)) {
+				if (pacman.collidedWith((GameObject) character) && ((Ghost)character).getState() == Ghost.STATE.ALIVE) {
 					pacman.loseLife();
 					return;
 				}
 			}
 			
 			/* Restricts the character from moving into the spawn point after it has left the spawn point */
-			if (character.getX() == 518 && character.getY() == 307) {
+			if (character.getX() == 518 && character.getY() == 309) {
 				character.setHasLeftSpawn();
 			}
 			
@@ -162,10 +206,13 @@ public class Game {
 					if (object.getType() == GameObject.TYPE.SPECIAL_PELLET) {
 						pacman.getWhip().addCharges();
 					}
+					else if (object.getType() == GameObject.TYPE.PELLET){
+						pelletsEaten++;
+						score++;
+					}
 					
-					//playSfx(chompNoise);
 					objects.remove(object);
-					score++;
+					
 					break;
 				}
 		
@@ -173,7 +220,7 @@ public class Game {
 		}
 	}
 	
-	
+
 	/* Checks if pacman has died and resets all moving objects*/
 	public void checkState() {
 		
@@ -190,13 +237,58 @@ public class Game {
 	}
 	
 	
-	/* Plays Pacman munching sound effect */
-	public void playSfx(Media sfx) {
-		mediaPlayer = new MediaPlayer(sfx);
-		mediaPlayer.setVolume(0.3);
-		mediaPlayer.play();
+	/* To change the movement behaviour to scatter for 5 seconds */
+	public void changeAIBehaviour() {
+		
+		if (score%60 == 0 && score != scatterScore) {
+			scatterScore = score;
+			scatter = true;
+		}
+		if (scatter && !countDown) {
+			timer = new Timer(5);
+			ghost.getAI().setChase(false);
+			ghost2.getAI().setChase(false);
+			ghost3.getAI().setChase(false);
+			ghost4.getAI().setChase(false);
+			scatterTime = System.currentTimeMillis();
+			countDown = true;
+			scatter = false;
+		}
+		
+		/* Count down 1 second */
+		if (countDown) {
+			if (System.currentTimeMillis() - scatterTime >= 1000) {
+				timer.countDown(1);
+				scatterTime = System.currentTimeMillis();
+			}
+		
+			/* If 5 seconds is up, end scatter behaviour */
+			if (timer.timedOut()) {
+				ghost.getAI().setChase(true);
+				ghost2.getAI().setChase(true);
+				ghost3.getAI().setChase(true);
+				ghost4.getAI().setChase(true);
+				countDown = false;
+			}
+		}
 	}
 	
+	
+	public boolean scoreBeaten() {
+		
+		ScoreHandler scoreHandler = new ScoreHandler();
+		
+		int scores[] = scoreHandler.getHighScores();
+		
+		return (score > scores[0] || score > scores[1] || score > scores[2]);
+
+	}
+	
+	public void updateHighScores(String name) {
+		
+		ScoreHandler scoreHandler = new ScoreHandler();
+		scoreHandler.writeScore(score, name, map);
+	}
 	
 	
 	
@@ -229,12 +321,15 @@ public class Game {
 		return this.ghost4;
 	}
 	
-	
-	
 	/* Public getter to reference other game objects (i.e walls, pellets ) */
 	public ArrayList<GameObject> getOtherGameObjects() {
 		
 		return this.objects;
+	}
+	
+	public boolean levelCleared() {
+		
+		return (this.pellets == pelletsEaten);
 	}
 	
 	/* Public getter to reference map type */
@@ -246,16 +341,13 @@ public class Game {
 	/* Public getter to reference game mode */
 	public int getPlayers() {
 		
-		return this.players;
+		return this.numPlayers;
 	}
 	
 	public String getCharges() {
 		
 		String charges = Integer.toString(pacman.getWhip().getCharges());
-		charges = new StringBuilder(charges).reverse().toString();
-        while (charges.length() < 3){
-           	charges = charges + "x";
-        }
+		
         return charges;
 		
 	}
@@ -269,6 +361,11 @@ public class Game {
            	tempScore = tempScore + "x";
         }
         return tempScore;
+	}
+	
+	public int getIntScore() {
+		
+		return score;
 	}
 
 

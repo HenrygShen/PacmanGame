@@ -12,21 +12,28 @@ import java.util.ArrayList;
 
 public class Board {
 	
-	private static final int TILE_SIZE = 10;
-	private static final int X_OFFSET = 158;
-	private static final int Y_OFFSET = 7;
-	private static final int OFFSET = 1;
+	/* Constants - do not change */
+	private final int TILE_SIZE = 10;
+	private final int X_OFFSET = 158;
+	private final int Y_OFFSET = 9;
+	private final int OFFSET = 1;
 	
-	
+	/* Adds objects to list for Game object to reference */
 	private ArrayList<GameObject> objects;
 	
+	/* Grids for determining validity of path taken */
 	private boolean[][] status;
 	private boolean[][] node;
 	private boolean[][] ghostOnlyPath;
 	
+	/* Spawn point coordinates */
 	private int[] ghostCoords;
 	private int[] pacmanCoords;
+	
+	/* Keep track of clear condition */
+	private int pellets;
 
+	
 	public Board() {
 		
 		/* Create the list and arrays of objects/states to be placed on the map */
@@ -36,7 +43,9 @@ public class Board {
 		node = new boolean[75][75];
 		ghostOnlyPath = new boolean[75][75];
 		objects = new ArrayList<GameObject>();
+		pellets = 0 ;
 	}
+	
 	
 	public void createBoard(char map) {
 		
@@ -45,11 +54,14 @@ public class Board {
 		/* Parse the map.txt file, loads the map into the game */
 		try {
 			switch (map) {
-				case 's' :
+				case 'c' :
 					mapTxt = "mapOne.txt";
 					break;
+				case 's' :
+					mapTxt = "mapTwo.txt";
+					break;
 				case 'd' :
-					mapTxt = "mapOne.txt";
+					mapTxt = "mapThree.txt";
 					break;
 				default :
 					mapTxt = "mapOne.txt";
@@ -95,6 +107,7 @@ public class Board {
 						node[position][row] = false;
 						ghostOnlyPath[position][row] = false;
 						position++;
+						pellets++;
 					}
 					else if (line.charAt(i) == 'W') {
 						SpecialPellet sPellet = new SpecialPellet(position*TILE_SIZE + X_OFFSET,row*TILE_SIZE + Y_OFFSET);
@@ -164,6 +177,12 @@ public class Board {
 		return this.objects;
 	}
 	
+	public int getTotalPellets() {
+		
+		return this.pellets;
+	}
+	
+	
 	/* Checks if character is in the exact x,y position to do a 90 degree turn */
 	public boolean validTurningPoint(int x, int y) {
 		
@@ -175,8 +194,9 @@ public class Board {
 		}
 	}
 	
-	/* Checks if character is at the intersection nodes. */
-	public boolean atNode(int x, int y) {
+	
+	/* Checks if the specified position is an intersection node. */
+	public boolean isNode(int x, int y) {
 		
 		if (((x - X_OFFSET)%TILE_SIZE == 0) && ((y - Y_OFFSET)%TILE_SIZE == 0)){
 			return this.node[(x - X_OFFSET)/TILE_SIZE][(y - Y_OFFSET)/TILE_SIZE ];
@@ -185,6 +205,7 @@ public class Board {
 			return false;
 		}
 	}
+	
 	
 	/* Checks if a location is valid when the character is moving in a certain direction */
 	public boolean isValidDestination(boolean hasLeftSpawn, char direction, int x, int y) {
@@ -216,11 +237,20 @@ public class Board {
     	return false;
     }
 	
+	
+	public boolean isValidPos(int x, int y) {
+		boolean validPos = this.status[(x - X_OFFSET)/TILE_SIZE][(y - Y_OFFSET)/TILE_SIZE ] || this.ghostOnlyPath[(x - X_OFFSET)/TILE_SIZE][(y - Y_OFFSET)/TILE_SIZE ];
+		return validPos;
+	}
+	
+	
 	/* Pass coordinates of characters to spawn on map */
 	public int[] getPacman() {
 		
 		return pacmanCoords;
 	}
+	
+	
 	public int[] getGhost() {
 		
 		return ghostCoords;

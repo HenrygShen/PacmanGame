@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.*?>
+<?import javafx.scene.image.*?>
+<?import java.lang.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.layout.AnchorPane?>
+
+<AnchorPane maxHeight="768.0" maxWidth="1366.0" minHeight="768.0" minWidth="1366.0" prefHeight="768.0" prefWidth="1366.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="group23.pacman.view.CharacterSelectController">
+   <children>
+      <ImageView fx:id="background" fitHeight="768.0" fitWidth="1366.0" pickOnBounds="true" />
+      <ImageView fx:id="background2" fitHeight="768.0" fitWidth="1366.0" layoutX="1366.0" pickOnBounds="true" preserveRatio="true" />
+      <ImageView fx:id="ghost1" fitHeight="150.0" fitWidth="150.0" layoutX="300.0" layoutY="300.0" pickOnBounds="true" preserveRatio="true" />
+      <ImageView fx:id="ghost2" fitHeight="150.0" fitWidth="150.0" layoutX="500.0" layoutY="300.0" pickOnBounds="true" preserveRatio="true" />
+      <ImageView fx:id="ghost3" fitHeight="150.0" fitWidth="150.0" layoutX="700.0" layoutY="300.0" pickOnBounds="true" preserveRatio="true" />
+      <ImageView fx:id="ghost4" fitHeight="150.0" fitWidth="150.0" layoutX="900.0" layoutY="299.0" pickOnBounds="true" preserveRatio="true" />
+      <ImageView fx:id="player_banner" fitHeight="100.0" fitWidth="650.0" layoutX="350.0" layoutY="150.0" pickOnBounds="true" preserveRatio="true" />
+      <ImageView fx:id="fade" fitHeight="768.0" fitWidth="1366.0" focusTraversable="true" pickOnBounds="true" smooth="false" />
+   </children>
+</AnchorPane>

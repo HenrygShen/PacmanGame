@@ -2,6 +2,7 @@ package group23.pacman.view;
 
 
 import group23.pacman.MainApp;
+import javafx.animation.AnimationTimer;
 import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.scene.Scene;
@@ -14,8 +15,9 @@ import javafx.scene.input.KeyEvent;
 
 public class LevelSelectController {
 	
-	/* Number of available levels subtract 1 */
-	private static final int MAX_BACKGROUND_INDEX = 2;
+	/* Constant - do not change */
+	private final int MAX_BACKGROUND_INDEX = 2;
+	private final float FADE_SPEED = 0.02f;
 	
 	/* FXML elements in LevelSelect.fxml */
 	@FXML
@@ -26,11 +28,12 @@ public class LevelSelectController {
 	private ImageView leftArrow;
 	@FXML
 	private ImageView rightArrow;
+	@FXML
+	private ImageView fade;
 	
 	
 	/* Main app copy kept to use when referencing to get its scene. */
 	private MainApp mainApp;
-	
 	private Scene scene;
 
 	
@@ -39,26 +42,28 @@ public class LevelSelectController {
 	private Image seaBackground;
 	private Image desertBackground;
 	private Image classicBackground;
-	
 	private Image[] backgrounds;
 
+	
 	/* Variable to control scroll speed */
 	private long lastTime;
-
-	/* This boolean stops the enter key press that was used before from instantly starting a game */
-	private boolean firstPress;
-	
+		
 	/* Boolean to prevent animation to happen to already animated image */
 	private boolean animated;
+	
+	/* Fade variables */
+	private float opacity;
+	private long time;
 	
 	
 	/* Constructor */
 	public LevelSelectController() {
 		
 		lastTime = 0;
-		firstPress = true;
 		animated = false;
+		
 	}
+	
 	
 	/* Sets up images and backgrounds for initial view */
 	@FXML
@@ -68,10 +73,16 @@ public class LevelSelectController {
 		Image backgroundImage = new Image("bg/background-levelSelect.png");
 		background.setImage(backgroundImage);
 		
+		/* Fade */
+		fade.setImage(new Image("bg/blackbg.png"));
+		opacity = 1;
+		fade.setOpacity(opacity);
+		fadeTransition(0);
+		
 		/* Set up level backgrounds to scroll through */
-		seaBackground = new Image("bg/background-sea_game.png");
-		desertBackground = new Image("bg/background-desert_game.png");
-		classicBackground = new Image("bg/background-classic_game.png");
+		seaBackground = new Image("bg/background-sea_levelselect.png");
+		desertBackground = new Image("bg/background-deserttemple_levelselect.png");
+		classicBackground = new Image("bg/background-forest_levelselect.png");
 		backgrounds = new Image[3];
 		backgrounds[0] = classicBackground;
 		backgrounds[1] = seaBackground;
@@ -87,37 +98,85 @@ public class LevelSelectController {
 		
 	}
 	
+	
+	private void fadeTransition(int mode) {
+		
+		time = System.currentTimeMillis();
+		
+		AnimationTimer fadeAnimation = new AnimationTimer() {
+			public void handle(long now) {
+				
+				/* Every 0.05 seconds, move the two backgrounds to the left at SCROLL_SPEED pixels
+				 * When it is time to loop,move the images back to the right by the amount scrolled. */
+				
+				if (System.currentTimeMillis() - time > 0.05f) {
+					
+					if (mode == 0) {
+						opacity -= FADE_SPEED;
+					}
+					else {
+						opacity += FADE_SPEED;
+					}
+					
+					fade.setOpacity(opacity);
+					time = System.currentTimeMillis();
+				}
+				
+				if (mode == 0) {
+					if (opacity <= 0) {
+						this.stop();
+					}
+				}
+				else if (mode == 1){
+					if (opacity >= 1) {
+						mainApp.showGameView();
+						this.stop();
+						
+					}
+				}
+				else if (mode == 2) {
+					
+					if (opacity >= 1) {
+						mainApp.showWelcomeScreen();
+						this.stop();
+						
+					}
+				}
+			}
+		};
+		fadeAnimation.start();
+		
+	}
+	
+
 	/* Adds key listener to scene */
 	public void listenToKeyEvents() {
 		
 		scene.setOnKeyPressed(new EventHandler<KeyEvent>(){
 		    @Override
 		    public void handle(KeyEvent event) {
+		    	
 		    	/* Selects the currently shown map/level */
 		    	if (event.getCode() == KeyCode.ENTER) {	
-		    		if (!firstPress) {
-			    		char level;
-			    		switch (index) {
-			    			case 0 :
-			    				level = 'c';
-			    				break;
-			    			case 1 :
-			   					level = 's';
-			   					break;
-			    			case 2 :
-			    				level = 'd';
-			    				break;
-		    				default :
-			    				level = 'c';
-			    				break;
-			    		}
+			    	char level;
+			    	switch (index) {
+			    		case 0 :
+			    			level = 'c';
+			    			break;
+			    		case 1 :
+			   				level = 's';
+			   				break;
+			    		case 2 :
+			    			level = 'd';
+			    			break;
+		    			default :
+			    			level = 'c';
+			    			break;
+			    	}
+			    		System.out.println("same");
+			    	mainApp.setMap(level);
+			    	fadeTransition(1);
 			    		
-			    		mainApp.setMap(level);
-			    		mainApp.showGameView();
-		    		}
-		    		else {
-		    			firstPress = false;
-		    		}
 		    	}
 		    	else if (event.getCode() == KeyCode.LEFT) {
 		    		
@@ -146,6 +205,10 @@ public class LevelSelectController {
 						animateRight();
 						animated = true;
 					}
+				}
+				else if (event.getCode() == KeyCode.ESCAPE) {
+					
+					fadeTransition(2);
 				}
 				
 		    }	    
@@ -178,6 +241,7 @@ public class LevelSelectController {
 		this.scene = mainApp.getScene();
 	}
 		
+	
 	
 	/** BELOW ARE HELPER FUNCTIONS WHICH HELP WITH THE ANIMATION OF THIS VIEW **/
 	
