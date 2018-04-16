@@ -76,6 +76,12 @@ public class GameViewController {
 	
 	/* GraphicsContext for separate canvas which is used to paint the countdown timer */
 	private GraphicsContext countdownGraphicsContext;
+	
+	/* GraphicsContext for separate canvas which is used to paint the pause_overlay */
+	private GraphicsContext pauseOverlay;
+	
+	/* GraphicsContext for separate canvas which is used to paint the exit confirmation screen */
+	private GraphicsContext exitPrompt;
 
 	/* Time */
 	private long time = 0;
@@ -83,7 +89,9 @@ public class GameViewController {
 	/* Used to manipulate time for showing to screen */
 	private Timer timer;
 	
-
+	
+	private boolean countingDown;
+	
 	private String name;
 
 	
@@ -179,13 +187,33 @@ public class GameViewController {
 	/* Pauses/starts the game */
 	public void toggleState() {
 		
-		/* When trying to pause,draw pause panel*/
-		if (this.running == true) {
-			graphicsContext.drawImage(new Image("bg/backgrounds-game/pause_panel.png"),0,0);
-			
+		/* Can only toggle if not counting down and exit confirmation is not dispalyed */
+		if (!countingDown && !gameStateController.escapePressed()) {
+			/* When trying to pause,draw pause panel*/
+			if (this.running == true) {
+				pauseOverlay.drawImage(new Image("bg/backgrounds-game/pause_panel.png"),0,0);
+				
+			}
+			else {
+				pauseOverlay.clearRect(0,0,1366,768);
+			}
+	
+			this.running = !this.running;
 		}
-
-		this.running = !this.running;
+	}
+	
+	
+	public void pauseGame() {
+		
+		pauseOverlay.clearRect(0, 0, 1366, 768);
+		pauseOverlay.drawImage(new Image("bg/backgrounds-game/pause_panel.png"),0,0);
+		this.running = false;
+	}
+	
+	public void resumeGame() {
+		
+		pauseOverlay.clearRect(0,0,1366,768);
+		this.running = true;
 	}
 	
 	
@@ -212,6 +240,18 @@ public class GameViewController {
 		Canvas canvas2 = new Canvas(1366,768);
 		mainApp.getPane().getChildren().add(canvas2);
 		countdownGraphicsContext = canvas2.getGraphicsContext2D();
+		
+		/* Separate canvas for pause overlay */
+		Canvas canvas3 = new Canvas(1366,768);
+		mainApp.getPane().getChildren().add(canvas3);
+		pauseOverlay = canvas3.getGraphicsContext2D();
+		
+		
+		/* Separate canvas for exit prompt */
+		Canvas canvas4 = new Canvas(1366,768);
+		mainApp.getPane().getChildren().add(canvas4);
+		exitPrompt = canvas4.getGraphicsContext2D();
+		
 		
 		graphicsContext = canvas.getGraphicsContext2D();
 		gameStateController.update();
@@ -268,9 +308,10 @@ public class GameViewController {
 	/* Count-down that shows at the start of every new round/game */
 	public void startCountdown() {
 		
+		countingDown = true;
+		
 		/* Count down timer starts at 3 seconds but we need 2 extra seconds allow player to get ready */
 		Timer timerStart = new Timer(5);
-		
 		
 		/* The game is paused while counting down */
 		running = false;
@@ -284,25 +325,33 @@ public class GameViewController {
 			
 			public void handle(long now) {
 				
-				/* Count down 1 second every second */
-				if (System.currentTimeMillis() - countDownTime >= 1000) {
+				/* While not in exit confirmation screen */
+				if (!gameStateController.escapePressed()) {
 					
-					timerStart.countDown(1);
-					countDownTime = System.currentTimeMillis();
-					
-					/* Wait for timer to count from 5 seconds to 3 seconds before removing "Ready" sign.
-					 * Add 48 because getSecOnes() method returns seconds + 48 for ascii value */
-					if (timerStart.getSecOnes() <= 3 + 48) {
-						countdownGraphicsContext.clearRect(0, 0, 1366, 768);
-						countdownGraphicsContext.drawImage(new Image("bg/backgrounds-game/countdown_overlay.png"), 0, 0);
-						countdownGraphicsContext.drawImage(new Image(getDigit((char)timerStart.getSecOnes())),508,359);
+					/* Count down every second */
+					if (System.currentTimeMillis() - countDownTime >= 1000) {
+						
+						timerStart.countDown(1);
+						countDownTime = System.currentTimeMillis();
+						
+						/* Wait for timer to count from 5 seconds to 3 seconds before removing "Ready" sign.
+						 * Add 48 because getSecOnes() method returns seconds + 48 for ascii value */
+						if (timerStart.getSecOnes() <= 3 + 48) {
+							countdownGraphicsContext.clearRect(0, 0, 1366, 768);
+							countdownGraphicsContext.drawImage(new Image("bg/backgrounds-game/countdown_overlay.png"), 0, 0);
+							countdownGraphicsContext.drawImage(new Image(getDigit((char)timerStart.getSecOnes())),508,359);
+						}
+					}
+					/* After time has counted to 0, start the game */
+					if (timerStart.timedOut()) {
+						this.stop();
+						countdownGraphicsContext.clearRect(0,0,1366,768);
+						running = true;
+						countingDown = false;
 					}
 				}
-				/* After time has counted to 0, start the game */
-				if (timerStart.timedOut()) {
-					this.stop();
-					countdownGraphicsContext.clearRect(0,0,1366,768);
-					running = true;
+				else {
+					countDownTime = System.currentTimeMillis();
 				}
 				
 			}
@@ -364,6 +413,20 @@ public class GameViewController {
 		}
 		
 		
+	}
+	
+	
+	
+	public void showExitConfirmation() {
+		
+		
+		exitPrompt.drawImage(new Image("bg/backgrounds-game/quit_prompt.png"), 0, 0);
+		
+	}
+	
+	public void clearExitPrompt() {
+		
+		exitPrompt.clearRect(0, 0, 1366, 768);
 	}
 	
 	
@@ -538,6 +601,11 @@ public class GameViewController {
 	public Timer getTimer() {
 		
 		return this.timer;
+	}
+	
+	public boolean countingDown() {
+		
+		return this.countingDown;
 	}
 	
 	

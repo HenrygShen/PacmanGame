@@ -28,6 +28,7 @@ public class GameStateController {
 	/* Keep track of game state */
 	private boolean gameOver;
 	private boolean levelCleared;
+	private boolean escapePressed;
 	
 	/* Public constructor */
 	public GameStateController(GameViewController gameViewController,Game game) {
@@ -38,6 +39,7 @@ public class GameStateController {
 		this.pacmanLives = game.getPacman().getLives();
 		this.levelCleared = false;
 		this.gameOver = false;
+		this.escapePressed = false;
 
 		
 		
@@ -117,6 +119,11 @@ public class GameStateController {
 		
 		return this.levelCleared;
 	}
+	
+	public boolean escapePressed() {
+		
+		return this.escapePressed;
+	}
 		
 	
 	/**
@@ -152,7 +159,26 @@ public class GameStateController {
 			    		gameViewController.toggleState();
 			    	}
 			    	else if (e.getCode() == KeyCode.ESCAPE) {
-			    		gameViewController.showMenu();
+			    		
+			    		if (!escapePressed) {
+			    			if (!gameViewController.countingDown()) {
+				    			gameViewController.pauseGame();
+					    		gameViewController.showExitConfirmation();
+					    		escapePressed = true;
+			    			}
+			    		}
+			    		
+			    	}
+			    	else if (e.getCode() == KeyCode.Y) {
+			    		if (escapePressed) {
+			    			gameViewController.showMenu();
+			    		}
+			    	}
+			    	else if (e.getCode() == KeyCode.N) {
+			    		if (escapePressed) {
+			    			gameViewController.clearExitPrompt();
+			    			escapePressed = false;
+			    		}
 			    	}
 		    	}
 		    });
@@ -175,7 +201,7 @@ public class GameStateController {
 			    	else if (e.getCode() == KeyCode.RIGHT) {
 			    		game.getPacman().queueMovement('R');
 			    	}
-			    	else if (e.getCode() == KeyCode.SPACE) {
+			    	else if (e.getCode() == KeyCode.ENTER) {
 			    		game.getPacman().whip();
 			    	}
 			    	else if (e.getCode() == KeyCode.W) {
@@ -199,7 +225,26 @@ public class GameStateController {
 			    		gameViewController.toggleState();
 			    	}
 			    	else if (e.getCode() == KeyCode.ESCAPE) {
-			    		gameViewController.showMenu();
+			    		
+			    		if (!escapePressed) {
+			    			if (!gameViewController.countingDown()) {
+				    			gameViewController.pauseGame();
+					    		gameViewController.showExitConfirmation();
+					    		escapePressed = true;
+			    			}
+			    		}
+			    		
+			    	}
+			    	else if (e.getCode() == KeyCode.Y) {
+			    		if (escapePressed) {
+			    			gameViewController.showMenu();
+			    		}
+			    	}
+			    	else if (e.getCode() == KeyCode.N) {
+			    		if (escapePressed) {
+			    			gameViewController.clearExitPrompt();
+			    			escapePressed = false;
+			    		}
 			    	}
 		    	}
 		    });
@@ -222,7 +267,7 @@ public class GameStateController {
 			    	else if (e.getCode() == KeyCode.RIGHT) {
 			    		game.getPacman().queueMovement('R');
 			    	}
-			    	else if (e.getCode() == KeyCode.SPACE) {
+			    	else if (e.getCode() == KeyCode.ENTER) {
 			    		game.getPacman().whip();
 			    	}
 			    	else if (e.getCode() == KeyCode.W) {
@@ -257,8 +302,28 @@ public class GameStateController {
 			    	else if (e.getCode() == KeyCode.P) {
 			    		gameViewController.toggleState();
 			    	}
+			    	
 			    	else if (e.getCode() == KeyCode.ESCAPE) {
-			    		gameViewController.showMenu();
+			    		
+			    		if (!escapePressed) {
+			    			if (!gameViewController.countingDown()) {
+				    			gameViewController.pauseGame();
+					    		gameViewController.showExitConfirmation();
+					    		escapePressed = true;
+			    			}
+			    		}
+			    		
+			    	}
+			    	else if (e.getCode() == KeyCode.Y) {
+			    		if (escapePressed) {
+			    			gameViewController.showMenu();
+			    		}
+			    	}
+			    	else if (e.getCode() == KeyCode.N) {
+			    		if (escapePressed) {
+			    			gameViewController.clearExitPrompt();
+			    			escapePressed = false;
+			    		}
 			    	}
 		    	}
 		    });
