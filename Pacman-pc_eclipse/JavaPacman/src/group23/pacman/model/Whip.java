@@ -175,10 +175,11 @@ public class Whip extends GameObject implements MovingCharacter {
 
 		}
 		
-		graphicsContext.setFill(Color.WHITESMOKE);
-		graphicsContext.fillRect(hitBox.getX(),hitBox.getY(),hitBox.getWidth(),hitBox.getHeight());
-		graphicsContext.setFill(Color.GREEN);
-		graphicsContext.setStroke(Color.BLUE);
+		/* FOR debugging - draw hit box */
+//		graphicsContext.setFill(Color.WHITESMOKE);
+//		graphicsContext.fillRect(hitBox.getX(),hitBox.getY(),hitBox.getWidth(),hitBox.getHeight());
+//		graphicsContext.setFill(Color.GREEN);
+//		graphicsContext.setStroke(Color.BLUE);
 		
 	}
 	
