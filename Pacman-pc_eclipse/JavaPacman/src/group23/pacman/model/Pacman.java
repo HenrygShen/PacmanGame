@@ -64,7 +64,7 @@ public class Pacman extends GameObject implements MovingCharacter {
 		whipSound = new Media(new File("bin/assets/sfx/whipSound.mp3").toURI().toString());
 		
 		/* Set up sound effect for Pacman eating the pellet */
-		chompNoise = new Media(new File("bin/assets/sfx/chompNoise.mp3").toURI().toString());
+		chompNoise = new Media(new File("bin/assets/sfx/chompNoise.wav").toURI().toString());
 		
 
 		/* Sets up the main character's hit-box */
@@ -272,6 +272,7 @@ public class Pacman extends GameObject implements MovingCharacter {
 		Image upO = new Image("assets/Pacman/upOpen.png",SPRITE_WIDTH,SPRITE_HEIGHT,false,false);
 		Image downC = new Image("assets/Pacman/downClosed.png",SPRITE_WIDTH,SPRITE_HEIGHT,false,false);
 		Image downO = new Image("assets/Pacman/downOpen.png",SPRITE_WIDTH,SPRITE_HEIGHT,false,false);
+		
 		
 		Image[] leftMove = new Image[2];
 		leftMove[0] = leftC;

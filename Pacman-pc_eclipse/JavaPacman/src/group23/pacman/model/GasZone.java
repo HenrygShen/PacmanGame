@@ -13,7 +13,7 @@ public class GasZone extends GameObject {
 	private static final int X_OFFSET = 158;
 	private static final int Y_OFFSET = 9;
 	private static final int OFFSET = 20;
-	private static final int GASZONESIZE = 240;
+	private static final int GAS_ZONE_SIZE = 90;
 	
 	private boolean drawGas;
 	private boolean drawWarning;
@@ -51,8 +51,8 @@ public class GasZone extends GameObject {
 		
 		String warningZone = "assets/GasZone/warningZone.png";
 		String gasZone = "assets/GasZone/gasZone.png";
-		this.warningZoneImage = new Image(warningZone,GASZONESIZE,GASZONESIZE,false,false);
-		this.gasZoneImage = new Image(gasZone,GASZONESIZE,GASZONESIZE,false,false);
+		this.warningZoneImage = new Image(warningZone,GAS_ZONE_SIZE,GAS_ZONE_SIZE,false,false);
+		this.gasZoneImage = new Image(gasZone,GAS_ZONE_SIZE,GAS_ZONE_SIZE,false,false);
 		this.type = GameObject.TYPE.GASZONE;
 		
 		/* Timer which lasts as long as the game. To determine the spawn times of the gas zone */
@@ -66,18 +66,18 @@ public class GasZone extends GameObject {
 	public void update() {
 		
 		/* Every 15 seconds, a gas zone will appear in a random area of the map */
-		if (spawnTimer.getTimeRemaining()%15 == 0 && spawnTimer.getTimeRemaining() != 120 && drawWarning == false) {
+		if (spawnTimer.getTimeRemaining()%15 == 0  && drawWarning == false) {
 			/* Warning area will display for the first 5 seconds */
 			warningTime = spawnTimer.getTimeRemaining() - 5;
 			drawWarning = true;
 			drawGas = false;
-			int newX = rand.nextInt(18);
-			int newY = rand.nextInt(18);
+			int newX = rand.nextInt(23);
+			int newY = rand.nextInt(23);
 			
 			setX(newX * GRID_SIZE + X_OFFSET);
 			setY(newY * GRID_SIZE + Y_OFFSET);
-			hitBox.setWidth(GASZONESIZE - OFFSET);
-			hitBox.setHeight(GASZONESIZE - OFFSET);
+			hitBox.setWidth(GAS_ZONE_SIZE - OFFSET);
+			hitBox.setHeight(GAS_ZONE_SIZE - OFFSET);
 			hitBox.setX(newX * GRID_SIZE + X_OFFSET + OFFSET/2);
 			hitBox.setY(newY * GRID_SIZE + Y_OFFSET + OFFSET/2);
 		}
@@ -86,8 +86,8 @@ public class GasZone extends GameObject {
 			if (spawnTimer.getTimeRemaining() <= warningTime) {
 				drawWarning = false;
 				drawGas = true;
-				/* Gas zone lasts for 10 seconds */
-				gasTime = spawnTimer.getTimeRemaining() - 10;
+				/* Gas zone lasts for 3 seconds */
+				gasTime = spawnTimer.getTimeRemaining() - 3;
 			}
 		}
 		if (drawGas) {
