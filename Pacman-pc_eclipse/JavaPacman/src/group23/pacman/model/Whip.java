@@ -4,7 +4,6 @@ import group23.pacman.view.Animation;
 import group23.pacman.view.AnimationManager;
 import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.image.Image;
-import javafx.scene.paint.Color;
 
 /** Whip class is the weapon that the Pacman object uses when it picks up the SpecialPellet object */
 

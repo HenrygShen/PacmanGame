@@ -1,11 +1,5 @@
 package group23.pacman.view;
 
-import java.io.File;
-import java.net.URI;
-import java.net.URL;
-
-import javax.annotation.Resource;
-
 import group23.pacman.MainApp;
 import group23.pacman.model.ScoreHandler;
 import javafx.event.EventHandler;
@@ -140,9 +134,6 @@ public class LeaderboardController {
 		String firstScoreString = Integer.toString(scores[0]);
 		String secondScoreString = Integer.toString(scores[1]);
 		String thirdScoreString = Integer.toString(scores[2]);
-		System.out.println("1: "+ firstScoreString );
-		System.out.println("2: "+ secondScoreString );
-		System.out.println("3: "+ thirdScoreString );
 		
 		/* Get maps */
 		String maps[] = scoreHandler.getMaps();
