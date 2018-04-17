@@ -42,6 +42,9 @@ public class Game {
 	/* Game has array list of moving objects */
 	private ArrayList<MovingCharacter> characters;
 	
+	/* Gas zone which spawns every 20 seconds */
+	private GasZone gasZone;
+	
 	/* Time */
 	private long scatterTime = 0;
 	
@@ -68,6 +71,9 @@ public class Game {
 		
 		/* Get reference to objects created on the board */
 		objects = board.getObjects();
+		
+		/* Create gas zone */
+		gasZone = new GasZone();
 		
 		/* Clear condition (number of pellets to eat) */
 		pellets = board.getTotalPellets();
@@ -153,6 +159,7 @@ public class Game {
 		ghost2.update((int)pacman.getX(), (int)pacman.getY(), pacman.getDirection());
 		ghost3.update((int)pacman.getX(), (int)pacman.getY(), pacman.getDirection());
 		ghost4.update((int)pacman.getX(), (int)pacman.getY(), pacman.getDirection());
+		gasZone.update();
 		
 	}
 	
@@ -173,10 +180,20 @@ public class Game {
 				}
 				if (pacman.collidedWith((GameObject) character) && ((Ghost)character).getState() == Ghost.STATE.ALIVE) {
 					pacman.loseLife();
+					gasZone.stopDrawing();
 					return;
 				}
 			}
 			
+			if (character.collidedWith(gasZone) && gasZone.getDrawGas()) {
+				if (character.getType() == GameObject.TYPE.GHOST) {
+				((Ghost) character).setState(Ghost.STATE.DEAD);
+				}
+				else {
+					pacman.loseLife();
+					gasZone.stopDrawing();
+				}
+			}
 			/* Restricts the character from moving into the spawn point after it has left the spawn point */
 			if (character.getX() == 518 && character.getY() == 309) {
 				character.setHasLeftSpawn();
@@ -336,6 +353,12 @@ public class Game {
 	public char getMap() {
 		
 		return this.map;
+	}
+	
+	/* Public getter to reference map type */
+	public GasZone getGasZone() {
+		
+		return this.gasZone;
 	}	
 	
 	/* Public getter to reference game mode */

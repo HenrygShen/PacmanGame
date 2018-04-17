@@ -306,6 +306,12 @@ public class Ghost extends GameObject implements MovingCharacter {
 		
 	}
 	
+	@Override
+	public boolean collidedWith(GameObject object) {
+		Rectangle hitBox = object.getHitBox();
+		return this.hitBox.intersects(hitBox);
+	}
+	
 	/* PUBLIC SETTERS */
 	
     public void setDirection(char vector) {
@@ -323,7 +329,6 @@ public class Ghost extends GameObject implements MovingCharacter {
     }
     
 	/* PUBLIC GETTERS */
-	
     public STATE getState() {
     	
     	return this.state;
@@ -361,5 +366,8 @@ public class Ghost extends GameObject implements MovingCharacter {
     public Rectangle getHitBox() {
     	return this.hitBox;
     }
+
+
+	
 	
 }

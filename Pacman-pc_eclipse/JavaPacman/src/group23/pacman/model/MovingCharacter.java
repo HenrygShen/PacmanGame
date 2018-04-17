@@ -18,4 +18,5 @@ public interface MovingCharacter {
 	public void setHasLeftSpawn();
 	public boolean getHasLeftSpawn();
 	public Rectangle getHitBox();
+	public boolean collidedWith(GameObject object);
 }

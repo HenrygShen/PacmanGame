@@ -313,4 +313,11 @@ public class Whip extends GameObject implements MovingCharacter {
 		// TODO Auto-generated method stub
 		return false;
 	}
+
+
+	@Override
+	public boolean collidedWith(GameObject object) {
+		// TODO Auto-generated method stub
+		return false;
+	}
 }

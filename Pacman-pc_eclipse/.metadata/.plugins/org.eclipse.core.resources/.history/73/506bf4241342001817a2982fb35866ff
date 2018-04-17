@@ -1,0 +1,12 @@
+package group23.pacman.model;
+
+public class GasZone extends GameObject {
+	
+	/* Position to draw the GasZone */
+	private int x;
+	private int y;
+
+	public GasZone() {
+		
+	}
+}

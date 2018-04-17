@@ -11,6 +11,7 @@ public abstract class GameObject {
 		PELLET,
 		SPECIAL_PELLET,
 		WALL,
+		GASZONE,
 		GHOST,
 		PACMAN
 	}

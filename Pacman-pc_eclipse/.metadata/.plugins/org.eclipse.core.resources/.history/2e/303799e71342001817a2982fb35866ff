@@ -1,0 +1,25 @@
+package group23.pacman.model;
+
+public class GasZone extends GameObject {
+	
+	private boolean shouldDraw;
+	
+	/* Position to draw the GasZone */
+	private int x;
+	private int y;
+
+	public GasZone() {
+		
+		this.x = 0;
+		this.y = 0;
+		
+		/* Set Up hitbox */
+		hitBox = new Rectangle();
+		hitBox.setWidth(0);
+		hitBox.setHeight(0);
+		hitBox.setX(this.x);
+		hitBox.setY(this.y);
+		
+		shouldDraw = false;
+	}
+}

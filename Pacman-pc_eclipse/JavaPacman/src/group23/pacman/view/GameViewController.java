@@ -414,6 +414,8 @@ public class GameViewController {
 		gameStateController.getGame().getGhost3().draw(graphicsContext);
 		gameStateController.getGame().getGhost4().draw(graphicsContext);
 		
+		gameStateController.getGame().getGasZone().draw(graphicsContext);
+		
 
 		/* Conditionals for end of game */
 		if (gameStateController.levelCleared()) {
