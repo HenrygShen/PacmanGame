@@ -1,6 +1,7 @@
 package group23.pacman.controller;
 
 import group23.pacman.model.Game;
+import group23.pacman.model.Pacman.STATE;
 import group23.pacman.view.GameViewController;
 import javafx.event.EventHandler;
 import javafx.scene.Scene;
@@ -57,6 +58,13 @@ public class GameStateController {
 		
 		/* Check to make sure we're not out of time */
 		checkTimer();
+		
+		
+		/* Make sure timer doesn't continue running while death animation is being played */
+		if (game.getPacman().getState() == STATE.DEATH_ANIMATION) {
+			gameViewController.stopTimer(true);
+		}
+		
 		
 		/* If Pacman lost a life, show this to the screen */
 		if (pacmanLives != game.getPacman().getLives()) {

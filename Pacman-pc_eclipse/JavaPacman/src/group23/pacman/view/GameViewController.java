@@ -101,6 +101,9 @@ public class GameViewController {
 	/* Media variables for playing sound effect for pause/resume */
 	private Media toggle;
 	private MediaPlayer mediaPlayer;
+	
+	
+	private boolean timerPaused;
 
 	
 	
@@ -320,6 +323,7 @@ public class GameViewController {
 	public void startCountdown() {
 		
 		countingDown = true;
+		timerPaused = false;
 		
 		/* Count down timer starts at 3 seconds but we need 2 extra seconds allow player to get ready */
 		Timer timerStart = new Timer(5);
@@ -350,7 +354,7 @@ public class GameViewController {
 						if (timerStart.getSecOnes() <= 3 + 48) {
 							countdownGraphicsContext.clearRect(0, 0, 1366, 768);
 							countdownGraphicsContext.drawImage(new Image("bg/backgrounds-game/countdown_overlay.png"), 0, 0);
-							countdownGraphicsContext.drawImage(new Image(getDigit((char)timerStart.getSecOnes())),508,359);
+							countdownGraphicsContext.drawImage(new Image(getDigit((char)timerStart.getSecOnes()),100,100,false,false),483,334);
 						}
 					}
 					/* After time has counted to 0, start the game */
@@ -376,9 +380,11 @@ public class GameViewController {
 	private void updateTimer() {
 		
 		if (System.currentTimeMillis() - time >= 1000) {
-			timer.countDown(1);
+			if (!timerPaused) {
+				timer.countDown(1);
+				setTimerImage();
+			}
 			time = System.currentTimeMillis();
-			setTimerImage();
 		}
 
 	}
@@ -620,6 +626,11 @@ public class GameViewController {
 	public Timer getTimer() {
 		
 		return this.timer;
+	}
+	
+	public void stopTimer(boolean pauseTimer) {
+		
+		timerPaused = pauseTimer;
 	}
 	
 	public boolean countingDown() {

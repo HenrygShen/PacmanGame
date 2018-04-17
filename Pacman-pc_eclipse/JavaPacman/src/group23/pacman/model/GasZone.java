@@ -33,6 +33,7 @@ public class GasZone extends GameObject {
 	
 	private int warningTime;
 	private int gasTime;
+	
 
 	public GasZone() {
 		
@@ -63,10 +64,11 @@ public class GasZone extends GameObject {
 		drawWarning = false;
 	}
 	
+	
 	public void update() {
 		
 		/* Every 15 seconds, a gas zone will appear in a random area of the map */
-		if (spawnTimer.getTimeRemaining()%15 == 0  && drawWarning == false) {
+		if (spawnTimer.getTimeRemaining()%15 == 0  && spawnTimer.getTimeRemaining() != 120 && drawWarning == false) {
 			/* Warning area will display for the first 5 seconds */
 			warningTime = spawnTimer.getTimeRemaining() - 5;
 			drawWarning = true;

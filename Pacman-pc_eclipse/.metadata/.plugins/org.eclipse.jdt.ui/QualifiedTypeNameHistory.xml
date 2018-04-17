@@ -41,7 +41,6 @@
 <fullyQualifiedTypeName name="group23.pacman.view.EditNameController"/>
 <fullyQualifiedTypeName name="javafx.stage.Stage"/>
 <fullyQualifiedTypeName name="javafx.scene.control.TextField"/>
-<fullyQualifiedTypeName name="group23.pacman.model.Pacman.STATE"/>
 <fullyQualifiedTypeName name="java.lang.System"/>
 <fullyQualifiedTypeName name="group23.pacman.model.GameObject.TYPE"/>
 <fullyQualifiedTypeName name="group23.pacman.view.CreditsController"/>
@@ -60,4 +59,5 @@
 <fullyQualifiedTypeName name="java.io.File"/>
 <fullyQualifiedTypeName name="java.net.URL"/>
 <fullyQualifiedTypeName name="javax.annotation.Resource"/>
+<fullyQualifiedTypeName name="group23.pacman.model.Pacman.STATE"/>
 </qualifiedTypeNameHistroy>

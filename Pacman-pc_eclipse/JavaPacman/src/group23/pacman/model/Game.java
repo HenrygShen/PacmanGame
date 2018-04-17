@@ -179,7 +179,7 @@ public class Game {
 					}
 				}
 				if (pacman.collidedWith((GameObject) character) && ((Ghost)character).getState() == Ghost.STATE.ALIVE) {
-					pacman.loseLife();
+					pacman.playDeathAnim();
 					gasZone.stopDrawing();
 					return;
 				}
@@ -190,7 +190,7 @@ public class Game {
 				((Ghost) character).setState(Ghost.STATE.DEAD);
 				}
 				else {
-					pacman.loseLife();
+					pacman.playDeathAnim();
 					gasZone.stopDrawing();
 				}
 			}
