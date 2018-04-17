@@ -250,7 +250,7 @@ public class CharacterSelectController {
 		player_banner.setImage(new Image("assets/Elements-CharSel/player_two_banner.png"));
 		fadeTransition(0);
 		/* Set up sound effect button presses */
-		buttonPress = new Media(new File("assets/sfx/menuSelect.mp3").toURI().toString());
+		buttonPress = new Media(new File("bin/assets/sfx/menuSelect.mp3").toURI().toString());
 		
 		/* Set variable to determine which sprite is chosen for which character */
 		firstPick = true;

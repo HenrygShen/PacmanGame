@@ -1,6 +1,7 @@
 package group23.pacman.controller;
 
 import group23.pacman.model.Game;
+import group23.pacman.model.Pacman.STATE;
 import group23.pacman.view.GameViewController;
 import javafx.event.EventHandler;
 import javafx.scene.Scene;
@@ -28,6 +29,7 @@ public class GameStateController {
 	/* Keep track of game state */
 	private boolean gameOver;
 	private boolean levelCleared;
+	private boolean escapePressed;
 	
 	/* Public constructor */
 	public GameStateController(GameViewController gameViewController,Game game) {
@@ -38,6 +40,7 @@ public class GameStateController {
 		this.pacmanLives = game.getPacman().getLives();
 		this.levelCleared = false;
 		this.gameOver = false;
+		this.escapePressed = false;
 
 		
 		
@@ -55,6 +58,13 @@ public class GameStateController {
 		
 		/* Check to make sure we're not out of time */
 		checkTimer();
+		
+		
+		/* Make sure timer doesn't continue running while death animation is being played */
+		if (game.getPacman().getState() == STATE.DEATH_ANIMATION) {
+			gameViewController.stopTimer(true);
+		}
+		
 		
 		/* If Pacman lost a life, show this to the screen */
 		if (pacmanLives != game.getPacman().getLives()) {
@@ -117,6 +127,11 @@ public class GameStateController {
 		
 		return this.levelCleared;
 	}
+	
+	public boolean escapePressed() {
+		
+		return this.escapePressed;
+	}
 		
 	
 	/**
@@ -139,22 +154,44 @@ public class GameStateController {
 			    	else if (e.getCode() == KeyCode.RIGHT) {
 			    		game.getPacman().queueMovement('R');
 			    	}
-			    	else if (e.getCode() == KeyCode.SPACE) {
+			    	else if (e.getCode() == KeyCode.ENTER) {
 			    		game.getPacman().whip();
 			    	}
-
+			    	/* For debugging */
 			    	else if (e.getCode() == KeyCode.PAGE_DOWN) {
 			    		gameViewController.getTimer().endTimer();
 			    		gameViewController.setTimerImage();
-			    		
 			    	}
-			    	
 			    	/* Pause button */
 			    	else if (e.getCode() == KeyCode.P) {
 			    		gameViewController.toggleState();
 			    	}
+			    	
+			    	/* Show exit prompt */
 			    	else if (e.getCode() == KeyCode.ESCAPE) {
-			    		gameViewController.showMenu();
+			    		
+			    		/* Can only show if not currently shown and the countdown timer is not counting */
+			    		if (!escapePressed) {
+			    			if (!gameViewController.countingDown()) {
+				    			gameViewController.pauseGame();
+					    		gameViewController.showExitConfirmation();
+					    		escapePressed = true;
+			    			}
+			    		}
+			    		
+			    	}
+			    	
+			    	/* Yes/No keys to respond to exit prompt */
+			    	else if (e.getCode() == KeyCode.Y) {
+			    		if (escapePressed) {
+			    			gameViewController.showMenu();
+			    		}
+			    	}
+			    	else if (e.getCode() == KeyCode.N) {
+			    		if (escapePressed) {
+			    			gameViewController.clearExitPrompt();
+			    			escapePressed = false;
+			    		}
 			    	}
 		    	}
 		    });
@@ -177,7 +214,7 @@ public class GameStateController {
 			    	else if (e.getCode() == KeyCode.RIGHT) {
 			    		game.getPacman().queueMovement('R');
 			    	}
-			    	else if (e.getCode() == KeyCode.SPACE) {
+			    	else if (e.getCode() == KeyCode.ENTER) {
 			    		game.getPacman().whip();
 			    	}
 			    	else if (e.getCode() == KeyCode.W) {
@@ -201,7 +238,26 @@ public class GameStateController {
 			    		gameViewController.toggleState();
 			    	}
 			    	else if (e.getCode() == KeyCode.ESCAPE) {
-			    		gameViewController.showMenu();
+			    		
+			    		if (!escapePressed) {
+			    			if (!gameViewController.countingDown()) {
+				    			gameViewController.pauseGame();
+					    		gameViewController.showExitConfirmation();
+					    		escapePressed = true;
+			    			}
+			    		}
+			    		
+			    	}
+			    	else if (e.getCode() == KeyCode.Y) {
+			    		if (escapePressed) {
+			    			gameViewController.showMenu();
+			    		}
+			    	}
+			    	else if (e.getCode() == KeyCode.N) {
+			    		if (escapePressed) {
+			    			gameViewController.clearExitPrompt();
+			    			escapePressed = false;
+			    		}
 			    	}
 		    	}
 		    });
@@ -224,7 +280,7 @@ public class GameStateController {
 			    	else if (e.getCode() == KeyCode.RIGHT) {
 			    		game.getPacman().queueMovement('R');
 			    	}
-			    	else if (e.getCode() == KeyCode.SPACE) {
+			    	else if (e.getCode() == KeyCode.ENTER) {
 			    		game.getPacman().whip();
 			    	}
 			    	else if (e.getCode() == KeyCode.W) {
@@ -259,8 +315,28 @@ public class GameStateController {
 			    	else if (e.getCode() == KeyCode.P) {
 			    		gameViewController.toggleState();
 			    	}
+			    	
 			    	else if (e.getCode() == KeyCode.ESCAPE) {
-			    		gameViewController.showMenu();
+			    		
+			    		if (!escapePressed) {
+			    			if (!gameViewController.countingDown()) {
+				    			gameViewController.pauseGame();
+					    		gameViewController.showExitConfirmation();
+					    		escapePressed = true;
+			    			}
+			    		}
+			    		
+			    	}
+			    	else if (e.getCode() == KeyCode.Y) {
+			    		if (escapePressed) {
+			    			gameViewController.showMenu();
+			    		}
+			    	}
+			    	else if (e.getCode() == KeyCode.N) {
+			    		if (escapePressed) {
+			    			gameViewController.clearExitPrompt();
+			    			escapePressed = false;
+			    		}
 			    	}
 		    	}
 		    });

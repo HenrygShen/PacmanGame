@@ -4,7 +4,6 @@ import group23.pacman.view.Animation;
 import group23.pacman.view.AnimationManager;
 import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.image.Image;
-import javafx.scene.paint.Color;
 
 /** Whip class is the weapon that the Pacman object uses when it picks up the SpecialPellet object */
 
@@ -44,8 +43,8 @@ public class Whip extends GameObject implements MovingCharacter {
 		this.charges = 0;
 		
 		hitBox = new Rectangle();
-		hitBox.setWidth(10);
-		hitBox.setHeight(10);
+		hitBox.setWidth(0);
+		hitBox.setHeight(0);
 		hitBox.setX(this.x);
 		hitBox.setY(this.y);
 		
@@ -78,6 +77,8 @@ public class Whip extends GameObject implements MovingCharacter {
 	public void update(int x,int y) {
 		
 		this.vector = pacman.getDirection();
+		
+		hitBox.enableHitBox(true);
 		
 		if (vector == 'U') {
 			
@@ -130,6 +131,7 @@ public class Whip extends GameObject implements MovingCharacter {
 		/* When playing last frame for whip animation, end the animation and set Pacman to non-powered state */
 		if (animationManager.getFrameIndex() == 2) {
 			animationManager.stopAction();
+			hitBox.enableHitBox(false);
 			shouldPlay = false;
 			pacman.endWhipAnim();
 		}
@@ -168,12 +170,15 @@ public class Whip extends GameObject implements MovingCharacter {
 		if (shouldPlay) {
 			
 			animationManager.draw(graphicsContext,this.x,this.y);
-			graphicsContext.setFill(Color.WHITESMOKE);
-			graphicsContext.fillRect(hitBox.getX(),hitBox.getY(),hitBox.getWidth(),hitBox.getHeight());
-			graphicsContext.setFill(Color.GREEN);
-			graphicsContext.setStroke(Color.BLUE);
+			
 
 		}
+		
+		/* FOR debugging - draw hit box */
+//		graphicsContext.setFill(Color.WHITESMOKE);
+//		graphicsContext.fillRect(hitBox.getX(),hitBox.getY(),hitBox.getWidth(),hitBox.getHeight());
+//		graphicsContext.setFill(Color.GREEN);
+//		graphicsContext.setStroke(Color.BLUE);
 		
 	}
 	
@@ -304,6 +309,13 @@ public class Whip extends GameObject implements MovingCharacter {
 
 	@Override
 	public boolean getHasLeftSpawn() {
+		// TODO Auto-generated method stub
+		return false;
+	}
+
+
+	@Override
+	public boolean collidedWith(GameObject object) {
 		// TODO Auto-generated method stub
 		return false;
 	}

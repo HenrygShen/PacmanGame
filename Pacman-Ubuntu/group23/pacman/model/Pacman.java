@@ -9,14 +9,14 @@ import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.image.Image;
 import javafx.scene.media.Media;
 import javafx.scene.media.MediaPlayer;
-import javafx.util.Duration;
 
 public class Pacman extends GameObject implements MovingCharacter {
 	
 	public enum STATE {
 		POWER_UP,
 		DEAD,
-		ALIVE
+		ALIVE,
+		DEATH_ANIMATION
 	}
 	
 	
@@ -36,8 +36,6 @@ public class Pacman extends GameObject implements MovingCharacter {
 	private Media whipSound;
 	private Media chompNoise;
 	private MediaPlayer mediaPlayer;
-	private MediaPlayer mediaPlayer2;
-	private Duration start;
 
 	/* Handles the animations */
 	private AnimationManager animationManager;
@@ -54,6 +52,8 @@ public class Pacman extends GameObject implements MovingCharacter {
 	/* Pacman's remaining lives */
 	private int lives;
 	
+	private int blinksPlayed;
+	
 	
 	
 	public Pacman(int x,int y,Board board) {
@@ -64,15 +64,10 @@ public class Pacman extends GameObject implements MovingCharacter {
 		state = STATE.ALIVE;
 		
 		/* Set up sound effect for Pacman using a whip */
-		start = new Duration(0);
-		whipSound = new Media(new File("assets/sfx/whipSound.mp3").toURI().toString());
-		mediaPlayer = new MediaPlayer(whipSound);
-		mediaPlayer.setVolume(0.3);
+		whipSound = new Media(new File("bin/assets/sfx/whipSound.mp3").toURI().toString());
 		
 		/* Set up sound effect for Pacman eating the pellet */
-		chompNoise = new Media(new File("assets/sfx/chompNoise.mp3").toURI().toString());
-		mediaPlayer2 = new MediaPlayer(chompNoise);
-		mediaPlayer2.setVolume(0.3);
+		chompNoise = new Media(new File("bin/assets/sfx/chompNoise.wav").toURI().toString());
 		
 
 		/* Sets up the main character's hit-box */
@@ -82,6 +77,7 @@ public class Pacman extends GameObject implements MovingCharacter {
 		hitBox.setX(x + OFFSET/2);
 		hitBox.setY(y + OFFSET/2);
 		
+		blinksPlayed = 0;
 		hasLeftSpawn = true;
 		
 		/* Set up main character's position */
@@ -106,10 +102,7 @@ public class Pacman extends GameObject implements MovingCharacter {
 		if (!whip.inAnimation()) {
 			if (whip.getCharges() > 0) {
 				this.state = STATE.POWER_UP;
-				//playSfx(whipSound);
-				mediaPlayer.stop();
-				mediaPlayer.setStartTime(start);
-				mediaPlayer.play();
+				playSfx(whipSound);
 				whip.useCharge();
 			}
 		}
@@ -124,6 +117,17 @@ public class Pacman extends GameObject implements MovingCharacter {
 		}
 		
 		animationManager.update();
+		
+		if (this.state == STATE.DEATH_ANIMATION) {
+			if (animationManager.getFrameIndex() == 1) {
+				blinksPlayed++;
+			}
+		}
+		if (blinksPlayed == 50) {
+			blinksPlayed = 0;
+			this.state = STATE.DEAD;
+			lives--;
+		}
 		playAnimation();
 	}
 
@@ -137,10 +141,7 @@ public class Pacman extends GameObject implements MovingCharacter {
     	
     	if (object.getType() == GameObject.TYPE.PELLET || object.getType() == GameObject.TYPE.SPECIAL_PELLET) {
     		if (this.hitBox.intersects(hitBox)) {
-    			//playSfx(chompNoise);
-			mediaPlayer2.stop();
-			mediaPlayer2.setStartTime(start);
-			mediaPlayer2.play();
+    			playSfx(chompNoise);
     		}
     	}
     	
@@ -150,11 +151,10 @@ public class Pacman extends GameObject implements MovingCharacter {
     
     
     /* Method called when time runs out or Pacman runs into a ghost while not in the powered up state */
-    public void loseLife() {
+    public void playDeathAnim() {
     	
-    	lives--;
     	this.whip.endAnim();
-    	this.state = STATE.DEAD;
+    	this.state = STATE.DEATH_ANIMATION;
     	
     }
 
@@ -203,23 +203,24 @@ public class Pacman extends GameObject implements MovingCharacter {
     /* Updates Pacman's x,y coordinates depending on it's direction */
     public void updateDestination() {
     
-    		
-    	if (this.vector == 'U') {
-			this.hitBox.setY((int)hitBox.getY() - SPEED);
-			this.y = y - SPEED;
-		}
-		else if (this.vector == 'D') {
-			this.hitBox.setY((int)hitBox.getY() + SPEED);
-			this.y = y + SPEED;
-		}
-		else if (this.vector == 'L') {
-			this.hitBox.setX((int)hitBox.getX() - SPEED);
-			this.x = x - SPEED;
-		}
-		else if (this.vector == 'R') {
-			this.hitBox.setX((int)hitBox.getX() + SPEED);
-			this.x = x + SPEED;
-		}
+    	if (this.state != STATE.DEATH_ANIMATION) {
+	    	if (this.vector == 'U') {
+				this.hitBox.setY((int)hitBox.getY() - SPEED);
+				this.y = y - SPEED;
+			}
+			else if (this.vector == 'D') {
+				this.hitBox.setY((int)hitBox.getY() + SPEED);
+				this.y = y + SPEED;
+			}
+			else if (this.vector == 'L') {
+				this.hitBox.setX((int)hitBox.getX() - SPEED);
+				this.x = x - SPEED;
+			}
+			else if (this.vector == 'R') {
+				this.hitBox.setX((int)hitBox.getX() + SPEED);
+				this.x = x + SPEED;
+			}
+    	}
     }
     
     
@@ -264,6 +265,27 @@ public class Pacman extends GameObject implements MovingCharacter {
 		else if (this.vector == 'R') {
 			animationManager.playAction(1);
 		}
+		
+		if (this.state == STATE.DEATH_ANIMATION) {
+			switch (this.vector) {
+				case 'L' :
+					animationManager.playAction(4);
+					break;
+				case 'R' :
+					animationManager.playAction(5);
+					break;
+				case 'U' :
+					animationManager.playAction(6);
+					break;
+				case 'D' :
+					animationManager.playAction(7);
+					break;
+				case 'S' :
+					animationManager.playAction(5);
+					break;
+			}
+			
+		}
     }
     
     
@@ -287,6 +309,9 @@ public class Pacman extends GameObject implements MovingCharacter {
 		Image downC = new Image("assets/Pacman/downClosed.png",SPRITE_WIDTH,SPRITE_HEIGHT,false,false);
 		Image downO = new Image("assets/Pacman/downOpen.png",SPRITE_WIDTH,SPRITE_HEIGHT,false,false);
 		
+		Image blink = new Image("assets/misc/empty.png",SPRITE_WIDTH,SPRITE_HEIGHT,false,false);
+		
+		
 		Image[] leftMove = new Image[2];
 		leftMove[0] = leftC;
 		leftMove[1] = leftO;
@@ -303,16 +328,43 @@ public class Pacman extends GameObject implements MovingCharacter {
 		downMove[0] = downC;
 		downMove[1] = downO;
 		
+		Image[] leftDeath = new Image[2];
+		leftDeath[0] = leftO;
+		leftDeath[1] = blink;
+		
+		Image[] rightDeath = new Image[2];
+		rightDeath[0] = rightO;
+		rightDeath[1] = blink;
+		
+		Image[] upDeath = new Image[2];
+		upDeath[0] = upO;
+		upDeath[1] = blink;
+		
+		Image[] downDeath = new Image[2];
+		downDeath[0] = downO;
+		downDeath[1] = blink;
+		
+		
+		
 		Animation leftAnimation = new Animation(leftMove,0.3f);
 		Animation rightAnimation = new Animation(rightMove,0.3f);
 		Animation upAnimation = new Animation(upMove,0.3f);
 		Animation downAnimation = new Animation(downMove,0.3f);
 		
-		Animation[] movementAnimations = new Animation[4];
+		Animation leftDeathAnimation = new Animation(leftDeath,0.1f);
+		Animation rightDeathAnimation = new Animation(rightDeath,0.1f);
+		Animation upDeathAnimation = new Animation(upDeath,0.1f);
+		Animation downDeathAnimation = new Animation(downDeath,0.1f);
+		
+		Animation[] movementAnimations = new Animation[8];
 		movementAnimations[0] = leftAnimation;
 		movementAnimations[1] = rightAnimation;
 		movementAnimations[2] = upAnimation;
 		movementAnimations[3] = downAnimation;
+		movementAnimations[4] = leftDeathAnimation;
+		movementAnimations[5] = rightDeathAnimation;
+		movementAnimations[6] = upDeathAnimation;
+		movementAnimations[7] = downDeathAnimation;
 		
 		animationManager = new AnimationManager(movementAnimations);
 		

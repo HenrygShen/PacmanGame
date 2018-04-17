@@ -32,9 +32,9 @@
       <ImageView fx:id="colon" fitHeight="50.0" fitWidth="50.0" layoutX="1170.0" layoutY="65.0" pickOnBounds="true" preserveRatio="true" />
       <ImageView fx:id="sec_tens" fitHeight="50.0" fitWidth="50.0" layoutX="1200.0" layoutY="65.0" pickOnBounds="true" preserveRatio="true" />
       <ImageView fx:id="sec_ones" fitHeight="50.0" fitWidth="50.0" layoutX="1230.0" layoutY="65.0" pickOnBounds="true" preserveRatio="true" />
-      <ImageView fx:id="start_timer" fitHeight="50.0" fitWidth="50.0" layoutX="516.0" layoutY="283.0" pickOnBounds="true" preserveRatio="true" />
       <ImageView fx:id="whip_charges" fitHeight="50.0" fitWidth="50.0" layoutX="1160.0" layoutY="430.0" pickOnBounds="true" preserveRatio="true" />
       <ImageView fx:id="slash" fitHeight="50.0" fitWidth="50.0" layoutX="1190.0" layoutY="430.0" pickOnBounds="true" preserveRatio="true" />
       <ImageView fx:id="max_charges" fitHeight="50.0" fitWidth="50.0" layoutX="1220.0" layoutY="430.0" pickOnBounds="true" preserveRatio="true" />
+      <ImageView fx:id="fade" fitHeight="768.0" fitWidth="1366.0" pickOnBounds="true" preserveRatio="true" />
    </children>
 </AnchorPane>

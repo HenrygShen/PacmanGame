@@ -1,5 +1,6 @@
 package group23.pacman.view;
 
+import java.io.File;
 import java.util.ArrayList;
 import group23.pacman.MainApp;
 import group23.pacman.controller.GameStateController;
@@ -12,6 +13,8 @@ import javafx.scene.Scene;
 import javafx.scene.canvas.Canvas;
 import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.image.*;
+import javafx.scene.media.Media;
+import javafx.scene.media.MediaPlayer;
 
 /** Controller class for the GameView screen */
 
@@ -46,8 +49,6 @@ public class GameViewController {
 	@FXML
 	private ImageView sec_ones;
 	@FXML
-	private ImageView start_timer;
-	@FXML
 	private ImageView whip_charges;
 	@FXML
 	private ImageView slash;
@@ -55,6 +56,7 @@ public class GameViewController {
 	private ImageView max_charges;
 	@FXML
 	private ImageView game_info_panel;
+
 
 	private long holdTime;
 	private long countDownTime;
@@ -71,16 +73,37 @@ public class GameViewController {
 	/* Stores game state (paused, running)*/
 	private boolean running = false;
 	
+	/* Essentially the game loop */
 	private AnimationTimer animationLoop;
 	
+	
+	/* GraphicsContext for separate canvas which is used to paint the countdown timer */
+	private GraphicsContext countdownGraphicsContext;
+	
+	/* GraphicsContext for separate canvas which is used to paint the pause_overlay */
+	private GraphicsContext pauseOverlay;
+	
+	/* GraphicsContext for separate canvas which is used to paint the exit confirmation screen */
+	private GraphicsContext exitPrompt;
+
 	/* Time */
 	private long time = 0;
 	
 	/* Used to manipulate time for showing to screen */
 	private Timer timer;
 	
-
+	/* Determines if the countdown timer is timed out, i.e game has started */
+	private boolean countingDown;
+	
+	/* Recorded name of person who beats high score */
 	private String name;
+	
+	/* Media variables for playing sound effect for pause/resume */
+	private Media toggle;
+	private MediaPlayer mediaPlayer;
+	
+	
+	private boolean timerPaused;
 
 	
 	
@@ -94,23 +117,25 @@ public class GameViewController {
 		/* First, select map based on user input */
 		char map = game.getMap();
 		String backgroundImage;
+		
 		switch (map) {
-    	case 'c' :
-    		backgroundImage = "bg/background-forest_game.png";
-    		break;
-	    case 's' :
-	    	backgroundImage = "bg/background-sea_game.png";
-	    	break;
-	    case 'd' :
-	    	backgroundImage = "bg/background-deserttemple_game.png";
-	    	break;
-	    case 'r' :
-	    	backgroundImage = "assets/tiles/mapBlock-ruins_game.png";
-			break;
-	    default :
-	    	backgroundImage = "bg/background-classic_game.png";
-	    	break;
+			 case 'r' :
+			    backgroundImage = "bg/backgrounds-game/background-ruins_game.png";
+				break;
+	    	case 'f' :
+	    		backgroundImage = "bg/backgrounds-game/background-forest_game.png";
+	    		break;
+	    	case 'd' :
+	    		backgroundImage = "bg/backgrounds-game/background-deserttemple_game.png";
+	  	    	break;
+		    case 's' :
+		    	backgroundImage = "bg/backgrounds-game/background-sea_game.png";
+		    	break;	   
+		    default :
+		    	backgroundImage = "bg/backgrounds-game/background-ruins_game.png";
+		    	break;
 		}
+		
 		/*Second, set the map as the background */
 		background_map.setImage(new Image(backgroundImage));
 		
@@ -142,12 +167,16 @@ public class GameViewController {
 	@FXML
 	private void initialize() {
 		
-		game_info_panel.setImage(new Image("bg/game_info_panel.png"));
+		/* Panel which holds all the statistics of the running game ( lives,time remaining, charges,score) */
+		game_info_panel.setImage(new Image("assets/Elements-GameView/game_info_panel.png"));
+		
+		/* SFX for pause/resuming game */
+		toggle = new Media(new File("bin/assets/sfx/toggle.mp3").toURI().toString());
 		
 		/* Initialize 2 minute timer */
 		timer = new Timer(120);
 		min_ones.setImage(new Image("assets/numbers/2.png"));
-		colon.setImage(new Image("assets/misc/colon.png"));
+		colon.setImage(new Image("assets/Elements-GameView/colon.png"));
 		sec_tens.setImage(new Image("assets/numbers/0.png"));
 		sec_ones.setImage(new Image("assets/numbers/0.png"));
 		
@@ -158,7 +187,7 @@ public class GameViewController {
 		
 		/*Charges */
 		whip_charges.setImage(new Image("assets/numbers/0.png"));
-		slash.setImage(new Image("assets/misc/slash.png"));
+		slash.setImage(new Image("assets/Elements-GameView/slash.png"));
 		max_charges.setImage(new Image("assets/numbers/6.png"));
 		
 		/* Score starts off as 0 */
@@ -172,8 +201,33 @@ public class GameViewController {
 	
 	/* Pauses/starts the game */
 	public void toggleState() {
-
-		this.running = !this.running;
+		
+		/* Can only toggle if not counting down and exit confirmation is not dispalyed */
+		if (!countingDown && !gameStateController.escapePressed()) {
+			/* When trying to pause,draw pause panel*/
+			if (this.running == true) {
+				pauseGame();
+			}
+			else {
+				resumeGame();
+			}
+		}
+	}
+	
+	
+	public void pauseGame() {
+		
+		pauseOverlay.clearRect(0, 0, 1366, 768);
+		pauseOverlay.drawImage(new Image("bg/backgrounds-game/pause_panel.png"),0,0);
+		this.running = false;
+		playSfx();
+	}
+	
+	public void resumeGame() {
+		
+		pauseOverlay.clearRect(0,0,1366,768);
+		this.running = true;
+		playSfx();
 	}
 	
 	
@@ -195,6 +249,23 @@ public class GameViewController {
 		/* Add separate canvas for drawing everything else */
 		Canvas canvas = new Canvas(1366,768);
 		mainApp.getPane().getChildren().add(canvas);
+		
+		/* Separate canvas for countdown timer */
+		Canvas canvas2 = new Canvas(1366,768);
+		mainApp.getPane().getChildren().add(canvas2);
+		countdownGraphicsContext = canvas2.getGraphicsContext2D();
+		
+		/* Separate canvas for pause overlay */
+		Canvas canvas3 = new Canvas(1366,768);
+		mainApp.getPane().getChildren().add(canvas3);
+		pauseOverlay = canvas3.getGraphicsContext2D();
+		
+		
+		/* Separate canvas for exit prompt */
+		Canvas canvas4 = new Canvas(1366,768);
+		mainApp.getPane().getChildren().add(canvas4);
+		exitPrompt = canvas4.getGraphicsContext2D();
+		
 		
 		graphicsContext = canvas.getGraphicsContext2D();
 		gameStateController.update();
@@ -251,31 +322,51 @@ public class GameViewController {
 	/* Count-down that shows at the start of every new round/game */
 	public void startCountdown() {
 		
-		/* Count down timer starts at 3 seconds */
-		Timer timerStart = new Timer(0);
+		countingDown = true;
+		timerPaused = false;
+		
+		/* Count down timer starts at 3 seconds but we need 2 extra seconds allow player to get ready */
+		Timer timerStart = new Timer(5);
 		
 		/* The game is paused while counting down */
 		running = false;
 		
-		start_timer.setImage(new Image(getDigit((char)timerStart.getSecOnes())));
-		
 		countDownTime = System.currentTimeMillis();
+		
+		countdownGraphicsContext.drawImage(new Image("bg/backgrounds-game/countdown_overlay.png"), 0, 0);
+		countdownGraphicsContext.drawImage(new Image("assets/Elements-GameView/ready.png"),470,360);
 		
 		new AnimationTimer() {
 			
 			public void handle(long now) {
 				
-				/* Count down 1 second every second */
-				if (System.currentTimeMillis() - countDownTime >= 1000) {
-					timerStart.countDown(1);
-					countDownTime = System.currentTimeMillis();
-					start_timer.setImage(new Image(getDigit((char)timerStart.getSecOnes())));
+				/* While not in exit confirmation screen */
+				if (!gameStateController.escapePressed()) {
+					
+					/* Count down every second */
+					if (System.currentTimeMillis() - countDownTime >= 1000) {
+						
+						timerStart.countDown(1);
+						countDownTime = System.currentTimeMillis();
+						
+						/* Wait for timer to count from 5 seconds to 3 seconds before removing "Ready" sign.
+						 * Add 48 because getSecOnes() method returns seconds + 48 for ascii value */
+						if (timerStart.getSecOnes() <= 3 + 48) {
+							countdownGraphicsContext.clearRect(0, 0, 1366, 768);
+							countdownGraphicsContext.drawImage(new Image("bg/backgrounds-game/countdown_overlay.png"), 0, 0);
+							countdownGraphicsContext.drawImage(new Image(getDigit((char)timerStart.getSecOnes()),100,100,false,false),483,334);
+						}
+					}
+					/* After time has counted to 0, start the game */
+					if (timerStart.timedOut()) {
+						this.stop();
+						countdownGraphicsContext.clearRect(0,0,1366,768);
+						running = true;
+						countingDown = false;
+					}
 				}
-				/* After time has counted to 0, start the game */
-				if (timerStart.timedOut()) {
-					this.stop();
-					start_timer.setImage(new Image("assets/misc/empty.png"));
-					running = true;
+				else {
+					countDownTime = System.currentTimeMillis();
 				}
 				
 			}
@@ -289,9 +380,11 @@ public class GameViewController {
 	private void updateTimer() {
 		
 		if (System.currentTimeMillis() - time >= 1000) {
-			timer.countDown(1);
+			if (!timerPaused) {
+				timer.countDown(1);
+				setTimerImage();
+			}
 			time = System.currentTimeMillis();
-			setTimerImage();
 		}
 
 	}
@@ -327,16 +420,38 @@ public class GameViewController {
 		gameStateController.getGame().getGhost3().draw(graphicsContext);
 		gameStateController.getGame().getGhost4().draw(graphicsContext);
 		
+		gameStateController.getGame().getGasZone().draw(graphicsContext);
 		
+
 		/* Conditionals for end of game */
 		if (gameStateController.levelCleared()) {
-			graphicsContext.drawImage(new Image("assets/misc/pass.png", 500, 250,false,false),283,284);
+			graphicsContext.drawImage(new Image("assets/Elements-GameView/pass.png", 500, 250,false,false),283,284);
 		}
 		else if (gameStateController.gameOver()) {
-			graphicsContext.drawImage(new Image("assets/misc/game_over.png",500,250,false,false),283,284);
+			graphicsContext.drawImage(new Image("assets/Elements-GameView/game_over.png",500,250,false,false),283,284);
 		}
 		
 		
+	}
+	
+	
+	/* Play sound effect for pause/resume */
+	private void playSfx() {
+		mediaPlayer = new MediaPlayer(toggle);
+		mediaPlayer.setVolume(0.3f);
+		mediaPlayer.play();
+	}
+	
+	public void showExitConfirmation() {
+		
+		
+		exitPrompt.drawImage(new Image("bg/backgrounds-game/quit_prompt.png"), 0, 0);
+		
+	}
+	
+	public void clearExitPrompt() {
+		
+		exitPrompt.clearRect(0, 0, 1366, 768);
 	}
 	
 	
@@ -353,7 +468,6 @@ public class GameViewController {
 		
 		stopGame();
 		holdFrame();
-
 	}
 	
 	
@@ -379,10 +493,6 @@ public class GameViewController {
 					int time = timer.getTimeRemaining();
 					int lives = gameStateController.getGame().getPacman().getLives();
 					int score = gameStateController.getGame().getIntScore();
-					System.out.println("Time  = " + time);
-					System.out.println("Lives  = " + lives);
-					System.out.println("Score  = " + score);
-	
 					mainApp.showResults(time,lives,score,gameStateController.getGame().getMap());
 				}
 			}
@@ -516,6 +626,16 @@ public class GameViewController {
 	public Timer getTimer() {
 		
 		return this.timer;
+	}
+	
+	public void stopTimer(boolean pauseTimer) {
+		
+		timerPaused = pauseTimer;
+	}
+	
+	public boolean countingDown() {
+		
+		return this.countingDown;
 	}
 	
 	

@@ -54,17 +54,19 @@ public class Board {
 		/* Parse the map.txt file, loads the map into the game */
 		try {
 			switch (map) {
-				case 'c' :
-					mapTxt = "mapOne.txt";
+				case 'r' :
+					mapTxt = "maps/ruins.txt";
 					break;
-				case 's' :
-					mapTxt = "mapTwo.txt";
+				case 'f' :
+					mapTxt = "maps/forest.txt";
 					break;
 				case 'd' :
-					mapTxt = "mapThree.txt";
+					mapTxt = "maps/deserttemple.txt";
 					break;
+				case 's' :
+					mapTxt = "maps/sea.txt";
 				default :
-					mapTxt = "mapOne.txt";
+					mapTxt = "maps/ruins.txt";
 					break;
 				
 			}

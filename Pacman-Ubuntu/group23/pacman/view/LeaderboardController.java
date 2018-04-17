@@ -100,6 +100,12 @@ public class LeaderboardController {
 	private ImageView third_score3;
 	@FXML
 	private ImageView third_score4;
+	@FXML
+	private ImageView map1;
+	@FXML
+	private ImageView map2;
+	@FXML
+	private ImageView map3;
 
 	
 	
@@ -112,8 +118,7 @@ public class LeaderboardController {
 	@FXML
 	private void initialize() {
 		
-		
-		background.setImage(new Image("assets/Elements-Leaderboard/background-leaderboard.png"));
+		//background.setImage(new Image("file:/C:/Users/Lincoln/Desktop/master/Pacman-pc_eclipse/JavaPacman/assets/Elements-Leaderboard/background-leaderboard.png"));
 		
 		/* Get the high scores */
 		ScoreHandler scoreHandler = new ScoreHandler();
@@ -129,9 +134,6 @@ public class LeaderboardController {
 		String firstScoreString = Integer.toString(scores[0]);
 		String secondScoreString = Integer.toString(scores[1]);
 		String thirdScoreString = Integer.toString(scores[2]);
-		System.out.println("1: "+ firstScoreString );
-		System.out.println("2: "+ secondScoreString );
-		System.out.println("3: "+ thirdScoreString );
 		
 		/* Get maps */
 		String maps[] = scoreHandler.getMaps();
@@ -181,6 +183,20 @@ public class LeaderboardController {
 				}
 				
 			}
+		}
+		switch (maps[0]) {
+			case "r" :
+				map1.setImage(new Image("assets/Elements-Leaderboard/leaderboard-ruins.png"));
+				break;
+			case "f" :
+				map1.setImage(new Image("assets/Elements-Leaderboard/leaderboard-forest.png"));
+				break;
+			case "d" :
+				map1.setImage(new Image("assets/Elements-Leaderboard/leaderboard-desert.png"));
+				break;
+			case "s" :
+				map1.setImage(new Image("assets/Elements-Leaderboard/leaderboard-sea.png"));
+				break;
 		}
 			
 		
@@ -233,6 +249,21 @@ public class LeaderboardController {
 			}
 		}
 		
+		switch (maps[1]) {
+			case "r" :
+				map2.setImage(new Image("assets/Elements-Leaderboard/leaderboard-ruins.png"));
+				break;
+			case "f" :
+				map2.setImage(new Image("assets/Elements-Leaderboard/leaderboard-forest.png"));
+				break;
+			case "d" :
+				map2.setImage(new Image("assets/Elements-Leaderboard/leaderboard-desert.png"));
+				break;
+			case "s" :
+				map2.setImage(new Image("assets/Elements-Leaderboard/leaderboard-sea.png"));
+				break;
+		}
+		
 		/* Set up #3 */
 		if (names[2].length() >= 1) {
 			third_character1.setImage(new Image(getCharacter(names[2].charAt(0))));
@@ -279,6 +310,21 @@ public class LeaderboardController {
 				}
 				
 			}
+		}
+		
+		switch (maps[2]) {
+			case "r" :
+				map3.setImage(new Image("assets/Elements-Leaderboard/leaderboard-ruins.png"));
+				break;
+			case "f" :
+				map3.setImage(new Image("assets/Elements-Leaderboard/leaderboard-forest.png"));
+				break;
+			case "d" :
+				map3.setImage(new Image("assets/Elements-Leaderboard/leaderboard-desert.png"));
+				break;
+			case "s" :
+				map3.setImage(new Image("assets/Elements-Leaderboard/leaderboard-sea.png"));
+				break;
 		}
 		
 		

@@ -80,24 +80,24 @@ public class HelpScreenController {
 	private void initialize() {
 		
 		/* Set up background of this view */
-		Image background = new Image("bg/help_screen_background.png");
+		Image background = new Image("bg/backgrounds-helpScreen/help_screen_background.png");
 		backgroundImage.setImage(background);
 		
 		/* Prepare tutorial slides */
-		help1 = new Image("bg/helpPanel1.png");
-		help2 = new Image("bg/helpPanel2.png");
-		help3 = new Image("bg/helpPanel3.png");
-		help4 = new Image("bg/helpPanel4.png");
-		help5 = new Image("bg/helpPanel5.png");
-		help6 = new Image("bg/helpPanel6.png");
-		help7 = new Image("bg/helpPanel7.png");
-		helpText1 = new Image("bg/helptext1.png");
-		helpText2 = new Image("bg/helptext2.png");
-		helpText3 = new Image("bg/helptext3.png");
-		helpText4 = new Image("bg/helptext4.png");
-		helpText5 = new Image("bg/helptext5.png");
-		helpText6 = new Image("bg/helptext6.png");
-		helpText7 = new Image("bg/helptext7.png");
+		help1 = new Image("bg/backgrounds-helpScreen/helpPanel1.png");
+		help2 = new Image("bg/backgrounds-helpScreen/helpPanel2.png");
+		help3 = new Image("bg/backgrounds-helpScreen/helpPanel3.png");
+		help4 = new Image("bg/backgrounds-helpScreen/helpPanel4.png");
+		help5 = new Image("bg/backgrounds-helpScreen/helpPanel5.png");
+		help6 = new Image("bg/backgrounds-helpScreen/helpPanel6.png");
+		help7 = new Image("bg/backgrounds-helpScreen/helpPanel7.png");
+		helpText1 = new Image("bg/backgrounds-helpScreen/helptext1.png");
+		helpText2 = new Image("bg/backgrounds-helpScreen/helptext2.png");
+		helpText3 = new Image("bg/backgrounds-helpScreen/helptext3.png");
+		helpText4 = new Image("bg/backgrounds-helpScreen/helptext4.png");
+		helpText5 = new Image("bg/backgrounds-helpScreen/helptext5.png");
+		helpText6 = new Image("bg/backgrounds-helpScreen/helptext6.png");
+		helpText7 = new Image("bg/backgrounds-helpScreen/helptext7.png");
 		helpImages = new Image[7];
 		helpTextImages = new Image[7];
 		helpImages[0] = help1;
@@ -144,7 +144,6 @@ public class HelpScreenController {
 		index = (index < 0) ? MAX_BACKGROUND_INDEX : index;
 		helpPanel.setImage(helpImages[index]);
 		helpTextPanel.setImage(helpTextImages[index]);
-		System.out.println("Index : " + index);
 	}
 	
 	private void setRightBackground() {
@@ -153,7 +152,6 @@ public class HelpScreenController {
 		index = (index > MAX_BACKGROUND_INDEX) ? 0 : index;
 		helpPanel.setImage(helpImages[index]);
 		helpTextPanel.setImage(helpTextImages[index]);
-		System.out.println("Index : " + index);
 	}
 	
 }

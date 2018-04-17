@@ -1,5 +1,7 @@
 package group23.pacman.view;
 
+import java.io.File;
+
 import group23.pacman.MainApp;
 import javafx.animation.AnimationTimer;
 import javafx.application.Platform;
@@ -9,6 +11,8 @@ import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.KeyCode;
 import javafx.scene.input.KeyEvent;
+import javafx.scene.media.Media;
+import javafx.scene.media.MediaPlayer;
 
 /** The controller class for the welcome screen view */
 public class WelcomeScreenController {
@@ -61,6 +65,11 @@ public class WelcomeScreenController {
 	private float opacity;
 	private long time;
 	
+	/* Sound effects variables */
+	private MediaPlayer mediaPlayer;
+	private Media confirmation;
+	private Media highlight;
+	
 	
 	
 	/* Constructor */
@@ -74,16 +83,21 @@ public class WelcomeScreenController {
 	@FXML
 	private void initialize() {
 		
+		/* Load media for playing sound effects */
+		confirmation = new Media(new File("bin/assets/sfx/confirmation.mp3").toURI().toString());
+		highlight = new Media(new File("bin/assets/sfx/highlight.mp3").toURI().toString());
+		
+		
 		/* Loads all button and background assets to their respective ImageView elements */
-		title.setImage(new Image("assets/misc/title.png"));
-		background.setImage(new Image("bg/background-main.png"));
+		title.setImage(new Image("assets/Elements-welcomeScreen/title.png"));
+		background.setImage(new Image("bg/background-welcomeScreen/background-main.png"));
 
 		/* Images for layering over buttons */
-		playBtnImage.setImage(new Image("assets/buttons/button-play-highlighted.png",BUTTON_WIDTH,BUTTON_HEIGHT,false,false));
-		tutorialBtnImage.setImage(new Image("assets/buttons/button-tutorial.png",BUTTON_WIDTH,BUTTON_HEIGHT,false,false));
-		leaderboardBtnImage.setImage(new Image("assets/buttons/button-leaderboard.png",BUTTON_WIDTH,BUTTON_HEIGHT,false,false));
-		creditsBtnImage.setImage(new Image("assets/buttons/button-credits.png",BUTTON_WIDTH,BUTTON_HEIGHT,false,false));
-		exitBtnImage.setImage(new Image("assets/buttons/button-exit.png",BUTTON_WIDTH,BUTTON_HEIGHT,false,false));
+		playBtnImage.setImage(new Image("assets/Elements-welcomeScreen/button-play-highlighted.png",BUTTON_WIDTH,BUTTON_HEIGHT,false,false));
+		tutorialBtnImage.setImage(new Image("assets/Elements-welcomeScreen/button-tutorial.png",BUTTON_WIDTH,BUTTON_HEIGHT,false,false));
+		leaderboardBtnImage.setImage(new Image("assets/Elements-welcomeScreen/button-leaderboard.png",BUTTON_WIDTH,BUTTON_HEIGHT,false,false));
+		creditsBtnImage.setImage(new Image("assets/Elements-welcomeScreen/button-credits.png",BUTTON_WIDTH,BUTTON_HEIGHT,false,false));
+		exitBtnImage.setImage(new Image("assets/Elements-welcomeScreen/button-exit.png",BUTTON_WIDTH,BUTTON_HEIGHT,false,false));
 		
 		/* Fade animation for coming into and out of this view*/
 		fade.setImage(new Image("bg/blackbg.png"));
@@ -144,6 +158,8 @@ public class WelcomeScreenController {
 				/* ENTER is the confirmation key */
 				if (event.getCode() == KeyCode.ENTER) {
 					
+					playSfx(confirmation);
+					
 					/* If the player presses ENTER while selecting game mode, save the game mode and play fade animation, then send user to the map/level selection screen 
 					 * If there is more than one player, then send them to the character selection screen. */
 					if (playSelected) {
@@ -164,13 +180,13 @@ public class WelcomeScreenController {
 						numPlayers = 1;
 						
 						/* Load buttons */
-						Image singlePlayer = new Image("assets/buttons/singlePlayer.png",BUTTON_WIDTH,BUTTON_HEIGHT,false,false);
+						Image singlePlayer = new Image("assets/Elements-welcomeScreen/singlePlayer.png",BUTTON_WIDTH,BUTTON_HEIGHT,false,false);
 						singlePlayerImage.setImage(singlePlayer);
 						
-						Image twoPlayer = new Image("assets/buttons/twoPlayer.png",BUTTON_WIDTH,BUTTON_HEIGHT,false,false);
+						Image twoPlayer = new Image("assets/Elements-welcomeScreen/twoPlayer.png",BUTTON_WIDTH,BUTTON_HEIGHT,false,false);
 						twoPlayerImage.setImage(twoPlayer);
 						
-						Image threePlayer = new Image("assets/buttons/threePlayer.png",BUTTON_WIDTH,BUTTON_HEIGHT,false,false);
+						Image threePlayer = new Image("assets/Elements-welcomeScreen/threePlayer.png",BUTTON_WIDTH,BUTTON_HEIGHT,false,false);
 						threePlayerImage.setImage(threePlayer);
 						
 						highlightPlayers();
@@ -206,7 +222,12 @@ public class WelcomeScreenController {
 						
 						/* Never have less than 1 player */
 						numPlayers--;
-						numPlayers = (numPlayers < 1) ? 1 : numPlayers;
+						if (numPlayers < 1) {
+							numPlayers = 1;
+						}
+						else {
+							playSfx(highlight);
+						}
 						highlightPlayers();
 					}
 					
@@ -215,7 +236,12 @@ public class WelcomeScreenController {
 						
 						/* Button index starts at 0, never less */
 						buttonIndex--;
-						buttonIndex = (buttonIndex < 0 ) ? 0 : buttonIndex;
+						if (buttonIndex <0) {
+							buttonIndex = 0;
+						}
+						else {
+							playSfx(highlight);
+						}
 						highlightButton();
 					}
 				}
@@ -224,14 +250,27 @@ public class WelcomeScreenController {
 				else if (event.getCode() == KeyCode.DOWN) {
 					
 					if (playSelected) {
+						
 						numPlayers++;
-						numPlayers = (numPlayers > 3) ? 3 : numPlayers;
+						if (numPlayers>3) {
+							numPlayers = 3;
+						}
+						else {
+							playSfx(highlight);
+						}
+
 						highlightPlayers();
 					}
 				
 					else {
+						
 						buttonIndex++;
-						buttonIndex = (buttonIndex > 4 ) ? 4 : buttonIndex;
+						if (buttonIndex > 4) {
+							buttonIndex = 4;
+						}
+						else {
+							playSfx(highlight);
+						}
 						highlightButton();
 					}
 				}
@@ -259,6 +298,14 @@ public class WelcomeScreenController {
 	}
 	
 	
+	/* Helper function for playing sound effects */
+	private void playSfx(Media sfx) {
+		mediaPlayer = new MediaPlayer(sfx);
+		mediaPlayer.setVolume(0.3);
+		mediaPlayer.play();
+	}
+	
+	
 	/* Public setter to reference main application */
 	public void setMainApp(MainApp mainApp) {
 		
@@ -272,19 +319,19 @@ public class WelcomeScreenController {
 	private void highlightPlayers() {
 		
 		if (numPlayers == 1) {
-			singlePlayerImage.setImage(new Image("assets/buttons/singlePlayer-highlighted.png",BUTTON_WIDTH,BUTTON_HEIGHT,false,false));
-			twoPlayerImage.setImage(new Image("assets/buttons/twoPlayer.png",BUTTON_WIDTH,BUTTON_HEIGHT,false,false));
-			threePlayerImage.setImage(new Image("assets/buttons/threePlayer.png",BUTTON_WIDTH,BUTTON_HEIGHT,false,false));
+			singlePlayerImage.setImage(new Image("assets/Elements-welcomeScreen/singlePlayer-highlighted.png",BUTTON_WIDTH,BUTTON_HEIGHT,false,false));
+			twoPlayerImage.setImage(new Image("assets/Elements-welcomeScreen/twoPlayer.png",BUTTON_WIDTH,BUTTON_HEIGHT,false,false));
+			threePlayerImage.setImage(new Image("assets/Elements-welcomeScreen/threePlayer.png",BUTTON_WIDTH,BUTTON_HEIGHT,false,false));
 		}
 		else if (numPlayers == 2) {
-			singlePlayerImage.setImage(new Image("assets/buttons/singlePlayer.png",BUTTON_WIDTH,BUTTON_HEIGHT,false,false));
-			twoPlayerImage.setImage(new Image("assets/buttons/twoPlayer-highlighted.png",BUTTON_WIDTH,BUTTON_HEIGHT,false,false));
-			threePlayerImage.setImage(new Image("assets/buttons/threePlayer.png",BUTTON_WIDTH,BUTTON_HEIGHT,false,false));
+			singlePlayerImage.setImage(new Image("assets/Elements-welcomeScreen/singlePlayer.png",BUTTON_WIDTH,BUTTON_HEIGHT,false,false));
+			twoPlayerImage.setImage(new Image("assets/Elements-welcomeScreen/twoPlayer-highlighted.png",BUTTON_WIDTH,BUTTON_HEIGHT,false,false));
+			threePlayerImage.setImage(new Image("assets/Elements-welcomeScreen/threePlayer.png",BUTTON_WIDTH,BUTTON_HEIGHT,false,false));
 		}
 		else if (numPlayers == 3) {
-			singlePlayerImage.setImage(new Image("assets/buttons/singlePlayer.png",BUTTON_WIDTH,BUTTON_HEIGHT,false,false));
-			twoPlayerImage.setImage(new Image("assets/buttons/twoPlayer.png",BUTTON_WIDTH,BUTTON_HEIGHT,false,false));
-			threePlayerImage.setImage(new Image("assets/buttons/threePlayer-highlighted.png",BUTTON_WIDTH,BUTTON_HEIGHT,false,false));
+			singlePlayerImage.setImage(new Image("assets/Elements-welcomeScreen/singlePlayer.png",BUTTON_WIDTH,BUTTON_HEIGHT,false,false));
+			twoPlayerImage.setImage(new Image("assets/Elements-welcomeScreen/twoPlayer.png",BUTTON_WIDTH,BUTTON_HEIGHT,false,false));
+			threePlayerImage.setImage(new Image("assets/Elements-welcomeScreen/threePlayer-highlighted.png",BUTTON_WIDTH,BUTTON_HEIGHT,false,false));
 		}
 	}
 	
@@ -292,39 +339,39 @@ public class WelcomeScreenController {
 	private void highlightButton() {
 		
 		if (buttonIndex == 0) {
-			playBtnImage.setImage(new Image("assets/buttons/button-play-highlighted.png",BUTTON_WIDTH,BUTTON_HEIGHT,false,false));
-			tutorialBtnImage.setImage(new Image("assets/buttons/button-tutorial.png",BUTTON_WIDTH,BUTTON_HEIGHT,false,false));
-			leaderboardBtnImage.setImage(new Image("assets/buttons/button-leaderboard.png",BUTTON_WIDTH,BUTTON_HEIGHT,false,false));
-			creditsBtnImage.setImage(new Image("assets/buttons/button-credits.png",BUTTON_WIDTH,BUTTON_HEIGHT,false,false));
-			exitBtnImage.setImage(new Image("assets/buttons/button-exit.png",BUTTON_WIDTH,BUTTON_HEIGHT,false,false));
+			playBtnImage.setImage(new Image("assets/Elements-welcomeScreen/button-play-highlighted.png",BUTTON_WIDTH,BUTTON_HEIGHT,false,false));
+			tutorialBtnImage.setImage(new Image("assets/Elements-welcomeScreen/button-tutorial.png",BUTTON_WIDTH,BUTTON_HEIGHT,false,false));
+			leaderboardBtnImage.setImage(new Image("assets/Elements-welcomeScreen/button-leaderboard.png",BUTTON_WIDTH,BUTTON_HEIGHT,false,false));
+			creditsBtnImage.setImage(new Image("assets/Elements-welcomeScreen/button-credits.png",BUTTON_WIDTH,BUTTON_HEIGHT,false,false));
+			exitBtnImage.setImage(new Image("assets/Elements-welcomeScreen/button-exit.png",BUTTON_WIDTH,BUTTON_HEIGHT,false,false));
 		}
 		else if (buttonIndex == 1) {
-			playBtnImage.setImage(new Image("assets/buttons/button-play.png",BUTTON_WIDTH,BUTTON_HEIGHT,false,false));
-			tutorialBtnImage.setImage(new Image("assets/buttons/button-tutorial-highlighted.png",BUTTON_WIDTH,BUTTON_HEIGHT,false,false));
-			leaderboardBtnImage.setImage(new Image("assets/buttons/button-leaderboard.png",BUTTON_WIDTH,BUTTON_HEIGHT,false,false));
-			creditsBtnImage.setImage(new Image("assets/buttons/button-credits.png",BUTTON_WIDTH,BUTTON_HEIGHT,false,false));
-			exitBtnImage.setImage(new Image("assets/buttons/button-exit.png",BUTTON_WIDTH,BUTTON_HEIGHT,false,false));
+			playBtnImage.setImage(new Image("assets/Elements-welcomeScreen/button-play.png",BUTTON_WIDTH,BUTTON_HEIGHT,false,false));
+			tutorialBtnImage.setImage(new Image("assets/Elements-welcomeScreen/button-tutorial-highlighted.png",BUTTON_WIDTH,BUTTON_HEIGHT,false,false));
+			leaderboardBtnImage.setImage(new Image("assets/Elements-welcomeScreen/button-leaderboard.png",BUTTON_WIDTH,BUTTON_HEIGHT,false,false));
+			creditsBtnImage.setImage(new Image("assets/Elements-welcomeScreen/button-credits.png",BUTTON_WIDTH,BUTTON_HEIGHT,false,false));
+			exitBtnImage.setImage(new Image("assets/Elements-welcomeScreen/button-exit.png",BUTTON_WIDTH,BUTTON_HEIGHT,false,false));
 		}
 		else if (buttonIndex == 2) {
-			playBtnImage.setImage(new Image("assets/buttons/button-play.png",BUTTON_WIDTH,BUTTON_HEIGHT,false,false));
-			tutorialBtnImage.setImage(new Image("assets/buttons/button-tutorial.png",BUTTON_WIDTH,BUTTON_HEIGHT,false,false));
-			leaderboardBtnImage.setImage(new Image("assets/buttons/button-leaderboard-highlighted.png",BUTTON_WIDTH,BUTTON_HEIGHT,false,false));
-			creditsBtnImage.setImage(new Image("assets/buttons/button-credits.png",BUTTON_WIDTH,BUTTON_HEIGHT,false,false));
-			exitBtnImage.setImage(new Image("assets/buttons/button-exit.png",BUTTON_WIDTH,BUTTON_HEIGHT,false,false));
+			playBtnImage.setImage(new Image("assets/Elements-welcomeScreen/button-play.png",BUTTON_WIDTH,BUTTON_HEIGHT,false,false));
+			tutorialBtnImage.setImage(new Image("assets/Elements-welcomeScreen/button-tutorial.png",BUTTON_WIDTH,BUTTON_HEIGHT,false,false));
+			leaderboardBtnImage.setImage(new Image("assets/Elements-welcomeScreen/button-leaderboard-highlighted.png",BUTTON_WIDTH,BUTTON_HEIGHT,false,false));
+			creditsBtnImage.setImage(new Image("assets/Elements-welcomeScreen/button-credits.png",BUTTON_WIDTH,BUTTON_HEIGHT,false,false));
+			exitBtnImage.setImage(new Image("assets/Elements-welcomeScreen/button-exit.png",BUTTON_WIDTH,BUTTON_HEIGHT,false,false));
 		}
 		else if (buttonIndex == 3) {
-			playBtnImage.setImage(new Image("assets/buttons/button-play.png",BUTTON_WIDTH,BUTTON_HEIGHT,false,false));
-			tutorialBtnImage.setImage(new Image("assets/buttons/button-tutorial.png",BUTTON_WIDTH,BUTTON_HEIGHT,false,false));
-			leaderboardBtnImage.setImage(new Image("assets/buttons/button-leaderboard.png",BUTTON_WIDTH,BUTTON_HEIGHT,false,false));
-			creditsBtnImage.setImage(new Image("assets/buttons/button-credits-highlighted.png",BUTTON_WIDTH,BUTTON_HEIGHT,false,false));
-			exitBtnImage.setImage(new Image("assets/buttons/button-exit.png",BUTTON_WIDTH,BUTTON_HEIGHT,false,false));
+			playBtnImage.setImage(new Image("assets/Elements-welcomeScreen/button-play.png",BUTTON_WIDTH,BUTTON_HEIGHT,false,false));
+			tutorialBtnImage.setImage(new Image("assets/Elements-welcomeScreen/button-tutorial.png",BUTTON_WIDTH,BUTTON_HEIGHT,false,false));
+			leaderboardBtnImage.setImage(new Image("assets/Elements-welcomeScreen/button-leaderboard.png",BUTTON_WIDTH,BUTTON_HEIGHT,false,false));
+			creditsBtnImage.setImage(new Image("assets/Elements-welcomeScreen/button-credits-highlighted.png",BUTTON_WIDTH,BUTTON_HEIGHT,false,false));
+			exitBtnImage.setImage(new Image("assets/Elements-welcomeScreen/button-exit.png",BUTTON_WIDTH,BUTTON_HEIGHT,false,false));
 		}
 		else if (buttonIndex == 4) {
-			playBtnImage.setImage(new Image("assets/buttons/button-play.png",BUTTON_WIDTH,BUTTON_HEIGHT,false,false));
-			tutorialBtnImage.setImage(new Image("assets/buttons/button-tutorial.png",BUTTON_WIDTH,BUTTON_HEIGHT,false,false));
-			leaderboardBtnImage.setImage(new Image("assets/buttons/button-leaderboard.png",BUTTON_WIDTH,BUTTON_HEIGHT,false,false));
-			creditsBtnImage.setImage(new Image("assets/buttons/button-credits.png",BUTTON_WIDTH,BUTTON_HEIGHT,false,false));
-			exitBtnImage.setImage(new Image("assets/buttons/button-exit-highlighted.png",BUTTON_WIDTH,BUTTON_HEIGHT,false,false));
+			playBtnImage.setImage(new Image("assets/Elements-welcomeScreen/button-play.png",BUTTON_WIDTH,BUTTON_HEIGHT,false,false));
+			tutorialBtnImage.setImage(new Image("assets/Elements-welcomeScreen/button-tutorial.png",BUTTON_WIDTH,BUTTON_HEIGHT,false,false));
+			leaderboardBtnImage.setImage(new Image("assets/Elements-welcomeScreen/button-leaderboard.png",BUTTON_WIDTH,BUTTON_HEIGHT,false,false));
+			creditsBtnImage.setImage(new Image("assets/Elements-welcomeScreen/button-credits.png",BUTTON_WIDTH,BUTTON_HEIGHT,false,false));
+			exitBtnImage.setImage(new Image("assets/Elements-welcomeScreen/button-exit-highlighted.png",BUTTON_WIDTH,BUTTON_HEIGHT,false,false));
 		}
 
 	}

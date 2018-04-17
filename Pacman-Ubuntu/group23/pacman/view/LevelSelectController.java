@@ -16,7 +16,7 @@ import javafx.scene.input.KeyEvent;
 public class LevelSelectController {
 	
 	/* Constant - do not change */
-	private final int MAX_BACKGROUND_INDEX = 2;
+	private final int MAX_BACKGROUND_INDEX = 3;
 	private final float FADE_SPEED = 0.02f;
 	
 	/* FXML elements in LevelSelect.fxml */
@@ -29,6 +29,8 @@ public class LevelSelectController {
 	@FXML
 	private ImageView rightArrow;
 	@FXML
+	private ImageView map_label;
+	@FXML
 	private ImageView fade;
 	
 	
@@ -39,11 +41,19 @@ public class LevelSelectController {
 	
 	/* Variables for showing which background/level/map will be set */
 	private int index;
-	private Image seaBackground;
+	private Image ruinsBackground;
+	private Image forestBackground;
 	private Image desertBackground;
-	private Image classicBackground;
-	private Image[] backgrounds;
+	private Image seaBackground;
+	private Image ruinsLabel;
+	private Image forestLabel;
+	private Image desertLabel;
+	private Image seaLabel;
 
+
+
+	private Image[] backgrounds;
+	private Image[] labels;
 	
 	/* Variable to control scroll speed */
 	private long lastTime;
@@ -54,6 +64,8 @@ public class LevelSelectController {
 	/* Fade variables */
 	private float opacity;
 	private long time;
+	
+	private boolean enterPressed;
 	
 	
 	/* Constructor */
@@ -70,7 +82,7 @@ public class LevelSelectController {
 	private void initialize() {
 		
 		/* Set up background of this view */
-		Image backgroundImage = new Image("bg/background-levelSelect.png");
+		Image backgroundImage = new Image("bg/backgrounds-LevelSelect/background-levelSelect.png");
 		background.setImage(backgroundImage);
 		
 		/* Fade */
@@ -80,22 +92,41 @@ public class LevelSelectController {
 		fadeTransition(0);
 		
 		/* Set up level backgrounds to scroll through */
-		seaBackground = new Image("bg/background-sea_levelselect.png");
-		desertBackground = new Image("bg/background-deserttemple_levelselect.png");
-		classicBackground = new Image("bg/background-forest_levelselect.png");
-		backgrounds = new Image[3];
-		backgrounds[0] = classicBackground;
-		backgrounds[1] = seaBackground;
+		ruinsBackground = new Image("bg/backgrounds-LevelSelect/background-ruins_levelselect.png");
+		forestBackground = new Image("bg/backgrounds-LevelSelect/background-forest_levelselect.png");
+		desertBackground = new Image("bg/backgrounds-LevelSelect/background-deserttemple_levelselect.png");
+		seaBackground = new Image("bg/backgrounds-LevelSelect/background-sea_levelselect.png");
+		ruinsLabel = new Image("assets/Elements-LevelSelect/label-ruins.png");
+		forestLabel = new Image("assets/Elements-LevelSelect/label-forest.png");
+		desertLabel = new Image("assets/Elements-LevelSelect/label-desert.png");
+		seaLabel = new Image("assets/Elements-LevelSelect/label-sea.png");
+		
+		
+		backgrounds = new Image[4];
+		labels = new Image[4];
+		
+		backgrounds[0] = ruinsBackground;
+		backgrounds[1] = forestBackground;
 		backgrounds[2] = desertBackground;
+		backgrounds[3] = seaBackground;
+		labels[0] = ruinsLabel;
+		labels[1] = forestLabel;
+		labels[2] = desertLabel;
+		labels[3] = seaLabel;
+		
 		index = 0;
+		
 		levelImage.setImage(backgrounds[index]);
+		map_label.setImage(labels[index]);
+		
 		
 		/* Load the arrows */
-		Image leftArrowImage = new Image("assets/buttons/leftArrow.png",110,110,false,false);
-		Image rightArrowImage = new Image("assets/buttons/rightArrow.png",110,110,false,false);		
+		Image leftArrowImage = new Image("assets/Elements-LevelSelect/leftArrow.png",110,110,false,false);
+		Image rightArrowImage = new Image("assets/Elements-LevelSelect/rightArrow.png",110,110,false,false);		
 		leftArrow.setImage(leftArrowImage);
 		rightArrow.setImage(rightArrowImage);
 		
+		enterPressed = false;
 	}
 	
 	
@@ -105,9 +136,6 @@ public class LevelSelectController {
 		
 		AnimationTimer fadeAnimation = new AnimationTimer() {
 			public void handle(long now) {
-				
-				/* Every 0.05 seconds, move the two backgrounds to the left at SCROLL_SPEED pixels
-				 * When it is time to loop,move the images back to the right by the amount scrolled. */
 				
 				if (System.currentTimeMillis() - time > 0.05f) {
 					
@@ -157,25 +185,32 @@ public class LevelSelectController {
 		    public void handle(KeyEvent event) {
 		    	
 		    	/* Selects the currently shown map/level */
-		    	if (event.getCode() == KeyCode.ENTER) {	
-			    	char level;
-			    	switch (index) {
-			    		case 0 :
-			    			level = 'c';
-			    			break;
-			    		case 1 :
-			   				level = 's';
-			   				break;
-			    		case 2 :
-			    			level = 'd';
-			    			break;
-		    			default :
-			    			level = 'c';
-			    			break;
-			    	}
-			    		System.out.println("same");
-			    	mainApp.setMap(level);
-			    	fadeTransition(1);
+		    	if (event.getCode() == KeyCode.ENTER) {
+		    		
+		    		/* Prevents button being held down */
+		    		if (!enterPressed) {
+		    			enterPressed = true;
+				    	char level;
+				    	switch (index) {
+				    		case 0 :
+				    			level = 'r';
+				    			break;
+				    		case 1 :
+				   				level = 'f';
+				   				break;
+				    		case 2 :
+				    			level = 'd';
+				    			break;
+				    		case 3 :
+				    			level = 's';
+				    			break;
+			    			default :
+				    			level = 'r';
+				    			break;
+				    	}
+				    	mainApp.setMap(level);
+				    	fadeTransition(1);
+		    		}
 			    		
 		    	}
 		    	else if (event.getCode() == KeyCode.LEFT) {
@@ -252,12 +287,14 @@ public class LevelSelectController {
 		index--;
 		index = (index < 0) ? MAX_BACKGROUND_INDEX : index;
 		levelImage.setImage(backgrounds[index]);
+		map_label.setImage(labels[index]);
 	}
 	
 	private void setRightBackground() {
 		index++;
 		index = (index > MAX_BACKGROUND_INDEX) ? 0 : index;
 		levelImage.setImage(backgrounds[index]);
+		map_label.setImage(labels[index]);
 	}
 	
 	/* Animate functions help "animate" the arrow keys, by
@@ -265,21 +302,21 @@ public class LevelSelectController {
 	 * This gives the user feedback on the key press and is a nice little feature for the UI*/
 	private void animateLeft() {
 		
-		leftArrow.setX(- 40);
-        leftArrow.setY(- 40);
+		leftArrow.setX( -20);
+        leftArrow.setY(- 20);
 		leftArrow.setFitHeight(150);
 		leftArrow.setFitWidth(150);
-        leftArrow.setImage(new Image("assets/buttons/leftArrow.png",150,150,false,false));
+        leftArrow.setImage(new Image("assets/Elements-LevelSelect/leftArrow.png",150,150,false,false));
         
 	}
 	
 	private void animateRight() {
 		
-		rightArrow.setX(0);
-		rightArrow.setY(-40);
+		rightArrow.setX(-20);
+		rightArrow.setY(-20);
 		rightArrow.setFitHeight(150);
 		rightArrow.setFitWidth(150);
-		rightArrow.setImage(new Image("assets/buttons/rightArrow.png",150,150,false,false));
+		rightArrow.setImage(new Image("assets/Elements-LevelSelect/rightArrow.png",150,150,false,false));
 
 	}
 	
@@ -292,7 +329,7 @@ public class LevelSelectController {
         leftArrow.setY(0);
 		leftArrow.setFitHeight(110);
 		leftArrow.setFitWidth(110);
-        leftArrow.setImage(new Image("assets/buttons/leftArrow.png",110,110,false,false));
+        leftArrow.setImage(new Image("assets/Elements-LevelSelect/leftArrow.png",110,110,false,false));
 	}
 	
 	private void resetRArrow() {
@@ -301,7 +338,7 @@ public class LevelSelectController {
 		rightArrow.setY(0);
 		rightArrow.setFitHeight(110);
 		rightArrow.setFitWidth(110);
-		rightArrow.setImage(new Image("assets/buttons/rightArrow.png",110,110,false,false));
+		rightArrow.setImage(new Image("assets/Elements-LevelSelect/rightArrow.png",110,110,false,false));
 	}
 
 }

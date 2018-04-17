@@ -23,8 +23,10 @@ public class Timer {
 	
 	public void countDown(int decrement) {
 		
-		if (this.currentTime > 0){
-			this.currentTime -= decrement;
+		this.currentTime -= decrement;
+		
+		if (currentTime < 0) {
+			this.currentTime = 0;
 		}
 		
 	}
