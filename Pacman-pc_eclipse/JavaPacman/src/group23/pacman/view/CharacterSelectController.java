@@ -11,6 +11,7 @@ import javafx.scene.input.KeyCode;
 import javafx.scene.input.KeyEvent;
 import javafx.scene.media.Media;
 import javafx.scene.media.MediaPlayer;
+import javafx.util.Duration;
 
 /** This class allows the player(s) 2 (and 3) to select their preferred character sprite */
 public class CharacterSelectController {
@@ -46,7 +47,6 @@ public class CharacterSelectController {
 	
 	
 	/* Media variables for sound effects */
-	private Media buttonPress;
 	private MediaPlayer mediaPlayer;
 	
 	
@@ -123,7 +123,7 @@ public class CharacterSelectController {
 	    				ghostIndex = 1;
 	    			}
 	    			else {
-	    				playSfx(buttonPress);
+	    				playSfx();
 	    				highlightGhost();
 	    			}
 	    		}
@@ -136,7 +136,7 @@ public class CharacterSelectController {
 	    				ghostIndex = MAX_GHOSTS;
 	    			}
 	    			else {
-	    				playSfx(buttonPress);
+	    				playSfx();
 	    				highlightGhost();
 	    			}
 	    		}
@@ -185,8 +185,6 @@ public class CharacterSelectController {
 		AnimationTimer fadeAnimation = new AnimationTimer() {
 			public void handle(long now) {
 				
-				/* Every 0.05 seconds, move the two backgrounds to the left at SCROLL_SPEED pixels
-				 * When it is time to loop,move the images back to the right by the amount scrolled. */
 				if (System.currentTimeMillis() - time > 0.05f) {
 					
 					if (mode ==0) {
@@ -249,8 +247,11 @@ public class CharacterSelectController {
 		ghost4.setImage(new Image("assets/Elements-CharSel/ghost4.png",SPRITE_WIDTH,SPRITE_HEIGHT,false,false));
 		player_banner.setImage(new Image("assets/Elements-CharSel/player_two_banner.png"));
 		fadeTransition(0);
+
 		/* Set up sound effect button presses */
-		buttonPress = new Media(new File("bin/assets/sfx/menuSelect.mp3").toURI().toString());
+		Media buttonPress = new Media(new File("bin/assets/sfx/menuSelect.mp3").toURI().toString());
+		mediaPlayer = new MediaPlayer(buttonPress);
+		mediaPlayer.setVolume(0.3);
 		
 		/* Set variable to determine which sprite is chosen for which character */
 		firstPick = true;
@@ -290,9 +291,9 @@ public class CharacterSelectController {
 	}
 	
 	/* Plays sound effect for navigating this view */
-	public void playSfx(Media sfx) {
-		mediaPlayer = new MediaPlayer(sfx);
-		mediaPlayer.setVolume(0.3);
+	public void playSfx() {
+		mediaPlayer.setStartTime(Duration.ZERO);
+		mediaPlayer.seek(Duration.ZERO);
 		mediaPlayer.play();
 	}
 	

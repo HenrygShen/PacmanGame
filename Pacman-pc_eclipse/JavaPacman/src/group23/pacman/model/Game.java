@@ -185,6 +185,7 @@ public class Game {
 				}
 			}
 			
+			/* Checks for collision with the gasZone */
 			if (character.collidedWith(gasZone) && gasZone.getDrawGas()) {
 				if (character.getType() == GameObject.TYPE.GHOST) {
 				((Ghost) character).setState(Ghost.STATE.DEAD);

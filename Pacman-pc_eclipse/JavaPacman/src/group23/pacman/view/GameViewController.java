@@ -15,6 +15,7 @@ import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.image.*;
 import javafx.scene.media.Media;
 import javafx.scene.media.MediaPlayer;
+import javafx.util.Duration;
 
 /** Controller class for the GameView screen */
 
@@ -98,8 +99,7 @@ public class GameViewController {
 	/* Recorded name of person who beats high score */
 	private String name;
 	
-	/* Media variables for playing sound effect for pause/resume */
-	private Media toggle;
+	/* Media variable for playing sound effect for pause/resume */
 	private MediaPlayer mediaPlayer;
 	
 	
@@ -171,7 +171,9 @@ public class GameViewController {
 		game_info_panel.setImage(new Image("assets/Elements-GameView/game_info_panel.png"));
 		
 		/* SFX for pause/resuming game */
-		toggle = new Media(new File("bin/assets/sfx/toggle.mp3").toURI().toString());
+		Media toggle = new Media(new File("bin/assets/sfx/toggle.mp3").toURI().toString());
+		mediaPlayer = new MediaPlayer(toggle);
+		mediaPlayer.setVolume(0.3);
 		
 		/* Initialize 2 minute timer */
 		timer = new Timer(120);
@@ -437,8 +439,8 @@ public class GameViewController {
 	
 	/* Play sound effect for pause/resume */
 	private void playSfx() {
-		mediaPlayer = new MediaPlayer(toggle);
-		mediaPlayer.setVolume(0.3f);
+		mediaPlayer.setStartTime(Duration.ZERO);
+		mediaPlayer.seek(Duration.ZERO);
 		mediaPlayer.play();
 	}
 	

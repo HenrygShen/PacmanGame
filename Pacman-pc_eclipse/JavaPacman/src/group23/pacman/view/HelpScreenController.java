@@ -30,24 +30,6 @@ public class HelpScreenController {
 	
 	/* Variables for showing which help panel will be set */
 	private int index;
-	private Image help1;
-	private Image help2;
-	private Image help3;
-	private Image help4;
-	private Image help5;
-	private Image help6;
-	private Image help7;
-	private Image help8;
-	private Image help9;
-	private Image helpText1;
-	private Image helpText2;
-	private Image helpText3;
-	private Image helpText4;
-	private Image helpText5;
-	private Image helpText6;
-	private Image helpText7;
-	private Image helpText8;
-	private Image helpText9;
 	private Image helpImages[];
 	private Image helpTextImages[];
 	
@@ -88,24 +70,24 @@ public class HelpScreenController {
 		backgroundImage.setImage(background);
 		
 		/* Prepare tutorial slides */
-		help1 = new Image("bg/backgrounds-helpScreen/helpPanel1.png");
-		help2 = new Image("bg/backgrounds-helpScreen/helpPanel2.png");
-		help3 = new Image("bg/backgrounds-helpScreen/helpPanel3.png");
-		help4 = new Image("bg/backgrounds-helpScreen/helpPanel4.png");
-		help5 = new Image("bg/backgrounds-helpScreen/helpPanel5.png");
-		help6 = new Image("bg/backgrounds-helpScreen/helpPanel6.png");
-		help7 = new Image("bg/backgrounds-helpScreen/helpPanel7.png");
-		help8 = new Image("bg/backgrounds-helpScreen/helpPanel8.png");
-		help9 = new Image("bg/backgrounds-helpScreen/helpPanel9.png");
-		helpText1 = new Image("bg/backgrounds-helpScreen/helptext1.png");
-		helpText2 = new Image("bg/backgrounds-helpScreen/helptext2.png");
-		helpText3 = new Image("bg/backgrounds-helpScreen/helptext3.png");
-		helpText4 = new Image("bg/backgrounds-helpScreen/helptext4.png");
-		helpText5 = new Image("bg/backgrounds-helpScreen/helptext5.png");
-		helpText6 = new Image("bg/backgrounds-helpScreen/helptext6.png");
-		helpText7 = new Image("bg/backgrounds-helpScreen/helptext7.png");
-		helpText8 = new Image("bg/backgrounds-helpScreen/helptext8.png");
-		helpText9 = new Image("bg/backgrounds-helpScreen/helptext9.png");
+		Image help1 = new Image("bg/backgrounds-helpScreen/helpPanel1.png");
+		Image help2 = new Image("bg/backgrounds-helpScreen/helpPanel2.png");
+		Image help3 = new Image("bg/backgrounds-helpScreen/helpPanel3.png");
+		Image help4 = new Image("bg/backgrounds-helpScreen/helpPanel4.png");
+		Image help5 = new Image("bg/backgrounds-helpScreen/helpPanel5.png");
+		Image help6 = new Image("bg/backgrounds-helpScreen/helpPanel6.png");
+		Image help7 = new Image("bg/backgrounds-helpScreen/helpPanel7.png");
+		Image help8 = new Image("bg/backgrounds-helpScreen/helpPanel8.png");
+		Image help9 = new Image("bg/backgrounds-helpScreen/helpPanel9.png");
+		Image helpText1 = new Image("bg/backgrounds-helpScreen/helptext1.png");
+		Image helpText2 = new Image("bg/backgrounds-helpScreen/helptext2.png");
+		Image helpText3 = new Image("bg/backgrounds-helpScreen/helptext3.png");
+		Image helpText4 = new Image("bg/backgrounds-helpScreen/helptext4.png");
+		Image helpText5 = new Image("bg/backgrounds-helpScreen/helptext5.png");
+		Image helpText6 = new Image("bg/backgrounds-helpScreen/helptext6.png");
+		Image helpText7 = new Image("bg/backgrounds-helpScreen/helptext7.png");
+		Image helpText8 = new Image("bg/backgrounds-helpScreen/helptext8.png");
+		Image helpText9 = new Image("bg/backgrounds-helpScreen/helptext9.png");
 		helpImages = new Image[9];
 		helpTextImages = new Image[9];
 		helpImages[0] = help1;

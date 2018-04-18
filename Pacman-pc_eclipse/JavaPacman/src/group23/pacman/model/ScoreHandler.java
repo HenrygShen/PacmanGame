@@ -7,6 +7,7 @@ import java.io.FileWriter;
 import java.io.IOException;
 import java.io.PrintWriter;
 
+/** Simple model class that works with a certain text file which saves the users scores and sends it to the leaderboard to be displayed **/
 public class ScoreHandler {
 	
 	private String firstName;
@@ -30,7 +31,7 @@ public class ScoreHandler {
 	private void readScores() {
 		
 
-		
+		/* Read the file and store the scores */
 		try {
 			FileReader fileReader = new FileReader("highScores.txt");
 			BufferedReader bufferedReader = new BufferedReader(fileReader);
@@ -81,7 +82,8 @@ public class ScoreHandler {
 		
 		
 	}
-	
+
+	/* Writing a new highscore to the text file, only if it has beaten an existing score */
 	public void writeScore(int newScore,String newName, char newMapName) {
 		
 		if (newScore > firstScore) {
@@ -131,6 +133,7 @@ public class ScoreHandler {
 		}
 	}
 
+	/* PUBLIC GETTERS */
 	public String[] getNames() {
 		
 		String[] names = new String[3];
