@@ -38,6 +38,7 @@ public class Pacman extends GameObject implements MovingCharacter {
 	private Media chompNoise;
 	private MediaPlayer mediaPlayerWhip;
 	private MediaPlayer mediaPlayerChomp;
+	private Duration duration;
 
 	/* Handles the animations */
 	private AnimationManager animationManager;
@@ -69,6 +70,7 @@ public class Pacman extends GameObject implements MovingCharacter {
 		whipSound = new Media(new File("bin/assets/sfx/whipSound.mp3").toURI().toString());
 		
 		/* Set up sound effect for Pacman eating the pellet */
+		duration = new Duration(0);
 		chompNoise = new Media(new File("bin/assets/sfx/chompNoise.wav").toURI().toString());
 		mediaPlayerChomp = new MediaPlayer(chompNoise);
 		mediaPlayerChomp.setVolume(0.3);
@@ -230,9 +232,8 @@ public class Pacman extends GameObject implements MovingCharacter {
     
     /* Plays Pacman whip sound effect */
 	private void playSfx(Media sfx) {
-		//mediaPlayerChomp.stop();
-		mediaPlayerChomp.setStartTime(Duration.ZERO);
-		mediaPlayerChomp.seek(Duration.ZERO);
+		mediaPlayerChomp.stop();
+		mediaPlayerChomp.setStartTime(duration);
 		mediaPlayerChomp.play();
 	}
 	

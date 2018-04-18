@@ -95,8 +95,6 @@ public class HelpScreenController {
 		help5 = new Image("bg/backgrounds-helpScreen/helpPanel5.png");
 		help6 = new Image("bg/backgrounds-helpScreen/helpPanel6.png");
 		help7 = new Image("bg/backgrounds-helpScreen/helpPanel7.png");
-		help8 = new Image("bg/backgrounds-helpScreen/helpPanel8.png");
-		help9 = new Image("bg/backgrounds-helpScreen/helpPanel9.png");
 		helpText1 = new Image("bg/backgrounds-helpScreen/helptext1.png");
 		helpText2 = new Image("bg/backgrounds-helpScreen/helptext2.png");
 		helpText3 = new Image("bg/backgrounds-helpScreen/helptext3.png");
@@ -104,10 +102,8 @@ public class HelpScreenController {
 		helpText5 = new Image("bg/backgrounds-helpScreen/helptext5.png");
 		helpText6 = new Image("bg/backgrounds-helpScreen/helptext6.png");
 		helpText7 = new Image("bg/backgrounds-helpScreen/helptext7.png");
-		helpText8 = new Image("bg/backgrounds-helpScreen/helptext8.png");
-		helpText9 = new Image("bg/backgrounds-helpScreen/helptext9.png");
-		helpImages = new Image[9];
-		helpTextImages = new Image[9];
+		helpImages = new Image[7];
+		helpTextImages = new Image[7];
 		helpImages[0] = help1;
 		helpImages[1] = help2;
 		helpImages[2] = help3;

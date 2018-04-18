@@ -9,7 +9,6 @@ import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.image.Image;
 import javafx.scene.media.Media;
 import javafx.scene.media.MediaPlayer;
-import javafx.util.Duration;
 
 public class Pacman extends GameObject implements MovingCharacter {
 	
@@ -70,8 +69,6 @@ public class Pacman extends GameObject implements MovingCharacter {
 		
 		/* Set up sound effect for Pacman eating the pellet */
 		chompNoise = new Media(new File("bin/assets/sfx/chompNoise.wav").toURI().toString());
-		mediaPlayerChomp = new MediaPlayer(chompNoise);
-		mediaPlayerChomp.setVolume(0.3);
 		
 
 		/* Sets up the main character's hit-box */
@@ -230,9 +227,8 @@ public class Pacman extends GameObject implements MovingCharacter {
     
     /* Plays Pacman whip sound effect */
 	private void playSfx(Media sfx) {
-		//mediaPlayerChomp.stop();
-		mediaPlayerChomp.setStartTime(Duration.ZERO);
-		mediaPlayerChomp.seek(Duration.ZERO);
+		mediaPlayerChomp = new MediaPlayer(sfx);
+		mediaPlayerChomp.setVolume(0.3);
 		mediaPlayerChomp.play();
 	}
 	

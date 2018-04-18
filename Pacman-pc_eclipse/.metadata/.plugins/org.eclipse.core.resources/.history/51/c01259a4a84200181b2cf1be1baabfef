@@ -90,7 +90,7 @@ public class MainApp extends Application{
 	public void start(Stage gameWindow) {
 		
 		this.gameWindow = gameWindow;
-		//this.gameWindow.setResizable(false);
+		this.gameWindow.setResizable(false);
 		this.gameWindow.setTitle("Pacman");
 		
 		initRootLayout();

@@ -232,7 +232,7 @@ public class Pacman extends GameObject implements MovingCharacter {
 	private void playSfx(Media sfx) {
 		//mediaPlayerChomp.stop();
 		mediaPlayerChomp.setStartTime(Duration.ZERO);
-		mediaPlayerChomp.seek(Duration.ZERO);
+		mediaPlayer.seek(Duration.ZERO);
 		mediaPlayerChomp.play();
 	}
 	
