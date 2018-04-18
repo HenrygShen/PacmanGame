@@ -3,11 +3,11 @@ package group23.pacman.model;
 import java.util.ArrayList;
 import java.util.Random;
 
-/** The class which deals with the AI movement of moving character objects.
-*/
+/** The class which deals with the AI movement of moving character objects. **/
 
 public class AI {
 	
+	/* Constants for the map offset and size*/
 	private static final int GRID_SIZE = 30;
 	private static final int X_OFFSET = 158;
 	private static final int Y_OFFSET = 9;
@@ -15,7 +15,7 @@ public class AI {
 	/* Board object to help determine whether a move is valid */
 	private Board board;
 	
-	/* There are currently 3 types of AI
+	/* There are currently 4 types of AI
 	 * 1) Type == 0, is not an AI, it is a player controlled object
 	 * 2) Type == 1, is an AI with completely random movements
 	 * 3) Type == 2, is an AI which chases the main character 
@@ -35,7 +35,7 @@ public class AI {
 	/* Path which determines the next move */
 	private ArrayList<Node> path;
 
-	/* Conditionals for different behaviours TODO : implement different behaviours */
+	/* Conditionals for different behaviours of ghost. If a ghost is not chasing, it is scattering */
 	private boolean chase;
 	
 	
@@ -49,39 +49,6 @@ public class AI {
 		path = new ArrayList<Node>();
 		chase = false;
 		
-		
-	}
-	/**/
-	public void setChase(boolean bool) {
-		this.chase = bool;
-	}
-	
-	/* Pacman position and ghost position changes frequently 
-	 * So this is used to set up the nodes for each path find */
-	public void setNodes(int ghostX, int ghostY, int pacmanX, int pacmanY) {
-
-		/* Remove previous nodes */
-		nodes.clear();
-		
-		/* Add a node for ghost's position */
-		nodes.add(new Node(ghostX, ghostY));
-		
-		/* Find all the turning points in the map and create nodes for them */
-		for (int i = 0; i < 25; i++) {
-			for (int j = 0; j < 25; j++) {
-				if (board.isNode(i*GRID_SIZE + X_OFFSET, j*GRID_SIZE + Y_OFFSET)) {
-					nodes.add(new Node(i*GRID_SIZE + X_OFFSET, j*GRID_SIZE + Y_OFFSET));
-				}
-			}
-		}
-		
-		/* Add a node for pacman's position */
-		nodes.add(new Node(pacmanX, pacmanY));
-		
-		/* Find all the connecting edges between nodes */
-		for (int i = 0; i< nodes.size(); i++) {
-			nodes.get(i).addEdges(nodes, board);
-		}
 		
 	}
 	
@@ -103,7 +70,8 @@ public class AI {
 		int currentNPos, newNPos;
 		int tempDist;
 		int currentSmallest;
-		int infinity = (1<<25); // false infinity
+ 		/* false infinity */
+		int infinity = (1<<25);
 		
 		boolean initial = true;
 		
@@ -115,7 +83,7 @@ public class AI {
 			}
 			else {
 				dist.add(infinity);
-				prev.add(null);//NULL
+				prev.add(null);
 			}
 			isRemoved.add(false);
 		}
@@ -179,14 +147,14 @@ public class AI {
 		Node prevNode;
 		Node currentNode2 = destination;
 		currentPos = this.nodes.indexOf(destination);
-		/* Starting from the destination, back track using the prev ArrayList and store each node into backwardsPath*/
+		/* Starting from the destination, back track using the prev ArrayList and store each node into backwardsPath */
 		while(!source.equals(this.nodes.get(currentPos))){
 			backwardsPath.add(currentNode2);
 			prevNode = currentNode2;
 			currentNode2 = prev.get(currentPos);
 			currentPos = this.nodes.indexOf(currentNode2);
 			
-			/* If the previous node is the same as the current node, there is no path*/
+			/* If the previous node is the same as the current node, there is no path */
 			if (currentNode2 == prevNode){
 				return null;
 			}
@@ -246,7 +214,7 @@ public class AI {
 			direction = posCompMove(ghostX, ghostY, path.get(path.size() - 1).getX(), path.get(path.size() - 1).getY());
 			return direction;
 		}
-		/* Crazy */ 
+		/* Crazy Ghost */ 
 		else if (type == 3) {
 			/* End scatter behaviour if it has reached the corner */
 			if (ghostX == X_OFFSET + GRID_SIZE && ghostY == Y_OFFSET + 23*GRID_SIZE) {
@@ -288,7 +256,7 @@ public class AI {
 			int pacmanXNew = pacmanX;
 			int pacmanYNew = pacmanY;
 			
-			/* If the ghost is within an 8 GRID_SIZE radius of pacman, it will move to its corner. */
+			/* If the ghost is within an 5 GRID_SIZE radius of pacman, it will move to its corner. */
 			if (Math.sqrt(Math.pow(ghostX - pacmanX, 2) + Math.pow(ghostY - pacmanY, 2)) < 5*GRID_SIZE || !chase) {
 				/* Bottom right corner */
 				pacmanXNew = X_OFFSET + 23*GRID_SIZE;
@@ -376,6 +344,40 @@ public class AI {
 	public boolean canTurn(int x, int y) {
 		
 		return board.isNode(x, y);
+	}
+
+	/* PUBLIC SETTERS */
+	public void setChase(boolean bool) {
+		this.chase = bool;
+	}
+	
+	/* Pacman position and ghost position changes frequently 
+	 * So this is used to set up the nodes for each path find */
+	public void setNodes(int ghostX, int ghostY, int pacmanX, int pacmanY) {
+
+		/* Remove previous nodes */
+		nodes.clear();
+		
+		/* Add a node for ghost's position */
+		nodes.add(new Node(ghostX, ghostY));
+		
+		/* Find all the turning points in the map and create nodes for them */
+		for (int i = 0; i < 25; i++) {
+			for (int j = 0; j < 25; j++) {
+				if (board.isNode(i*GRID_SIZE + X_OFFSET, j*GRID_SIZE + Y_OFFSET)) {
+					nodes.add(new Node(i*GRID_SIZE + X_OFFSET, j*GRID_SIZE + Y_OFFSET));
+				}
+			}
+		}
+		
+		/* Add a node for pacman's position */
+		nodes.add(new Node(pacmanX, pacmanY));
+		
+		/* Find all the connecting edges between nodes */
+		for (int i = 0; i< nodes.size(); i++) {
+			nodes.get(i).addEdges(nodes, board);
+		}
+		
 	}
 }
 

@@ -11,6 +11,7 @@ import javafx.scene.media.Media;
 import javafx.scene.media.MediaPlayer;
 import javafx.util.Duration;
 
+/** This class handles the Pacman object, the main character of the game. **/
 public class Pacman extends GameObject implements MovingCharacter {
 	
 	public enum STATE {
@@ -66,10 +67,12 @@ public class Pacman extends GameObject implements MovingCharacter {
 		state = STATE.ALIVE;
 		
 		/* Set up sound effect for Pacman using a whip */
-		whipSound = new Media(new File("bin/assets/sfx/whipSound.mp3").toURI().toString());
+		whipSound = new Media(new File("assets/sfx/whipSound.mp3").toURI().toString());
+		mediaPlayerWhip = new MediaPlayer(whipSound);
+		mediaPlayerWhip.setVolume(0.3);
 		
 		/* Set up sound effect for Pacman eating the pellet */
-		chompNoise = new Media(new File("bin/assets/sfx/chompNoise.wav").toURI().toString());
+		chompNoise = new Media(new File("assets/sfx/chompNoise.wav").toURI().toString());
 		mediaPlayerChomp = new MediaPlayer(chompNoise);
 		mediaPlayerChomp.setVolume(0.3);
 		
@@ -106,7 +109,7 @@ public class Pacman extends GameObject implements MovingCharacter {
 		if (!whip.inAnimation()) {
 			if (whip.getCharges() > 0) {
 				this.state = STATE.POWER_UP;
-				playSfx(whipSound);
+				playSfx(0);
 				whip.useCharge();
 			}
 		}
@@ -145,7 +148,7 @@ public class Pacman extends GameObject implements MovingCharacter {
     	
     	if (object.getType() == GameObject.TYPE.PELLET || object.getType() == GameObject.TYPE.SPECIAL_PELLET) {
     		if (this.hitBox.intersects(hitBox)) {
-    			playSfx(chompNoise);
+    			playSfx(1);
     		}
     	}
     	
@@ -228,12 +231,20 @@ public class Pacman extends GameObject implements MovingCharacter {
     }
     
     
-    /* Plays Pacman whip sound effect */
-	private void playSfx(Media sfx) {
-		//mediaPlayerChomp.stop();
-		mediaPlayerChomp.setStartTime(Duration.ZERO);
-		mediaPlayerChomp.seek(Duration.ZERO);
-		mediaPlayerChomp.play();
+    /* Plays Pacman's sound effects */
+	private void playSfx(int type) {
+		/* Type 0 = Whip sound */
+		if (type == 0){
+			mediaPlayerWhip.setStartTime(Duration.ZERO);
+			mediaPlayerWhip.seek(Duration.ZERO);
+			mediaPlayerWhip.play();
+		}
+		/* Type 1 = Chomp noise*/
+		else if (type == 1){
+			mediaPlayerChomp.setStartTime(Duration.ZERO);
+			mediaPlayerChomp.seek(Duration.ZERO);
+			mediaPlayerChomp.play();
+		}
 	}
 	
 	

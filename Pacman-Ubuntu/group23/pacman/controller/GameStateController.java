@@ -155,7 +155,9 @@ public class GameStateController {
 			    		game.getPacman().queueMovement('R');
 			    	}
 			    	else if (e.getCode() == KeyCode.ENTER) {
-			    		game.getPacman().whip();
+			    		if (!gameViewController.countingDown()){
+			    			game.getPacman().whip();
+					}
 			    	}
 			    	/* For debugging */
 			    	else if (e.getCode() == KeyCode.PAGE_DOWN) {
@@ -215,7 +217,9 @@ public class GameStateController {
 			    		game.getPacman().queueMovement('R');
 			    	}
 			    	else if (e.getCode() == KeyCode.ENTER) {
-			    		game.getPacman().whip();
+					if (!gameViewController.countingDown()){
+			    			game.getPacman().whip();
+					}
 			    	}
 			    	else if (e.getCode() == KeyCode.W) {
 			    		game.getGhost().queueMovement('U');
@@ -281,7 +285,9 @@ public class GameStateController {
 			    		game.getPacman().queueMovement('R');
 			    	}
 			    	else if (e.getCode() == KeyCode.ENTER) {
-			    		game.getPacman().whip();
+			    		if (!gameViewController.countingDown()){
+			    			game.getPacman().whip();
+					}
 			    	}
 			    	else if (e.getCode() == KeyCode.W) {
 			    		game.getGhost().queueMovement('U');

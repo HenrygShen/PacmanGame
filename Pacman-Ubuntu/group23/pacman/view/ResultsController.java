@@ -14,7 +14,9 @@ import javafx.scene.input.KeyCode;
 import javafx.scene.input.KeyEvent;
 import javafx.scene.media.Media;
 import javafx.scene.media.MediaPlayer;
+import javafx.util.Duration;
 
+/** Controller class for the results screen view **/
 public class ResultsController {
 	
 	/* Reference to main app */
@@ -221,7 +223,7 @@ public class ResultsController {
 				if (holdTimer.timedOut()) {
 					this.stop();
 					waitMode = 2;
-					Media congratulationsNoise = new Media(new File("bin/assets/sfx/highScore.mp3").toURI().toString());
+					Media congratulationsNoise = new Media(new File("assets/sfx/highScore.mp3").toURI().toString());
 					MediaPlayer mediaPlayer = new MediaPlayer(congratulationsNoise);
 					mediaPlayer.setVolume(0.3f);
 					mediaPlayer.play();

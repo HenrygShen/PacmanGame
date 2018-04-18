@@ -8,13 +8,11 @@ public class Rectangle {
     private int width;
     private int height;
 
-    private boolean firstIntersect;
     private boolean hitBoxEnabled;
 
     public Rectangle(){
     	
     	hitBoxEnabled = true;
-        firstIntersect = true;
     }
     
     public boolean intersects(Rectangle other){
@@ -26,16 +24,6 @@ public class Rectangle {
     		return false;
     	}
   
-    }
-
-    public boolean firstIntersect(){
-
-        return this.firstIntersect;
-    }
-
-    public void setFirstIntersect(boolean firstIntersect){
-
-        this.firstIntersect = firstIntersect;
     }
     
     public void setX(double x) {

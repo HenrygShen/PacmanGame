@@ -13,6 +13,7 @@ import javafx.scene.input.KeyCode;
 import javafx.scene.input.KeyEvent;
 import javafx.scene.media.Media;
 import javafx.scene.media.MediaPlayer;
+import javafx.util.Duration;
 
 /** The controller class for the welcome screen view */
 public class WelcomeScreenController {
@@ -66,9 +67,8 @@ public class WelcomeScreenController {
 	private long time;
 	
 	/* Sound effects variables */
-	private MediaPlayer mediaPlayer;
-	private Media confirmation;
-	private Media highlight;
+	private MediaPlayer mediaPlayerHighlight;
+	private MediaPlayer mediaPlayerConfirmation;
 	
 	
 	
@@ -84,9 +84,13 @@ public class WelcomeScreenController {
 	private void initialize() {
 		
 		/* Load media for playing sound effects */
-		confirmation = new Media(new File("bin/assets/sfx/confirmation.mp3").toURI().toString());
-		highlight = new Media(new File("bin/assets/sfx/highlight.mp3").toURI().toString());
+		Media confirmation = new Media(new File("assets/sfx/confirmation.mp3").toURI().toString());
+		Media highlight = new Media(new File("assets/sfx/highlight.mp3").toURI().toString());
 		
+		mediaPlayerConfirmation = new MediaPlayer(confirmation);
+		mediaPlayerHighlight = new MediaPlayer(highlight);
+		mediaPlayerConfirmation.setVolume(0.3);
+		mediaPlayerHighlight.setVolume(0.3);
 		
 		/* Loads all button and background assets to their respective ImageView elements */
 		title.setImage(new Image("assets/Elements-welcomeScreen/title.png"));
@@ -158,7 +162,7 @@ public class WelcomeScreenController {
 				/* ENTER is the confirmation key */
 				if (event.getCode() == KeyCode.ENTER) {
 					
-					playSfx(confirmation);
+					playSfx(0);
 					
 					/* If the player presses ENTER while selecting game mode, save the game mode and play fade animation, then send user to the map/level selection screen 
 					 * If there is more than one player, then send them to the character selection screen. */
@@ -226,7 +230,7 @@ public class WelcomeScreenController {
 							numPlayers = 1;
 						}
 						else {
-							playSfx(highlight);
+							playSfx(1);
 						}
 						highlightPlayers();
 					}
@@ -240,7 +244,7 @@ public class WelcomeScreenController {
 							buttonIndex = 0;
 						}
 						else {
-							playSfx(highlight);
+							playSfx(1);
 						}
 						highlightButton();
 					}
@@ -256,9 +260,9 @@ public class WelcomeScreenController {
 							numPlayers = 3;
 						}
 						else {
-							playSfx(highlight);
+							playSfx(1);
 						}
-
+	
 						highlightPlayers();
 					}
 				
@@ -269,7 +273,7 @@ public class WelcomeScreenController {
 							buttonIndex = 4;
 						}
 						else {
-							playSfx(highlight);
+							playSfx(1);
 						}
 						highlightButton();
 					}
@@ -299,10 +303,20 @@ public class WelcomeScreenController {
 	
 	
 	/* Helper function for playing sound effects */
-	private void playSfx(Media sfx) {
-		mediaPlayer = new MediaPlayer(sfx);
-		mediaPlayer.setVolume(0.3);
-		mediaPlayer.play();
+	private void playSfx(int type) {
+		/* Type 0 = confirmation */
+		if (type == 0){
+			mediaPlayerConfirmation.setStartTime(Duration.ZERO);
+			mediaPlayerConfirmation.seek(Duration.ZERO);
+			mediaPlayerConfirmation.play();
+		}
+		/* Type 1 = highlight*/
+		else if (type == 1) {
+			mediaPlayerHighlight.setStartTime(Duration.ZERO);
+			mediaPlayerHighlight.seek(Duration.ZERO);
+			mediaPlayerHighlight.play();
+		} 
+		
 	}
 	
 	

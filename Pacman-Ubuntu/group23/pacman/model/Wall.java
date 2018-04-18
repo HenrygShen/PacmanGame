@@ -41,8 +41,14 @@ public class Wall extends GameObject{
 		this.y = wallHitBox.getY();
 
 	}
-
 	
+	public void draw(GraphicsContext graphicsContext) {
+		
+		graphicsContext.drawImage(mapBlock,x,y);
+
+	}
+	
+	/* PUBLIC GETTERS */
 	public double getX() {
 		
 		return this.wallHitBox.getX();
@@ -58,12 +64,4 @@ public class Wall extends GameObject{
 		 
 		return this.wallHitBox;
 	}
-	
-	public void draw(GraphicsContext graphicsContext) {
-		
-		graphicsContext.drawImage(mapBlock,x,y);
-
-	}
-	
-	
 }

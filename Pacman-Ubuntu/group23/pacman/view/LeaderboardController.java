@@ -9,6 +9,7 @@ import javafx.scene.image.ImageView;
 import javafx.scene.input.KeyCode;
 import javafx.scene.input.KeyEvent;
 
+/** Controller class for the leaderboard view **/
 public class LeaderboardController {
 
 	private MainApp mainApp;
@@ -118,7 +119,7 @@ public class LeaderboardController {
 	@FXML
 	private void initialize() {
 		
-		//background.setImage(new Image("file:/C:/Users/Lincoln/Desktop/master/Pacman-pc_eclipse/JavaPacman/assets/Elements-Leaderboard/background-leaderboard.png"));
+		background.setImage(new Image("assets/Elements-Leaderboard/background-leaderboard.png"));
 		
 		/* Get the high scores */
 		ScoreHandler scoreHandler = new ScoreHandler();

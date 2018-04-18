@@ -95,10 +95,7 @@ public class Ghost extends GameObject implements MovingCharacter {
 		hasLeftSpawn = false;
 		timerStarted = false;
 		
-		/* A Ghost can be player controlled or computer controlled.
-		 * 0 is a player, and so no AI is created.
-		 * 1 is a random movement type AI. 
-		 * 2 is an AI which prioritizes shortening the distance between the ghost and pacman. */
+		
 		if (type != 0) {
 			isAI = true;
 		}

@@ -2,6 +2,8 @@ package group23.pacman.model;
 
 import java.util.ArrayList;
 
+/** This class stores the position of the node and the nodes which are connected to it. This is used for path finding **/
+
 public class Node {
 
 	/* The nodes which this node is connected to */

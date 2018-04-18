@@ -65,6 +65,7 @@ public class Board {
 					break;
 				case 's' :
 					mapTxt = "maps/sea.txt";
+					break;
 				default :
 					mapTxt = "maps/ruins.txt";
 					break;
