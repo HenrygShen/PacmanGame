@@ -1,5 +1,5 @@
-Please run using the COMMAND LINE/TERMINAL.
-Compile instructions - Command line
+Please run using the COMMAND LINE/TERMINAL.  
+Compile instructions - Command line  
 1) Open the folder "Pacman-Ubuntu".   
 2) Clean the project by typing "make clean" into the terminal.    
 3) Compile the project and run it by typing "make run" into the terminal.  
