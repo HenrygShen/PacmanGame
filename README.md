@@ -7,5 +7,6 @@ Compile instructions - 1) Open the folder "Pacman-Ubuntu".
 In case of compilation error or other errors when using command line, use the folder named "Pacman-pc_eclipse" and set that as the working directory when  
 opening Eclipse.
 
-Compile instructions - 1) Make sure that the javafx user library in the project build path is using the jfxwst.jar from this Java runtime environment version - "jre1.8.0_144"   
+Compile instructions - 1) Make sure to refresh the project, so that assets and bg will be loaded - IMPORTANT  
+					   2) Make sure that the javafx user library in the project build path is using the jfxwst.jar from this Java runtime environment version - "jre1.8.0_144"   
 					   
