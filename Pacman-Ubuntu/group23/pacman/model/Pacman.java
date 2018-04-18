@@ -9,6 +9,7 @@ import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.image.Image;
 import javafx.scene.media.Media;
 import javafx.scene.media.MediaPlayer;
+import javafx.util.Duration;
 
 public class Pacman extends GameObject implements MovingCharacter {
 	
@@ -35,7 +36,8 @@ public class Pacman extends GameObject implements MovingCharacter {
 	/* Media variables for sound effects */
 	private Media whipSound;
 	private Media chompNoise;
-	private MediaPlayer mediaPlayer;
+	private MediaPlayer mediaPlayerWhip;
+	private MediaPlayer mediaPlayerChomp;
 
 	/* Handles the animations */
 	private AnimationManager animationManager;
@@ -68,6 +70,8 @@ public class Pacman extends GameObject implements MovingCharacter {
 		
 		/* Set up sound effect for Pacman eating the pellet */
 		chompNoise = new Media(new File("bin/assets/sfx/chompNoise.wav").toURI().toString());
+		mediaPlayerChomp = new MediaPlayer(chompNoise);
+		mediaPlayerChomp.setVolume(0.3);
 		
 
 		/* Sets up the main character's hit-box */
@@ -226,9 +230,10 @@ public class Pacman extends GameObject implements MovingCharacter {
     
     /* Plays Pacman whip sound effect */
 	private void playSfx(Media sfx) {
-		mediaPlayer = new MediaPlayer(sfx);
-		mediaPlayer.setVolume(0.3);
-		mediaPlayer.play();
+		//mediaPlayerChomp.stop();
+		mediaPlayerChomp.setStartTime(Duration.ZERO);
+		mediaPlayerChomp.seek(Duration.ZERO);
+		mediaPlayerChomp.play();
 	}
 	
 	
@@ -432,8 +437,9 @@ public class Pacman extends GameObject implements MovingCharacter {
 	 }
 	    
 	 public void queueMovement(char queuedDirection) {
-			
-		 this.queuedDirection = queuedDirection;
+		 if (this.state != STATE.DEATH_ANIMATION) {
+			 this.queuedDirection = queuedDirection;
+		 }
 	 }
 
 	 public void setDirection(char vector) {

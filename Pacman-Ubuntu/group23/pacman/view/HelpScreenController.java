@@ -14,7 +14,7 @@ import javafx.scene.input.KeyEvent;
 public class HelpScreenController {
 	
 	/* Constant - do not change */
-	private final int MAX_BACKGROUND_INDEX = 6;
+	private final int MAX_BACKGROUND_INDEX = 8;
 	
 	/* FXML elements in HelpScreen.fxml */
 	@FXML
@@ -37,6 +37,8 @@ public class HelpScreenController {
 	private Image help5;
 	private Image help6;
 	private Image help7;
+	private Image help8;
+	private Image help9;
 	private Image helpText1;
 	private Image helpText2;
 	private Image helpText3;
@@ -44,6 +46,8 @@ public class HelpScreenController {
 	private Image helpText5;
 	private Image helpText6;
 	private Image helpText7;
+	private Image helpText8;
+	private Image helpText9;
 	private Image helpImages[];
 	private Image helpTextImages[];
 	
@@ -91,6 +95,8 @@ public class HelpScreenController {
 		help5 = new Image("bg/backgrounds-helpScreen/helpPanel5.png");
 		help6 = new Image("bg/backgrounds-helpScreen/helpPanel6.png");
 		help7 = new Image("bg/backgrounds-helpScreen/helpPanel7.png");
+		help8 = new Image("bg/backgrounds-helpScreen/helpPanel8.png");
+		help9 = new Image("bg/backgrounds-helpScreen/helpPanel9.png");
 		helpText1 = new Image("bg/backgrounds-helpScreen/helptext1.png");
 		helpText2 = new Image("bg/backgrounds-helpScreen/helptext2.png");
 		helpText3 = new Image("bg/backgrounds-helpScreen/helptext3.png");
@@ -98,8 +104,10 @@ public class HelpScreenController {
 		helpText5 = new Image("bg/backgrounds-helpScreen/helptext5.png");
 		helpText6 = new Image("bg/backgrounds-helpScreen/helptext6.png");
 		helpText7 = new Image("bg/backgrounds-helpScreen/helptext7.png");
-		helpImages = new Image[7];
-		helpTextImages = new Image[7];
+		helpText8 = new Image("bg/backgrounds-helpScreen/helptext8.png");
+		helpText9 = new Image("bg/backgrounds-helpScreen/helptext9.png");
+		helpImages = new Image[9];
+		helpTextImages = new Image[9];
 		helpImages[0] = help1;
 		helpImages[1] = help2;
 		helpImages[2] = help3;
@@ -107,6 +115,8 @@ public class HelpScreenController {
 		helpImages[4] = help5;
 		helpImages[5] = help6;
 		helpImages[6] = help7;
+		helpImages[7] = help8;
+		helpImages[8] = help9;
 		helpTextImages[0] = helpText1;
 		helpTextImages[1] = helpText2;
 		helpTextImages[2] = helpText3;
@@ -114,6 +124,8 @@ public class HelpScreenController {
 		helpTextImages[4] = helpText5;
 		helpTextImages[5] = helpText6;
 		helpTextImages[6] = helpText7;
+		helpTextImages[7] = helpText8;
+		helpTextImages[8] = helpText9;
 		
 		/* Show first slide */
 		index = 0;
@@ -141,7 +153,7 @@ public class HelpScreenController {
 	private void setLeftBackground() {
 		
 		index--;
-		index = (index < 0) ? MAX_BACKGROUND_INDEX : index;
+		index = (index < 0) ? 0 : index;
 		helpPanel.setImage(helpImages[index]);
 		helpTextPanel.setImage(helpTextImages[index]);
 	}
@@ -149,7 +161,7 @@ public class HelpScreenController {
 	private void setRightBackground() {
 		
 		index++;
-		index = (index > MAX_BACKGROUND_INDEX) ? 0 : index;
+		index = (index > MAX_BACKGROUND_INDEX) ? MAX_BACKGROUND_INDEX : index;
 		helpPanel.setImage(helpImages[index]);
 		helpTextPanel.setImage(helpTextImages[index]);
 	}
