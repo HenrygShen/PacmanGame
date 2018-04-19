@@ -1,5 +1,6 @@
 package group23.pacman.view;
 
+import java.io.File;
 import java.util.ArrayList;
 import group23.pacman.MainApp;
 import group23.pacman.controller.GameStateController;
@@ -14,6 +15,7 @@ import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.image.*;
 import javafx.scene.media.Media;
 import javafx.scene.media.MediaPlayer;
+import javafx.util.Duration;
 
 /** Controller class for the GameView screen */
 
@@ -97,9 +99,11 @@ public class GameViewController {
 	/* Recorded name of person who beats high score */
 	private String name;
 	
-	/* Media variables for playing sound effect for pause/resume */
-	private Media toggle;
+	/* Media variable for playing sound effect for pause/resume */
 	private MediaPlayer mediaPlayer;
+	
+	
+	private boolean timerPaused;
 
 	
 	
@@ -163,7 +167,13 @@ public class GameViewController {
 	@FXML
 	private void initialize() {
 		
+		/* Panel which holds all the statistics of the running game ( lives,time remaining, charges,score) */
 		game_info_panel.setImage(new Image("assets/Elements-GameView/game_info_panel.png"));
+		
+		/* SFX for pause/resuming game */
+		Media toggle = new Media(new File("bin/assets/sfx/toggle.mp3").toURI().toString());
+		mediaPlayer = new MediaPlayer(toggle);
+		mediaPlayer.setVolume(0.3);
 		
 		/* Initialize 2 minute timer */
 		timer = new Timer(120);
@@ -198,14 +208,11 @@ public class GameViewController {
 		if (!countingDown && !gameStateController.escapePressed()) {
 			/* When trying to pause,draw pause panel*/
 			if (this.running == true) {
-				pauseOverlay.drawImage(new Image("bg/backgrounds-game/pause_panel.png"),0,0);
-				
+				pauseGame();
 			}
 			else {
-				pauseOverlay.clearRect(0,0,1366,768);
+				resumeGame();
 			}
-	
-			this.running = !this.running;
 		}
 	}
 	
@@ -215,12 +222,14 @@ public class GameViewController {
 		pauseOverlay.clearRect(0, 0, 1366, 768);
 		pauseOverlay.drawImage(new Image("bg/backgrounds-game/pause_panel.png"),0,0);
 		this.running = false;
+		playSfx();
 	}
 	
 	public void resumeGame() {
 		
 		pauseOverlay.clearRect(0,0,1366,768);
 		this.running = true;
+		playSfx();
 	}
 	
 	
@@ -316,6 +325,7 @@ public class GameViewController {
 	public void startCountdown() {
 		
 		countingDown = true;
+		timerPaused = false;
 		
 		/* Count down timer starts at 3 seconds but we need 2 extra seconds allow player to get ready */
 		Timer timerStart = new Timer(5);
@@ -346,7 +356,7 @@ public class GameViewController {
 						if (timerStart.getSecOnes() <= 3 + 48) {
 							countdownGraphicsContext.clearRect(0, 0, 1366, 768);
 							countdownGraphicsContext.drawImage(new Image("bg/backgrounds-game/countdown_overlay.png"), 0, 0);
-							countdownGraphicsContext.drawImage(new Image(getDigit((char)timerStart.getSecOnes())),508,359);
+							countdownGraphicsContext.drawImage(new Image(getDigit((char)timerStart.getSecOnes()),100,100,false,false),483,334);
 						}
 					}
 					/* After time has counted to 0, start the game */
@@ -372,9 +382,11 @@ public class GameViewController {
 	private void updateTimer() {
 		
 		if (System.currentTimeMillis() - time >= 1000) {
-			timer.countDown(1);
+			if (!timerPaused) {
+				timer.countDown(1);
+				setTimerImage();
+			}
 			time = System.currentTimeMillis();
-			setTimerImage();
 		}
 
 	}
@@ -410,6 +422,8 @@ public class GameViewController {
 		gameStateController.getGame().getGhost3().draw(graphicsContext);
 		gameStateController.getGame().getGhost4().draw(graphicsContext);
 		
+		gameStateController.getGame().getGasZone().draw(graphicsContext);
+		
 
 		/* Conditionals for end of game */
 		if (gameStateController.levelCleared()) {
@@ -425,8 +439,8 @@ public class GameViewController {
 	
 	/* Play sound effect for pause/resume */
 	private void playSfx() {
-		mediaPlayer = new MediaPlayer(toggle);
-		mediaPlayer.setVolume(0.3f);
+		mediaPlayer.setStartTime(Duration.ZERO);
+		mediaPlayer.seek(Duration.ZERO);
 		mediaPlayer.play();
 	}
 	
@@ -614,6 +628,11 @@ public class GameViewController {
 	public Timer getTimer() {
 		
 		return this.timer;
+	}
+	
+	public void stopTimer(boolean pauseTimer) {
+		
+		timerPaused = pauseTimer;
 	}
 	
 	public boolean countingDown() {

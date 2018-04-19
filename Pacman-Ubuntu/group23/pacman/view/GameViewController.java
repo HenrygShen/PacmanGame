@@ -629,6 +629,11 @@ public class GameViewController {
 		
 		return this.timer;
 	}
+
+	public boolean gamePaused(){
+
+		return (this.running == false);
+	}
 	
 	public void stopTimer(boolean pauseTimer) {
 		
