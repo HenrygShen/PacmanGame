@@ -45,11 +45,9 @@ public class CharacterSelectController {
 	/* Main app copy kept to use when referencing to show other views */ 
 	private MainApp mainApp;
 	
-	
-	/* Media variables for sound effects */
-	private MediaPlayer mediaPlayer;
-	
-	
+	/* For media player */
+	private Media buttonPress;
+
 	/* Keep tracks of chosen ghost */
 	private int ghostIndex;
 	
@@ -249,9 +247,8 @@ public class CharacterSelectController {
 		fadeTransition(0);
 
 		/* Set up sound effect button presses */
-		Media buttonPress = new Media(new File("bin/assets/sfx/menuSelect.mp3").toURI().toString());
-		mediaPlayer = new MediaPlayer(buttonPress);
-		mediaPlayer.setVolume(0.3);
+		buttonPress = new Media(new File("bin/assets/sfx/menuSelect.mp3").toURI().toString());
+
 		
 		/* Set variable to determine which sprite is chosen for which character */
 		firstPick = true;
@@ -292,9 +289,11 @@ public class CharacterSelectController {
 	
 	/* Plays sound effect for navigating this view */
 	public void playSfx() {
-		mediaPlayer.setStartTime(Duration.ZERO);
-		mediaPlayer.seek(Duration.ZERO);
+		MediaPlayer mediaPlayer = new MediaPlayer(buttonPress);
 		mediaPlayer.play();
+		mediaPlayer.setOnEndOfMedia(() -> {
+                	mediaPlayer.dispose();
+           	 });
 	}
 	
 	

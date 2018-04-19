@@ -1,19 +1,17 @@
-INDEX VERSION 1.130+C:\Users\Henry\Desktop\master\Pacman-pc_eclipse\.metadata\.plugins\org.eclipse.jdt.core
-4167802264.index
-2494401593.index
-1642650959.index
-2347852778.index
-142444270.index
-1312951780.index
-2147801284.index
-3125725795.index
-1069399176.index
-368682434.index
-1594905321.index
-1857371720.index
-2051884769.index
-3966524131.index
-3988866523.index
-2748733375.index
-3335751325.index
-3823437678.index
+INDEX VERSION 1.130+/afs/ec.auckland.ac.nz/users/l/c/lcho484/unixhome/Desktop/master/Pacman-pc_eclipse/.metadata/.plugins/org.eclipse.jdt.core
+582283581.index
+2493186880.index
+3231703898.index
+3067277900.index
+3742517356.index
+887040109.index
+2420706367.index
+2404727585.index
+1346482444.index
+3145746521.index
+3962656536.index
+1009333035.index
+3828106779.index
+1779147691.index
+525646722.index
+3113758432.index

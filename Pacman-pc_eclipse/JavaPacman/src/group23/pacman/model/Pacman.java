@@ -37,8 +37,6 @@ public class Pacman extends GameObject implements MovingCharacter {
 	/* Media variables for sound effects */
 	private Media whipSound;
 	private Media chompNoise;
-	private MediaPlayer mediaPlayerWhip;
-	private MediaPlayer mediaPlayerChomp;
 
 	/* Handles the animations */
 	private AnimationManager animationManager;
@@ -68,13 +66,9 @@ public class Pacman extends GameObject implements MovingCharacter {
 		
 		/* Set up sound effect for Pacman using a whip */
 		whipSound = new Media(new File("bin/assets/sfx/whipSound.mp3").toURI().toString());
-		mediaPlayerWhip = new MediaPlayer(whipSound);
-		mediaPlayerWhip.setVolume(0.3);
 		
 		/* Set up sound effect for Pacman eating the pellet */
 		chompNoise = new Media(new File("bin/assets/sfx/chompNoise.wav").toURI().toString());
-		mediaPlayerChomp = new MediaPlayer(chompNoise);
-		mediaPlayerChomp.setVolume(0.3);
 		
 
 		/* Sets up the main character's hit-box */
@@ -105,8 +99,8 @@ public class Pacman extends GameObject implements MovingCharacter {
 	
 	public void whip() {
 		
-		/* Can only consume charge after whip has finished previous animation */
-		if (!whip.inAnimation()) {
+		/* Can only consume charge after whip has finished previous animation and not dead*/
+		if (!whip.inAnimation() && this.state == STATE.ALIVE) {
 			if (whip.getCharges() > 0) {
 				this.state = STATE.POWER_UP;
 				playSfx(0);
@@ -235,15 +229,19 @@ public class Pacman extends GameObject implements MovingCharacter {
 	private void playSfx(int type) {
 		/* Type 0 = Whip sound */
 		if (type == 0){
-			mediaPlayerWhip.setStartTime(Duration.ZERO);
-			mediaPlayerWhip.seek(Duration.ZERO);
-			mediaPlayerWhip.play();
+			MediaPlayer mediaPlayer0 = new MediaPlayer(whipSound);
+			mediaPlayer0.play();
+			mediaPlayer0.setOnEndOfMedia(() -> {
+                		mediaPlayer0.dispose();
+           	 	});
 		}
 		/* Type 1 = Chomp noise*/
 		else if (type == 1){
-			mediaPlayerChomp.setStartTime(Duration.ZERO);
-			mediaPlayerChomp.seek(Duration.ZERO);
-			mediaPlayerChomp.play();
+			MediaPlayer mediaPlayer = new MediaPlayer(chompNoise);
+			mediaPlayer.play();
+			mediaPlayer.setOnEndOfMedia(() -> {
+                		mediaPlayer.dispose();
+           	 	});
 		}
 	}
 	
