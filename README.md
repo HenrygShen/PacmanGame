@@ -26,16 +26,13 @@ As you may have noticed, for certain reasons we had to name the game Pacamana Ja
 ![mainscreen](https://puu.sh/BCala/e2efe4c917.png)   
 
     
-![alt text](https://puu.sh/BCamO/8bf4136864.jpg)   
+![ms-ruins](https://puu.sh/BCamO/8bf4136864.jpg)   
     
 
-![ms-ruins](https://puu.sh/BCanG/cb3fbd4549.png)    
+![ms-desert](https://puu.sh/BCanG/cb3fbd4549.png)    
 
     
 ![ms-sea](https://puu.sh/BCaqq/0e8e791146.png)    
-
-    
-![ms-desert](https://puu.sh/BCanG/cb3fbd4549.png)    
 
     
 ![ms-forest](https://puu.sh/BCau7/af71715878.jpg)    
