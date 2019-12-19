@@ -23,25 +23,25 @@ Some screenshots :
     
 As you may have noticed, for certain reasons we had to name the game Pacamana Jane.    
 
-![mainscreen](https://puu.sh/BCala/e2efe4c917.png)   
+![mainscreen](https://i.imgur.com/S38ANCX.png)   
 
     
-![ms-ruins](https://puu.sh/BCamO/8bf4136864.jpg)   
+![ms-ruins](https://i.imgur.com/DARPcTG.png)   
     
 
-![ms-desert](https://puu.sh/BCanG/cb3fbd4549.png)    
+![ms-desert](https://i.imgur.com/9vN0jKJ.png)    
 
     
-![ms-sea](https://puu.sh/BCaqq/0e8e791146.png)    
+![ms-sea](https://i.imgur.com/shP4L1p.png)    
 
     
-![ms-forest](https://puu.sh/BCau7/af71715878.jpg)    
+![ms-forest](https://i.imgur.com/xlsymKc.png)    
 
     
-![game](https://puu.sh/BCajT/0048ad478f.png)    
+![game](https://i.imgur.com/oWB8K7s.png)    
 
     
-![leaderboard](https://puu.sh/BCawr/4c04cc56e7.jpg)    
+![leaderboard](https://i.imgur.com/CbERNYB.png)       
 
 
 Run instructions :    
